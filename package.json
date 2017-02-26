@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "browse": "browserify components/index.js -o dist/bundle.js -t [ babelify --presets [ es2015 react ] ]",
+    "browser": "browserify components/index.js -o dist/bundle.js -t [ babelify --presets [ es2015 react ] ]",
     "watch": "watchify components/index.js -o dist/bundle.js -t [ babelify --presets [ es2015 react ] ] -v"
   },
   "repository": {
