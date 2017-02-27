@@ -1,0 +1,58 @@
+{
+    "name": "Grouped Vertical Bar Chart",
+    "icon": "name of SVG icon here",
+
+    "defaultVisualVariables":{
+        "graphLabel":"Grouped Vertical Bar Chart",
+        "xAxisLabel":"X Axis",
+        "yAxisLabel":"Y Axis",
+
+        "graphLavelVisible":true,
+        "xAxisLabelVisible":true,
+        "xAxisVisible":true,
+        "yAxisLabelVisible":true,
+        "yAxisVisible":true,
+        "legendVisible":true,
+        "guidelinesVisible":true,
+
+        "xAxisPosition":"left",
+
+        "yPadding":0,
+        "x0Padding":0,
+        "x1Padding":0
+    },
+
+    "graphVariables":
+    [
+        {
+            "label": "Label",
+            "maxDimensions": "0 / 1 / 2 if empty than infinite",
+            "validTypes":["string","int","date","number","all"]
+        },
+        {
+            "label": "Bars",
+            "validTypes":["number"]
+        }
+
+    ],
+
+    "customization":
+    [
+        {
+            "label":"Size",
+            "type":"form / slider",
+            "items":
+            [
+                {
+                    "type" : "input / btn / btn-group / addon",
+                    "name" : "text or icon",
+                    "placeholder" : "Placeholder for input"
+                },
+                {
+                    "type" : "addon",
+                    "name" : "<i className='fa fa-arrows-h'></i>"
+                }
+            ]
+        }
+    ]
+}

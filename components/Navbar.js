@@ -11,7 +11,7 @@ export default class App extends React.Component {
                           <span className="icon-bar"></span>
                       </button>
                       <a className="navbar-brand" href="#">
-                          <i alt="Brand" height="20" width="20" className="fa fa-bar-chart" />
+                          <i height="20" width="20" className="fa fa-bar-chart" />
                       </a>
                   </div>
                   <div className="collapse navbar-collapse" id="navbar">

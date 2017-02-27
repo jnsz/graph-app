@@ -3,8 +3,9 @@ export default class GraphSVG extends React.Component{
   render() {
     return (
       <div>
-        <p> SVG IS HERE </p>
-        <svg />
+        <div id="graph-SVG" align="center">
+            <svg />
+		</div>
       </div>
     );
   }

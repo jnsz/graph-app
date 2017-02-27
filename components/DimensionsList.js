@@ -1,4 +1,4 @@
-export default class VariablesList extends React.Component{
+export default class DimensionsList extends React.Component{
 
   render() {
     return (

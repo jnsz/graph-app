@@ -72,11 +72,11 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"./Graph":3,"./data/Data":12,"react-fontawesome":24}],2:[function(require,module,exports){
+},{"./Graph":3,"./data/Data":12,"react-fontawesome":20}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -87,31 +87,63 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Dimension = function (_React$Component) {
-  _inherits(Dimension, _React$Component);
+var DimensionsList = function (_React$Component) {
+    _inherits(DimensionsList, _React$Component);
 
-  function Dimension() {
-    _classCallCheck(this, Dimension);
+    function DimensionsList() {
+        _classCallCheck(this, DimensionsList);
 
-    return _possibleConstructorReturn(this, (Dimension.__proto__ || Object.getPrototypeOf(Dimension)).apply(this, arguments));
-  }
-
-  _createClass(Dimension, [{
-    key: "render",
-    value: function render() {
-      return React.createElement(
-        "div",
-        { className: "col-md-3" },
-        "DIMENSION ",
-        this.props.type
-      );
+        return _possibleConstructorReturn(this, (DimensionsList.__proto__ || Object.getPrototypeOf(DimensionsList)).apply(this, arguments));
     }
-  }]);
 
-  return Dimension;
+    _createClass(DimensionsList, [{
+        key: "render",
+        value: function render() {
+            return React.createElement(
+                "div",
+                { className: "col-md-3" },
+                React.createElement(
+                    "ul",
+                    null,
+                    React.createElement(
+                        "li",
+                        null,
+                        "name",
+                        React.createElement(
+                            "span",
+                            { className: "dimension-icon pull-right" },
+                            React.createElement("i", { className: "fa fa-bars" })
+                        )
+                    ),
+                    React.createElement(
+                        "li",
+                        null,
+                        "fame",
+                        React.createElement(
+                            "span",
+                            { className: "dimension-icon pull-right" },
+                            React.createElement("i", { className: "fa fa-bars" })
+                        )
+                    ),
+                    React.createElement(
+                        "li",
+                        null,
+                        "bane",
+                        React.createElement(
+                            "span",
+                            { className: "dimension-icon pull-right" },
+                            React.createElement("i", { className: "fa fa-bars" })
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return DimensionsList;
 }(React.Component);
 
-exports.default = Dimension;
+exports.default = DimensionsList;
 
 },{}],3:[function(require,module,exports){
 'use strict';
@@ -182,10 +214,16 @@ exports.default = Graph;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+				value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _CusFormGroup = require("./reusable/CusFormGroup");
+
+var _CusFormGroup2 = _interopRequireDefault(_CusFormGroup);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -194,35 +232,48 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var GraphCustomization = function (_React$Component) {
-  _inherits(GraphCustomization, _React$Component);
+				_inherits(GraphCustomization, _React$Component);
 
-  function GraphCustomization() {
-    _classCallCheck(this, GraphCustomization);
+				function GraphCustomization() {
+								_classCallCheck(this, GraphCustomization);
 
-    return _possibleConstructorReturn(this, (GraphCustomization.__proto__ || Object.getPrototypeOf(GraphCustomization)).apply(this, arguments));
-  }
+								return _possibleConstructorReturn(this, (GraphCustomization.__proto__ || Object.getPrototypeOf(GraphCustomization)).apply(this, arguments));
+				}
 
-  _createClass(GraphCustomization, [{
-    key: "render",
-    value: function render() {
-      return React.createElement(
-        "div",
-        null,
-        React.createElement(
-          "button",
-          null,
-          "Customize"
-        )
-      );
-    }
-  }]);
+				_createClass(GraphCustomization, [{
+								key: "render",
+								value: function render() {
 
-  return GraphCustomization;
+												return React.createElement(
+																"div",
+																{ className: "container" },
+																React.createElement(
+																				"div",
+																				{ className: "wrapper" },
+																				React.createElement(
+																								"div",
+																								{ className: "row" },
+																								React.createElement(_CusFormGroup2.default, { label: "Size",
+																												items: [{ "type": "btn", "name": React.createElement("i", { className: "fa fa-arrows-alt" }) }, { "type": "addon", "name": React.createElement("i", { className: "fa fa-arrows-h" }) }, { "type": "input", "placeholder": "Default value" }, { "type": "addon", "name": React.createElement("i", { className: "fa fa-arrows-v" }) }, { "type": "input", "placeholder": "Default value" }]
+																								}),
+																								React.createElement(_CusFormGroup2.default, { label: "Legend",
+																												items: [{ "type": "btn", "name": React.createElement("i", { className: "fa fa-eye" }) }]
+																								}),
+																								React.createElement(_CusFormGroup2.default, { label: "Graph title",
+																												items: [{ "type": "btn", "name": React.createElement("i", { className: "fa fa-eye" }) }, { "type": "input", "placeholder": "Graph title" }]
+																								})
+																				)
+																)
+												);
+								}
+				}]);
+
+				return GraphCustomization;
 }(React.Component);
 
 exports.default = GraphCustomization;
 
-},{}],5:[function(require,module,exports){
+},{"./reusable/CusFormGroup":18}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -251,11 +302,20 @@ var GraphExport = function (_React$Component) {
     value: function render() {
       return React.createElement(
         "div",
-        null,
+        { className: "container" },
         React.createElement(
-          "button",
-          null,
-          "'Export SVG'"
+          "div",
+          { className: "wrapper" },
+          React.createElement(
+            "div",
+            null,
+            React.createElement(
+              "button",
+              {
+                className: "btn btn-block btn-success" },
+              "Export graph as SVG"
+            )
+          )
         )
       );
     }
@@ -297,11 +357,10 @@ var GraphSVG = function (_React$Component) {
         "div",
         null,
         React.createElement(
-          "p",
-          null,
-          " SVG IS HERE "
-        ),
-        React.createElement("svg", null)
+          "div",
+          { id: "graph-SVG", align: "center" },
+          React.createElement("svg", null)
+        )
       );
     }
   }]);
@@ -315,7 +374,7 @@ exports.default = GraphSVG;
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -324,9 +383,9 @@ var _GraphType = require('./GraphType');
 
 var _GraphType2 = _interopRequireDefault(_GraphType);
 
-var _VariablesMapping = require('./VariablesMapping');
+var _Mapping = require('./Mapping');
 
-var _VariablesMapping2 = _interopRequireDefault(_VariablesMapping);
+var _Mapping2 = _interopRequireDefault(_Mapping);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -341,32 +400,32 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // var FA = FontAwesome;
 
 var GraphSelection = function (_React$Component) {
-  _inherits(GraphSelection, _React$Component);
+    _inherits(GraphSelection, _React$Component);
 
-  function GraphSelection() {
-    _classCallCheck(this, GraphSelection);
+    function GraphSelection() {
+        _classCallCheck(this, GraphSelection);
 
-    return _possibleConstructorReturn(this, (GraphSelection.__proto__ || Object.getPrototypeOf(GraphSelection)).apply(this, arguments));
-  }
-
-  _createClass(GraphSelection, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(_GraphType2.default, null),
-        React.createElement(_VariablesMapping2.default, null)
-      );
+        return _possibleConstructorReturn(this, (GraphSelection.__proto__ || Object.getPrototypeOf(GraphSelection)).apply(this, arguments));
     }
-  }]);
 
-  return GraphSelection;
+    _createClass(GraphSelection, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(_GraphType2.default, null),
+                React.createElement(_Mapping2.default, null)
+            );
+        }
+    }]);
+
+    return GraphSelection;
 }(React.Component);
 
 exports.default = GraphSelection;
 
-},{"./GraphType":8,"./VariablesMapping":11}],8:[function(require,module,exports){
+},{"./GraphType":8,"./Mapping":9}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -399,6 +458,44 @@ var GraphType = function (_React$Component) {
     _createClass(GraphType, [{
         key: "render",
         value: function render() {
+
+            var graphs = [{
+                name: "Bar chart",
+                label: "Bar chart icon",
+                subtypes: [[{
+                    name: "Bar chart grouped"
+                }, {
+                    name: "Bar chart stacked"
+                }], [{
+                    name: "Vertical"
+                }, {
+                    name: "Horizontal"
+                }]]
+            }, {
+                name: "Pie chart",
+                label: "Pie chart icon",
+                subtypes: [[{
+                    name: "Pie chart"
+                }, {
+                    name: "Donut chart"
+                }]]
+            }, {
+                name: "Line chart",
+                label: "Line chart icon",
+                subtypes: [[{
+                    name: "Line"
+                }, {
+                    name: "Curve"
+                }], [{
+                    name: "No fill"
+                }, {
+                    name: "Fill"
+                }]]
+            }, {
+                name: "Scatter plot",
+                label: "Scatter plot icon"
+            }];
+
             return React.createElement(
                 "div",
                 { className: "wrapper" },
@@ -408,23 +505,29 @@ var GraphType = function (_React$Component) {
                     React.createElement(
                         "div",
                         { className: "col-md-12" },
-                        React.createElement(_ButtonGroup2.default, null)
+                        React.createElement(_ButtonGroup2.default, { labels: graphs.map(function (type) {
+                                return type.name;
+                            }) })
                     )
                 ),
-                React.createElement(
-                    "div",
-                    { className: "row" },
-                    React.createElement(
-                        "div",
-                        { className: "col-md-6" },
-                        React.createElement(_ButtonGroup2.default, null)
-                    ),
-                    React.createElement(
-                        "div",
-                        { className: "col-md-6" },
-                        React.createElement(_ButtonGroup2.default, null)
-                    )
-                )
+                graphs.map(function (type) {
+                    if (typeof type.subtypes !== "undefined") {
+                        return React.createElement(
+                            "div",
+                            { className: "row" },
+                            type.subtypes.map(function (subtype) {
+                                var subtypeList = subtype.map(function (object) {
+                                    return object.name;
+                                });
+                                return React.createElement(
+                                    "div",
+                                    { className: "col-md-6" },
+                                    React.createElement(_ButtonGroup2.default, { labels: subtypeList })
+                                );
+                            })
+                        );
+                    }
+                })
             );
         }
     }]);
@@ -435,6 +538,59 @@ var GraphType = function (_React$Component) {
 exports.default = GraphType;
 
 },{"./reusable/ButtonGroup":17}],9:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _DimensionsList = require('./DimensionsList');
+
+var _DimensionsList2 = _interopRequireDefault(_DimensionsList);
+
+var _Variable = require('./Variable');
+
+var _Variable2 = _interopRequireDefault(_Variable);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Mapping = function (_React$Component) {
+  _inherits(Mapping, _React$Component);
+
+  function Mapping() {
+    _classCallCheck(this, Mapping);
+
+    return _possibleConstructorReturn(this, (Mapping.__proto__ || Object.getPrototypeOf(Mapping)).apply(this, arguments));
+  }
+
+  _createClass(Mapping, [{
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: 'row' },
+        React.createElement(_DimensionsList2.default, null),
+        React.createElement(_Variable2.default, { type: 'single-any' }),
+        React.createElement(_Variable2.default, { type: 'multi-string' }),
+        React.createElement(_Variable2.default, { type: 'multi-num' })
+      );
+    }
+  }]);
+
+  return Mapping;
+}(React.Component);
+
+exports.default = Mapping;
+
+},{"./DimensionsList":2,"./Variable":11}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -480,7 +636,7 @@ var App = function (_React$Component) {
                         React.createElement(
                             "a",
                             { className: "navbar-brand", href: "#" },
-                            React.createElement("i", { alt: "Brand", height: "20", width: "20", className: "fa fa-bar-chart" })
+                            React.createElement("i", { height: "20", width: "20", className: "fa fa-bar-chart" })
                         )
                     ),
                     React.createElement(
@@ -527,81 +683,8 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{}],10:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var VariablesList = function (_React$Component) {
-    _inherits(VariablesList, _React$Component);
-
-    function VariablesList() {
-        _classCallCheck(this, VariablesList);
-
-        return _possibleConstructorReturn(this, (VariablesList.__proto__ || Object.getPrototypeOf(VariablesList)).apply(this, arguments));
-    }
-
-    _createClass(VariablesList, [{
-        key: "render",
-        value: function render() {
-            return React.createElement(
-                "div",
-                { className: "col-md-3" },
-                React.createElement(
-                    "ul",
-                    null,
-                    React.createElement(
-                        "li",
-                        null,
-                        "name",
-                        React.createElement(
-                            "span",
-                            { className: "dimension-icon pull-right" },
-                            React.createElement("i", { className: "fa fa-bars" })
-                        )
-                    ),
-                    React.createElement(
-                        "li",
-                        null,
-                        "fame",
-                        React.createElement(
-                            "span",
-                            { className: "dimension-icon pull-right" },
-                            React.createElement("i", { className: "fa fa-bars" })
-                        )
-                    ),
-                    React.createElement(
-                        "li",
-                        null,
-                        "bane",
-                        React.createElement(
-                            "span",
-                            { className: "dimension-icon pull-right" },
-                            React.createElement("i", { className: "fa fa-bars" })
-                        )
-                    )
-                )
-            );
-        }
-    }]);
-
-    return VariablesList;
-}(React.Component);
-
-exports.default = VariablesList;
-
 },{}],11:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -609,51 +692,39 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _VariablesList = require('./VariablesList');
-
-var _VariablesList2 = _interopRequireDefault(_VariablesList);
-
-var _Dimension = require('./Dimension');
-
-var _Dimension2 = _interopRequireDefault(_Dimension);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var VariablesMapping = function (_React$Component) {
-  _inherits(VariablesMapping, _React$Component);
+var Variable = function (_React$Component) {
+  _inherits(Variable, _React$Component);
 
-  function VariablesMapping() {
-    _classCallCheck(this, VariablesMapping);
+  function Variable() {
+    _classCallCheck(this, Variable);
 
-    return _possibleConstructorReturn(this, (VariablesMapping.__proto__ || Object.getPrototypeOf(VariablesMapping)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Variable.__proto__ || Object.getPrototypeOf(Variable)).apply(this, arguments));
   }
 
-  _createClass(VariablesMapping, [{
-    key: 'render',
+  _createClass(Variable, [{
+    key: "render",
     value: function render() {
       return React.createElement(
-        'div',
-        { className: 'row' },
-        React.createElement(_VariablesList2.default, null),
-        React.createElement(_Dimension2.default, { type: 'single-any' }),
-        React.createElement(_Dimension2.default, { type: 'multi-string' }),
-        React.createElement(_Dimension2.default, { type: 'multi-num' })
+        "div",
+        { className: "col-md-3" },
+        "Variable ",
+        this.props.type
       );
     }
   }]);
 
-  return VariablesMapping;
+  return Variable;
 }(React.Component);
 
-exports.default = VariablesMapping;
+exports.default = Variable;
 
-},{"./Dimension":2,"./VariablesList":10}],12:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -907,7 +978,7 @@ window.onChangeState = function (state) {
 ReactDOM.render(React.createElement(_Navbar2.default, null), document.getElementById('navbar'));
 ReactDOM.render(React.createElement(_App2.default, null), document.getElementById('app'));
 
-},{"./App.js":1,"./Navbar.js":9}],16:[function(require,module,exports){
+},{"./App.js":1,"./Navbar.js":10}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -934,13 +1005,14 @@ var Button = function (_React$Component) {
     _createClass(Button, [{
         key: "render",
         value: function render() {
+
             return React.createElement(
                 "div",
                 { className: "btn-group", role: "group" },
                 React.createElement(
                     "button",
                     { type: "button", className: "btn btn-default" },
-                    React.createElement("i", { className: this.props.icon })
+                    this.props.label
                 )
             );
         }
@@ -952,15 +1024,15 @@ var Button = function (_React$Component) {
 exports.default = Button;
 
 },{}],17:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Button = require('./Button');
+var _Button = require("./Button");
 
 var _Button2 = _interopRequireDefault(_Button);
 
@@ -973,28 +1045,28 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var GraphSelection = function (_React$Component) {
-    _inherits(GraphSelection, _React$Component);
+	_inherits(GraphSelection, _React$Component);
 
-    function GraphSelection() {
-        _classCallCheck(this, GraphSelection);
+	function GraphSelection() {
+		_classCallCheck(this, GraphSelection);
 
-        return _possibleConstructorReturn(this, (GraphSelection.__proto__ || Object.getPrototypeOf(GraphSelection)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (GraphSelection.__proto__ || Object.getPrototypeOf(GraphSelection)).apply(this, arguments));
+	}
 
-    _createClass(GraphSelection, [{
-        key: 'render',
-        value: function render() {
-            return React.createElement(
-                'div',
-                { className: 'btn-group btn-group-justified' },
-                React.createElement(_Button2.default, { icon: 'fa fa-bar-chart fa-5x' }),
-                React.createElement(_Button2.default, { icon: 'fa fa-pie-chart fa-5x' }),
-                React.createElement(_Button2.default, { icon: 'fa fa-line-chart fa-5x' })
-            );
-        }
-    }]);
+	_createClass(GraphSelection, [{
+		key: "render",
+		value: function render() {
+			return React.createElement(
+				"div",
+				{ className: "btn-group btn-group-justified" },
+				this.props.labels.map(function (label) {
+					return React.createElement(_Button2.default, { label: label });
+				})
+			);
+		}
+	}]);
 
-    return GraphSelection;
+	return GraphSelection;
 }(React.Component);
 
 exports.default = GraphSelection;
@@ -1002,466 +1074,145 @@ exports.default = GraphSelection;
 },{"./Button":16}],18:[function(require,module,exports){
 "use strict";
 
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- */
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-function makeEmptyFunction(arg) {
-  return function () {
-    return arg;
-  };
-}
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-/**
- * This function accepts and discards inputs; it has no side effects. This is
- * primarily useful idiomatically for overridable function endpoints which
- * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
- */
-var emptyFunction = function emptyFunction() {};
+var _FormBtn = require("./FormBtn");
 
-emptyFunction.thatReturns = makeEmptyFunction;
-emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
-emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
-emptyFunction.thatReturnsNull = makeEmptyFunction(null);
-emptyFunction.thatReturnsThis = function () {
-  return this;
-};
-emptyFunction.thatReturnsArgument = function (arg) {
-  return arg;
-};
+var _FormBtn2 = _interopRequireDefault(_FormBtn);
 
-module.exports = emptyFunction;
-},{}],19:[function(require,module,exports){
-(function (process){
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-'use strict';
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var emptyObject = {};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-if (process.env.NODE_ENV !== 'production') {
-  Object.freeze(emptyObject);
-}
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-module.exports = emptyObject;
-}).call(this,require('_process'))
-},{"_process":23}],20:[function(require,module,exports){
-(function (process){
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+var CusFormGroup = function (_React$Component) {
+	_inherits(CusFormGroup, _React$Component);
 
-'use strict';
+	function CusFormGroup() {
+		_classCallCheck(this, CusFormGroup);
 
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
+		return _possibleConstructorReturn(this, (CusFormGroup.__proto__ || Object.getPrototypeOf(CusFormGroup)).apply(this, arguments));
+	}
 
-var validateFormat = function validateFormat(format) {};
+	_createClass(CusFormGroup, [{
+		key: "render",
+		value: function render() {
+			var items = this.props.items;
 
-if (process.env.NODE_ENV !== 'production') {
-  validateFormat = function validateFormat(format) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  };
-}
+			return React.createElement(
+				"div",
+				{ className: "form-group col-md-6" },
+				React.createElement(
+					"label",
+					null,
+					this.props.label
+				),
+				React.createElement(
+					"div",
+					{ className: "input-group" },
+					items.map(function (item) {
+						switch (item.type) {
+							case "btn":
+								return React.createElement(
+									"span",
+									{ key: items.indexOf(item), className: "input-group-btn" },
+									React.createElement(
+										"button",
+										{ className: "btn btn-default", type: "button" },
+										item.name
+									)
+								);
+								break;
+							case "btn-group":
 
-function invariant(condition, format, a, b, c, d, e, f) {
-  validateFormat(format);
+								return React.createElement(
+									"span",
+									{ key: items.indexOf(item), className: "input-group-btn" },
+									React.createElement(
+										"button",
+										{ className: "btn btn-default", type: "button" },
+										item.name
+									)
+								);
 
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(format.replace(/%s/g, function () {
-        return args[argIndex++];
-      }));
-      error.name = 'Invariant Violation';
-    }
+							case "addon":
+								return React.createElement(
+									"span",
+									{ key: items.indexOf(item), className: "input-group-addon" },
+									item.name
+								);
+								break;
+							case "input":
+								return React.createElement(
+									"input",
+									{ key: items.indexOf(item), type: "text", className: "form-control", placeholder: item.placeholder },
+									item.value
+								);
+						}
+					})
+				)
+			);
+		}
+	}]);
 
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
+	return CusFormGroup;
+}(React.Component);
+
+exports.default = CusFormGroup;
+
+},{"./FormBtn":19}],19:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FormBtn = function (_React$Component) {
+  _inherits(FormBtn, _React$Component);
+
+  function FormBtn() {
+    _classCallCheck(this, FormBtn);
+
+    return _possibleConstructorReturn(this, (FormBtn.__proto__ || Object.getPrototypeOf(FormBtn)).apply(this, arguments));
   }
-}
 
-module.exports = invariant;
-}).call(this,require('_process'))
-},{"_process":23}],21:[function(require,module,exports){
-(function (process){
-/**
- * Copyright 2014-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+  _createClass(FormBtn, [{
+    key: "render",
+    value: function render() {
 
-'use strict';
-
-var emptyFunction = require('./emptyFunction');
-
-/**
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var warning = emptyFunction;
-
-if (process.env.NODE_ENV !== 'production') {
-  (function () {
-    var printWarning = function printWarning(format) {
-      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-
-      var argIndex = 0;
-      var message = 'Warning: ' + format.replace(/%s/g, function () {
-        return args[argIndex++];
-      });
-      if (typeof console !== 'undefined') {
-        console.error(message);
-      }
-      try {
-        // --- Welcome to debugging React ---
-        // This error was thrown as a convenience so that you can use this stack
-        // to find the callsite that caused this warning to fire.
-        throw new Error(message);
-      } catch (x) {}
-    };
-
-    warning = function warning(condition, format) {
-      if (format === undefined) {
-        throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
-      }
-
-      if (format.indexOf('Failed Composite propType: ') === 0) {
-        return; // Ignore CompositeComponent proptype check.
-      }
-
-      if (!condition) {
-        for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-          args[_key2 - 2] = arguments[_key2];
-        }
-
-        printWarning.apply(undefined, [format].concat(args));
-      }
-    };
-  })();
-}
-
-module.exports = warning;
-}).call(this,require('_process'))
-},{"./emptyFunction":18,"_process":23}],22:[function(require,module,exports){
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
-'use strict';
-/* eslint-disable no-unused-vars */
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
-
-		// Detect buggy property enumeration order in older V8 versions.
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !==
-				'abcdefghijklmnopqrst') {
-			return false;
-		}
-
-		return true;
-	} catch (err) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
-}
-
-module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-},{}],23:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
+      return React.createElement(
+        "span",
+        { className: "input-group-btn" },
+        React.createElement(
+          "button",
+          { className: "btn btn-default", type: "button" },
+          React.createElement("i", { className: "fa fa-arrows-alt" })
+        )
+      );
     }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
+  }]);
 
+  return FormBtn;
+}(React.Component);
 
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
+exports.default = FormBtn;
 
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],24:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1578,7 +1329,7 @@ exports.default = _react2.default.createClass({
   }
 });
 module.exports = exports['default'];
-},{"./screen-reader-styles":25,"react":50}],25:[function(require,module,exports){
+},{"./screen-reader-styles":21,"react":51}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1595,7 +1346,7 @@ exports.default = {
   border: '0px'
 };
 module.exports = exports['default'];
-},{}],26:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -1654,7 +1405,7 @@ var KeyEscapeUtils = {
 };
 
 module.exports = KeyEscapeUtils;
-},{}],27:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -1768,7 +1519,7 @@ var PooledClass = {
 
 module.exports = PooledClass;
 }).call(this,require('_process'))
-},{"./reactProdInvariant":48,"_process":23,"fbjs/lib/invariant":20}],28:[function(require,module,exports){
+},{"./reactProdInvariant":44,"_process":52,"fbjs/lib/invariant":48}],24:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -1859,7 +1610,7 @@ var React = {
 
 module.exports = React;
 }).call(this,require('_process'))
-},{"./ReactChildren":29,"./ReactClass":30,"./ReactComponent":31,"./ReactDOMFactories":34,"./ReactElement":35,"./ReactElementValidator":37,"./ReactPropTypes":40,"./ReactPureComponent":42,"./ReactVersion":43,"./onlyChild":47,"_process":23,"fbjs/lib/warning":21,"object-assign":22}],29:[function(require,module,exports){
+},{"./ReactChildren":25,"./ReactClass":26,"./ReactComponent":27,"./ReactDOMFactories":30,"./ReactElement":31,"./ReactElementValidator":33,"./ReactPropTypes":36,"./ReactPureComponent":38,"./ReactVersion":39,"./onlyChild":43,"_process":52,"fbjs/lib/warning":49,"object-assign":50}],25:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -2050,7 +1801,7 @@ var ReactChildren = {
 };
 
 module.exports = ReactChildren;
-},{"./PooledClass":27,"./ReactElement":35,"./traverseAllChildren":49,"fbjs/lib/emptyFunction":18}],30:[function(require,module,exports){
+},{"./PooledClass":23,"./ReactElement":31,"./traverseAllChildren":45,"fbjs/lib/emptyFunction":46}],26:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -2769,7 +2520,7 @@ var ReactClass = {
 
 module.exports = ReactClass;
 }).call(this,require('_process'))
-},{"./ReactComponent":31,"./ReactElement":35,"./ReactNoopUpdateQueue":38,"./ReactPropTypeLocationNames":39,"./reactProdInvariant":48,"_process":23,"fbjs/lib/emptyObject":19,"fbjs/lib/invariant":20,"fbjs/lib/warning":21,"object-assign":22}],31:[function(require,module,exports){
+},{"./ReactComponent":27,"./ReactElement":31,"./ReactNoopUpdateQueue":34,"./ReactPropTypeLocationNames":35,"./reactProdInvariant":44,"_process":52,"fbjs/lib/emptyObject":47,"fbjs/lib/invariant":48,"fbjs/lib/warning":49,"object-assign":50}],27:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -2889,7 +2640,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactComponent;
 }).call(this,require('_process'))
-},{"./ReactNoopUpdateQueue":38,"./canDefineProperty":44,"./reactProdInvariant":48,"_process":23,"fbjs/lib/emptyObject":19,"fbjs/lib/invariant":20,"fbjs/lib/warning":21}],32:[function(require,module,exports){
+},{"./ReactNoopUpdateQueue":34,"./canDefineProperty":40,"./reactProdInvariant":44,"_process":52,"fbjs/lib/emptyObject":47,"fbjs/lib/invariant":48,"fbjs/lib/warning":49}],28:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2016-present, Facebook, Inc.
@@ -3225,7 +2976,7 @@ var ReactComponentTreeHook = {
 
 module.exports = ReactComponentTreeHook;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":33,"./reactProdInvariant":48,"_process":23,"fbjs/lib/invariant":20,"fbjs/lib/warning":21}],33:[function(require,module,exports){
+},{"./ReactCurrentOwner":29,"./reactProdInvariant":44,"_process":52,"fbjs/lib/invariant":48,"fbjs/lib/warning":49}],29:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -3256,7 +3007,7 @@ var ReactCurrentOwner = {
 };
 
 module.exports = ReactCurrentOwner;
-},{}],34:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -3428,7 +3179,7 @@ var ReactDOMFactories = {
 
 module.exports = ReactDOMFactories;
 }).call(this,require('_process'))
-},{"./ReactElement":35,"./ReactElementValidator":37,"_process":23}],35:[function(require,module,exports){
+},{"./ReactElement":31,"./ReactElementValidator":33,"_process":52}],31:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -3771,7 +3522,7 @@ ReactElement.isValidElement = function (object) {
 
 module.exports = ReactElement;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":33,"./ReactElementSymbol":36,"./canDefineProperty":44,"_process":23,"fbjs/lib/warning":21,"object-assign":22}],36:[function(require,module,exports){
+},{"./ReactCurrentOwner":29,"./ReactElementSymbol":32,"./canDefineProperty":40,"_process":52,"fbjs/lib/warning":49,"object-assign":50}],32:[function(require,module,exports){
 /**
  * Copyright 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -3791,7 +3542,7 @@ module.exports = ReactElement;
 var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 0xeac7;
 
 module.exports = REACT_ELEMENT_TYPE;
-},{}],37:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -4027,7 +3778,7 @@ var ReactElementValidator = {
 
 module.exports = ReactElementValidator;
 }).call(this,require('_process'))
-},{"./ReactComponentTreeHook":32,"./ReactCurrentOwner":33,"./ReactElement":35,"./canDefineProperty":44,"./checkReactTypeSpec":45,"./getIteratorFn":46,"_process":23,"fbjs/lib/warning":21}],38:[function(require,module,exports){
+},{"./ReactComponentTreeHook":28,"./ReactCurrentOwner":29,"./ReactElement":31,"./canDefineProperty":40,"./checkReactTypeSpec":41,"./getIteratorFn":42,"_process":52,"fbjs/lib/warning":49}],34:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015-present, Facebook, Inc.
@@ -4125,7 +3876,7 @@ var ReactNoopUpdateQueue = {
 
 module.exports = ReactNoopUpdateQueue;
 }).call(this,require('_process'))
-},{"_process":23,"fbjs/lib/warning":21}],39:[function(require,module,exports){
+},{"_process":52,"fbjs/lib/warning":49}],35:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -4152,7 +3903,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactPropTypeLocationNames;
 }).call(this,require('_process'))
-},{"_process":23}],40:[function(require,module,exports){
+},{"_process":52}],36:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -4588,7 +4339,7 @@ function getClassName(propValue) {
 
 module.exports = ReactPropTypes;
 }).call(this,require('_process'))
-},{"./ReactElement":35,"./ReactPropTypeLocationNames":39,"./ReactPropTypesSecret":41,"./getIteratorFn":46,"_process":23,"fbjs/lib/emptyFunction":18,"fbjs/lib/warning":21}],41:[function(require,module,exports){
+},{"./ReactElement":31,"./ReactPropTypeLocationNames":35,"./ReactPropTypesSecret":37,"./getIteratorFn":42,"_process":52,"fbjs/lib/emptyFunction":46,"fbjs/lib/warning":49}],37:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -4605,7 +4356,7 @@ module.exports = ReactPropTypes;
 var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
-},{}],42:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -4647,7 +4398,7 @@ _assign(ReactPureComponent.prototype, ReactComponent.prototype);
 ReactPureComponent.prototype.isPureReactComponent = true;
 
 module.exports = ReactPureComponent;
-},{"./ReactComponent":31,"./ReactNoopUpdateQueue":38,"fbjs/lib/emptyObject":19,"object-assign":22}],43:[function(require,module,exports){
+},{"./ReactComponent":27,"./ReactNoopUpdateQueue":34,"fbjs/lib/emptyObject":47,"object-assign":50}],39:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -4661,7 +4412,7 @@ module.exports = ReactPureComponent;
 'use strict';
 
 module.exports = '15.4.2';
-},{}],44:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -4689,7 +4440,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = canDefineProperty;
 }).call(this,require('_process'))
-},{"_process":23}],45:[function(require,module,exports){
+},{"_process":52}],41:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -4778,7 +4529,7 @@ function checkReactTypeSpec(typeSpecs, values, location, componentName, element,
 
 module.exports = checkReactTypeSpec;
 }).call(this,require('_process'))
-},{"./ReactComponentTreeHook":32,"./ReactPropTypeLocationNames":39,"./ReactPropTypesSecret":41,"./reactProdInvariant":48,"_process":23,"fbjs/lib/invariant":20,"fbjs/lib/warning":21}],46:[function(require,module,exports){
+},{"./ReactComponentTreeHook":28,"./ReactPropTypeLocationNames":35,"./ReactPropTypesSecret":37,"./reactProdInvariant":44,"_process":52,"fbjs/lib/invariant":48,"fbjs/lib/warning":49}],42:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -4819,7 +4570,7 @@ function getIteratorFn(maybeIterable) {
 }
 
 module.exports = getIteratorFn;
-},{}],47:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -4859,7 +4610,7 @@ function onlyChild(children) {
 
 module.exports = onlyChild;
 }).call(this,require('_process'))
-},{"./ReactElement":35,"./reactProdInvariant":48,"_process":23,"fbjs/lib/invariant":20}],48:[function(require,module,exports){
+},{"./ReactElement":31,"./reactProdInvariant":44,"_process":52,"fbjs/lib/invariant":48}],44:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -4898,7 +4649,7 @@ function reactProdInvariant(code) {
 }
 
 module.exports = reactProdInvariant;
-},{}],49:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -5076,9 +4827,471 @@ function traverseAllChildren(children, callback, traverseContext) {
 
 module.exports = traverseAllChildren;
 }).call(this,require('_process'))
-},{"./KeyEscapeUtils":26,"./ReactCurrentOwner":33,"./ReactElementSymbol":36,"./getIteratorFn":46,"./reactProdInvariant":48,"_process":23,"fbjs/lib/invariant":20,"fbjs/lib/warning":21}],50:[function(require,module,exports){
+},{"./KeyEscapeUtils":22,"./ReactCurrentOwner":29,"./ReactElementSymbol":32,"./getIteratorFn":42,"./reactProdInvariant":44,"_process":52,"fbjs/lib/invariant":48,"fbjs/lib/warning":49}],46:[function(require,module,exports){
+"use strict";
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ */
+
+function makeEmptyFunction(arg) {
+  return function () {
+    return arg;
+  };
+}
+
+/**
+ * This function accepts and discards inputs; it has no side effects. This is
+ * primarily useful idiomatically for overridable function endpoints which
+ * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
+ */
+var emptyFunction = function emptyFunction() {};
+
+emptyFunction.thatReturns = makeEmptyFunction;
+emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
+emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
+emptyFunction.thatReturnsNull = makeEmptyFunction(null);
+emptyFunction.thatReturnsThis = function () {
+  return this;
+};
+emptyFunction.thatReturnsArgument = function (arg) {
+  return arg;
+};
+
+module.exports = emptyFunction;
+},{}],47:[function(require,module,exports){
+(function (process){
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ */
+
+'use strict';
+
+var emptyObject = {};
+
+if (process.env.NODE_ENV !== 'production') {
+  Object.freeze(emptyObject);
+}
+
+module.exports = emptyObject;
+}).call(this,require('_process'))
+},{"_process":52}],48:[function(require,module,exports){
+(function (process){
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ */
+
+'use strict';
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var validateFormat = function validateFormat(format) {};
+
+if (process.env.NODE_ENV !== 'production') {
+  validateFormat = function validateFormat(format) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  };
+}
+
+function invariant(condition, format, a, b, c, d, e, f) {
+  validateFormat(format);
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(format.replace(/%s/g, function () {
+        return args[argIndex++];
+      }));
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+}
+
+module.exports = invariant;
+}).call(this,require('_process'))
+},{"_process":52}],49:[function(require,module,exports){
+(function (process){
+/**
+ * Copyright 2014-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ */
+
+'use strict';
+
+var emptyFunction = require('./emptyFunction');
+
+/**
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
+ */
+
+var warning = emptyFunction;
+
+if (process.env.NODE_ENV !== 'production') {
+  (function () {
+    var printWarning = function printWarning(format) {
+      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      var argIndex = 0;
+      var message = 'Warning: ' + format.replace(/%s/g, function () {
+        return args[argIndex++];
+      });
+      if (typeof console !== 'undefined') {
+        console.error(message);
+      }
+      try {
+        // --- Welcome to debugging React ---
+        // This error was thrown as a convenience so that you can use this stack
+        // to find the callsite that caused this warning to fire.
+        throw new Error(message);
+      } catch (x) {}
+    };
+
+    warning = function warning(condition, format) {
+      if (format === undefined) {
+        throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
+      }
+
+      if (format.indexOf('Failed Composite propType: ') === 0) {
+        return; // Ignore CompositeComponent proptype check.
+      }
+
+      if (!condition) {
+        for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+          args[_key2 - 2] = arguments[_key2];
+        }
+
+        printWarning.apply(undefined, [format].concat(args));
+      }
+    };
+  })();
+}
+
+module.exports = warning;
+}).call(this,require('_process'))
+},{"./emptyFunction":46,"_process":52}],50:[function(require,module,exports){
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+'use strict';
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+},{}],51:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./lib/React');
 
-},{"./lib/React":28}]},{},[15]);
+},{"./lib/React":24}],52:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}]},{},[15]);
