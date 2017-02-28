@@ -8,7 +8,7 @@ export default class App extends React.Component {
       super();
       //inicialni stav
       this.state = {
-        parsedData: null,
+        dataset: null,
         selectedGraph: null
       };
       //kazdou metodu tridy musime "nabindovat" - abychom ji mohli volat jako 'this.myMethod()'
@@ -23,8 +23,8 @@ export default class App extends React.Component {
       return (
         <div>
             <h1 className="container">Graph app</h1>
-            <Data/>
-            <Graph/>
+            <Data />
+            <Graph />
         </div>
       );
     }

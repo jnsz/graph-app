@@ -8,6 +8,7 @@ export default class Mapping extends React.Component{
       <div className="row">
           <DimensionsList />
 
+          
           <Variable type='single-any' />
           <Variable type='multi-string' />
           <Variable type='multi-num' />
