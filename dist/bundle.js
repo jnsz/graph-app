@@ -45,11 +45,14 @@ var App = function (_React$Component) {
     _this.state = {
       rawDataset: '',
       dataset: d3.csvParse(''),
-      selectedGraph: null
+      selectedGraph: null,
+      selectedSubtype: null
     };
     //kazdou metodu tridy musime "nabindovat" - abychom ji mohli volat jako 'this.myMethod()'
     _this.setRawDataset = _this.setRawDataset.bind(_this);
     _this.setDataset = _this.setDataset.bind(_this);
+    _this.setGraphType = _this.setGraphType.bind(_this);
+    _this.setGraphSubtype = _this.setGraphSubtype.bind(_this);
     return _this;
   }
 
@@ -65,6 +68,20 @@ var App = function (_React$Component) {
     value: function setDataset(newParsedDataset) {
       this.setState({
         dataset: newParsedDataset
+      });
+    }
+  }, {
+    key: 'setGraphType',
+    value: function setGraphType(newSelectedGraphTypeName) {
+      this.setState({
+        selectedGraph: newSelectedGraphTypeName
+      });
+    }
+  }, {
+    key: 'setGraphSubtype',
+    value: function setGraphSubtype(newSelectedGraphSubtypeName) {
+      this.setState({
+        selectedSubtype: newSelectedGraphSubtypeName
       });
     }
   }, {
@@ -85,7 +102,11 @@ var App = function (_React$Component) {
           dataset: this.state.dataset
         }),
         typeof this.state.dataset.columns === 'undefined' ? false : React.createElement(_Graph2.default, {
-          dataset: this.state.dataset
+          dataset: this.state.dataset,
+          selectedGraph: this.state.selectedGraph,
+          selectedSubtype: this.state.selectedSubtype,
+          onSelectedGraphChange: this.setGraphType,
+          onSelectedSubtypeChange: this.setGraphSubtype
         })
       );
     }
@@ -96,7 +117,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"./data/Data":5,"./graph/Graph":9,"d3":24,"react-fontawesome":25}],2:[function(require,module,exports){
+},{"./data/Data":5,"./graph/Graph":9,"d3":23,"react-fontawesome":24}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -242,68 +263,82 @@ exports.default = Root;
 
 },{"./App.js":1,"./Navbar.js":2}],4:[function(require,module,exports){
 module.exports=[
-    {
-        "name":"Bar chart",
-        "label":"Bar chart icon",
-        "subtypes":[
-            [
-                {
-                    "name":"Bar chart grouped"
-                },
-                {
-                    "name":"Bar chart stacked"
-                }
-            ],
-            [
-                {
-                    "name":"Vertical"
-                },
-                {
-                    "name":"Horizontal"
-                }
-            ]
-        ]
-    },
-    {
-        "name":"Pie chart",
-        "label":"Pie chart icon",
-        "subtypes":[
-            [
-                {
-                    "name":"Pie chart"
-                },
-                {
-                    "name":"Donut chart"
-                }
-            ]
-        ]
-    },
-    {
-        "name":"Line chart",
-        "label":"Line chart icon",
-        "subtypes":[
-            [
-                {
-                    "name":"Line"
-                },
-                {
-                    "name":"Curve"
-                }
-            ],
-            [
-                {
-                    "name":"No fill"
-                },
-                {
-                    "name":"Fill"
-                }
-            ]
-        ]
-    },
-    {
-        "name":"Scatter plot",
-        "label":"Scatter plot icon"
-    }
+  {
+    "name":"bar_chart",
+    "label":"Bar chart icon",
+    "icon":"fa fa-bar-chart",
+    "subtypes":[
+      [
+          {
+            "name":"bar_grouped",
+            "label":"Grouped bar chart"
+          },
+          {
+            "name":"bar_stacked",
+            "label":"Stacked bar chart"
+          }
+      ],
+      [
+          {
+            "name":"bar_vertical",
+            "label":"Vertical"
+
+          },
+          {
+            "name":"bar_horizontal",
+            "label":"Horizontal"
+          }
+      ]
+    ]
+  },
+  {
+    "name":"pie_chart",
+    "label":"Pie chart",
+    "icon":"fa fa-pie-chart",
+    "subtypes":[
+      [
+          {
+            "name":"pie_pie",
+            "label":"Pie chart"
+          },
+          {
+            "name":"pie_donut",
+            "label":"Donut chart"
+          }
+      ]
+    ]
+  },
+  {
+    "name":"line_chart",
+    "label":"Line chart",
+    "icon":"fa fa-line-chart",
+    "subtypes":[
+      [
+          {
+            "name":"line_line",
+            "label":"Line"
+          },
+          {
+            "name":"line_curve",
+            "label":"Curve"
+          }
+      ],
+      [
+          {
+            "name":"line_no_fill",
+            "label":"No fill"
+          },
+          {
+            "name":"line_fill",
+            "label":"Fill"
+          }
+      ]
+    ]
+  },
+  {
+    "name":"scatter_plot",
+    "label":"Scatter plot"
+  }
 ]
 
 },{}],5:[function(require,module,exports){
@@ -444,7 +479,7 @@ var DataInput = function (_React$Component) {
 
 exports.default = DataInput;
 
-},{"d3":24}],7:[function(require,module,exports){
+},{"d3":23}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -621,7 +656,11 @@ var Graph = function (_React$Component) {
           'div',
           { className: 'wrapper' },
           React.createElement(_GraphSelection2.default, {
-            dataset: this.props.dataset
+            dataset: this.props.dataset,
+            selectedGraph: this.props.selectedGraph,
+            selectedSubtype: this.props.selectedSubtype,
+            onSelectedGraphChange: this.props.onSelectedGraphChange,
+            onSelectedSubtypeChange: this.props.onSelectedSubtypeChange
           }),
           React.createElement(_GraphSVG2.default, null),
           React.createElement(_GraphCustomization2.default, null),
@@ -636,7 +675,7 @@ var Graph = function (_React$Component) {
 
 exports.default = Graph;
 
-},{"./GraphExport":10,"./GraphSVG":11,"./graph-customization/GraphCustomization":14,"./graph-selection/GraphSelection":19}],10:[function(require,module,exports){
+},{"./GraphExport":10,"./GraphSVG":11,"./graph-customization/GraphCustomization":14,"./graph-selection/GraphSelection":18}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1002,19 +1041,13 @@ var VisibilityBtn = function (_React$Component) {
 }(React.Component);
 
 },{}],16:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Button = require('./Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1032,13 +1065,30 @@ var BtnGroup = function (_React$Component) {
 	}
 
 	_createClass(BtnGroup, [{
-		key: 'render',
+		key: "handleClick",
+		value: function handleClick(name) {
+			this.props.onChange(name);
+		}
+	}, {
+		key: "render",
 		value: function render() {
+			var _this2 = this;
+
 			return React.createElement(
-				'div',
-				{ className: 'btn-group btn-group-justified' },
+				"div",
+				{ className: "btn-group btn-group-justified" },
 				this.props.labels.map(function (label, i) {
-					return React.createElement(_Button2.default, { key: i + 'btn', label: label });
+					return React.createElement(
+						"div",
+						{ key: i + 'btn', className: "btn-group", role: "group" },
+						React.createElement(
+							"button",
+							{ type: "button", className: "btn btn-default", onClick: function onClick(e) {
+									return _this2.handleClick(_this2.props.names[i]);
+								} },
+							label
+						)
+					);
 				})
 			);
 		}
@@ -1049,52 +1099,7 @@ var BtnGroup = function (_React$Component) {
 
 exports.default = BtnGroup;
 
-},{"./Button":17}],17:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Button = function (_React$Component) {
-    _inherits(Button, _React$Component);
-
-    function Button() {
-        _classCallCheck(this, Button);
-
-        return _possibleConstructorReturn(this, (Button.__proto__ || Object.getPrototypeOf(Button)).apply(this, arguments));
-    }
-
-    _createClass(Button, [{
-        key: "render",
-        value: function render() {
-
-            return React.createElement(
-                "div",
-                { className: "btn-group", role: "group" },
-                React.createElement(
-                    "button",
-                    { type: "button", className: "btn btn-default" },
-                    this.props.label
-                )
-            );
-        }
-    }]);
-
-    return Button;
-}(React.Component);
-
-exports.default = Button;
-
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1158,7 +1163,7 @@ var DimensionsList = function (_React$Component) {
 
 exports.default = DimensionsList;
 
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1202,7 +1207,12 @@ var GraphSelection = function (_React$Component) {
             return React.createElement(
                 'div',
                 null,
-                React.createElement(_GraphType2.default, null),
+                React.createElement(_GraphType2.default, {
+                    selectedGraph: this.props.selectedGraph,
+                    selectedSubtype: this.props.selectedSubtype,
+                    onSelectedGraphChange: this.props.onSelectedGraphChange,
+                    onSelectedSubtypeChange: this.props.onSelectedSubtypeChange
+                }),
                 React.createElement(_Mapping2.default, { dataset: this.props.dataset })
             );
         }
@@ -1213,7 +1223,7 @@ var GraphSelection = function (_React$Component) {
 
 exports.default = GraphSelection;
 
-},{"./GraphType":20,"./Mapping":21}],20:[function(require,module,exports){
+},{"./GraphType":19,"./Mapping":20}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1248,10 +1258,35 @@ var GraphType = function (_React$Component) {
   }
 
   _createClass(GraphType, [{
+    key: 'renderSubtypes',
+    value: function renderSubtypes(graphTypesList) {
+      var _this2 = this;
+
+      return React.createElement(
+        'div',
+        { className: 'row' },
+        graphTypesList.map(function (type) {
+          if (type.name === _this2.props.selectedGraph) {
+            type.subtypes.map(function (subtype) {
+
+              return React.createElement(
+                'div',
+                { className: 'col-md-6' },
+                React.createElement(_BtnGroup2.default, { onChange: _this2.props.onSelectedSubtypeChange, labels: subtype.map(function (type) {
+                    return type.label;
+                  }), names: subtype.map(function (type) {
+                    return type.name;
+                  }) })
+              );
+            });
+          }
+        })
+      );
+    }
+  }, {
     key: 'render',
     value: function render() {
-
-      var graphs = _graph_types_list2.default;
+      var graphTypesList = _graph_types_list2.default;
 
       return React.createElement(
         'div',
@@ -1262,29 +1297,14 @@ var GraphType = function (_React$Component) {
           React.createElement(
             'div',
             { className: 'col-md-12' },
-            React.createElement(_BtnGroup2.default, { labels: graphs.map(function (type) {
+            React.createElement(_BtnGroup2.default, { onChange: this.props.onSelectedGraphChange, labels: graphTypesList.map(function (type) {
+                return type.label;
+              }), names: graphTypesList.map(function (type) {
                 return type.name;
               }) })
           )
         ),
-        graphs.map(function (type) {
-          if (typeof type.subtypes !== "undefined") {
-            return React.createElement(
-              'div',
-              { className: 'row' },
-              type.subtypes.map(function (subtype) {
-                var subtypeList = subtype.map(function (object) {
-                  return object.name;
-                });
-                return React.createElement(
-                  'div',
-                  { className: 'col-md-6' },
-                  React.createElement(_BtnGroup2.default, { labels: subtypeList })
-                );
-              })
-            );
-          }
-        })
+        this.renderSubtypes(graphTypesList)
       );
     }
   }]);
@@ -1294,7 +1314,7 @@ var GraphType = function (_React$Component) {
 
 exports.default = GraphType;
 
-},{"../../charts/graph_types_list.json":4,"./BtnGroup":16}],21:[function(require,module,exports){
+},{"../../charts/graph_types_list.json":4,"./BtnGroup":16}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1356,7 +1376,7 @@ var Mapping = function (_React$Component) {
 
 exports.default = Mapping;
 
-},{"./DimensionsList":18,"./Variable":22}],22:[function(require,module,exports){
+},{"./DimensionsList":17,"./Variable":21}],21:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1397,7 +1417,7 @@ var Variable = function (_React$Component) {
 
 exports.default = Variable;
 
-},{}],23:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var _Root = require('./Root');
@@ -1415,7 +1435,7 @@ window.onChangeState = function (state) {}
 ; //import ROOT komponenty App
 ReactDOM.render(React.createElement(_Root2.default, null), document.getElementById('app'));
 
-},{"./Root":3}],24:[function(require,module,exports){
+},{"./Root":3}],23:[function(require,module,exports){
 // https://d3js.org Version 4.6.0. Copyright 2017 Mike Bostock.
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -17872,7 +17892,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
 
-},{}],25:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17989,7 +18009,7 @@ exports.default = _react2.default.createClass({
   }
 });
 module.exports = exports['default'];
-},{"./screen-reader-styles":26,"react":56}],26:[function(require,module,exports){
+},{"./screen-reader-styles":25,"react":55}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18006,7 +18026,7 @@ exports.default = {
   border: '0px'
 };
 module.exports = exports['default'];
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -18065,7 +18085,7 @@ var KeyEscapeUtils = {
 };
 
 module.exports = KeyEscapeUtils;
-},{}],28:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18179,7 +18199,7 @@ var PooledClass = {
 
 module.exports = PooledClass;
 }).call(this,require('_process'))
-},{"./reactProdInvariant":49,"_process":57,"fbjs/lib/invariant":53}],29:[function(require,module,exports){
+},{"./reactProdInvariant":48,"_process":56,"fbjs/lib/invariant":52}],28:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18270,7 +18290,7 @@ var React = {
 
 module.exports = React;
 }).call(this,require('_process'))
-},{"./ReactChildren":30,"./ReactClass":31,"./ReactComponent":32,"./ReactDOMFactories":35,"./ReactElement":36,"./ReactElementValidator":38,"./ReactPropTypes":41,"./ReactPureComponent":43,"./ReactVersion":44,"./onlyChild":48,"_process":57,"fbjs/lib/warning":54,"object-assign":55}],30:[function(require,module,exports){
+},{"./ReactChildren":29,"./ReactClass":30,"./ReactComponent":31,"./ReactDOMFactories":34,"./ReactElement":35,"./ReactElementValidator":37,"./ReactPropTypes":40,"./ReactPureComponent":42,"./ReactVersion":43,"./onlyChild":47,"_process":56,"fbjs/lib/warning":53,"object-assign":54}],29:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -18461,7 +18481,7 @@ var ReactChildren = {
 };
 
 module.exports = ReactChildren;
-},{"./PooledClass":28,"./ReactElement":36,"./traverseAllChildren":50,"fbjs/lib/emptyFunction":51}],31:[function(require,module,exports){
+},{"./PooledClass":27,"./ReactElement":35,"./traverseAllChildren":49,"fbjs/lib/emptyFunction":50}],30:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -19180,7 +19200,7 @@ var ReactClass = {
 
 module.exports = ReactClass;
 }).call(this,require('_process'))
-},{"./ReactComponent":32,"./ReactElement":36,"./ReactNoopUpdateQueue":39,"./ReactPropTypeLocationNames":40,"./reactProdInvariant":49,"_process":57,"fbjs/lib/emptyObject":52,"fbjs/lib/invariant":53,"fbjs/lib/warning":54,"object-assign":55}],32:[function(require,module,exports){
+},{"./ReactComponent":31,"./ReactElement":35,"./ReactNoopUpdateQueue":38,"./ReactPropTypeLocationNames":39,"./reactProdInvariant":48,"_process":56,"fbjs/lib/emptyObject":51,"fbjs/lib/invariant":52,"fbjs/lib/warning":53,"object-assign":54}],31:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -19300,7 +19320,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactComponent;
 }).call(this,require('_process'))
-},{"./ReactNoopUpdateQueue":39,"./canDefineProperty":45,"./reactProdInvariant":49,"_process":57,"fbjs/lib/emptyObject":52,"fbjs/lib/invariant":53,"fbjs/lib/warning":54}],33:[function(require,module,exports){
+},{"./ReactNoopUpdateQueue":38,"./canDefineProperty":44,"./reactProdInvariant":48,"_process":56,"fbjs/lib/emptyObject":51,"fbjs/lib/invariant":52,"fbjs/lib/warning":53}],32:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2016-present, Facebook, Inc.
@@ -19636,7 +19656,7 @@ var ReactComponentTreeHook = {
 
 module.exports = ReactComponentTreeHook;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":34,"./reactProdInvariant":49,"_process":57,"fbjs/lib/invariant":53,"fbjs/lib/warning":54}],34:[function(require,module,exports){
+},{"./ReactCurrentOwner":33,"./reactProdInvariant":48,"_process":56,"fbjs/lib/invariant":52,"fbjs/lib/warning":53}],33:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -19667,7 +19687,7 @@ var ReactCurrentOwner = {
 };
 
 module.exports = ReactCurrentOwner;
-},{}],35:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -19839,7 +19859,7 @@ var ReactDOMFactories = {
 
 module.exports = ReactDOMFactories;
 }).call(this,require('_process'))
-},{"./ReactElement":36,"./ReactElementValidator":38,"_process":57}],36:[function(require,module,exports){
+},{"./ReactElement":35,"./ReactElementValidator":37,"_process":56}],35:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -20182,7 +20202,7 @@ ReactElement.isValidElement = function (object) {
 
 module.exports = ReactElement;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":34,"./ReactElementSymbol":37,"./canDefineProperty":45,"_process":57,"fbjs/lib/warning":54,"object-assign":55}],37:[function(require,module,exports){
+},{"./ReactCurrentOwner":33,"./ReactElementSymbol":36,"./canDefineProperty":44,"_process":56,"fbjs/lib/warning":53,"object-assign":54}],36:[function(require,module,exports){
 /**
  * Copyright 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -20202,7 +20222,7 @@ module.exports = ReactElement;
 var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 0xeac7;
 
 module.exports = REACT_ELEMENT_TYPE;
-},{}],38:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -20438,7 +20458,7 @@ var ReactElementValidator = {
 
 module.exports = ReactElementValidator;
 }).call(this,require('_process'))
-},{"./ReactComponentTreeHook":33,"./ReactCurrentOwner":34,"./ReactElement":36,"./canDefineProperty":45,"./checkReactTypeSpec":46,"./getIteratorFn":47,"_process":57,"fbjs/lib/warning":54}],39:[function(require,module,exports){
+},{"./ReactComponentTreeHook":32,"./ReactCurrentOwner":33,"./ReactElement":35,"./canDefineProperty":44,"./checkReactTypeSpec":45,"./getIteratorFn":46,"_process":56,"fbjs/lib/warning":53}],38:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015-present, Facebook, Inc.
@@ -20536,7 +20556,7 @@ var ReactNoopUpdateQueue = {
 
 module.exports = ReactNoopUpdateQueue;
 }).call(this,require('_process'))
-},{"_process":57,"fbjs/lib/warning":54}],40:[function(require,module,exports){
+},{"_process":56,"fbjs/lib/warning":53}],39:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -20563,7 +20583,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactPropTypeLocationNames;
 }).call(this,require('_process'))
-},{"_process":57}],41:[function(require,module,exports){
+},{"_process":56}],40:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -20999,7 +21019,7 @@ function getClassName(propValue) {
 
 module.exports = ReactPropTypes;
 }).call(this,require('_process'))
-},{"./ReactElement":36,"./ReactPropTypeLocationNames":40,"./ReactPropTypesSecret":42,"./getIteratorFn":47,"_process":57,"fbjs/lib/emptyFunction":51,"fbjs/lib/warning":54}],42:[function(require,module,exports){
+},{"./ReactElement":35,"./ReactPropTypeLocationNames":39,"./ReactPropTypesSecret":41,"./getIteratorFn":46,"_process":56,"fbjs/lib/emptyFunction":50,"fbjs/lib/warning":53}],41:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -21016,7 +21036,7 @@ module.exports = ReactPropTypes;
 var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
-},{}],43:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -21058,7 +21078,7 @@ _assign(ReactPureComponent.prototype, ReactComponent.prototype);
 ReactPureComponent.prototype.isPureReactComponent = true;
 
 module.exports = ReactPureComponent;
-},{"./ReactComponent":32,"./ReactNoopUpdateQueue":39,"fbjs/lib/emptyObject":52,"object-assign":55}],44:[function(require,module,exports){
+},{"./ReactComponent":31,"./ReactNoopUpdateQueue":38,"fbjs/lib/emptyObject":51,"object-assign":54}],43:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -21072,7 +21092,7 @@ module.exports = ReactPureComponent;
 'use strict';
 
 module.exports = '15.4.2';
-},{}],45:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21100,7 +21120,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = canDefineProperty;
 }).call(this,require('_process'))
-},{"_process":57}],46:[function(require,module,exports){
+},{"_process":56}],45:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21189,7 +21209,7 @@ function checkReactTypeSpec(typeSpecs, values, location, componentName, element,
 
 module.exports = checkReactTypeSpec;
 }).call(this,require('_process'))
-},{"./ReactComponentTreeHook":33,"./ReactPropTypeLocationNames":40,"./ReactPropTypesSecret":42,"./reactProdInvariant":49,"_process":57,"fbjs/lib/invariant":53,"fbjs/lib/warning":54}],47:[function(require,module,exports){
+},{"./ReactComponentTreeHook":32,"./ReactPropTypeLocationNames":39,"./ReactPropTypesSecret":41,"./reactProdInvariant":48,"_process":56,"fbjs/lib/invariant":52,"fbjs/lib/warning":53}],46:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -21230,7 +21250,7 @@ function getIteratorFn(maybeIterable) {
 }
 
 module.exports = getIteratorFn;
-},{}],48:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21270,7 +21290,7 @@ function onlyChild(children) {
 
 module.exports = onlyChild;
 }).call(this,require('_process'))
-},{"./ReactElement":36,"./reactProdInvariant":49,"_process":57,"fbjs/lib/invariant":53}],49:[function(require,module,exports){
+},{"./ReactElement":35,"./reactProdInvariant":48,"_process":56,"fbjs/lib/invariant":52}],48:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -21309,7 +21329,7 @@ function reactProdInvariant(code) {
 }
 
 module.exports = reactProdInvariant;
-},{}],50:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21487,7 +21507,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 
 module.exports = traverseAllChildren;
 }).call(this,require('_process'))
-},{"./KeyEscapeUtils":27,"./ReactCurrentOwner":34,"./ReactElementSymbol":37,"./getIteratorFn":47,"./reactProdInvariant":49,"_process":57,"fbjs/lib/invariant":53,"fbjs/lib/warning":54}],51:[function(require,module,exports){
+},{"./KeyEscapeUtils":26,"./ReactCurrentOwner":33,"./ReactElementSymbol":36,"./getIteratorFn":46,"./reactProdInvariant":48,"_process":56,"fbjs/lib/invariant":52,"fbjs/lib/warning":53}],50:[function(require,module,exports){
 "use strict";
 
 /**
@@ -21526,7 +21546,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-},{}],52:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -21548,7 +21568,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = emptyObject;
 }).call(this,require('_process'))
-},{"_process":57}],53:[function(require,module,exports){
+},{"_process":56}],52:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -21606,7 +21626,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 }).call(this,require('_process'))
-},{"_process":57}],54:[function(require,module,exports){
+},{"_process":56}],53:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -21675,7 +21695,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = warning;
 }).call(this,require('_process'))
-},{"./emptyFunction":51,"_process":57}],55:[function(require,module,exports){
+},{"./emptyFunction":50,"_process":56}],54:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -21767,12 +21787,12 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-},{}],56:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./lib/React');
 
-},{"./lib/React":29}],57:[function(require,module,exports){
+},{"./lib/React":28}],56:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -21954,4 +21974,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[23]);
+},{}]},{},[22]);

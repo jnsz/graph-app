@@ -1,64 +1,78 @@
 [
-    {
-        "name":"Bar chart",
-        "label":"Bar chart icon",
-        "subtypes":[
-            [
-                {
-                    "name":"Bar chart grouped"
-                },
-                {
-                    "name":"Bar chart stacked"
-                }
-            ],
-            [
-                {
-                    "name":"Vertical"
-                },
-                {
-                    "name":"Horizontal"
-                }
-            ]
-        ]
-    },
-    {
-        "name":"Pie chart",
-        "label":"Pie chart icon",
-        "subtypes":[
-            [
-                {
-                    "name":"Pie chart"
-                },
-                {
-                    "name":"Donut chart"
-                }
-            ]
-        ]
-    },
-    {
-        "name":"Line chart",
-        "label":"Line chart icon",
-        "subtypes":[
-            [
-                {
-                    "name":"Line"
-                },
-                {
-                    "name":"Curve"
-                }
-            ],
-            [
-                {
-                    "name":"No fill"
-                },
-                {
-                    "name":"Fill"
-                }
-            ]
-        ]
-    },
-    {
-        "name":"Scatter plot",
-        "label":"Scatter plot icon"
-    }
+  {
+    "name":"bar_chart",
+    "label":"Bar chart icon",
+    "icon":"fa fa-bar-chart",
+    "subtypes":[
+      [
+          {
+            "name":"bar_grouped",
+            "label":"Grouped bar chart"
+          },
+          {
+            "name":"bar_stacked",
+            "label":"Stacked bar chart"
+          }
+      ],
+      [
+          {
+            "name":"bar_vertical",
+            "label":"Vertical"
+
+          },
+          {
+            "name":"bar_horizontal",
+            "label":"Horizontal"
+          }
+      ]
+    ]
+  },
+  {
+    "name":"pie_chart",
+    "label":"Pie chart",
+    "icon":"fa fa-pie-chart",
+    "subtypes":[
+      [
+          {
+            "name":"pie_pie",
+            "label":"Pie chart"
+          },
+          {
+            "name":"pie_donut",
+            "label":"Donut chart"
+          }
+      ]
+    ]
+  },
+  {
+    "name":"line_chart",
+    "label":"Line chart",
+    "icon":"fa fa-line-chart",
+    "subtypes":[
+      [
+          {
+            "name":"line_line",
+            "label":"Line"
+          },
+          {
+            "name":"line_curve",
+            "label":"Curve"
+          }
+      ],
+      [
+          {
+            "name":"line_no_fill",
+            "label":"No fill"
+          },
+          {
+            "name":"line_fill",
+            "label":"Fill"
+          }
+      ]
+    ]
+  },
+  {
+    "name":"scatter_plot",
+    "label":"Scatter plot"
+  }
 ]

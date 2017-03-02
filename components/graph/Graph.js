@@ -12,6 +12,10 @@ export default class Graph extends React.Component{
         <div className="wrapper">
           <GraphSelection
             dataset={this.props.dataset}
+            selectedGraph={this.props.selectedGraph}
+            selectedSubtype={this.props.selectedSubtype}
+            onSelectedGraphChange={this.props.onSelectedGraphChange}
+            onSelectedSubtypeChange={this.props.onSelectedSubtypeChange}
           />
           <GraphSVG />
           <GraphCustomization />
