@@ -1,6 +1,6 @@
 import Button from './Button';
 
-export default class GraphSelection extends React.Component {
+export default class BtnGroup extends React.Component {
 
 	render() {
 		return (

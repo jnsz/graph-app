@@ -6,9 +6,9 @@ export default class Mapping extends React.Component{
   render() {
     return (
       <div className="row">
-          <DimensionsList />
+          <DimensionsList dataset={this.props.dataset} />
 
-          
+
           <Variable type='single-any' />
           <Variable type='multi-string' />
           <Variable type='multi-num' />

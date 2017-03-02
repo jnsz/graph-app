@@ -1,6 +1,7 @@
-import FormBtn from './FormBtn';
+import FormBtn from './FormBtn'
+import VisibilityBtn from './VisibilityBtn'
 
-export default class CusFormGroup extends React.Component {
+export default class CustomizationFormGroup extends React.Component {
 
 	render() {
 		const items = this.props.items;
@@ -34,7 +35,16 @@ export default class CusFormGroup extends React.Component {
 							</span>
 
 						)
-						
+
+					case "btn-vis":
+						return (
+							<span key={items.indexOf(item)} className="input-group-btn">
+								{/*<VisibilityButton />*/}
+								<button className="btn btn-default" type="button">
+									{item.name}
+								</button>
+				      </span>
+						)
 					case "addon":
 						return (
 							<span key={items.indexOf(item)} className="input-group-addon">

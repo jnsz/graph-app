@@ -1,6 +1,5 @@
 //import ROOT komponenty App
-import Navbar from './Navbar.js';
-import App from './App.js';
+import Root from './Root';
 
 
 window.onChangeState = function(state) {
@@ -10,5 +9,4 @@ window.onChangeState = function(state) {
 
 
 //pomoci ReactDOM vykreslime komponentu App do elementu s id "content" (v index.html)
-ReactDOM.render(<Navbar />, document.getElementById('navbar'))
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<Root />, document.getElementById('app'));

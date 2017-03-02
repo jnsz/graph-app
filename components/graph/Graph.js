@@ -1,6 +1,6 @@
-import GraphSelection from './GraphSelection';
+import GraphSelection from './graph-selection/GraphSelection';
 import GraphSVG from './GraphSVG';
-import GraphCustomization from './GraphCustomization';
+import GraphCustomization from './graph-customization/GraphCustomization';
 import GraphExport from './GraphExport';
 
 export default class Graph extends React.Component{
@@ -9,7 +9,10 @@ export default class Graph extends React.Component{
     return (
         <div className="container">
             <div className="wrapper">
-                <GraphSelection />
+                <GraphSelection
+                  graphTypes={this.props.graphTypes}
+                  dataset={this.props.dataset}
+                />
                 <GraphSVG />
                 <GraphCustomization />
                 <GraphExport />

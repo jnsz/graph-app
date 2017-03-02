@@ -9,8 +9,8 @@ export default class GraphSelection extends React.Component {
     render() {
         return (
             <div>
-                <GraphType />
-                <Mapping />
+                <GraphType graphTypes={this.props.graphTypes} />
+                <Mapping dataset={this.props.dataset} />
             </div>
         );
 
