@@ -7,17 +7,17 @@ export default class Graph extends React.Component{
 
   render() {
     return (
-        <div className="container">
-            <div className="wrapper">
-                <GraphSelection
-                  graphTypes={this.props.graphTypes}
-                  dataset={this.props.dataset}
-                />
-                <GraphSVG />
-                <GraphCustomization />
-                <GraphExport />
-            </div>
+      <div className="container">
+        <h3>GRAPH</h3>
+        <div className="wrapper">
+          <GraphSelection
+            dataset={this.props.dataset}
+          />
+          <GraphSVG />
+          <GraphCustomization />
+          <GraphExport />
         </div>
+      </div>
     );
   }
 }
