@@ -13,14 +13,12 @@ export default class App extends React.Component {
     this.state = {
       rawDataset: '',
       dataset: d3.csvParse(''),
-      selectedGraph: null,
-      selectedSubtype: null
+      selectedGraph: null
     };
     //kazdou metodu tridy musime "nabindovat" - abychom ji mohli volat jako 'this.myMethod()'
     this.setRawDataset = this.setRawDataset.bind(this);
     this.setDataset = this.setDataset.bind(this);
     this.setGraphType = this.setGraphType.bind(this);
-    this.setGraphSubtype = this.setGraphSubtype.bind(this);
   }
 
   setRawDataset(newRawDataset) {
@@ -35,16 +33,12 @@ export default class App extends React.Component {
     })
   }
 
-  setGraphType(newSelectedGraphTypeName) {
-    this.setState({
-      selectedGraph: newSelectedGraphTypeName
-    })
-  }
-
-  setGraphSubtype(newSelectedGraphSubtypeName) {
-    this.setState({
-      selectedSubtype: newSelectedGraphSubtypeName
-    })
+  setGraphType(newGraphTypeName) {
+    if(this.state.selectedGraph !== newGraphTypeName){
+      this.setState({
+        selectedGraph: newGraphTypeName
+      })
+    }    
   }
 
   componentDidUpdate() {
@@ -64,9 +58,7 @@ export default class App extends React.Component {
           <Graph
             dataset={this.state.dataset}
             selectedGraph={this.state.selectedGraph}
-            selectedSubtype={this.state.selectedSubtype}
             onSelectedGraphChange={this.setGraphType}
-            onSelectedSubtypeChange={this.setGraphSubtype}
           />
         }
       </div>

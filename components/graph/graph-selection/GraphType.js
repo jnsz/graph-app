@@ -1,40 +1,39 @@
-import BtnGroup from './BtnGroup';
 import graph_types_list from '../../charts/graph_types_list.json';
 
-export default class GraphType extends React.Component{
+export default class GraphType extends React.Component {
 
-  renderSubtypes(graphTypesList){
+  handleClick(name){
+		this.props.onSelectedGraphChange(name);
+	}
 
+  renderTypes() {
     return (
       <div className="row">
-        {graphTypesList.map(type => {
-          if(type.name === this.props.selectedGraph) {
-            type.subtypes.map(subtype => {
+        <div className="col-md-12">
+            <div className="btn-group btn-group-justified">
 
-              return (
-                <div className="col-md-6">
-                  <BtnGroup onChange={this.props.onSelectedSubtypeChange} labels={subtype.map(type => {return type.label;})} names={subtype.map(type => {return type.name;})} />
-                </div>
-              )
+              {graph_types_list.map((type, i) => {
+                const isActive = this.props.selectedGraph === type.name;
+                return (
+                  <div key={i+'btn'} className="btn-group" role="group">
+                    <button type="button" className={'btn btn-default '+ (isActive? 'active':'')} onClick={e => this.handleClick(type.name)}>
+                      <i className={type.icon+ ' fa-5x'}/>
+                    </button>
+                  </div>
+                )
+              })}
 
-            })
-          }
-        })}
+            </div>
+        </div>
       </div>
     )
   }
 
   render() {
-    const graphTypesList = graph_types_list;
-
+    console.log(this.props.selectedGraph);
     return (
       <div className="wrapper">
-        <div className="row">
-          <div className="col-md-12">
-            <BtnGroup onChange={this.props.onSelectedGraphChange} labels={graphTypesList.map(type => {return type.label;})} names={graphTypesList.map(type => {return type.name;})} />
-          </div>
-        </div>
-        { this.renderSubtypes(graphTypesList) }
+        { this.renderTypes() }
       </div>
     );
   }

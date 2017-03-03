@@ -45,14 +45,12 @@ var App = function (_React$Component) {
     _this.state = {
       rawDataset: '',
       dataset: d3.csvParse(''),
-      selectedGraph: null,
-      selectedSubtype: null
+      selectedGraph: null
     };
     //kazdou metodu tridy musime "nabindovat" - abychom ji mohli volat jako 'this.myMethod()'
     _this.setRawDataset = _this.setRawDataset.bind(_this);
     _this.setDataset = _this.setDataset.bind(_this);
     _this.setGraphType = _this.setGraphType.bind(_this);
-    _this.setGraphSubtype = _this.setGraphSubtype.bind(_this);
     return _this;
   }
 
@@ -72,17 +70,12 @@ var App = function (_React$Component) {
     }
   }, {
     key: 'setGraphType',
-    value: function setGraphType(newSelectedGraphTypeName) {
-      this.setState({
-        selectedGraph: newSelectedGraphTypeName
-      });
-    }
-  }, {
-    key: 'setGraphSubtype',
-    value: function setGraphSubtype(newSelectedGraphSubtypeName) {
-      this.setState({
-        selectedSubtype: newSelectedGraphSubtypeName
-      });
+    value: function setGraphType(newGraphTypeName) {
+      if (this.state.selectedGraph !== newGraphTypeName) {
+        this.setState({
+          selectedGraph: newGraphTypeName
+        });
+      }
     }
   }, {
     key: 'componentDidUpdate',
@@ -104,9 +97,7 @@ var App = function (_React$Component) {
         typeof this.state.dataset.columns === 'undefined' ? false : React.createElement(_Graph2.default, {
           dataset: this.state.dataset,
           selectedGraph: this.state.selectedGraph,
-          selectedSubtype: this.state.selectedSubtype,
-          onSelectedGraphChange: this.setGraphType,
-          onSelectedSubtypeChange: this.setGraphSubtype
+          onSelectedGraphChange: this.setGraphType
         })
       );
     }
@@ -117,7 +108,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"./data/Data":5,"./graph/Graph":9,"d3":23,"react-fontawesome":24}],2:[function(require,module,exports){
+},{"./data/Data":5,"./graph/Graph":8,"d3":21,"react-fontawesome":22}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -337,7 +328,8 @@ module.exports=[
   },
   {
     "name":"scatter_plot",
-    "label":"Scatter plot"
+    "label":"Scatter plot",
+    "icon":"fa fa-braille"
   }
 ]
 
@@ -350,10 +342,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _DataInput = require('./DataInput');
-
-var _DataInput2 = _interopRequireDefault(_DataInput);
-
 var _DataTable = require('./DataTable');
 
 var _DataTable2 = _interopRequireDefault(_DataTable);
@@ -361,6 +349,12 @@ var _DataTable2 = _interopRequireDefault(_DataTable);
 var _example_data = require('../example_data/example_data.json');
 
 var _example_data2 = _interopRequireDefault(_example_data);
+
+var _d = require('d3');
+
+var d3 = _interopRequireWildcard(_d);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -376,13 +370,42 @@ var Data = function (_React$Component) {
   function Data() {
     _classCallCheck(this, Data);
 
-    return _possibleConstructorReturn(this, (Data.__proto__ || Object.getPrototypeOf(Data)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Data.__proto__ || Object.getPrototypeOf(Data)).call(this));
+
+    _this.state = {
+      showTxtArea: true,
+      showTable: false
+    };
+
+    return _this;
   }
 
   _createClass(Data, [{
-    key: 'handleButtonPress',
-    value: function handleButtonPress() {
-      this.props.onRawDatasetChanged(_example_data2.default.cars);
+    key: 'handleChange',
+    value: function handleChange(rawDataset) {
+      if (typeof rawDataset === 'undefined') {
+        rawDataset = '';
+      }
+      var dataset = d3.csvParse(rawDataset); // parse CSV as array of objects
+      this.props.onRawDatasetChanged(rawDataset);
+      this.props.onDatasetChanged(dataset); // change dataset in state
+    }
+  }, {
+    key: 'changeView',
+    value: function changeView(view) {
+      switch (view) {
+        case 'txt':
+          this.setState({
+            showTxtArea: true,
+            showTable: false
+          });
+          break;
+        case 'table':
+          this.setState({
+            showTxtArea: false,
+            showTable: true
+          });
+      }
     }
   }, {
     key: 'render',
@@ -399,13 +422,41 @@ var Data = function (_React$Component) {
           React.createElement(
             'button',
             { className: 'btn btn-link', onClick: function onClick(e) {
-                return _this2.handleButtonPress();
+                return _this2.handleChange(_example_data2.default.cars);
               } },
-            React.createElement('i', { className: 'fa fa-align-left' })
+            React.createElement('i', { className: 'fa fa-clipboard' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'pull-right' },
+            React.createElement(
+              'button',
+              { className: 'btn btn-link', onClick: function onClick(e) {
+                  return _this2.changeView('txt');
+                } },
+              React.createElement('i', { className: 'fa fa-align-left' })
+            ),
+            React.createElement(
+              'button',
+              { className: 'btn btn-link', onClick: function onClick(e) {
+                  return _this2.changeView('table');
+                } },
+              React.createElement('i', { className: 'fa fa-table' })
+            )
           )
         ),
-        React.createElement(_DataInput2.default, { onDatasetChanged: this.props.onDatasetChanged, onRawDatasetChanged: this.props.onRawDatasetChanged, rawDataset: this.props.rawDataset }),
-        React.createElement(_DataTable2.default, { dataset: this.props.dataset })
+        React.createElement(
+          'div',
+          { className: 'wrapper', style: { display: this.state.showTxtArea ? 'block' : 'none' } },
+          React.createElement(
+            'div',
+            { className: 'form-group' },
+            React.createElement('textarea', { className: 'form-control', rows: '8', placeholder: 'Paste your CSV here...', value: this.props.rawDataset, onChange: function onChange(e) {
+                _this2.handleChange(e.target.value);
+              } })
+          )
+        ),
+        this.state.showTable ? React.createElement(_DataTable2.default, { dataset: this.props.dataset }) : false
       );
     }
   }]);
@@ -415,71 +466,7 @@ var Data = function (_React$Component) {
 
 exports.default = Data;
 
-},{"../example_data/example_data.json":8,"./DataInput":6,"./DataTable":7}],6:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _d = require('d3');
-
-var d3 = _interopRequireWildcard(_d);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var DataInput = function (_React$Component) {
-  _inherits(DataInput, _React$Component);
-
-  function DataInput() {
-    _classCallCheck(this, DataInput);
-
-    return _possibleConstructorReturn(this, (DataInput.__proto__ || Object.getPrototypeOf(DataInput)).apply(this, arguments));
-  }
-
-  _createClass(DataInput, [{
-    key: 'handleChange',
-    value: function handleChange(rawDataset) {
-      if (typeof rawDataset === 'undefined') {
-        rawDataset = '';
-      }
-      var dataset = d3.csvParse(rawDataset); // parse CSV as array of objects
-      this.props.onRawDatasetChanged(rawDataset);
-      this.props.onDatasetChanged(dataset); // change dataset in state
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      return React.createElement(
-        'div',
-        { className: 'wrapper' },
-        React.createElement(
-          'div',
-          { className: 'form-group' },
-          React.createElement('textarea', { className: 'form-control', rows: '8', placeholder: 'Paste your CSV here...', value: this.props.rawDataset, onChange: function onChange(e) {
-              _this2.handleChange(e.target.value);
-            } })
-        )
-      );
-    }
-  }]);
-
-  return DataInput;
-}(React.Component);
-
-exports.default = DataInput;
-
-},{"d3":23}],7:[function(require,module,exports){
+},{"../example_data/example_data.json":7,"./DataTable":6,"d3":21}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -555,7 +542,7 @@ var DataInput = function (_React$Component) {
     value: function render() {
       var data = this.props.dataset;
       var hasData = this.hasData(data);
-
+      console.log(this.props.style);
       return React.createElement(
         'div',
         { className: 'wrapper' },
@@ -574,7 +561,7 @@ var DataInput = function (_React$Component) {
 
 exports.default = DataInput;
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports={
   "cars":"name,economy (mpg),cylinders,displacement (cc),power (hp),weight (lb),0-60 mph (s),year\n\
 AMC Ambassador Brougham,13,8,360,175,3821,11,73\n\
@@ -599,7 +586,7 @@ AMC Hornet Sportabout (Wagon),18,6,258,110,2962,13.5,71\n\
 5,e,y"
 }
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -675,7 +662,7 @@ var Graph = function (_React$Component) {
 
 exports.default = Graph;
 
-},{"./GraphExport":10,"./GraphSVG":11,"./graph-customization/GraphCustomization":14,"./graph-selection/GraphSelection":18}],10:[function(require,module,exports){
+},{"./GraphExport":9,"./GraphSVG":10,"./graph-customization/GraphCustomization":13,"./graph-selection/GraphSelection":16}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -728,7 +715,7 @@ var GraphExport = function (_React$Component) {
 
 exports.default = GraphExport;
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -772,7 +759,7 @@ var GraphSVG = function (_React$Component) {
 
 exports.default = GraphSVG;
 
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -882,7 +869,7 @@ var CustomizationFormGroup = function (_React$Component) {
 
 exports.default = CustomizationFormGroup;
 
-},{"./FormBtn":13,"./VisibilityBtn":15}],13:[function(require,module,exports){
+},{"./FormBtn":12,"./VisibilityBtn":14}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -927,7 +914,7 @@ var FormBtn = function (_React$Component) {
 
 exports.default = FormBtn;
 
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -986,7 +973,7 @@ var GraphCustomization = function (_React$Component) {
 
 exports.default = GraphCustomization;
 
-},{"./CustomizationFormGroup":12}],15:[function(require,module,exports){
+},{"./CustomizationFormGroup":11}],14:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1040,66 +1027,7 @@ var VisibilityBtn = function (_React$Component) {
   return VisibilityBtn;
 }(React.Component);
 
-},{}],16:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var BtnGroup = function (_React$Component) {
-	_inherits(BtnGroup, _React$Component);
-
-	function BtnGroup() {
-		_classCallCheck(this, BtnGroup);
-
-		return _possibleConstructorReturn(this, (BtnGroup.__proto__ || Object.getPrototypeOf(BtnGroup)).apply(this, arguments));
-	}
-
-	_createClass(BtnGroup, [{
-		key: "handleClick",
-		value: function handleClick(name) {
-			this.props.onChange(name);
-		}
-	}, {
-		key: "render",
-		value: function render() {
-			var _this2 = this;
-
-			return React.createElement(
-				"div",
-				{ className: "btn-group btn-group-justified" },
-				this.props.labels.map(function (label, i) {
-					return React.createElement(
-						"div",
-						{ key: i + 'btn', className: "btn-group", role: "group" },
-						React.createElement(
-							"button",
-							{ type: "button", className: "btn btn-default", onClick: function onClick(e) {
-									return _this2.handleClick(_this2.props.names[i]);
-								} },
-							label
-						)
-					);
-				})
-			);
-		}
-	}]);
-
-	return BtnGroup;
-}(React.Component);
-
-exports.default = BtnGroup;
-
-},{}],17:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1163,7 +1091,7 @@ var DimensionsList = function (_React$Component) {
 
 exports.default = DimensionsList;
 
-},{}],18:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1209,9 +1137,7 @@ var GraphSelection = function (_React$Component) {
                 null,
                 React.createElement(_GraphType2.default, {
                     selectedGraph: this.props.selectedGraph,
-                    selectedSubtype: this.props.selectedSubtype,
-                    onSelectedGraphChange: this.props.onSelectedGraphChange,
-                    onSelectedSubtypeChange: this.props.onSelectedSubtypeChange
+                    onSelectedGraphChange: this.props.onSelectedGraphChange
                 }),
                 React.createElement(_Mapping2.default, { dataset: this.props.dataset })
             );
@@ -1223,8 +1149,8 @@ var GraphSelection = function (_React$Component) {
 
 exports.default = GraphSelection;
 
-},{"./GraphType":19,"./Mapping":20}],19:[function(require,module,exports){
-'use strict';
+},{"./GraphType":17,"./Mapping":18}],17:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1232,11 +1158,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _BtnGroup = require('./BtnGroup');
-
-var _BtnGroup2 = _interopRequireDefault(_BtnGroup);
-
-var _graph_types_list = require('../../charts/graph_types_list.json');
+var _graph_types_list = require("../../charts/graph_types_list.json");
 
 var _graph_types_list2 = _interopRequireDefault(_graph_types_list);
 
@@ -1258,53 +1180,50 @@ var GraphType = function (_React$Component) {
   }
 
   _createClass(GraphType, [{
-    key: 'renderSubtypes',
-    value: function renderSubtypes(graphTypesList) {
+    key: "handleClick",
+    value: function handleClick(name) {
+      this.props.onSelectedGraphChange(name);
+    }
+  }, {
+    key: "renderTypes",
+    value: function renderTypes() {
       var _this2 = this;
 
       return React.createElement(
-        'div',
-        { className: 'row' },
-        graphTypesList.map(function (type) {
-          if (type.name === _this2.props.selectedGraph) {
-            type.subtypes.map(function (subtype) {
-
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-12" },
+          React.createElement(
+            "div",
+            { className: "btn-group btn-group-justified" },
+            _graph_types_list2.default.map(function (type, i) {
+              var isActive = _this2.props.selectedGraph === type.name;
               return React.createElement(
-                'div',
-                { className: 'col-md-6' },
-                React.createElement(_BtnGroup2.default, { onChange: _this2.props.onSelectedSubtypeChange, labels: subtype.map(function (type) {
-                    return type.label;
-                  }), names: subtype.map(function (type) {
-                    return type.name;
-                  }) })
+                "div",
+                { key: i + 'btn', className: "btn-group", role: "group" },
+                React.createElement(
+                  "button",
+                  { type: "button", className: 'btn btn-default ' + (isActive ? 'active' : ''), onClick: function onClick(e) {
+                      return _this2.handleClick(type.name);
+                    } },
+                  React.createElement("i", { className: type.icon + ' fa-5x' })
+                )
               );
-            });
-          }
-        })
+            })
+          )
+        )
       );
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      var graphTypesList = _graph_types_list2.default;
-
+      console.log(this.props.selectedGraph);
       return React.createElement(
-        'div',
-        { className: 'wrapper' },
-        React.createElement(
-          'div',
-          { className: 'row' },
-          React.createElement(
-            'div',
-            { className: 'col-md-12' },
-            React.createElement(_BtnGroup2.default, { onChange: this.props.onSelectedGraphChange, labels: graphTypesList.map(function (type) {
-                return type.label;
-              }), names: graphTypesList.map(function (type) {
-                return type.name;
-              }) })
-          )
-        ),
-        this.renderSubtypes(graphTypesList)
+        "div",
+        { className: "wrapper" },
+        this.renderTypes()
       );
     }
   }]);
@@ -1314,7 +1233,7 @@ var GraphType = function (_React$Component) {
 
 exports.default = GraphType;
 
-},{"../../charts/graph_types_list.json":4,"./BtnGroup":16}],20:[function(require,module,exports){
+},{"../../charts/graph_types_list.json":4}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1376,7 +1295,7 @@ var Mapping = function (_React$Component) {
 
 exports.default = Mapping;
 
-},{"./DimensionsList":17,"./Variable":21}],21:[function(require,module,exports){
+},{"./DimensionsList":15,"./Variable":19}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1417,7 +1336,7 @@ var Variable = function (_React$Component) {
 
 exports.default = Variable;
 
-},{}],22:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 var _Root = require('./Root');
@@ -1435,7 +1354,7 @@ window.onChangeState = function (state) {}
 ; //import ROOT komponenty App
 ReactDOM.render(React.createElement(_Root2.default, null), document.getElementById('app'));
 
-},{"./Root":3}],23:[function(require,module,exports){
+},{"./Root":3}],21:[function(require,module,exports){
 // https://d3js.org Version 4.6.0. Copyright 2017 Mike Bostock.
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -17892,7 +17811,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
 
-},{}],24:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18009,7 +17928,7 @@ exports.default = _react2.default.createClass({
   }
 });
 module.exports = exports['default'];
-},{"./screen-reader-styles":25,"react":55}],25:[function(require,module,exports){
+},{"./screen-reader-styles":23,"react":53}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18026,7 +17945,7 @@ exports.default = {
   border: '0px'
 };
 module.exports = exports['default'];
-},{}],26:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -18085,7 +18004,7 @@ var KeyEscapeUtils = {
 };
 
 module.exports = KeyEscapeUtils;
-},{}],27:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18199,7 +18118,7 @@ var PooledClass = {
 
 module.exports = PooledClass;
 }).call(this,require('_process'))
-},{"./reactProdInvariant":48,"_process":56,"fbjs/lib/invariant":52}],28:[function(require,module,exports){
+},{"./reactProdInvariant":46,"_process":54,"fbjs/lib/invariant":50}],26:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18290,7 +18209,7 @@ var React = {
 
 module.exports = React;
 }).call(this,require('_process'))
-},{"./ReactChildren":29,"./ReactClass":30,"./ReactComponent":31,"./ReactDOMFactories":34,"./ReactElement":35,"./ReactElementValidator":37,"./ReactPropTypes":40,"./ReactPureComponent":42,"./ReactVersion":43,"./onlyChild":47,"_process":56,"fbjs/lib/warning":53,"object-assign":54}],29:[function(require,module,exports){
+},{"./ReactChildren":27,"./ReactClass":28,"./ReactComponent":29,"./ReactDOMFactories":32,"./ReactElement":33,"./ReactElementValidator":35,"./ReactPropTypes":38,"./ReactPureComponent":40,"./ReactVersion":41,"./onlyChild":45,"_process":54,"fbjs/lib/warning":51,"object-assign":52}],27:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -18481,7 +18400,7 @@ var ReactChildren = {
 };
 
 module.exports = ReactChildren;
-},{"./PooledClass":27,"./ReactElement":35,"./traverseAllChildren":49,"fbjs/lib/emptyFunction":50}],30:[function(require,module,exports){
+},{"./PooledClass":25,"./ReactElement":33,"./traverseAllChildren":47,"fbjs/lib/emptyFunction":48}],28:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -19200,7 +19119,7 @@ var ReactClass = {
 
 module.exports = ReactClass;
 }).call(this,require('_process'))
-},{"./ReactComponent":31,"./ReactElement":35,"./ReactNoopUpdateQueue":38,"./ReactPropTypeLocationNames":39,"./reactProdInvariant":48,"_process":56,"fbjs/lib/emptyObject":51,"fbjs/lib/invariant":52,"fbjs/lib/warning":53,"object-assign":54}],31:[function(require,module,exports){
+},{"./ReactComponent":29,"./ReactElement":33,"./ReactNoopUpdateQueue":36,"./ReactPropTypeLocationNames":37,"./reactProdInvariant":46,"_process":54,"fbjs/lib/emptyObject":49,"fbjs/lib/invariant":50,"fbjs/lib/warning":51,"object-assign":52}],29:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -19320,7 +19239,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactComponent;
 }).call(this,require('_process'))
-},{"./ReactNoopUpdateQueue":38,"./canDefineProperty":44,"./reactProdInvariant":48,"_process":56,"fbjs/lib/emptyObject":51,"fbjs/lib/invariant":52,"fbjs/lib/warning":53}],32:[function(require,module,exports){
+},{"./ReactNoopUpdateQueue":36,"./canDefineProperty":42,"./reactProdInvariant":46,"_process":54,"fbjs/lib/emptyObject":49,"fbjs/lib/invariant":50,"fbjs/lib/warning":51}],30:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2016-present, Facebook, Inc.
@@ -19656,7 +19575,7 @@ var ReactComponentTreeHook = {
 
 module.exports = ReactComponentTreeHook;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":33,"./reactProdInvariant":48,"_process":56,"fbjs/lib/invariant":52,"fbjs/lib/warning":53}],33:[function(require,module,exports){
+},{"./ReactCurrentOwner":31,"./reactProdInvariant":46,"_process":54,"fbjs/lib/invariant":50,"fbjs/lib/warning":51}],31:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -19687,7 +19606,7 @@ var ReactCurrentOwner = {
 };
 
 module.exports = ReactCurrentOwner;
-},{}],34:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -19859,7 +19778,7 @@ var ReactDOMFactories = {
 
 module.exports = ReactDOMFactories;
 }).call(this,require('_process'))
-},{"./ReactElement":35,"./ReactElementValidator":37,"_process":56}],35:[function(require,module,exports){
+},{"./ReactElement":33,"./ReactElementValidator":35,"_process":54}],33:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -20202,7 +20121,7 @@ ReactElement.isValidElement = function (object) {
 
 module.exports = ReactElement;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":33,"./ReactElementSymbol":36,"./canDefineProperty":44,"_process":56,"fbjs/lib/warning":53,"object-assign":54}],36:[function(require,module,exports){
+},{"./ReactCurrentOwner":31,"./ReactElementSymbol":34,"./canDefineProperty":42,"_process":54,"fbjs/lib/warning":51,"object-assign":52}],34:[function(require,module,exports){
 /**
  * Copyright 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -20222,7 +20141,7 @@ module.exports = ReactElement;
 var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 0xeac7;
 
 module.exports = REACT_ELEMENT_TYPE;
-},{}],37:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -20458,7 +20377,7 @@ var ReactElementValidator = {
 
 module.exports = ReactElementValidator;
 }).call(this,require('_process'))
-},{"./ReactComponentTreeHook":32,"./ReactCurrentOwner":33,"./ReactElement":35,"./canDefineProperty":44,"./checkReactTypeSpec":45,"./getIteratorFn":46,"_process":56,"fbjs/lib/warning":53}],38:[function(require,module,exports){
+},{"./ReactComponentTreeHook":30,"./ReactCurrentOwner":31,"./ReactElement":33,"./canDefineProperty":42,"./checkReactTypeSpec":43,"./getIteratorFn":44,"_process":54,"fbjs/lib/warning":51}],36:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015-present, Facebook, Inc.
@@ -20556,7 +20475,7 @@ var ReactNoopUpdateQueue = {
 
 module.exports = ReactNoopUpdateQueue;
 }).call(this,require('_process'))
-},{"_process":56,"fbjs/lib/warning":53}],39:[function(require,module,exports){
+},{"_process":54,"fbjs/lib/warning":51}],37:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -20583,7 +20502,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactPropTypeLocationNames;
 }).call(this,require('_process'))
-},{"_process":56}],40:[function(require,module,exports){
+},{"_process":54}],38:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21019,7 +20938,7 @@ function getClassName(propValue) {
 
 module.exports = ReactPropTypes;
 }).call(this,require('_process'))
-},{"./ReactElement":35,"./ReactPropTypeLocationNames":39,"./ReactPropTypesSecret":41,"./getIteratorFn":46,"_process":56,"fbjs/lib/emptyFunction":50,"fbjs/lib/warning":53}],41:[function(require,module,exports){
+},{"./ReactElement":33,"./ReactPropTypeLocationNames":37,"./ReactPropTypesSecret":39,"./getIteratorFn":44,"_process":54,"fbjs/lib/emptyFunction":48,"fbjs/lib/warning":51}],39:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -21036,7 +20955,7 @@ module.exports = ReactPropTypes;
 var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
-},{}],42:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -21078,7 +20997,7 @@ _assign(ReactPureComponent.prototype, ReactComponent.prototype);
 ReactPureComponent.prototype.isPureReactComponent = true;
 
 module.exports = ReactPureComponent;
-},{"./ReactComponent":31,"./ReactNoopUpdateQueue":38,"fbjs/lib/emptyObject":51,"object-assign":54}],43:[function(require,module,exports){
+},{"./ReactComponent":29,"./ReactNoopUpdateQueue":36,"fbjs/lib/emptyObject":49,"object-assign":52}],41:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -21092,7 +21011,7 @@ module.exports = ReactPureComponent;
 'use strict';
 
 module.exports = '15.4.2';
-},{}],44:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21120,7 +21039,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = canDefineProperty;
 }).call(this,require('_process'))
-},{"_process":56}],45:[function(require,module,exports){
+},{"_process":54}],43:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21209,7 +21128,7 @@ function checkReactTypeSpec(typeSpecs, values, location, componentName, element,
 
 module.exports = checkReactTypeSpec;
 }).call(this,require('_process'))
-},{"./ReactComponentTreeHook":32,"./ReactPropTypeLocationNames":39,"./ReactPropTypesSecret":41,"./reactProdInvariant":48,"_process":56,"fbjs/lib/invariant":52,"fbjs/lib/warning":53}],46:[function(require,module,exports){
+},{"./ReactComponentTreeHook":30,"./ReactPropTypeLocationNames":37,"./ReactPropTypesSecret":39,"./reactProdInvariant":46,"_process":54,"fbjs/lib/invariant":50,"fbjs/lib/warning":51}],44:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -21250,7 +21169,7 @@ function getIteratorFn(maybeIterable) {
 }
 
 module.exports = getIteratorFn;
-},{}],47:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21290,7 +21209,7 @@ function onlyChild(children) {
 
 module.exports = onlyChild;
 }).call(this,require('_process'))
-},{"./ReactElement":35,"./reactProdInvariant":48,"_process":56,"fbjs/lib/invariant":52}],48:[function(require,module,exports){
+},{"./ReactElement":33,"./reactProdInvariant":46,"_process":54,"fbjs/lib/invariant":50}],46:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -21329,7 +21248,7 @@ function reactProdInvariant(code) {
 }
 
 module.exports = reactProdInvariant;
-},{}],49:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21507,7 +21426,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 
 module.exports = traverseAllChildren;
 }).call(this,require('_process'))
-},{"./KeyEscapeUtils":26,"./ReactCurrentOwner":33,"./ReactElementSymbol":36,"./getIteratorFn":46,"./reactProdInvariant":48,"_process":56,"fbjs/lib/invariant":52,"fbjs/lib/warning":53}],50:[function(require,module,exports){
+},{"./KeyEscapeUtils":24,"./ReactCurrentOwner":31,"./ReactElementSymbol":34,"./getIteratorFn":44,"./reactProdInvariant":46,"_process":54,"fbjs/lib/invariant":50,"fbjs/lib/warning":51}],48:[function(require,module,exports){
 "use strict";
 
 /**
@@ -21546,7 +21465,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-},{}],51:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -21568,7 +21487,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = emptyObject;
 }).call(this,require('_process'))
-},{"_process":56}],52:[function(require,module,exports){
+},{"_process":54}],50:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -21626,7 +21545,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 }).call(this,require('_process'))
-},{"_process":56}],53:[function(require,module,exports){
+},{"_process":54}],51:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -21695,7 +21614,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = warning;
 }).call(this,require('_process'))
-},{"./emptyFunction":50,"_process":56}],54:[function(require,module,exports){
+},{"./emptyFunction":48,"_process":54}],52:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -21787,12 +21706,12 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-},{}],55:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./lib/React');
 
-},{"./lib/React":28}],56:[function(require,module,exports){
+},{"./lib/React":26}],54:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -21974,4 +21893,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[22]);
+},{}]},{},[20]);

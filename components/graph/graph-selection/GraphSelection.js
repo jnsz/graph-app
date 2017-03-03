@@ -11,9 +11,7 @@ export default class GraphSelection extends React.Component {
             <div>
                 <GraphType
                   selectedGraph={this.props.selectedGraph}
-                  selectedSubtype={this.props.selectedSubtype}
                   onSelectedGraphChange={this.props.onSelectedGraphChange}
-                  onSelectedSubtypeChange={this.props.onSelectedSubtypeChange}
                 />
                 <Mapping dataset={this.props.dataset} />
             </div>
