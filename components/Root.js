@@ -6,7 +6,8 @@ export default class Root extends React.Component {
     render() {
         return (
             <div>
-                <Navbar />
+                <div style={{marginBottom:'30px'}} />
+                {/*<Navbar />*/}
                 <App />
             </div>
         );

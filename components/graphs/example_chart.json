@@ -2,7 +2,7 @@
     "name": "Grouped Vertical Bar Chart",
     "icon": "name of SVG icon here",
 
-    "defaultVisualVariables":{
+    "defaultSettings":{
         "graphLabel":"Grouped Vertical Bar Chart",
         "xAxisLabel":"X Axis",
         "yAxisLabel":"Y Axis",
@@ -20,6 +20,9 @@
         "yPadding":0,
         "x0Padding":0,
         "x1Padding":0
+    },
+    "settings":{
+
     },
 
     "graphVariables":

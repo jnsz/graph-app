@@ -7,20 +7,27 @@ export default class Graph extends React.Component{
 
   render() {
     return (
-      <div className="container">
-        <h3>GRAPH</h3>
-        <div className="wrapper">
+      <div>
           <GraphSelection
             dataset={this.props.dataset}
             selectedGraph={this.props.selectedGraph}
             selectedSubtype={this.props.selectedSubtype}
+            graphConfig={this.props.graphConfig}
             onSelectedGraphChange={this.props.onSelectedGraphChange}
             onSelectedSubtypeChange={this.props.onSelectedSubtypeChange}
           />
-          <GraphSVG />
-          <GraphCustomization />
-          <GraphExport />
-        </div>
+          {this.props.selectedGraph === null ? false :
+            <div>
+              <GraphSVG
+                svgSize={this.props.svgSize}
+                onSvgSizeChange={this.props.onSvgSizeChange}
+              />
+              <GraphCustomization
+                  graphConfig={this.props.graphConfig}
+              />
+              <GraphExport />
+            </div>
+          }
       </div>
     );
   }

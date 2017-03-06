@@ -4,27 +4,29 @@ import Variable from './Variable';
 export default class Mapping extends React.Component{
 
   renderVariables() {
+    const variables = this.props.graphConfig.graphVariables;
     return (
-      <div>
-        <Variable type='single-any' />
-        <Variable type='multi-string' />
-        <Variable type='multi-num' />
+      <div className="col-md-9">
+        {variables.map((variable, i) => {
+          return (
+            <Variable
+              key={i+'var'}
+              variable={variable}
+            />
+          )
+        })}
       </div>
     )
   }
 
   render() {
+
     return (
-      <div className="row">
+      <div  className="row">
+
         <DimensionsList dataset={this.props.dataset} />
 
         { this.renderVariables() }
-
-        {/*
-        <Variable type='single-any' />
-        <Variable type='multi-string' />
-        <Variable type='multi-num' />
-        */}
 
       </div>
     );

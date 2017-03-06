@@ -73,6 +73,7 @@
   },
   {
     "name":"scatter_plot",
-    "label":"Scatter plot"
+    "label":"Scatter plot",
+    "icon":"fa fa-braille"
   }
 ]

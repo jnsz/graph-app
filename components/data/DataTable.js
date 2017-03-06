@@ -41,7 +41,6 @@ export default class DataInput extends React.Component{
   render() {
     const data = this.props.dataset;
     const hasData = this.hasData(data);
-    console.log(this.props.style);
     return (
       <div className="wrapper">
         <table className="table">

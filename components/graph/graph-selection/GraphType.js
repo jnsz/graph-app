@@ -30,7 +30,6 @@ export default class GraphType extends React.Component {
   }
 
   render() {
-    console.log(this.props.selectedGraph);
     return (
       <div className="wrapper">
         { this.renderTypes() }

@@ -9,4 +9,4 @@ window.onChangeState = function(state) {
 
 
 //pomoci ReactDOM vykreslime komponentu App do elementu s id "content" (v index.html)
-ReactDOM.render(<Root />, document.getElementById('app'));
+ReactDOM.render(<Root />, document.getElementById('root'));

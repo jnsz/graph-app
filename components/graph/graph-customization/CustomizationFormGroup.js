@@ -4,37 +4,45 @@ import VisibilityBtn from './VisibilityBtn'
 export default class CustomizationFormGroup extends React.Component {
 
 	render() {
-		const items = this.props.items;
-
 		return (
-      <div className="form-group col-md-6">
+      <div className="form-group col-md-3">
         <label>
           {this.props.label}
         </label>
 
-		<div className="input-group">
+				<div className="input-group">
+					{ this.renderInputGroup() }
+        </div>
+			</div>
+		)
+	}
 
-			{items.map(item => {
+	renderInputGroup(){
+		const items = this.props.items;
+
+		return(
+			items.map(item => {
 				switch(item.type) {
-					case "btn":
-						return (
-							<span key={items.indexOf(item)} className="input-group-btn">
-				                <button className="btn btn-default" type="button">
-				                    {item.name}
-				                </button>
-				            </span>
-						)
-						break;
-					case "btn-group":
 
+					case "btn":
 						return (
 							<span key={items.indexOf(item)} className="input-group-btn">
 								<button className="btn btn-default" type="button">
 									{item.name}
 								</button>
 							</span>
-
 						)
+						break;
+
+					case "btn-group":
+						return (
+							<span key={items.indexOf(item)} className="input-group-btn">
+								<button className="btn btn-default" type="button">
+									{item.name}
+								</button>
+							</span>
+						)
+						break;
 
 					case "btn-vis":
 						return (
@@ -43,25 +51,31 @@ export default class CustomizationFormGroup extends React.Component {
 								<button className="btn btn-default" type="button">
 									{item.name}
 								</button>
-				      </span>
+							</span>
 						)
+						break;
+
 					case "addon":
 						return (
 							<span key={items.indexOf(item)} className="input-group-addon">
-				                {item.name}
-				            </span>
+								{item.name}
+							</span>
 						)
 						break;
+
+						case "addon-empty":
+							return (
+								<span key={items.indexOf(item)} className="input-group-addon" style={{padding:'0'}}></span>
+							)
+							break;
+
 					case "input":
 						return (
 							<input key={items.indexOf(item)} type="text" className="form-control" placeholder={item.placeholder}>{item.value}</input>
 						)
+						break;
 				}
 			})
-		}
-
-        </div>
-		</div>
-		);
+		)
 	}
 }
