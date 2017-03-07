@@ -1,6 +1,6 @@
 export const graphConfig = {
-    name: "Grouped Vertical Bar Chart",
-    icon: "name of SVG icon here",
+    name: 'Grouped Vertical Bar Chart',
+    icon: 'name of SVG icon here',
 
     /*
       informace pro vygenerovani potrebnych promennych k mapovani
@@ -24,9 +24,9 @@ export const graphConfig = {
         }
     ],
     defaultSettings:{
-        graphLabel:"Grouped Vertical Bar Chart",
-        xAxisLabel:"X Axis",
-        yAxisLabel:"Y Axis",
+        graphLabel:'Grouped Vertical Bar Chart',
+        xAxisLabel:'X Axis',
+        yAxisLabel:'Y Axis',
 
         graphLavelVisible:true,
         xAxisLabelVisible:true,
@@ -36,7 +36,7 @@ export const graphConfig = {
         legendVisible:true,
         guidelinesVisible:true,
 
-        xAxisPosition:"left",
+        xAxisPosition:'left',
 
         yPadding:0,
         x0Padding:0,
@@ -59,29 +59,29 @@ export const graphConfig = {
     */
     graphCustomization:[
       {
-        label:"Size",
+        label:'Size',
         form:[
           {
-            type : "input / btn / btn-group / addon",
-            name : "text or icon",
+            type : 'input / btn / btn-group / addon',
+            name : 'text or icon',
           },{
-            type : "addon",
-            name : "<i className='fa fa-arrows-h'></i>"
+            type : 'addon',
+            name : '<i className="fa fa-arrows-h"></i>'
           }
         ]
       },{
-        label:"Size",
+        label:'Size',
         form:[
             {
-              type : "input / btn / btn-group / addon",
-              name : "text or icon",
+              type : 'input / btn / btn-group / addon',
+              name : 'text or icon',
             },{
-              type : "addon",
-              name : "<i className='fa fa-arrows-h'></i>"
+              type : 'addon',
+              name : '<i className="fa fa-arrows-h"></i>'
             }
         ]
       },{
-        label:"Size",
+        label:'Size',
         slider:[]
       }
     ]
@@ -113,8 +113,8 @@ export default class barChart extends React.Component {
 //     // redraws whole chart
 //     this.drawChart = function() {
 //
-//         $("#canvas").empty(); // removes current bar chart before drawing new
-//         dimensionLabel = "";
+//         $('#canvas').empty(); // removes current bar chart before drawing new
+//         dimensionLabel = '';
 //         dimensionNames = [];
 //
 //         // read mapping for values

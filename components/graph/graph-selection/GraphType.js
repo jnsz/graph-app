@@ -1,4 +1,4 @@
-import graph_types_list from '../../charts/graph_types_list.json';
+import graph_types_list from '../../graphs/graph_types_list.json';
 
 export default class GraphType extends React.Component {
 
@@ -8,15 +8,15 @@ export default class GraphType extends React.Component {
 
   renderTypes() {
     return (
-      <div className="row">
-        <div className="col-md-12">
-            <div className="btn-group btn-group-justified">
+      <div className='row'>
+        <div className='col-md-12'>
+            <div className='btn-group btn-group-justified'>
 
               {graph_types_list.map((type, i) => {
                 const isActive = this.props.selectedGraph === type.name;
                 return (
-                  <div key={i+'btn'} className="btn-group" role="group">
-                    <button type="button" className={'btn btn-default '+ (isActive? 'active':'')} onClick={e => this.handleClick(type.name)}>
+                  <div key={i+'btn'} className='btn-group' role='group'>
+                    <button type='button' className={'btn btn-default '+ (isActive? 'active':'')} onClick={e => this.handleClick(type.name)}>
                       <i className={type.icon+ ' fa-5x'}/>
                     </button>
                   </div>
@@ -31,7 +31,7 @@ export default class GraphType extends React.Component {
 
   render() {
     return (
-      <div className="wrapper">
+      <div className='wrapper'>
         { this.renderTypes() }
       </div>
     );

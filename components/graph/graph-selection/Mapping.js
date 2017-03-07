@@ -6,7 +6,7 @@ export default class Mapping extends React.Component{
   renderVariables() {
     const variables = this.props.graphConfig.graphVariables;
     return (
-      <div className="col-md-9">
+      <div className='col-md-9'>
         {variables.map((variable, i) => {
           return (
             <Variable
@@ -22,7 +22,7 @@ export default class Mapping extends React.Component{
   render() {
 
     return (
-      <div  className="row">
+      <div  className='row'>
 
         <DimensionsList dataset={this.props.dataset} />
 

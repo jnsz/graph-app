@@ -1,6 +1,9 @@
+import * as d3 from 'd3';
+import { Button } from 'react-bootstrap'
+import FontAwesome from 'react-fontawesome';
+
 import DataTable from './DataTable';
 import example_data from '../example_data/example_data.json';
-import * as d3 from 'd3';
 
 export default class Data extends React.Component{
 
@@ -15,26 +18,26 @@ export default class Data extends React.Component{
 
   render() {
     return (
-      <div className="container">
+      <div className='container'>
 
           <button
             className='btn btn-link'
             onClick={e => this.handleChange(example_data.cars)}
           >
-            <i className="fa fa-clipboard" />
+            <FontAwesome name='clipboard'/>
           </button>
 
           {typeof this.props.dataset.columns === 'undefined' ? false :
             <div className='pull-right'>
-              <button className='btn btn-link' onClick={e => this.changeView('txt')}><i className="fa fa-align-left"/></button>
-              <button className='btn btn-link' onClick={e => this.changeView('table')}><i className="fa fa-table"/></button>
+              <button className='btn btn-link' onClick={e => this.changeView('txt')}><FontAwesome name='align-left'/></button>
+              <button className='btn btn-link' onClick={e => this.changeView('table')}><FontAwesome name='table'/></button>
             </div>
           }
 
 
-        <div  className="wrapper" style={{display: this.state.showTxtArea ? 'block' : 'none' }}>
-          <div className="form-group">
-            <textarea className="form-control" rows="8" placeholder="Paste your CSV here..." value={this.props.rawDataset} onChange={e => {this.handleChange(e.target.value)}}></textarea>
+        <div  className='wrapper' style={{display: this.state.showTxtArea ? 'block' : 'none' }}>
+          <div className='form-group'>
+            <textarea className='form-control' rows='8' placeholder='Paste your CSV here...' value={this.props.rawDataset} onChange={e => {this.handleChange(e.target.value)}}></textarea>
           </div>
         </div>
 

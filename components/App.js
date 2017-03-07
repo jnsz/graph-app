@@ -1,11 +1,10 @@
 import * as d3 from 'd3';
-import Data from './data/Data';
-import Graph from './graph/Graph';
 import FontAwesome from 'react-fontawesome';
-
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
+import Data from './data/Data';
+import Graph from './graph/Graph';
 import { graphConfig } from './graphs/barChart';
 
 //export default DragDropContext(HTML5Backend)(App);
@@ -34,7 +33,7 @@ export default class App extends React.Component {
 
 
     };
-    //kazdou metodu tridy musime "nabindovat" - abychom ji mohli volat jako 'this.myMethod()'
+    //kazdou metodu tridy musime 'nabindovat' - abychom ji mohli volat jako 'this.myMethod()'
     this.setRawDataset = this.setRawDataset.bind(this);
     this.setDataset = this.setDataset.bind(this);
     this.setGraphType = this.setGraphType.bind(this);

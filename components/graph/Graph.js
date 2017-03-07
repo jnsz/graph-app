@@ -20,10 +20,11 @@ export default class Graph extends React.Component{
             <div>
               <GraphSVG
                 svgSize={this.props.svgSize}
-                onSvgSizeChange={this.props.onSvgSizeChange}
               />
               <GraphCustomization
                   graphConfig={this.props.graphConfig}
+                  svgSize={this.props.svgSize}
+                  onSvgSizeChange={this.props.onSvgSizeChange}
               />
               <GraphExport />
             </div>

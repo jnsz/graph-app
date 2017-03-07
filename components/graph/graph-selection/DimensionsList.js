@@ -1,3 +1,5 @@
+import FontAwesome from 'react-fontawesome';
+
 const liStyle = {
   color: 'white',
   backgroundColor: '#337ab7',
@@ -25,7 +27,7 @@ export default class DimensionsList extends React.Component{
     // console.log(this.props.dataset);
 
     return (
-      <div className="col-md-3">
+      <div className='col-md-3'>
         { this.renderDimensions() }
       </div>
     );
@@ -40,8 +42,12 @@ export default class DimensionsList extends React.Component{
             return (
               <li key={i+'li'} style={liStyle}>
                 {column}
-                <span style={typeStyle} > {this.props.dataset.isNumeric[column] ? 'number' : 'string'} </span>
-                <span className="pull-right"><i className="fa fa-bars"></i></span>
+                <span style={typeStyle} >
+                  {this.props.dataset.isNumeric[column] ? 'number' : 'string'}
+                </span>
+                <span className='pull-right'>
+                  <FontAwesome name='bars'/>
+                </span>
               </li>
             )
           })}

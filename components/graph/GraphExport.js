@@ -6,35 +6,30 @@ export default class GraphExport extends React.Component{
   render() {
     return (
       <div  style={{backgroundColor: '#f8f8f8'}}>
-        <div className="container">
-          <div className="wrapper">
+        <div className='container'>
+          <div className='wrapper'>
               <button
-                className="btn btn-block btn-success"
-                onClick={e => this.saveSVG()}>
+                className='btn btn-block btn-success'
+                onClick={e => this.saveSVG()}
+              >
                 Export graph as SVG
-                </button>
+              </button>
           </div>
         </div>
       </div>
-
     );
   }
 
   saveSVG(){
-
-    var html = d3.select("svg")
-        .attr("title", "test")
-        .attr("version", 1.1)
-        .attr("xmlns", "http://www.w3.org/2000/svg")
+    var html = d3.select('svg')
+        .attr('title', 'test')
+        .attr('version', 1.1)
+        .attr('xmlns', 'http://www.w3.org/2000/svg')
         .node().parentNode.innerHTML;
 
     var blob = new Blob([html], {
-        type: "image/svg+xml"
+        type: 'image/svg+xml'
     });
-
-    FileSaver.saveAs(blob, "graph.svg")
+    FileSaver.saveAs(blob, 'graph.svg')
   }
-
-
-
 }

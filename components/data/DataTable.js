@@ -1,3 +1,10 @@
+/*
+TODO predelat tabulku na react-table
+TODO umoznit sorting
+TODO fixed width, max height, scrollbary
+TODO umoznit prepisovat hodnoty
+*/
+
 export default class DataInput extends React.Component{
 
   hasData(data) {
@@ -42,8 +49,8 @@ export default class DataInput extends React.Component{
     const data = this.props.dataset;
     const hasData = this.hasData(data);
     return (
-      <div className="wrapper">
-        <table className="table">
+      <div className='wrapper'>
+        <table className='table'>
 
           { hasData ? this.renderHead(data.columns) : false }
           { hasData ? this.renderBody(data) : false }

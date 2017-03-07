@@ -1,4 +1,6 @@
-class VisibilityBtn extends React.Component {
+import FontAwesome from 'react-fontawesome';
+
+export default class VisibilityBtn extends React.Component {
 
   constructor(props) {
     super(props);
@@ -13,11 +15,11 @@ class VisibilityBtn extends React.Component {
   }
 
   render() {
-    const on = () => {return <i class="fa fa-eye" aria-hidden="true"></i>};
-    const off = () => {return <i class="fa fa-eye-slash" aria-hidden="true"></i>};
+    const on = () => { return <FontAwesome name='eye'/> };
+    const off = () => { return <FontAwesome name='eye-slash'/> };
 
     return (
-          <button type="button" className="btn btn-default" onClick={this.handleClick}>
+          <button type='button' className='btn btn-default' onClick={this.handleClick}>
               {this.state.isToggleOn ? on : off}
           </button>
     );

@@ -12,32 +12,32 @@ export default class GraphSVG extends React.Component{
 
     let node = ReactFauxDOM.createElement('svg');
     let svg = d3.select(node)
-        .attr("width", svgSize.width)
-        .attr("height", svgSize.height)
-        .style("display", "block")
-        .style("margin", "auto");
+        .attr('width', svgSize.width)
+        .attr('height', svgSize.height)
+        .style('display', 'block')
+        .style('margin', 'auto');
 
 
-    svg.append("g")
-        .attr("id", "canvas")
-        .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+    svg.append('g')
+        .attr('id', 'canvas')
+        .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
 
     return node.toReact();
   }
 
-  onChangeWidth(newWidth) {
-    this.props.onSvgSizeChange(
-      {
-        width: newWidth
-      }
-    )
-  }
+  // onChangeWidth(newWidth) {
+  //   this.props.onSvgSizeChange(
+  //     {
+  //       width: newWidth
+  //     }
+  //   )
+  // }
 
   render() {
     return (
       <div>
-        <div id="graph-SVG" style={{justifyContent: 'center'}}>
-          {/*<input value={this.props.svgSize.width} onChange={e => {this.onChangeWidth(e.target.value)}} type="text" placeholder="Your name..." />*/}
+        <div id='graph-SVG' style={{justifyContent: 'center'}}>
+          {/*<input value={this.props.svgSize.width} onChange={e => {this.onChangeWidth(e.target.value)}} type='text' placeholder='Your name...' />*/}
           { this.generateSVG() }
     		</div>
       </div>

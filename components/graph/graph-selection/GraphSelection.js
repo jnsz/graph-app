@@ -10,8 +10,8 @@ export default class GraphSelection extends React.Component {
     render() {
         return (
             <div style={{backgroundColor: '#f8f8f8'}}>
-            <div className="container">
-              <div className="wrapper">
+            <div className='container'>
+              <div className='wrapper'>
                 <GraphType
                   selectedGraph={this.props.selectedGraph}
                   onSelectedGraphChange={this.props.onSelectedGraphChange}

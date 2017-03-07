@@ -1,19 +1,25 @@
+import ReactBootstrapSlider from 'react-bootstrap-slider';
+import FontAwesome from 'react-fontawesome';
+
 import CustomizationFormGroup from './CustomizationFormGroup';
 
 export default class GraphCustomization extends React.Component {
 
+	constructor(){
+		super();
+		this.onChangeWidth = this.onChangeWidth.bind(this);
+		this.onChangeHeight = this.onChangeHeight.bind(this);
+	}
+
 	render() {
-		console.log(this.props.graphConfig.graphCustomization);
+		//console.log(this.props.graphConfig.graphCustomization);
 
 		return (
 			<div  style={{backgroundColor: '#f8f8f8'}}>
-		    <div className="container">
-		      <div className="wrapper">
-
+		    <div className='container'>
+		      <div className='wrapper'>
 						{ this.renderSizeCustomization() }
-
 						{ this.renderGraphCustomization() }
-
 		      </div>
 		    </div>
 			</div>
@@ -21,49 +27,65 @@ export default class GraphCustomization extends React.Component {
 	}
 
 	renderSizeCustomization() {
-		return (
-			<div className="row">
-				<CustomizationFormGroup label="Width x height" items=
-					{[
+		const width = this.props.svgSize.width;
+		const height = this.props.svgSize.height;
+		const margins = this.props.svgSize.margins;
 
-						{"type" : "input", "placeholder" : "Width"},
-						{"type" : "addon", "name" : <i className='fa fa-times'></i>},
-						{"type" : "input", "placeholder" : "Height"},
-						{"type" : "btn", "name" : <i className='fa fa-arrows-alt'></i>},
+		return (
+			<div className='row'>
+				<CustomizationFormGroup
+					label='Width x height'
+					items={[
+						{'type' : 'input', 'text' : 'Width', 'value' : width, 'onChange': this.onChangeWidth},
+						{'type' : 'addon', 'name' : <FontAwesome name='times'/>},
+						{'type' : 'input', 'text' : 'Height', 'value' : height, 'onChange': this.onChangeHeight},
+						{'type' : 'btn', 'name' : <FontAwesome name='arrows-alt'/>},
 					]}
 				/>
 
 				{/*
 					TODO z margins udělat slider a všechny margins budou stejne
 					*/}
-				<CustomizationFormGroup label="Margins" items=
-					{[
 
-						{"type" : "input", "placeholder" : "Up"},
-						{"type" : "addon-empty"},
-						{"type" : "input", "placeholder" : "Down"},
-						{"type" : "addon-empty"},
-						{"type" : "input", "placeholder" : "Left"},
-						{"type" : "addon-empty"},
-						{"type" : "input", "placeholder" : "Right"},
-					]}
-				/>
+				<div className='col-md-3'>
+					<label>
+						Slider
+					</label>
+
+					<ReactBootstrapSlider
+						min={0}
+						max={100}
+						value={30}
+						change={e => {console.log(e.target.value)}}
+					/>
+				</div>
+
 			</div>
 		)
 	}
 
 	renderGraphCustomization() {
 		return (
-			<div className="row">
-				<CustomizationFormGroup label="Legend" items=
-					{[{"type" : "btn-vis"}]}
+			<div className='row'>
+				<CustomizationFormGroup label='Legend' items=
+					{[{'type' : 'btn-vis'}]}
 				/>
 
-				<CustomizationFormGroup label="Graph title"	items=
-					{[{"type" : "btn", "name" : <i className="fa fa-eye"></i>},
-					{"type" : "input", "placeholder" : "Graph title"}]}
+				<CustomizationFormGroup label='Graph title'	items=
+					{[{'type' : 'btn', 'name' : <FontAwesome name='eye'/>},
+					{'type' : 'input', 'placeholder' : 'Graph title'}]}
 				/>
 			</div>
 		)
+	}
+
+	onChangeWidth(newWidth) {
+		const newSize = {width: newWidth}
+		console.log(this.props);
+		this.props.onSvgSizeChange(newSize);
+	}
+	onChangeHeight(newHeight) {
+		const newSize = {height: newHeight}
+		this.props.onSvgSizeChange(newSize);
 	}
 }

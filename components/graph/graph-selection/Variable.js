@@ -1,3 +1,5 @@
+import FontAwesome from 'react-fontawesome';
+
 const variableStyle = {
   backgroundColor: 'white',
   padding: '15px',
@@ -42,7 +44,7 @@ export default class Variable extends React.Component{
 
               <ul>
               </ul>
-              <div style={dropAreaStyle}><i className="fa fa-plus-circle"></i> DROP HERE</div>
+              <div style={dropAreaStyle}> <FontAwesome name='circle' /> DROP HERE</div>
           </div>
       </div>
     );
