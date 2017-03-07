@@ -1,7 +1,9 @@
-import ReactBootstrapSlider from 'react-bootstrap-slider';
+import * as d3 from 'd3';
+import * as RB from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import CustomizationFormGroup from './CustomizationFormGroup';
+import CustomizationSlider from './CustomizationSlider'
 
 export default class GraphCustomization extends React.Component {
 
@@ -9,6 +11,7 @@ export default class GraphCustomization extends React.Component {
 		super();
 		this.onChangeWidth = this.onChangeWidth.bind(this);
 		this.onChangeHeight = this.onChangeHeight.bind(this);
+		this.onChangeMargin = this.onChangeMargin.bind(this);
 	}
 
 	render() {
@@ -19,7 +22,9 @@ export default class GraphCustomization extends React.Component {
 		    <div className='container'>
 		      <div className='wrapper'>
 						{ this.renderSizeCustomization() }
+
 						{ this.renderGraphCustomization() }
+
 		      </div>
 		    </div>
 			</div>
@@ -29,10 +34,10 @@ export default class GraphCustomization extends React.Component {
 	renderSizeCustomization() {
 		const width = this.props.svgSize.width;
 		const height = this.props.svgSize.height;
-		const margins = this.props.svgSize.margins;
+		const margin = this.props.svgSize.margin;
 
 		return (
-			<div className='row'>
+			<RB.Row>
 				<CustomizationFormGroup
 					label='Width x height'
 					items={[
@@ -42,50 +47,44 @@ export default class GraphCustomization extends React.Component {
 						{'type' : 'btn', 'name' : <FontAwesome name='arrows-alt'/>},
 					]}
 				/>
-
-				{/*
-					TODO z margins udělat slider a všechny margins budou stejne
-					*/}
-
-				<div className='col-md-3'>
-					<label>
-						Slider
-					</label>
-
-					<ReactBootstrapSlider
-						min={0}
-						max={100}
-						value={30}
-						change={e => {console.log(e.target.value)}}
-					/>
-				</div>
-
-			</div>
+				<CustomizationSlider
+					label='Margins'
+					value={margin}
+					displayedValue={d3.format('.0%')(margin)}
+					onChange={this.onChangeMargin}
+				/>
+			</RB.Row>
 		)
 	}
 
 	renderGraphCustomization() {
 		return (
-			<div className='row'>
+			<RB.Row>
+
 				<CustomizationFormGroup label='Legend' items=
 					{[{'type' : 'btn-vis'}]}
 				/>
 
 				<CustomizationFormGroup label='Graph title'	items=
-					{[{'type' : 'btn', 'name' : <FontAwesome name='eye'/>},
+					{[{'type' : 'btn-vis'},
 					{'type' : 'input', 'placeholder' : 'Graph title'}]}
 				/>
-			</div>
+
+			</RB.Row>
 		)
 	}
 
 	onChangeWidth(newWidth) {
-		const newSize = {width: newWidth}
-		console.log(this.props);
+		const newSize = {width: newWidth};
 		this.props.onSvgSizeChange(newSize);
 	}
 	onChangeHeight(newHeight) {
-		const newSize = {height: newHeight}
+		const newSize = {height: newHeight};
+		this.props.onSvgSizeChange(newSize);
+	}
+
+	onChangeMargin(newMargin) {
+		const newSize = {margin: newMargin}
 		this.props.onSvgSizeChange(newSize);
 	}
 }

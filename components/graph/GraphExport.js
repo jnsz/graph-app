@@ -1,3 +1,4 @@
+import * as RB from 'react-bootstrap';
 import * as d3 from 'd3';
 import FileSaver from 'file-saver';
 
@@ -8,12 +9,13 @@ export default class GraphExport extends React.Component{
       <div  style={{backgroundColor: '#f8f8f8'}}>
         <div className='container'>
           <div className='wrapper'>
-              <button
-                className='btn btn-block btn-success'
-                onClick={e => this.saveSVG()}
-              >
-                Export graph as SVG
-              </button>
+            <RB.Button
+              bsStyle='success'
+              block
+              onClick={e => this.saveSVG()}
+            >
+              Export graph as SVG
+            </RB.Button>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { Button } from 'react-bootstrap'
+import * as RB from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import DataTable from './DataTable';
@@ -19,25 +19,18 @@ export default class Data extends React.Component{
   render() {
     return (
       <div className='container'>
+        <RB.Button bsStyle='link' onClick={e => this.handleChange(example_data.cars)}><FontAwesome name='clipboard'/></RB.Button>
 
-          <button
-            className='btn btn-link'
-            onClick={e => this.handleChange(example_data.cars)}
-          >
-            <FontAwesome name='clipboard'/>
-          </button>
-
-          {typeof this.props.dataset.columns === 'undefined' ? false :
-            <div className='pull-right'>
-              <button className='btn btn-link' onClick={e => this.changeView('txt')}><FontAwesome name='align-left'/></button>
-              <button className='btn btn-link' onClick={e => this.changeView('table')}><FontAwesome name='table'/></button>
-            </div>
-          }
-
+        {typeof this.props.dataset.columns === 'undefined' ? false :
+        <div className='pull-right'>
+          <RB.Button bsStyle='link' onClick={e => this.changeView('txt')}><FontAwesome name='align-left'/></RB.Button>
+          <RB.Button bsStyle='link' onClick={e => this.changeView('table')}><FontAwesome name='table'/></RB.Button>
+        </div>
+        }
 
         <div  className='wrapper' style={{display: this.state.showTxtArea ? 'block' : 'none' }}>
           <div className='form-group'>
-            <textarea className='form-control' rows='8' placeholder='Paste your CSV here...' value={this.props.rawDataset} onChange={e => {this.handleChange(e.target.value)}}></textarea>
+            <textarea className='form-control' style={{resize:'vertical'}} rows='8' placeholder='Paste your CSV here...' value={this.props.rawDataset} onChange={e => {this.handleChange(e.target.value)}}></textarea>
           </div>
         </div>
 

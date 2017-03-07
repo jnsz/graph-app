@@ -1,39 +1,39 @@
+import * as RB from 'react-bootstrap';
+import FontAwesome from 'react-fontawesome'
+
 import graph_types_list from '../../graphs/graph_types_list.json';
 
 export default class GraphType extends React.Component {
 
-  handleClick(name){
-		this.props.onSelectedGraphChange(name);
-	}
-
-  renderTypes() {
+  render() {
     return (
-      <div className='row'>
-        <div className='col-md-12'>
-            <div className='btn-group btn-group-justified'>
+      <div className='wrapper'>
+        <RB.Row>
+          <RB.Col md={12}>
+            <RB.ButtonGroup justified>
 
               {graph_types_list.map((type, i) => {
                 const isActive = this.props.selectedGraph === type.name;
                 return (
                   <div key={i+'btn'} className='btn-group' role='group'>
-                    <button type='button' className={'btn btn-default '+ (isActive? 'active':'')} onClick={e => this.handleClick(type.name)}>
-                      <i className={type.icon+ ' fa-5x'}/>
-                    </button>
+                    <RB.Button
+                      active={isActive}
+                      onClick={e => this.handleClick(type.name)}
+                    >
+                      <FontAwesome name={type.icon} size={'5x'}/>
+                    </RB.Button>
                   </div>
                 )
               })}
 
-            </div>
-        </div>
-      </div>
-    )
-  }
-
-  render() {
-    return (
-      <div className='wrapper'>
-        { this.renderTypes() }
+            </RB.ButtonGroup>
+          </RB.Col>
+        </RB.Row>
       </div>
     );
+  }
+
+  handleClick(name){
+    this.props.onSelectedGraphChange(name);
   }
 }

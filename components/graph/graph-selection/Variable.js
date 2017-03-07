@@ -44,7 +44,7 @@ export default class Variable extends React.Component{
 
               <ul>
               </ul>
-              <div style={dropAreaStyle}> <FontAwesome name='circle' /> DROP HERE</div>
+              <div style={dropAreaStyle}> <FontAwesome name='plus-circle' /> DROP HERE</div>
           </div>
       </div>
     );

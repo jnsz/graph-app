@@ -1,5 +1,4 @@
 import * as d3 from 'd3';
-import FontAwesome from 'react-fontawesome';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -23,12 +22,7 @@ export default class App extends React.Component {
       svgSize:{
           width:  800,
           height: 0.6 * 800,
-          margins:{
-            top: 100,
-            right: 100,
-            bottom: 100,
-            left: 100
-          }
+          margin: 0.2
       },
 
 
@@ -102,7 +96,7 @@ export default class App extends React.Component {
       svgSize:{
         width: (typeof newSize.width === 'undefined' ? this.state.svgSize.width : newSize.width),
         height: (typeof newSize.height === 'undefined' ? this.state.svgSize.height : newSize.height),
-        margins: (typeof newSize.margins === 'undefined' ? this.state.svgSize.margins : newSize.margins)
+        margin: (typeof newSize.margin === 'undefined' ? this.state.svgSize.margin : newSize.margin)
       }
     })
   }

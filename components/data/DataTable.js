@@ -7,6 +7,21 @@ TODO umoznit prepisovat hodnoty
 
 export default class DataInput extends React.Component{
 
+  render() {
+    const data = this.props.dataset;
+    const hasData = this.hasData(data);
+    return (
+      <div className='wrapper'>
+        <table className='table table-bordered table-hover table-condensed'>
+
+          { hasData ? this.renderHead(data.columns) : false }
+          { hasData ? this.renderBody(data) : false }
+
+        </table>
+      </div>
+     )
+  }
+
   hasData(data) {
     return typeof data.columns !== 'undefined';
   }
@@ -45,19 +60,5 @@ export default class DataInput extends React.Component{
     )
   }
 
-  render() {
-    const data = this.props.dataset;
-    const hasData = this.hasData(data);
-    return (
-      <div className='wrapper'>
-        <table className='table'>
 
-          { hasData ? this.renderHead(data.columns) : false }
-          { hasData ? this.renderBody(data) : false }
-
-        </table>
-      </div>
-     )
-
-  }
 }

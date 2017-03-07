@@ -22,9 +22,6 @@ const typeStyle = {
 export default class DimensionsList extends React.Component{
 
   render() {
-    //console.log(this.props.dataset[0]);
-    // console.log(this.props.dataset.length);
-    // console.log(this.props.dataset);
 
     return (
       <div className='col-md-3'>

@@ -2,7 +2,7 @@
   {
     "name":"bar_chart",
     "label":"Bar chart icon",
-    "icon":"fa fa-bar-chart",
+    "icon":"bar-chart",
     "subtypes":[
       [
           {
@@ -30,7 +30,7 @@
   {
     "name":"pie_chart",
     "label":"Pie chart",
-    "icon":"fa fa-pie-chart",
+    "icon":"pie-chart",
     "subtypes":[
       [
           {
@@ -47,7 +47,7 @@
   {
     "name":"line_chart",
     "label":"Line chart",
-    "icon":"fa fa-line-chart",
+    "icon":"line-chart",
     "subtypes":[
       [
           {
@@ -74,6 +74,6 @@
   {
     "name":"scatter_plot",
     "label":"Scatter plot",
-    "icon":"fa fa-braille"
+    "icon":"braille"
   }
 ]

@@ -1,23 +1,26 @@
-import FormBtn from './FormBtn'
+import * as RB from 'react-bootstrap';
+import FontAwesome from 'react-fontawesome';
+
 import VisibilityBtn from './VisibilityBtn'
 
 export default class CustomizationFormGroup extends React.Component {
 
 	render() {
 		return (
-      <div className='form-group col-md-3'>
-        <label>
-          {this.props.label}
-        </label>
-
-				<div className='input-group'>
-					{ this.renderInputGroup() }
-        </div>
-			</div>
+			<RB.Col md={3}>
+				<label>
+					{this.props.label}
+				</label>
+				<RB.FormGroup >
+					<RB.InputGroup>
+						{ this.renderInputGroup() }
+					</RB.InputGroup>
+				</RB.FormGroup>
+			</RB.Col>
 		)
 	}
 
-	renderInputGroup(){
+	renderInputGroup() {
 		const items = this.props.items;
 
 		return(
@@ -26,59 +29,45 @@ export default class CustomizationFormGroup extends React.Component {
 
 					case 'btn':
 						return (
-							<span key={items.indexOf(item)} className='input-group-btn'>
-								<button className='btn btn-default' type='button'>
+							<RB.InputGroup.Button key={items.indexOf(item)} >
+								<RB.Button>
 									{item.name}
-								</button>
-							</span>
-						)
-						break;
-
-					case 'btn-group':
-						return (
-							<span key={items.indexOf(item)} className='input-group-btn'>
-								<button className='btn btn-default' type='button'>
-									{item.name}
-								</button>
-							</span>
+								</RB.Button>
+							</RB.InputGroup.Button>
 						)
 						break;
 
 					case 'btn-vis':
 						return (
-							<span key={items.indexOf(item)} className='input-group-btn'>
-								{/*<VisibilityButton />*/}
-								<button className='btn btn-default' type='button'>
-									{item.name}
-								</button>
-							</span>
+							<RB.InputGroup.Button  key={items.indexOf(item)} >
+								<VisibilityBtn visible={true} toggleVisibility={e => console.log('vis btn clicked')} />
+							</RB.InputGroup.Button>
 						)
 						break;
 
 					case 'addon':
 						return (
-							<span key={items.indexOf(item)} className='input-group-addon'>
+							<RB.InputGroup.Addon key={items.indexOf(item)}>
 								{item.name}
-							</span>
+							</RB.InputGroup.Addon>
 						)
 						break;
 
 						case 'addon-empty':
 							return (
-								<span key={items.indexOf(item)} className='input-group-addon' style={{padding:'0'}}></span>
+								<RB.InputGroup.Addon style={{padding:'0', border:'0', width:'0'}}></RB.InputGroup.Addon>
 							)
 							break;
 
 					case 'input':
 						return (
-							<input
+							<RB.FormControl
 								key={items.indexOf(item)}
-								type='text'
-								className='form-control'
+								type="text"
 								placeholder={item.text}
 								value={item.value}
 								onChange={e => {item.onChange(e.target.value)}}
-							></input>
+						  />
 						)
 						break;
 				}
