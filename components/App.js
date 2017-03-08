@@ -21,7 +21,7 @@ export default class App extends React.Component {
       // svg: null,
       svgSize:{
           width:  800,
-          height: 0.6 * 800,
+          height: 480,
           margin: 0.2
       },
 
@@ -36,6 +36,7 @@ export default class App extends React.Component {
   }
 
   render() {
+
     return (
       <div>
         <Data
@@ -94,7 +95,7 @@ export default class App extends React.Component {
   setSvgSize(newSize){
     this.setState({
       svgSize:{
-        width: (typeof newSize.width === 'undefined' ? this.state.svgSize.width : newSize.width),
+        width: (typeof newSize.height === 'undefined' ? this.state.svgSize.width : newSize.width),
         height: (typeof newSize.height === 'undefined' ? this.state.svgSize.height : newSize.height),
         margin: (typeof newSize.margin === 'undefined' ? this.state.svgSize.margin : newSize.margin)
       }

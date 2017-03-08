@@ -1,90 +1,158 @@
 export const graphConfig = {
-    name: 'Grouped Vertical Bar Chart',
-    icon: 'name of SVG icon here',
+  name: 'Grouped Vertical Bar Chart',
+  icon: 'name of SVG icon here',
 
-    /*
-      informace pro vygenerovani potrebnych promennych k mapovani
-      @label: string - text, ktery se objevi u promenne
-      @desc: string - popisek pod labelem
-      @isRequired: bool - redner method of graph won't be called unless at least one is assigned
-      @takesSingleDimension: bool - preomenna bere pouye jednu promennou
-      @mustBeNumeric: bool - promenna bere pouze numericke dimenze
-    */
-    graphVariables:[
-        {
-            label: 'Label',
-            desc: 'labels on x axis',
-            isRequired: true,
-            takesSingleDimension: true
-        },{
-            label: 'Bars',
-            desc: 'place number variables here',
-            isRequired: true,
-            mustBeNumeric: true
-        }
-    ],
-    defaultSettings:{
-        graphLabel:'Grouped Vertical Bar Chart',
-        xAxisLabel:'X Axis',
-        yAxisLabel:'Y Axis',
-
-        graphLavelVisible:true,
-        xAxisLabelVisible:true,
-        xAxisVisible:true,
-        yAxisLabelVisible:true,
-        yAxisVisible:true,
-        legendVisible:true,
-        guidelinesVisible:true,
-
-        xAxisPosition:'left',
-
-        yPadding:0,
-        x0Padding:0,
-        x1Padding:0
-    },
-    graphSettings:{
-
-    },
-
-    /*
-      informace o tom jake customizacni techniky verenderovat
-      width x height a margins se nemusi spefikovat, jsou tam vzdy
-      @label: stirng - text, ktery se objevi nad customizatorem
-      !! objekt muze obsahovat pouze jednu velicinu, form nebo slider, pokud by měl obě, app se pokusí vyrenderovat form
-      @form: array of objects - specifikuje jaka ma form vypadat a co ovlivnuje
-          objekt obsahuje:
-          @type: btn, btn-group, btn-vis, addon, addon-empty, input
-          @text: pro btn, btn-group, addon specifikuje obsah, pro input specifikuje placeholder, muze byt i <i>
-      @slider: slider input - specifikuje hodnoty jakych muze nabyvat a co ovlivnuje
-    */
-    graphCustomization:[
+  /*
+    informace pro vygenerovani potrebnych promennych k mapovani
+    @label: string - text, ktery se objevi u promenne
+    @desc: string - popisek pod labelem
+    @isRequired: bool - redner method of graph won't be called unless at least one is assigned
+    @takesSingleDimension: bool - preomenna bere pouye jednu promennou
+    @mustBeNumeric: bool - promenna bere pouze numericke dimenze
+  */
+  graphVariables:[
       {
-        label:'Size',
-        form:[
-          {
-            type : 'input / btn / btn-group / addon',
-            name : 'text or icon',
-          },{
-            type : 'addon',
-            name : '<i className="fa fa-arrows-h"></i>'
-          }
-        ]
+          label: 'Label',
+          desc: 'labels on x axis',
+          isRequired: true,
+          takesSingleDimension: true
       },{
-        label:'Size',
-        form:[
-            {
-              type : 'input / btn / btn-group / addon',
-              name : 'text or icon',
-            },{
-              type : 'addon',
-              name : '<i className="fa fa-arrows-h"></i>'
-            }
-        ]
-      },{
-        label:'Size',
-        slider:[]
+          label: 'Bars',
+          desc: 'place number variables here',
+          isRequired: true,
+          mustBeNumeric: true
       }
-    ]
+  ],
+  defaultSettings:{
+      graphLabel:'Grouped Vertical Bar Chart',
+      xAxisLabel:'X Axis',
+      yAxisLabel:'Y Axis',
+
+      graphLavelVisible:true,
+      xAxisLabelVisible:true,
+      xAxisVisible:true,
+      yAxisLabelVisible:true,
+      yAxisVisible:true,
+      legendVisible:true,
+      guidelinesVisible:true,
+
+      xAxisPosition:'left',
+
+      yPadding:0,
+      x0Padding:0,
+      x1Padding:0
+  },
+  graphSettings:{
+
+  },
+
+  /*
+    informace o tom jake customizacni techniky verenderovat
+    width x height a margins se nemusi spefikovat, jsou tam vzdy
+    @label: stirng - text, ktery se objevi nad customizatorem
+    !! objekt muze obsahovat pouze jednu velicinu, form nebo slider, pokud by měl obě, app se pokusí vyrenderovat form
+    @form: array of objects - specifikuje jaka ma form vypadat a co ovlivnuje
+        objekt obsahuje:
+        @type: btn, btn-group, btn-vis, addon, addon-empty, input
+        @text: pro btn, btn-group, addon specifikuje obsah, pro input specifikuje placeholder, muze byt i <i>
+    @slider: slider input - specifikuje hodnoty jakych muze nabyvat a co ovlivnuje
+  */
+  graphCustomization:[
+    /*
+    {
+      type: 'form group' / 'btn group' / 'slider' / 'color picker' / 'dropdown',
+      label: 'TEXT DISPLAYED ABOVE',
+      // form group
+      items: [
+        {
+          type: 'btn' / 'btn-vis' / 'addon' / 'addon-empty' / 'input'
+          // btn
+          label: '',
+          active: '',
+          onChange: '',
+          // btn-vis
+          active: '',
+          onChange: '',
+          // addon
+          label: '',
+          // addon-empty
+          // nic
+          // input
+          placeholder: '',
+          value: '',
+          onChange: '',
+        },{
+          // other parts
+        }
+      ],
+      // btn group
+      buttons: [
+        // TODO doplnit
+      ]
+      // slider
+      min: '',
+      max: '',
+      step: '',
+      value: '',
+      displayedValue: '',
+      onChange: '',
+      // color picker
+      color: '',// from color picker API
+      onChange: '',
+      onChangeComplete: '',
+      type: '',
+      // dropdown
+      items:[
+        // TODO doplnit
+      ],
+      onChange: '',
+    }*/
+    {
+      type: 'form group',
+      label: 'TEST FORM GROUP 1',
+      items: [
+        {
+          type: 'btn',
+          label: 'B',
+          active: true,
+          onChange: ''
+        },{
+          type: 'input',
+          placeholder: 'empty field',
+          value: 'filled field',
+          onChange: 'TO IMPLEMENT'
+        },{
+          type: 'addon',
+          label: 'A'
+        }
+      ]
+    },{
+      type: 'form group',
+      label: 'TEST FORM GROUP 2',
+      items: [
+        {
+          type: 'btn-vis',
+          active: true,
+          onChange: 'TO IMPLEMENT'
+        },
+        {
+          type: 'input',
+          placeholder: 'FIELD EMPTY',
+          value: 'NON EMPTY FIELD',
+          onChange: 'TO IMPLEMENT',
+        }
+      ]
+    },{
+      type: 'slider',
+      label: 'TEST SLIDER',
+      min: 0,
+      max: 100,
+      step: 1,
+      value: 10,
+      displayedValue: 10,
+      onChange: 'TO IMPLEMENT',
+    }
+  ]
 }
 
 export default class barChart extends React.Component {
@@ -92,7 +160,7 @@ export default class barChart extends React.Component {
   render() {
     console.log('test bar chart');
 
-    <div></div>
+    return <div></div>
   }
 }
 //

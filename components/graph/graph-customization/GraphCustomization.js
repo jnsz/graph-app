@@ -2,8 +2,14 @@ import * as d3 from 'd3';
 import * as RB from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import CustomizationFormGroup from './CustomizationFormGroup';
-import CustomizationSlider from './CustomizationSlider'
+import CustButtonGroup from './CustButtonGroup';
+import CustColorPicker from './CustColorPicker';
+import CustDropdown from './CustDropdown';
+import CustFormGroup from './CustFormGroup';
+import CustSlider from './CustSlider'
+
+
+
 
 export default class GraphCustomization extends React.Component {
 
@@ -22,9 +28,7 @@ export default class GraphCustomization extends React.Component {
 		    <div className='container'>
 		      <div className='wrapper'>
 						{ this.renderSizeCustomization() }
-
 						{ this.renderGraphCustomization() }
-
 		      </div>
 		    </div>
 			</div>
@@ -38,17 +42,20 @@ export default class GraphCustomization extends React.Component {
 
 		return (
 			<RB.Row>
-				<CustomizationFormGroup
+				<CustFormGroup
 					label='Width x height'
 					items={[
 						{'type' : 'input', 'text' : 'Width', 'value' : width, 'onChange': this.onChangeWidth},
-						{'type' : 'addon', 'name' : <FontAwesome name='times'/>},
+						{'type' : 'addon', 'label' : <FontAwesome name='times'/>},
 						{'type' : 'input', 'text' : 'Height', 'value' : height, 'onChange': this.onChangeHeight},
-						{'type' : 'btn', 'name' : <FontAwesome name='arrows-alt'/>},
+						{'type' : 'btn', 'label' : <FontAwesome name='arrows-alt'/>},
 					]}
 				/>
-				<CustomizationSlider
+				<CustSlider
 					label='Margins'
+					min={0}
+					max={1}
+					step={0.01}
 					value={margin}
 					displayedValue={d3.format('.0%')(margin)}
 					onChange={this.onChangeMargin}
@@ -60,16 +67,36 @@ export default class GraphCustomization extends React.Component {
 	renderGraphCustomization() {
 		return (
 			<RB.Row>
-
-				<CustomizationFormGroup label='Legend' items=
-					{[{'type' : 'btn-vis'}]}
-				/>
-
-				<CustomizationFormGroup label='Graph title'	items=
-					{[{'type' : 'btn-vis'},
-					{'type' : 'input', 'placeholder' : 'Graph title'}]}
-				/>
-
+				{this.props.graphConfig.graphCustomization.map((customization, i) => {
+					console.log(customization);
+					switch (customization.type) {
+			      case 'form group':
+			        console.log('Form Group');
+							return (
+								<CustFormGroup
+									label = {customization.label}
+									items = {customization.items}
+								/>
+							)
+			        break;
+			      case 'slider':
+							console.log('Slider');
+							return (
+								<CustSlider
+									label = {customization.label}
+									min = {customization.min}
+									max = {customization.max}
+									step = {customization.step}
+									value = {customization.value}
+									displayedValue = {customization.displayedValue}
+									onChange = {customization.onChange}
+								/>
+							)
+							break;
+						default:
+							console.log('Dunno how to render this ' + customization.type + ' of yours');
+			    }
+				})}
 			</RB.Row>
 		)
 	}
@@ -82,7 +109,6 @@ export default class GraphCustomization extends React.Component {
 		const newSize = {height: newHeight};
 		this.props.onSvgSizeChange(newSize);
 	}
-
 	onChangeMargin(newMargin) {
 		const newSize = {margin: newMargin}
 		this.props.onSvgSizeChange(newSize);

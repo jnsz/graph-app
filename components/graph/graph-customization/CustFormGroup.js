@@ -3,7 +3,7 @@ import FontAwesome from 'react-fontawesome';
 
 import VisibilityBtn from './VisibilityBtn'
 
-export default class CustomizationFormGroup extends React.Component {
+export default class CustFormGroup extends React.Component {
 
 	render() {
 		return (
@@ -31,7 +31,7 @@ export default class CustomizationFormGroup extends React.Component {
 						return (
 							<RB.InputGroup.Button key={items.indexOf(item)} >
 								<RB.Button>
-									{item.name}
+									{item.label}
 								</RB.Button>
 							</RB.InputGroup.Button>
 						)
@@ -48,23 +48,23 @@ export default class CustomizationFormGroup extends React.Component {
 					case 'addon':
 						return (
 							<RB.InputGroup.Addon key={items.indexOf(item)}>
-								{item.name}
+								{item.label}
 							</RB.InputGroup.Addon>
 						)
 						break;
 
-						case 'addon-empty':
-							return (
-								<RB.InputGroup.Addon style={{padding:'0', border:'0', width:'0'}}></RB.InputGroup.Addon>
-							)
-							break;
+					case 'addon-empty':
+						return (
+							<RB.InputGroup.Addon style={{padding:'0', border:'0', width:'0'}}></RB.InputGroup.Addon>
+						)
+						break;
 
 					case 'input':
 						return (
 							<RB.FormControl
 								key={items.indexOf(item)}
 								type="text"
-								placeholder={item.text}
+								placeholder={item.placeholder}
 								value={item.value}
 								onChange={e => {item.onChange(e.target.value)}}
 						  />
@@ -75,3 +75,8 @@ export default class CustomizationFormGroup extends React.Component {
 		)
 	}
 }
+
+CustFormGroup.PropTypes = {
+	label : React.PropTypes.string.isRequired,
+	items : React.PropTypes.object.isRequired,
+};
