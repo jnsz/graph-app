@@ -15,12 +15,14 @@ export const graphConfig = {
           label: 'Label',
           desc: 'labels on x axis',
           isRequired: true,
-          takesSingleDimension: true
+          takesSingleDimension: true,
+          assignedDimensions:[]
       },{
           label: 'Bars',
           desc: 'place number variables here',
           isRequired: true,
-          mustBeNumeric: true
+          mustBeNumeric: true,
+          assignedDimensions:[]
       }
   ],
   defaultSettings:{
@@ -42,9 +44,7 @@ export const graphConfig = {
       x0Padding:0,
       x1Padding:0
   },
-  graphSettings:{
-
-  },
+  graphSettings:{},
 
   /*
     informace o tom jake customizacni techniky verenderovat
@@ -57,7 +57,7 @@ export const graphConfig = {
         @text: pro btn, btn-group, addon specifikuje obsah, pro input specifikuje placeholder, muze byt i <i>
     @slider: slider input - specifikuje hodnoty jakych muze nabyvat a co ovlivnuje
   */
-  graphCustomization:[
+  graphCustomizations:[
     /*
     {
       type: 'form group' / 'btn group' / 'slider' / 'color picker' / 'dropdown',

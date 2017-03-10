@@ -1,4 +1,6 @@
 import FontAwesome from 'react-fontawesome';
+import DropArea from './DropArea';
+import AssignedDimension from './AssignedDimension';
 
 const variableStyle = {
   backgroundColor: 'white',
@@ -43,11 +45,22 @@ export default class Variable extends React.Component{
               {/*DEBUG*/}
 
               <ul>
+                {this.props.variable.assignedDimensions.map((dimension, i) => {
+                  return <AssignedDimension dimension={dimension} key={i} index={i} onRemove={this.removeDimension} moveDimension={this.moveDimension}/>
+                })}
               </ul>
-              <div style={dropAreaStyle}> <FontAwesome name='plus-circle' /> DROP HERE</div>
+
+              <DropArea onDrop={dimension => this.handleDrop(dimension)}/>
           </div>
       </div>
     );
+  }
+
+  handleDrop(dimension){
+    const newAssignedDimensions = this.props.variable.assignedDimensions;
+    newAssignedDimensions.push(dimension);
+
+    this.props.onAssignedDimensionsOfVariableChange(this.props.label, newAssignedDimensions);
   }
 
 }

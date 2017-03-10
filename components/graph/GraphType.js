@@ -1,7 +1,7 @@
 import * as RB from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome'
 
-import graph_types_list from '../../graphs/graph_types_list.json';
+import graph_types_list from '../graphs/graph_types_list.json';
 
 export default class GraphType extends React.Component {
 

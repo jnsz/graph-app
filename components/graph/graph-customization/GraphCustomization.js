@@ -8,9 +8,6 @@ import CustDropdown from './CustDropdown';
 import CustFormGroup from './CustFormGroup';
 import CustSlider from './CustSlider'
 
-
-
-
 export default class GraphCustomization extends React.Component {
 
 	constructor(){
@@ -21,7 +18,6 @@ export default class GraphCustomization extends React.Component {
 	}
 
 	render() {
-		//console.log(this.props.graphConfig.graphCustomization);
 
 		return (
 			<div  style={{backgroundColor: '#f8f8f8'}}>
@@ -67,11 +63,9 @@ export default class GraphCustomization extends React.Component {
 	renderGraphCustomization() {
 		return (
 			<RB.Row>
-				{this.props.graphConfig.graphCustomization.map((customization, i) => {
-					console.log(customization);
+				{this.props.graphCustomizations.map((customization, i) => {
 					switch (customization.type) {
 			      case 'form group':
-			        console.log('Form Group');
 							return (
 								<CustFormGroup
 									label = {customization.label}
@@ -80,7 +74,6 @@ export default class GraphCustomization extends React.Component {
 							)
 			        break;
 			      case 'slider':
-							console.log('Slider');
 							return (
 								<CustSlider
 									label = {customization.label}

@@ -4,11 +4,10 @@ import ReactFauxDOM from 'react-faux-dom'
 export default class GraphSVG extends React.Component{
 
   generateSVG(){
-    const svgSize = this.props.svgSize;
+    const { svgSize, graphSettings } = this.props;
     const margin = svgSize.margin;
     const widthMargin = svgSize.width * margin;
     const heightMargin = svgSize.height * margin;
-
     const canvasWidth = svgSize.width - widthMargin;
     const canvasHeight = svgSize.height - heightMargin;
 
@@ -22,7 +21,13 @@ export default class GraphSVG extends React.Component{
 
     svg.append('g')
         .attr('id', 'canvas')
-        .attr('transform', 'translate(' + widthMargin/2 + ',' + heightMargin/2 + ')');
+        .attr('transform', 'translate(' + widthMargin/2 + ',' + heightMargin/2 + ')')//;
+        .append('circle')
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("r", 20);
+
+
 
     return node.toReact();
   }

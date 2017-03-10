@@ -6,33 +6,33 @@ import Data from './data/Data';
 import Graph from './graph/Graph';
 import { graphConfig } from './graphs/barChart';
 
-//export default DragDropContext(HTML5Backend)(App);
-
 export default class App extends React.Component {
 
   constructor() {
     super();
-    //inicialni stav
     this.state = {
+      // when textarea is filled this is set
       rawDataset: '',
       dataset: d3.csvParse(''),
-      selectedGraph: null,
-      graphConfig: null,
-      // svg: null,
+
       svgSize:{
           width:  800,
           height: 480,
           margin: 0.2
       },
 
-
+      // when graph is selected these are set
+      selectedGraph: null,
+      graphVariables: null,
+      graphCustomizations: null,
+      graphSettings: null,
     };
-    //kazdou metodu tridy musime 'nabindovat' - abychom ji mohli volat jako 'this.myMethod()'
+
     this.setRawDataset = this.setRawDataset.bind(this);
     this.setDataset = this.setDataset.bind(this);
     this.setGraphType = this.setGraphType.bind(this);
-    // this.setSvg = this.setSvg.bind(this);
     this.setSvgSize = this.setSvgSize.bind(this);
+    this.setGraphSettings = this.setGraphSettings.bind(this);
   }
 
   render() {
@@ -50,7 +50,12 @@ export default class App extends React.Component {
             dataset={this.state.dataset}
             selectedGraph={this.state.selectedGraph}
             onSelectedGraphChange={this.setGraphType}
-            graphConfig={this.state.graphConfig}
+
+            graphVariables={this.state.graphVariables}
+            onAssignedDimensionsOfVariableChange={this.setAssignedDimensions}
+            graphCustomizations={this.state.graphCustomizations}
+            graphSettings={this.state.graphSettings}
+            onGraphSettingsChange={this.setGraphSettings}
             svgSize={this.state.svgSize}
             onSvgSizeChange={this.setSvgSize}
           />
@@ -78,31 +83,55 @@ export default class App extends React.Component {
       })
 
       // TODO predelat, aby nacetl spravny config file
-      if(newGraphTypeName === 'bar_chart'){
+      if(newGraphTypeName === 'bar_chart') {
         this.setState({
-          graphConfig: graphConfig
+          graphVariables: graphConfig.graphVariables,
+          graphCustomizations: graphConfig.graphCustomizations,
+          graphSettings: graphConfig.defaultSettings,
+        })
+      } else {
+        this.setState({
+          graphVariables: null,
+          graphCustomizations: null,
+          graphSettings: null,
         })
       }
+
     }
   }
 
-  // setSvg(newSvg) {
-  //   this.setState({
-  //     svg = newSvg;
-  //   })
-  // }
+  setAssignedDimensions(variableLabel, newAssignedDimensions){
+    console.log('set assigned dimensions called');
 
-  setSvgSize(newSize){
-    this.setState({
-      svgSize:{
-        width: (typeof newSize.height === 'undefined' ? this.state.svgSize.width : newSize.width),
-        height: (typeof newSize.height === 'undefined' ? this.state.svgSize.height : newSize.height),
-        margin: (typeof newSize.margin === 'undefined' ? this.state.svgSize.margin : newSize.margin)
+    const newGraphVariables = this.state.graphVariables;
+    console.log(newGraphVariables);
+
+    for(const variable of newGraphVariables){
+      if(variable.label === dimensionLabel){
+        variable.assignedDimensions = newAssignedDimensions;
       }
+    }
+
+    console.log(newGraphVariables);
+
+    this.setState({
+      graphVariables: newGraphVariables
     })
   }
 
-  componentDidUpdate() {
-    window.onChangeState(this.state);
+  setSvgSize(newSize){
+    this.setState({
+      svgSize: Object.assign(this.state.svgSize, newSize)
+    })
   }
+
+  setGraphSettings(newSettings) {
+    this.setState({
+      graphSettings: Object.assign(this.state.graphSettings, newSettings)
+    })
+  }
+
+  // componentDidUpdate() {
+  //   window.onChangeState(this.state);
+  // }
 }
