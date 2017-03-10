@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import * as RB from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import DataTable from './DataTable';
@@ -19,12 +19,12 @@ export default class Data extends React.Component{
   render() {
     return (
       <div className='container'>
-        <RB.Button bsStyle='link' onClick={e => this.handleChange(example_data.cars)}><FontAwesome name='clipboard'/></RB.Button>
+        <Button bsStyle='link' onClick={e => this.handleChange(example_data.cars)}><FontAwesome name='clipboard'/></Button>
 
         {typeof this.props.dataset.columns === 'undefined' ? false :
         <div className='pull-right'>
-          <RB.Button bsStyle='link' onClick={e => this.changeView('txt')}><FontAwesome name='align-left'/></RB.Button>
-          <RB.Button bsStyle='link' onClick={e => this.changeView('table')}><FontAwesome name='table'/></RB.Button>
+          <Button bsStyle='link' onClick={e => this.changeView('txt')}><FontAwesome name='align-left'/></Button>
+          <Button bsStyle='link' onClick={e => this.changeView('table')}><FontAwesome name='table'/></Button>
         </div>
         }
 

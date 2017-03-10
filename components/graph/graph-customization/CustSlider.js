@@ -1,10 +1,10 @@
-import * as RB from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 
 export default class CustSlider extends React.Component {
 
 	render() {
 		return (
-			<RB.Col md={3}>
+			<Col md={3}>
 
 				<label style={{display: 'block'}}>
 					{this.props.label}
@@ -21,7 +21,7 @@ export default class CustSlider extends React.Component {
 				/>
 				<span style={{float: 'right'}}>{this.props.displayedValue}</span>
 
-			</RB.Col>
+			</Col>
 		)
 	}
 }

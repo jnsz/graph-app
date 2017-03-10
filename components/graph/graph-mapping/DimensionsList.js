@@ -1,3 +1,4 @@
+import { Col } from 'react-bootstrap';
 import Dimension from './Dimension';
 
 export default class DimensionsList extends React.Component{
@@ -5,9 +6,9 @@ export default class DimensionsList extends React.Component{
   render() {
 
     return (
-      <div className='col-md-3'>
+      <Col md={3}>
         { this.renderDimensions() }
-      </div>
+      </Col>
     );
   }
 

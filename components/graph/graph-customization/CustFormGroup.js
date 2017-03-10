@@ -1,4 +1,4 @@
-import * as RB from 'react-bootstrap';
+import { Col, FormGroup, FormControl, InputGroup, Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import VisibilityBtn from './VisibilityBtn'
@@ -7,16 +7,16 @@ export default class CustFormGroup extends React.Component {
 
 	render() {
 		return (
-			<RB.Col md={3}>
+			<Col md={3}>
 				<label>
 					{this.props.label}
 				</label>
-				<RB.FormGroup >
-					<RB.InputGroup>
+				<FormGroup >
+					<InputGroup>
 						{ this.renderInputGroup() }
-					</RB.InputGroup>
-				</RB.FormGroup>
-			</RB.Col>
+					</InputGroup>
+				</FormGroup>
+			</Col>
 		)
 	}
 
@@ -29,39 +29,39 @@ export default class CustFormGroup extends React.Component {
 
 					case 'btn':
 						return (
-							<RB.InputGroup.Button key={items.indexOf(item)} >
-								<RB.Button>
+							<InputGroup.Button key={items.indexOf(item)} >
+								<Button>
 									{item.label}
-								</RB.Button>
-							</RB.InputGroup.Button>
+								</Button>
+							</InputGroup.Button>
 						)
 						break;
 
 					case 'btn-vis':
 						return (
-							<RB.InputGroup.Button  key={items.indexOf(item)} >
+							<InputGroup.Button  key={items.indexOf(item)} >
 								<VisibilityBtn visible={true} toggleVisibility={e => console.log('vis btn clicked')} />
-							</RB.InputGroup.Button>
+							</InputGroup.Button>
 						)
 						break;
 
 					case 'addon':
 						return (
-							<RB.InputGroup.Addon key={items.indexOf(item)}>
+							<InputGroup.Addon key={items.indexOf(item)}>
 								{item.label}
-							</RB.InputGroup.Addon>
+							</InputGroup.Addon>
 						)
 						break;
 
 					case 'addon-empty':
 						return (
-							<RB.InputGroup.Addon style={{padding:'0', border:'0', width:'0'}}></RB.InputGroup.Addon>
+							<InputGroup.Addon style={{padding:'0', border:'0', width:'0'}}></InputGroup.Addon>
 						)
 						break;
 
 					case 'input':
 						return (
-							<RB.FormControl
+							<FormControl
 								key={items.indexOf(item)}
 								type="text"
 								placeholder={item.placeholder}

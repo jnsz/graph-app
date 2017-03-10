@@ -15,6 +15,7 @@ export default class App extends React.Component {
       rawDataset: '',
       dataset: d3.csvParse(''),
 
+      // svg size
       svgSize:{
           width:  800,
           height: 480,
@@ -64,6 +65,8 @@ export default class App extends React.Component {
     );
   }
 
+
+
   setRawDataset(newRawDataset) {
     this.setState({
       rawDataset: newRawDataset
@@ -76,6 +79,7 @@ export default class App extends React.Component {
     })
   }
 
+  // nastavi grapf type a nastavi variables (vizualni promenne), customizations (upravení) a default settings (hodnoty pro vykresleni grafu)
   setGraphType(newGraphTypeName) {
     if(this.state.selectedGraph !== newGraphTypeName){
       this.setState({
@@ -83,6 +87,7 @@ export default class App extends React.Component {
       })
 
       // TODO predelat, aby nacetl spravny config file
+      // momentalne nacita pouze bar chart config
       if(newGraphTypeName === 'bar_chart') {
         this.setState({
           graphVariables: graphConfig.graphVariables,
@@ -96,10 +101,11 @@ export default class App extends React.Component {
           graphSettings: null,
         })
       }
-
     }
   }
 
+  // TODO mělo by přidat dimenzi k promenne
+  // momentalne nefunguje
   setAssignedDimensions(variableLabel, newAssignedDimensions){
     console.log('set assigned dimensions called');
 
@@ -119,18 +125,21 @@ export default class App extends React.Component {
     })
   }
 
+  // nastavi velikost svg a margin
   setSvgSize(newSize){
     this.setState({
       svgSize: Object.assign(this.state.svgSize, newSize)
     })
   }
 
+  // zmeni nastaveni
   setGraphSettings(newSettings) {
     this.setState({
       graphSettings: Object.assign(this.state.graphSettings, newSettings)
     })
   }
 
+  // tohle nebude potreba, protoze vykresleni by melo probehnout v komponente GraphSVG
   // componentDidUpdate() {
   //   window.onChangeState(this.state);
   // }

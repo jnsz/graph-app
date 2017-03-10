@@ -1,3 +1,4 @@
+import { Col } from 'react-bootstrap';
 import Variable from './Variable';
 
 export default class VariablesList extends React.Component{
@@ -6,7 +7,7 @@ export default class VariablesList extends React.Component{
     const variables = this.props.variables;
 
     return (
-      <div className='col-md-9'>
+      <Col md={9}>
         {variables.map((variable, i) => {
           return (
             <Variable
@@ -15,7 +16,7 @@ export default class VariablesList extends React.Component{
             />
           )
         })}
-      </div>
+      </Col>
     )
   }
 

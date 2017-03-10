@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import * as RB from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import CustButtonGroup from './CustButtonGroup';
@@ -37,7 +37,7 @@ export default class GraphCustomization extends React.Component {
 		const margin = this.props.svgSize.margin;
 
 		return (
-			<RB.Row>
+			<Row>
 				<CustFormGroup
 					label='Width x height'
 					items={[
@@ -56,13 +56,13 @@ export default class GraphCustomization extends React.Component {
 					displayedValue={d3.format('.0%')(margin)}
 					onChange={this.onChangeMargin}
 				/>
-			</RB.Row>
+			</Row>
 		)
 	}
 
 	renderGraphCustomization() {
 		return (
-			<RB.Row>
+			<Row>
 				{this.props.graphCustomizations.map((customization, i) => {
 					switch (customization.type) {
 			      case 'form group':
@@ -90,7 +90,7 @@ export default class GraphCustomization extends React.Component {
 							console.log('Dunno how to render this ' + customization.type + ' of yours');
 			    }
 				})}
-			</RB.Row>
+			</Row>
 		)
 	}
 
