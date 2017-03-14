@@ -1,5 +1,4 @@
 import { DragSource } from 'react-dnd';
-import ItemTypes from './ItemTypes';
 import FontAwesome from 'react-fontawesome';
 
 // CSS
@@ -14,6 +13,8 @@ const liStyle = {
   overflow: 'hidden',
   cursor:'move'
 }
+
+
 const typeStyle = {
   color: '#e2e2e2',
   paddingLeft: '4px',
@@ -24,9 +25,8 @@ const typeStyle = {
 // dnd dimensionSource
 const dimensionSource = {
   beginDrag(props) {
-    console.log(props);
     return {
-      column: props.column,
+      dimension: props.column,
       isNumeric: props.isNumeric,
     };
   },
@@ -46,7 +46,6 @@ const dimensionSource = {
 function collect(connect, monitor) {
   return{
     connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging(),
   }
 }
 
@@ -60,7 +59,7 @@ class Dimension extends React.Component {
         <span style={typeStyle} >
           {this.props.isNumeric ? 'number' : 'string'}
         </span>
-        <span className='pull-right'>
+        <span style={{float:'right'}}>
           <FontAwesome name='bars'/>
         </span>
       </li>
@@ -68,4 +67,4 @@ class Dimension extends React.Component {
   }
 }
 
-export default DragSource(ItemTypes.DIMENSION, dimensionSource, collect)(Dimension);
+export default DragSource('dimension', dimensionSource, collect)(Dimension);

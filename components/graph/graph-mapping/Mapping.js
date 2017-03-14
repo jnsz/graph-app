@@ -1,8 +1,11 @@
 import { Row } from 'react-bootstrap';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 import DimensionsList from './DimensionsList';
 import VariablesList from './VariablesList';
+import CustomDragLayer from './CustomDragLayer';
 
-export default class Mapping extends React.Component{
+class Mapping extends React.Component{
 
   // dimension - sloupec datasetu
   //           - dimenze se da pretahnout na promennou
@@ -17,7 +20,10 @@ export default class Mapping extends React.Component{
           variables={this.props.graphVariables}
           onAssignedDimensionsOfVariableChange={this.props.onAssignedDimensionsOfVariableChange}
         />
+        {/*<CustomDragLayer />*/}
       </Row>
     );
   }
 }
+
+export default DragDropContext(HTML5Backend)(Mapping);

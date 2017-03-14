@@ -1,5 +1,5 @@
-import { DragDropContextProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+// import { DragDropContextProvider } from 'react-dnd';
+// import HTML5Backend from 'react-dnd-html5-backend';
 
 import GraphType from './GraphType';
 import Mapping from './graph-mapping/Mapping';
@@ -36,13 +36,11 @@ export default class Graph extends React.Component{
   // DragDropContextProvider je z react-dnd vsechny; child komponenty jsou dnd enabled
   renderMapping() {
     return(
-      <DragDropContextProvider backend={HTML5Backend}>
         <Mapping
           dataset={this.props.dataset}
           graphVariables={this.props.graphVariables}
           onAssignedDimensionsOfVariableChange={this.props.onAssignedDimensionsOfVariableChange}
         />
-      </DragDropContextProvider>
     )
   }
 

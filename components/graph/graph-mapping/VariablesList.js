@@ -13,6 +13,8 @@ export default class VariablesList extends React.Component{
             <Variable
               key={i+'var'}
               variable={variable}
+              onAssignedDimensionsOfVariableChange={this.props.onAssignedDimensionsOfVariableChange}
+              index={i}
             />
           )
         })}

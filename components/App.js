@@ -4,7 +4,9 @@ import HTML5Backend from 'react-dnd-html5-backend';
 
 import Data from './data/Data';
 import Graph from './graph/Graph';
-import { graphConfig } from './graphs/barChart';
+import { graphConfig } from './graphs/barChart_old';
+
+import barChart from './graphs/barChart';
 
 export default class App extends React.Component {
 
@@ -34,9 +36,13 @@ export default class App extends React.Component {
     this.setGraphType = this.setGraphType.bind(this);
     this.setSvgSize = this.setSvgSize.bind(this);
     this.setGraphSettings = this.setGraphSettings.bind(this);
+    this.setAssignedDimensions = this.setAssignedDimensions.bind(this);
   }
 
   render() {
+
+    console.log(graphConfig);
+    console.log(barChart);
 
     return (
       <div>
@@ -104,24 +110,13 @@ export default class App extends React.Component {
     }
   }
 
-  // TODO mělo by přidat dimenzi k promenne
-  // momentalne nefunguje
-  setAssignedDimensions(variableLabel, newAssignedDimensions){
-    console.log('set assigned dimensions called');
 
-    const newGraphVariables = this.state.graphVariables;
-    console.log(newGraphVariables);
-
-    for(const variable of newGraphVariables){
-      if(variable.label === dimensionLabel){
-        variable.assignedDimensions = newAssignedDimensions;
-      }
-    }
-
-    console.log(newGraphVariables);
+  setAssignedDimensions(index, newAssignedDimensions){
+    const newGraphVariables = this.state.graphVariables
+    newGraphVariables[index].assignedDimensions = newAssignedDimensions;
 
     this.setState({
-      graphVariables: newGraphVariables
+      graphVariables: newGraphVariables,
     })
   }
 
@@ -138,9 +133,4 @@ export default class App extends React.Component {
       graphSettings: Object.assign(this.state.graphSettings, newSettings)
     })
   }
-
-  // tohle nebude potreba, protoze vykresleni by melo probehnout v komponente GraphSVG
-  // componentDidUpdate() {
-  //   window.onChangeState(this.state);
-  // }
 }
