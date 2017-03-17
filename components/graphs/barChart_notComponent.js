@@ -1,108 +1,7 @@
 import * as d3 from 'd3';
-import { Row } from 'react-bootstrap';
-import FontAwesome from 'react-fontawesome';
 
-import CustButtonGroup from '../graph/graph-customization/CustButtonGroup';
-import CustColorPicker from '../graph/graph-customization/CustColorPicker';
-import CustDropdown from '../graph/graph-customization/CustDropdown';
-import CustFormGroup from '../graph/graph-customization/CustFormGroup';
-import CustSlider from '../graph/graph-customization/CustSlider';
+export default class BarChart {
 
-export default class BarChart extends React.Component{
-
-  constructor(){
-    super();
-    this.state = {
-      graphLabel:'Grouped Vertical Bar Chart',
-      xAxisLabel:'X Axis',
-      yAxisLabel:'Y Axis',
-
-      graphLabelVisible:true,
-      xAxisLabelVisible:true,
-      xAxisVisible:true,
-      yAxisLabelVisible:true,
-      yAxisVisible:true,
-      legendVisible:true,
-      guidelinesVisible:true,
-
-      xAxisPosition:'left',
-
-      yPadding:0,
-      x0Padding:0,
-      x1Padding:0.2,
-    }
-  }
-
-  render(){
-    return(
-      <div>
-
-      </div>
-    )
-  }
-
-
-  // static customizations = [
-  //   {
-  //     type: 'slider',
-  //     label: 'Bar padding',
-  //     min: 0,
-  //     max: 1,
-  //     step: 0.01,
-  //     value: BarChart.settings.x1Padding,
-  //     displayedValue: BarChart.settings.x1Padding,
-  //     onChange: value => {BarChart.settings.x1Padding = value;console.log(BarChart.settings.x1Padding);},
-  //   },
-  //   {
-  //     type: 'form group',
-  //     label: 'TEST FORM GROUP 1',
-  //     items: [
-  //       {
-  //         type: 'btn',
-  //         label: 'B',
-  //         active: BarChart.settings.graphLabelVisible,
-  //         onChange: () => {BarChart.settings.graphLabelVisible = !BarChart.settings.graphLabelVisible;BarChart.customizations[1].items[0].active=!BarChart.customizations[1].items[0].active;console.log(BarChart.settings.graphLabelVisible);console.log(BarChart.customizations[1].items[0].active);} ,
-  //       },{
-  //         type: 'input',
-  //         placeholder: 'empty field',
-  //         value: 'filled field',
-  //         onChange: 'TO IMPLEMENT'
-  //       },{
-  //         type: 'addon',
-  //         label: 'A'
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     type: 'form group',
-  //     label: 'TEST FORM GROUP 2',
-  //     items: [
-  //       {
-  //         type: 'btn-vis',
-  //         active: true,
-  //         onChange: 'TO IMPLEMENT'
-  //       },
-  //       {
-  //         type: 'input',
-  //         placeholder: 'FIELD EMPTY',
-  //         value: 'NON EMPTY FIELD',
-  //         onChange: 'TO IMPLEMENT',
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     type: 'slider',
-  //     label: 'TEST SLIDER',
-  //     min: 0,
-  //     max: 100,
-  //     step: 1,
-  //     value: 10,
-  //     displayedValue: 10,
-  //     onChange: 'NOT IMPLEMENTED',
-  //   }
-  // ];
-
-  //////////////////////////////////////////////////////////////////////////////
   static graphName = 'BarChart';
   static variables = [
     {
@@ -119,6 +18,86 @@ export default class BarChart extends React.Component{
         assignedDimensions:[]
     }
   ];
+  static settings = {
+    graphLabel:'Grouped Vertical Bar Chart',
+    xAxisLabel:'X Axis',
+    yAxisLabel:'Y Axis',
+
+    graphLabelVisible:true,
+    xAxisLabelVisible:true,
+    xAxisVisible:true,
+    yAxisLabelVisible:true,
+    yAxisVisible:true,
+    legendVisible:true,
+    guidelinesVisible:true,
+
+    xAxisPosition:'left',
+
+    yPadding:0,
+    x0Padding:0,
+    x1Padding:0.2,
+  };
+  static customizations = [
+    {
+      type: 'slider',
+      label: 'Bar padding',
+      min: 0,
+      max: 1,
+      step: 0.01,
+      value: BarChart.settings.x1Padding,
+      displayedValue: BarChart.settings.x1Padding,
+      onChange: value => {BarChart.settings.x1Padding = value;console.log(BarChart.settings.x1Padding);},
+    },
+    {
+      type: 'form group',
+      label: 'TEST FORM GROUP 1',
+      items: [
+        {
+          type: 'btn',
+          label: 'B',
+          active: BarChart.settings.graphLabelVisible,
+          onChange: () => {BarChart.settings.graphLabelVisible = !BarChart.settings.graphLabelVisible;BarChart.customizations[1].items[0].active=!BarChart.customizations[1].items[0].active;console.log(BarChart.settings.graphLabelVisible);console.log(BarChart.customizations[1].items[0].active);} ,
+        },{
+          type: 'input',
+          placeholder: 'empty field',
+          value: 'filled field',
+          onChange: 'TO IMPLEMENT'
+        },{
+          type: 'addon',
+          label: 'A'
+        }
+      ]
+    },
+    {
+      type: 'form group',
+      label: 'TEST FORM GROUP 2',
+      items: [
+        {
+          type: 'btn-vis',
+          active: true,
+          onChange: 'TO IMPLEMENT'
+        },
+        {
+          type: 'input',
+          placeholder: 'FIELD EMPTY',
+          value: 'NON EMPTY FIELD',
+          onChange: 'TO IMPLEMENT',
+        }
+      ]
+    },
+    {
+      type: 'slider',
+      label: 'TEST SLIDER',
+      min: 0,
+      max: 100,
+      step: 1,
+      value: 10,
+      displayedValue: 10,
+      onChange: 'NOT IMPLEMENTED',
+    }
+  ];
+
+  //////////////////////////////////////////////////////////////////////////////
   static checkAndDrawChart(canvas, svgSize, wholeDataset) {
     const labelHasAssignedDimension = this.variables[0].assignedDimensions.length != 0;
     const barsHasAssignedDimension = this.variables[1].assignedDimensions.length != 0;
@@ -127,6 +106,7 @@ export default class BarChart extends React.Component{
 
     if(canDraw) this.drawChart(canvas, svgSize, wholeDataset);
   }
+
   static drawChart(canvas, svgSize, wholeDataset){
 
     // GET CANVAS WIDTH AND HEIGHT
@@ -157,12 +137,12 @@ export default class BarChart extends React.Component{
     const x0 = d3.scaleBand()
                 .range([0,width])
                 .domain(d3.range(dataset.length))
-                .padding(this.state.x0Padding);
+                .padding(this.settings.x0Padding);
 
     const x1 = d3.scaleBand()
               .domain(d3.range(barDimensions.length))
               .range([0, x0.bandwidth()])
-              .padding(this.state.x1Padding);
+              .padding(this.settings.x1Padding);
 
     const xAxis = d3.axisBottom(x0)
                     .tickSizeOuter(0);

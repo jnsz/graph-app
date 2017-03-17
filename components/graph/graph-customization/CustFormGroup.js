@@ -30,7 +30,7 @@ export default class CustFormGroup extends React.Component {
 					case 'btn':
 						return (
 							<InputGroup.Button key={items.indexOf(item)} >
-								<Button>
+								<Button onClick={item.onChange} active={item.active}>
 									{item.label}
 								</Button>
 							</InputGroup.Button>

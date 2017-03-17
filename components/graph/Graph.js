@@ -1,6 +1,3 @@
-// import { DragDropContextProvider } from 'react-dnd';
-// import HTML5Backend from 'react-dnd-html5-backend';
-
 import GraphType from './GraphType';
 import Mapping from './graph-mapping/Mapping';
 import GraphSVG from './GraphSVG';
@@ -50,9 +47,11 @@ export default class Graph extends React.Component{
         <GraphSVG
           svgSize={this.props.svgSize}
           graphSettings={this.props.graphSettings}
+          dataset={this.props.dataset}
         />
 
         <GraphCustomization
+          selectedGraph={this.props.selectedGraph}
           graphCustomizations={this.props.graphCustomizations}
           graphSettings={this.props.graphSettings}
           onGraphSettingsChange={this.props.onGraphSettingsChange}

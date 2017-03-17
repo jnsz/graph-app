@@ -4,9 +4,9 @@ import HTML5Backend from 'react-dnd-html5-backend';
 
 import Data from './data/Data';
 import Graph from './graph/Graph';
-import { graphConfig } from './graphs/barChart_old';
 
-import barChart from './graphs/barChart';
+import BarChart from './graphs/BarChart';
+import pieChart from './graphs/pieChart';
 
 export default class App extends React.Component {
 
@@ -19,9 +19,9 @@ export default class App extends React.Component {
 
       // svg size
       svgSize:{
-          width:  800,
-          height: 480,
-          margin: 0.2
+          width:  Math.round(window.innerWidth * 0.8),
+          height: Math.round(window.innerWidth * 0.5),
+          margin: 0.2,
       },
 
       // when graph is selected these are set
@@ -40,9 +40,6 @@ export default class App extends React.Component {
   }
 
   render() {
-
-    console.log(graphConfig);
-    console.log(barChart);
 
     return (
       <div>
@@ -90,23 +87,35 @@ export default class App extends React.Component {
     if(this.state.selectedGraph !== newGraphTypeName){
       this.setState({
         selectedGraph: newGraphTypeName
-      })
+      });
 
       // TODO predelat, aby nacetl spravny config file
       // momentalne nacita pouze bar chart config
-      if(newGraphTypeName === 'bar_chart') {
+      switch(newGraphTypeName){
+        case 'BarChart':
+          this.setState({
+            graphVariables: BarChart.variables,
+            graphCustomizations: BarChart.customizations,
+            graphSettings: BarChart.settings,
+          });
+          break;
+        case 'pieChart':
         this.setState({
-          graphVariables: graphConfig.graphVariables,
-          graphCustomizations: graphConfig.graphCustomizations,
-          graphSettings: graphConfig.defaultSettings,
-        })
-      } else {
+          graphVariables: pieChart.variables,
+          graphCustomizations: pieChart.customizations,
+          graphSettings: pieChart.settings,
+        });
+          break;
+        default:
         this.setState({
           graphVariables: null,
           graphCustomizations: null,
           graphSettings: null,
-        })
+        });
+
       }
+
+
     }
   }
 
@@ -123,14 +132,15 @@ export default class App extends React.Component {
   // nastavi velikost svg a margin
   setSvgSize(newSize){
     this.setState({
-      svgSize: Object.assign(this.state.svgSize, newSize)
+      svgSize: {...this.state.svgSize, ...newSize}
+      //svgSize: Object.assign(this.state.svgSize, newSize)
     })
   }
 
   // zmeni nastaveni
   setGraphSettings(newSettings) {
     this.setState({
-      graphSettings: Object.assign(this.state.graphSettings, newSettings)
+      graphSettings: {...this.state.graphSettings, ...newSettings}
     })
   }
 }

@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _d = require('d3');
@@ -25,11 +27,13 @@ var _Graph = require('./graph/Graph');
 
 var _Graph2 = _interopRequireDefault(_Graph);
 
-var _barChart_old = require('./graphs/barChart_old');
+var _BarChart = require('./graphs/BarChart');
 
-var _barChart = require('./graphs/barChart');
+var _BarChart2 = _interopRequireDefault(_BarChart);
 
-var _barChart2 = _interopRequireDefault(_barChart);
+var _pieChart = require('./graphs/pieChart');
+
+var _pieChart2 = _interopRequireDefault(_pieChart);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -56,8 +60,8 @@ var App = function (_React$Component) {
 
       // svg size
       svgSize: {
-        width: 800,
-        height: 480,
+        width: Math.round(window.innerWidth * 0.8),
+        height: Math.round(window.innerWidth * 0.5),
         margin: 0.2
       },
 
@@ -80,9 +84,6 @@ var App = function (_React$Component) {
   _createClass(App, [{
     key: 'render',
     value: function render() {
-
-      console.log(_barChart_old.graphConfig);
-      console.log(_barChart2.default);
 
       return React.createElement(
         'div',
@@ -135,18 +136,28 @@ var App = function (_React$Component) {
 
         // TODO predelat, aby nacetl spravny config file
         // momentalne nacita pouze bar chart config
-        if (newGraphTypeName === 'bar_chart') {
-          this.setState({
-            graphVariables: _barChart_old.graphConfig.graphVariables,
-            graphCustomizations: _barChart_old.graphConfig.graphCustomizations,
-            graphSettings: _barChart_old.graphConfig.defaultSettings
-          });
-        } else {
-          this.setState({
-            graphVariables: null,
-            graphCustomizations: null,
-            graphSettings: null
-          });
+        switch (newGraphTypeName) {
+          case 'BarChart':
+            this.setState({
+              graphVariables: _BarChart2.default.variables,
+              graphCustomizations: _BarChart2.default.customizations,
+              graphSettings: _BarChart2.default.settings
+            });
+            break;
+          case 'pieChart':
+            this.setState({
+              graphVariables: _pieChart2.default.variables,
+              graphCustomizations: _pieChart2.default.customizations,
+              graphSettings: _pieChart2.default.settings
+            });
+            break;
+          default:
+            this.setState({
+              graphVariables: null,
+              graphCustomizations: null,
+              graphSettings: null
+            });
+
         }
       }
     }
@@ -167,7 +178,8 @@ var App = function (_React$Component) {
     key: 'setSvgSize',
     value: function setSvgSize(newSize) {
       this.setState({
-        svgSize: Object.assign(this.state.svgSize, newSize)
+        svgSize: _extends({}, this.state.svgSize, newSize)
+        //svgSize: Object.assign(this.state.svgSize, newSize)
       });
     }
 
@@ -177,7 +189,7 @@ var App = function (_React$Component) {
     key: 'setGraphSettings',
     value: function setGraphSettings(newSettings) {
       this.setState({
-        graphSettings: Object.assign(this.state.graphSettings, newSettings)
+        graphSettings: _extends({}, this.state.graphSettings, newSettings)
       });
     }
   }]);
@@ -187,7 +199,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"./data/Data":4,"./graph/Graph":7,"./graphs/barChart":26,"./graphs/barChart_old":27,"d3":133,"react-dnd":606,"react-dnd-html5-backend":591}],2:[function(require,module,exports){
+},{"./data/Data":4,"./graph/Graph":7,"./graphs/BarChart":26,"./graphs/pieChart":28,"d3":133,"react-dnd":606,"react-dnd-html5-backend":591}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -676,7 +688,7 @@ AMC Gremlin,19,6,232,100,2634,13,71\n\
 AMC Gremlin,20,6,232,100,2914,16,75\n\
 AMC Gremlin,21,6,199,90,2648,15,70\n\
 AMC Hornet Sportabout (Wagon),18,6,258,110,2962,13.5,71\n\
-          AMC Hornet,18,6,199,97,2774,15.5,70",
+AMC Hornet,18,6,199,97,2774,15.5,70",
   "random":"name,fame,bane\n\
 1,a,x\n\
 2,b,y\n\
@@ -720,8 +732,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // import { DragDropContextProvider } from 'react-dnd';
-// import HTML5Backend from 'react-dnd-html5-backend';
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Graph = function (_React$Component) {
   _inherits(Graph, _React$Component);
@@ -778,9 +789,11 @@ var Graph = function (_React$Component) {
         null,
         React.createElement(_GraphSVG2.default, {
           svgSize: this.props.svgSize,
-          graphSettings: this.props.graphSettings
+          graphSettings: this.props.graphSettings,
+          dataset: this.props.dataset
         }),
         React.createElement(_GraphCustomization2.default, {
+          selectedGraph: this.props.selectedGraph,
           graphCustomizations: this.props.graphCustomizations,
           graphSettings: this.props.graphSettings,
           onGraphSettingsChange: this.props.onGraphSettingsChange,
@@ -898,6 +911,10 @@ var _reactFauxDom = require('react-faux-dom');
 
 var _reactFauxDom2 = _interopRequireDefault(_reactFauxDom);
 
+var _BarChart = require('../graphs/BarChart');
+
+var _BarChart2 = _interopRequireDefault(_BarChart);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -935,7 +952,8 @@ var GraphSVG = function (_React$Component) {
     value: function generateSVG() {
       var _props = this.props,
           svgSize = _props.svgSize,
-          graphSettings = _props.graphSettings;
+          graphSettings = _props.graphSettings,
+          dataset = _props.dataset;
 
       var margin = svgSize.margin;
       var widthMargin = svgSize.width * margin;
@@ -943,13 +961,12 @@ var GraphSVG = function (_React$Component) {
       var canvasWidth = svgSize.width - widthMargin;
       var canvasHeight = svgSize.height - heightMargin;
 
-      // ReactFauxDOM (https://github.com/Olical/react-faux-dom)
-      // tahle knihovna slouzi na propojeni D3 a Reactu, react-d3 apod. knihovny jsou deprecated nebo nejsou cele apod., tohle je z toho co jsem nasel nejlepsi reseni
       var node = _reactFauxDom2.default.createElement('svg');
       var svg = d3.select(node).attr('width', svgSize.width).attr('height', svgSize.height).style('display', 'block').style('margin', 'auto');
 
-      svg.append('g').attr('id', 'canvas').attr('transform', 'translate(' + widthMargin / 2 + ',' + heightMargin / 2 + ')') //;
-      .append('circle').attr("cx", 0).attr("cy", 0).attr("r", 20);
+      var canvas = svg.append('g').attr('id', 'canvas').attr('transform', 'translate(' + widthMargin / 2 + ',' + heightMargin / 2 + ')');
+
+      _BarChart2.default.checkAndDrawChart(canvas, svgSize, dataset);
 
       return node.toReact();
     }
@@ -960,7 +977,7 @@ var GraphSVG = function (_React$Component) {
 
 exports.default = GraphSVG;
 
-},{"d3":133,"react-faux-dom":743}],10:[function(require,module,exports){
+},{"../graphs/BarChart":26,"d3":133,"react-faux-dom":743}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -975,10 +992,6 @@ var _reactFontawesome = require('react-fontawesome');
 
 var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
 
-var _graph_types_list = require('../graphs/graph_types_list.json');
-
-var _graph_types_list2 = _interopRequireDefault(_graph_types_list);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -986,6 +999,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var graphTypes = [{
+  "name": "BarChart",
+  "icon": "bar-chart"
+}, {
+  "name": "pieChart",
+  "icon": "pie-chart"
+}, {
+  "name": "lineChart",
+  "icon": "line-chart"
+}, {
+  "name": "scatterPlot",
+  "icon": "braille"
+}];
 
 var GraphType = function (_React$Component) {
   _inherits(GraphType, _React$Component);
@@ -1013,7 +1040,7 @@ var GraphType = function (_React$Component) {
             React.createElement(
               _reactBootstrap.ButtonGroup,
               { justified: true },
-              _graph_types_list2.default.map(function (type, i) {
+              graphTypes.map(function (type, i) {
                 var isActive = _this2.props.selectedGraph === type.name;
                 return React.createElement(
                   _reactBootstrap.ButtonGroup,
@@ -1047,7 +1074,7 @@ var GraphType = function (_React$Component) {
 
 exports.default = GraphType;
 
-},{"../graphs/graph_types_list.json":28,"react-bootstrap":516,"react-fontawesome":753}],11:[function(require,module,exports){
+},{"react-bootstrap":516,"react-fontawesome":753}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1238,7 +1265,7 @@ var CustFormGroup = function (_React$Component) {
 							{ key: items.indexOf(item) },
 							React.createElement(
 								_reactBootstrap.Button,
-								null,
+								{ onClick: item.onChange, active: item.active },
 								item.label
 							)
 						);
@@ -1407,6 +1434,14 @@ var _CustSlider = require('./CustSlider');
 
 var _CustSlider2 = _interopRequireDefault(_CustSlider);
 
+var _BarChart = require('../../graphs/BarChart');
+
+var _BarChart2 = _interopRequireDefault(_BarChart);
+
+var _PieChart = require('../../graphs/PieChart');
+
+var _PieChart2 = _interopRequireDefault(_PieChart);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -1456,13 +1491,12 @@ var GraphCustomization = function (_React$Component) {
 			var width = this.props.svgSize.width;
 			var height = this.props.svgSize.height;
 			var margin = this.props.svgSize.margin;
-
 			return React.createElement(
 				_reactBootstrap.Row,
 				null,
 				React.createElement(_CustFormGroup2.default, {
-					label: 'Width x height',
-					items: [{ 'type': 'input', 'text': 'Width', 'value': width, 'onChange': this.onChangeWidth }, { 'type': 'addon', 'label': React.createElement(_reactFontawesome2.default, { name: 'times' }) }, { 'type': 'input', 'text': 'Height', 'value': height, 'onChange': this.onChangeHeight }, { 'type': 'btn', 'label': React.createElement(_reactFontawesome2.default, { name: 'arrows-alt' }) }]
+					label: 'Aspect ratio',
+					items: [{ 'type': 'input', 'text': 'Width', 'value': width, 'onChange': this.onChangeWidth }, { 'type': 'addon', 'label': React.createElement(_reactFontawesome2.default, { name: 'times' }) }, { 'type': 'input', 'text': 'Height', 'value': height, 'onChange': this.onChangeHeight }, {/*{'type' : 'btn', 'label' : <FontAwesome name='arrows-alt'/>},*/}]
 				}),
 				React.createElement(_CustSlider2.default, {
 					label: 'Margins',
@@ -1478,34 +1512,50 @@ var GraphCustomization = function (_React$Component) {
 	}, {
 		key: 'renderGraphCustomization',
 		value: function renderGraphCustomization() {
-			return React.createElement(
-				_reactBootstrap.Row,
-				null,
-				this.props.graphCustomizations.map(function (customization, i) {
-					switch (customization.type) {
-						case 'form group':
-							return React.createElement(_CustFormGroup2.default, {
-								label: customization.label,
-								items: customization.items
-							});
-							break;
-						case 'slider':
-							return React.createElement(_CustSlider2.default, {
-								label: customization.label,
-								min: customization.min,
-								max: customization.max,
-								step: customization.step,
-								value: customization.value,
-								displayedValue: customization.displayedValue,
-								onChange: customization.onChange
-							});
-							break;
-						default:
-							console.log('Dunno how to render this ' + customization.type + ' of yours');
-					}
-				})
-			);
+			var components = {
+				BarChart: _BarChart2.default,
+				PieChart: _PieChart2.default
+			};
+			var SelectedGraph = components[this.props.selectedGraph];
+
+			return React.createElement(SelectedGraph, null);
 		}
+
+		// renderGraphCustomization() {
+		// 	return (
+		// 		<Row>
+		// 			{this.props.graphCustomizations.map((customization, i) => {
+		// 				// console.log(customization);
+		// 				switch (customization.type) {
+		// 		      case 'form group':
+		// 						return (
+		// 							<CustFormGroup
+		// 								label = {customization.label}
+		// 								items = {customization.items}
+		// 							/>
+		// 						)
+		// 		        break;
+		// 		      case 'slider':
+		// 						return (
+		// 							<CustSlider
+		// 								label = {customization.label}
+		// 								min = {customization.min}
+		// 								max = {customization.max}
+		// 								step = {customization.step}
+		// 								value = {customization.value}
+		// 								displayedValue = {customization.displayedValue}
+		// 								onChange = {customization.onChange}
+		// 							/>
+		// 						)
+		// 						break;
+		// 					default:
+		// 						console.log('Dunno how to render this ' + customization.type + ' of yours');
+		// 		    }
+		// 			})}
+		// 		</Row>
+		// 	)
+		// }
+
 	}, {
 		key: 'onChangeWidth',
 		value: function onChangeWidth(newWidth) {
@@ -1531,7 +1581,7 @@ var GraphCustomization = function (_React$Component) {
 
 exports.default = GraphCustomization;
 
-},{"./CustButtonGroup":11,"./CustColorPicker":12,"./CustDropdown":13,"./CustFormGroup":14,"./CustSlider":15,"d3":133,"react-bootstrap":516,"react-fontawesome":753}],17:[function(require,module,exports){
+},{"../../graphs/BarChart":26,"../../graphs/PieChart":27,"./CustButtonGroup":11,"./CustColorPicker":12,"./CustDropdown":13,"./CustFormGroup":14,"./CustSlider":15,"d3":133,"react-bootstrap":516,"react-fontawesome":753}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2428,11 +2478,47 @@ var VariablesList = function (_React$Component) {
 exports.default = VariablesList;
 
 },{"./Variable":24,"react-bootstrap":516}],26:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _d = require('d3');
+
+var d3 = _interopRequireWildcard(_d);
+
+var _reactBootstrap = require('react-bootstrap');
+
+var _reactFontawesome = require('react-fontawesome');
+
+var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
+
+var _CustButtonGroup = require('../graph/graph-customization/CustButtonGroup');
+
+var _CustButtonGroup2 = _interopRequireDefault(_CustButtonGroup);
+
+var _CustColorPicker = require('../graph/graph-customization/CustColorPicker');
+
+var _CustColorPicker2 = _interopRequireDefault(_CustColorPicker);
+
+var _CustDropdown = require('../graph/graph-customization/CustDropdown');
+
+var _CustDropdown2 = _interopRequireDefault(_CustDropdown);
+
+var _CustFormGroup = require('../graph/graph-customization/CustFormGroup');
+
+var _CustFormGroup2 = _interopRequireDefault(_CustFormGroup);
+
+var _CustSlider = require('../graph/graph-customization/CustSlider');
+
+var _CustSlider2 = _interopRequireDefault(_CustSlider);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2440,31 +2526,277 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var barChart = function (_React$Component) {
-  _inherits(barChart, _React$Component);
+var BarChart = function (_React$Component) {
+    _inherits(BarChart, _React$Component);
 
-  function barChart() {
-    _classCallCheck(this, barChart);
+    function BarChart() {
+        _classCallCheck(this, BarChart);
 
-    return _possibleConstructorReturn(this, (barChart.__proto__ || Object.getPrototypeOf(barChart)).call(this));
-  }
+        var _this = _possibleConstructorReturn(this, (BarChart.__proto__ || Object.getPrototypeOf(BarChart)).call(this));
 
-  return barChart;
+        _this.state = {
+            graphLabel: 'Grouped Vertical Bar Chart',
+            xAxisLabel: 'X Axis',
+            yAxisLabel: 'Y Axis',
+
+            graphLabelVisible: true,
+            xAxisLabelVisible: true,
+            xAxisVisible: true,
+            yAxisLabelVisible: true,
+            yAxisVisible: true,
+            legendVisible: true,
+            guidelinesVisible: true,
+
+            xAxisPosition: 'left',
+
+            yPadding: 0,
+            x0Padding: 0,
+            x1Padding: 0.2
+        };
+        return _this;
+    }
+
+    _createClass(BarChart, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement('div', null);
+        }
+
+        // static customizations = [
+        //   {
+        //     type: 'slider',
+        //     label: 'Bar padding',
+        //     min: 0,
+        //     max: 1,
+        //     step: 0.01,
+        //     value: BarChart.settings.x1Padding,
+        //     displayedValue: BarChart.settings.x1Padding,
+        //     onChange: value => {BarChart.settings.x1Padding = value;console.log(BarChart.settings.x1Padding);},
+        //   },
+        //   {
+        //     type: 'form group',
+        //     label: 'TEST FORM GROUP 1',
+        //     items: [
+        //       {
+        //         type: 'btn',
+        //         label: 'B',
+        //         active: BarChart.settings.graphLabelVisible,
+        //         onChange: () => {BarChart.settings.graphLabelVisible = !BarChart.settings.graphLabelVisible;BarChart.customizations[1].items[0].active=!BarChart.customizations[1].items[0].active;console.log(BarChart.settings.graphLabelVisible);console.log(BarChart.customizations[1].items[0].active);} ,
+        //       },{
+        //         type: 'input',
+        //         placeholder: 'empty field',
+        //         value: 'filled field',
+        //         onChange: 'TO IMPLEMENT'
+        //       },{
+        //         type: 'addon',
+        //         label: 'A'
+        //       }
+        //     ]
+        //   },
+        //   {
+        //     type: 'form group',
+        //     label: 'TEST FORM GROUP 2',
+        //     items: [
+        //       {
+        //         type: 'btn-vis',
+        //         active: true,
+        //         onChange: 'TO IMPLEMENT'
+        //       },
+        //       {
+        //         type: 'input',
+        //         placeholder: 'FIELD EMPTY',
+        //         value: 'NON EMPTY FIELD',
+        //         onChange: 'TO IMPLEMENT',
+        //       }
+        //     ]
+        //   },
+        //   {
+        //     type: 'slider',
+        //     label: 'TEST SLIDER',
+        //     min: 0,
+        //     max: 100,
+        //     step: 1,
+        //     value: 10,
+        //     displayedValue: 10,
+        //     onChange: 'NOT IMPLEMENTED',
+        //   }
+        // ];
+
+        //////////////////////////////////////////////////////////////////////////////
+
+    }], [{
+        key: 'checkAndDrawChart',
+        value: function checkAndDrawChart(canvas, svgSize, wholeDataset) {
+            var labelHasAssignedDimension = this.variables[0].assignedDimensions.length != 0;
+            var barsHasAssignedDimension = this.variables[1].assignedDimensions.length != 0;
+
+            var canDraw = labelHasAssignedDimension && barsHasAssignedDimension;
+
+            if (canDraw) this.drawChart(canvas, svgSize, wholeDataset);
+        }
+    }, {
+        key: 'drawChart',
+        value: function drawChart(canvas, svgSize, wholeDataset) {
+
+            // GET CANVAS WIDTH AND HEIGHT
+            var width = svgSize.width - svgSize.width * svgSize.margin;
+            var height = svgSize.height - svgSize.height * svgSize.margin;
+
+            // GET LABEL DIMENSION
+            var labelDimension = this.variables[0].assignedDimensions[0].dimension;
+
+            // GET BARS DIMENSIONS
+            var barDimensions = [];
+            this.variables[1].assignedDimensions.map(function (dimension) {
+                barDimensions.push(dimension.dimension);
+            });
+
+            // simplified dataset
+            var dataset = wholeDataset.map(function (d, i) {
+                var row = barDimensions.map(function (dimension, index) {
+                    return d[dimension];
+                });
+                return row;
+            });
+
+            // MAX VALUE OF ALL BAR DIMENSIONS
+            var domainMax = d3.max(wholeDataset, function (d) {
+                return d3.max(barDimensions, function (barDimension) {
+                    return d[barDimension];
+                });
+            });
+
+            // X AXIS
+            var x0 = d3.scaleBand().range([0, width]).domain(d3.range(dataset.length)).padding(this.state.x0Padding);
+
+            var x1 = d3.scaleBand().domain(d3.range(barDimensions.length)).range([0, x0.bandwidth()]).padding(this.state.x1Padding);
+
+            var xAxis = d3.axisBottom(x0).tickSizeOuter(0);
+
+            canvas.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')').call(xAxis);
+
+            var tickNames = wholeDataset.map(function (d) {
+                return d[labelDimension];
+            });
+
+            canvas.select(".x.axis").selectAll("g.tick").selectAll("text").each(function (d) {
+                d3.select(this).text(tickNames[d]);
+            });
+
+            // Y AXIS
+            var y = d3.scaleLinear().range([height, 0]).domain([0, domainMax]);
+
+            var yAxis = d3.axisLeft(y).tickSizeOuter(0);
+
+            canvas.append('g').attr('class', 'y axis').call(yAxis);
+
+            // GUIDELINES
+            var guidelines = d3.axisRight(y).tickSizeInner(width).tickSizeOuter(0).tickFormat('');
+
+            var color = d3.scaleOrdinal().range(d3.schemeCategory10);
+
+            // CREATE BARS
+            var outerBand = canvas.selectAll('.outerBand').data(dataset).enter().append('g').attr('class', 'outerBand').attr('transform', function (d, i) {
+                return 'translate(' + x0(i) + ',0)';
+            });
+
+            var innerBand = outerBand.selectAll('g').data(function (d, i) {
+                return d;
+            }).enter().append('g').attr('class', 'innerBand').attr('transform', function (d, i) {
+                return 'translate(' + x1(i) + ',0)';
+            });
+
+            innerBand.append('rect').attr('class', 'bar').attr('y', function (d) {
+                return y(d);
+            }).attr('width', x1.bandwidth()).attr('height', function (d) {
+                return height - y(d);
+            }).style('fill', function (d, i) {
+                return color(i);
+            });
+        }
+    }]);
+
+    return BarChart;
 }(React.Component);
 
-barChart.graphVariables = [];
-barChart.defaultSettings = {};
-barChart.graphCustomizations = [];
-exports.default = barChart;
+BarChart.graphName = 'BarChart';
+BarChart.variables = [{
+    label: 'Label',
+    desc: 'labels on x axis',
+    isRequired: true,
+    takesSingleDimension: true,
+    assignedDimensions: []
+}, {
+    label: 'Bars',
+    desc: 'place number variables here',
+    isRequired: true,
+    mustBeNumeric: true,
+    assignedDimensions: []
+}];
+exports.default = BarChart;
 
-},{}],27:[function(require,module,exports){
+},{"../graph/graph-customization/CustButtonGroup":11,"../graph/graph-customization/CustColorPicker":12,"../graph/graph-customization/CustDropdown":13,"../graph/graph-customization/CustFormGroup":14,"../graph/graph-customization/CustSlider":15,"d3":133,"react-bootstrap":516,"react-fontawesome":753}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var pieChart = function (_React$Component) {
+  _inherits(pieChart, _React$Component);
+
+  function pieChart() {
+    _classCallCheck(this, pieChart);
+
+    return _possibleConstructorReturn(this, (pieChart.__proto__ || Object.getPrototypeOf(pieChart)).apply(this, arguments));
+  }
+
+  return pieChart;
+}(React.Component);
+
+pieChart.graphName = 'pieChart';
+pieChart.variables = [{
+  label: 'Pie',
+  desc: 'labels on x axis',
+  isRequired: true,
+  takesSingleDimension: false,
+  assignedDimensions: []
+}];
+pieChart.settings = {
+  graphLabel: 'Pie Chart'
+};
+pieChart.customizations = [{
+  type: 'form group',
+  label: 'PIE TEST FORM GROUP 1',
+  items: [{
+    type: 'btn',
+    label: 'B',
+    active: true,
+    onChange: ''
+  }, {
+    type: 'input',
+    placeholder: 'empty field',
+    value: 'filled field',
+    onChange: 'TO IMPLEMENT'
+  }, {
+    type: 'addon',
+    label: 'A'
+  }]
+}];
+exports.default = pieChart;
+
+},{}],28:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2472,655 +2804,48 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var graphConfig = exports.graphConfig = {
-  name: 'Grouped Vertical Bar Chart',
-  icon: 'name of SVG icon here',
+var pieChart = function (_React$Component) {
+  _inherits(pieChart, _React$Component);
 
-  /*
-    informace pro vygenerovani potrebnych promennych k mapovani
-    @label: string - text, ktery se objevi u promenne
-    @desc: string - popisek pod labelem
-    @isRequired: bool - redner method of graph won't be called unless at least one is assigned
-    @takesSingleDimension: bool - preomenna bere pouye jednu promennou
-    @mustBeNumeric: bool - promenna bere pouze numericke dimenze
-  */
-  graphVariables: [{
-    label: 'Label',
-    desc: 'labels on x axis',
-    isRequired: true,
-    takesSingleDimension: true,
-    assignedDimensions: []
-  }, {
-    label: 'Bars',
-    desc: 'place number variables here',
-    isRequired: true,
-    mustBeNumeric: true,
-    assignedDimensions: []
-  }],
-  defaultSettings: {
-    graphLabel: 'Grouped Vertical Bar Chart',
-    xAxisLabel: 'X Axis',
-    yAxisLabel: 'Y Axis',
+  function pieChart() {
+    _classCallCheck(this, pieChart);
 
-    graphLavelVisible: true,
-    xAxisLabelVisible: true,
-    xAxisVisible: true,
-    yAxisLabelVisible: true,
-    yAxisVisible: true,
-    legendVisible: true,
-    guidelinesVisible: true,
-
-    xAxisPosition: 'left',
-
-    yPadding: 0,
-    x0Padding: 0,
-    x1Padding: 0
-  },
-  graphSettings: {},
-
-  /*
-    informace o tom jake customizacni techniky verenderovat
-    width x height a margins se nemusi spefikovat, jsou tam vzdy
-    @label: stirng - text, ktery se objevi nad customizatorem
-    !! objekt muze obsahovat pouze jednu velicinu, form nebo slider, pokud by měl obě, app se pokusí vyrenderovat form
-    @form: array of objects - specifikuje jaka ma form vypadat a co ovlivnuje
-        objekt obsahuje:
-        @type: btn, btn-group, btn-vis, addon, addon-empty, input
-        @text: pro btn, btn-group, addon specifikuje obsah, pro input specifikuje placeholder, muze byt i <i>
-    @slider: slider input - specifikuje hodnoty jakych muze nabyvat a co ovlivnuje
-  */
-  graphCustomizations: [
-  /*
-  {
-    type: 'form group' / 'btn group' / 'slider' / 'color picker' / 'dropdown',
-    label: 'TEXT DISPLAYED ABOVE',
-    // form group
-    items: [
-      {
-        type: 'btn' / 'btn-vis' / 'addon' / 'addon-empty' / 'input'
-        // btn
-        label: '',
-        active: '',
-        onChange: '',
-        // btn-vis
-        active: '',
-        onChange: '',
-        // addon
-        label: '',
-        // addon-empty
-        // nic
-        // input
-        placeholder: '',
-        value: '',
-        onChange: '',
-      },{
-        // other parts
-      }
-    ],
-    // btn group
-    buttons: [
-      // TODO doplnit
-    ]
-    // slider
-    min: '',
-    max: '',
-    step: '',
-    value: '',
-    displayedValue: '',
-    onChange: '',
-    // color picker
-    color: '',// from color picker API
-    onChange: '',
-    onChangeComplete: '',
-    type: '',
-    // dropdown
-    items:[
-      // TODO doplnit
-    ],
-    onChange: '',
-  }*/
-  {
-    type: 'form group',
-    label: 'TEST FORM GROUP 1',
-    items: [{
-      type: 'btn',
-      label: 'B',
-      active: true,
-      onChange: ''
-    }, {
-      type: 'input',
-      placeholder: 'empty field',
-      value: 'filled field',
-      onChange: 'TO IMPLEMENT'
-    }, {
-      type: 'addon',
-      label: 'A'
-    }]
-  }, {
-    type: 'form group',
-    label: 'TEST FORM GROUP 2',
-    items: [{
-      type: 'btn-vis',
-      active: true,
-      onChange: 'TO IMPLEMENT'
-    }, {
-      type: 'input',
-      placeholder: 'FIELD EMPTY',
-      value: 'NON EMPTY FIELD',
-      onChange: 'TO IMPLEMENT'
-    }]
-  }, {
-    type: 'slider',
-    label: 'TEST SLIDER',
-    min: 0,
-    max: 100,
-    step: 1,
-    value: 10,
-    displayedValue: 10,
-    onChange: 'TO IMPLEMENT'
-  }]
-};
-
-var barChart = function (_React$Component) {
-  _inherits(barChart, _React$Component);
-
-  function barChart() {
-    _classCallCheck(this, barChart);
-
-    return _possibleConstructorReturn(this, (barChart.__proto__ || Object.getPrototypeOf(barChart)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (pieChart.__proto__ || Object.getPrototypeOf(pieChart)).apply(this, arguments));
   }
 
-  _createClass(barChart, [{
-    key: 'render',
-    value: function render() {
-      console.log('test bar chart');
-
-      return React.createElement('div', null);
-    }
-  }]);
-
-  return barChart;
+  return pieChart;
 }(React.Component);
-//
-// function barChart_group_vertical() {
-//     var dimensionLabel;
-//     var dimensionNames = [];
-//     var dimensionValues;
-//
-//     var x0, x1, y, color, xAxis, yAxis, dimesnsionNames, outerBand, innerBand, legend;
-//     var labelChart, labelXAxis, labelYAxis;
-//
-//     var xAxisVis = true,
-//         yAxisVis = true,
-//         guidelinesVis = true,
-//         legendVis = true;
-//         titleVis = true;
-//
-//     // redraws whole chart
-//     this.drawChart = function() {
-//
-//         $('#canvas').empty(); // removes current bar chart before drawing new
-//         dimensionLabel = '';
-//         dimensionNames = [];
-//
-//         // read mapping for values
-//         $("#dimension-label").children("li").each(function() {
-//             dimensionLabel = this.innerText;
-//         });
-//
-//         // read mapping for values
-//         $("#dimension-values").children("li").each(function() {
-//             dimensionNames.push(this.innerText);
-//         });
-//
-//
-//         dataset.forEach(function(d) {
-//             d.dimensions = dimensionNames.map(function(name) {
-//                 return {
-//                     name: name,
-//                     value: +d[name]
-//                 };
-//             });
-//         });
-//
-//         x0 = d3.scaleBand()
-//             .range([0, canvasWidth()])
-//             // .domain(dataset.map(function(d) {
-//             //     return d[dimensionLabel];
-//             // }))
-//             .domain(d3.range(dataset.length))
-//             .padding(0.2)
-//             .align(0.5);
-//
-//         x1 = d3.scaleBand()
-//             .domain(dimensionNames)
-//             .range([0, x0.bandwidth()])
-//             .padding(0.2);
-//
-//         y = d3.scaleLinear()
-//             .range([canvasHeight(), 0])
-//             .domain([0, d3.max(dataset, function(d) {
-//                 return d3.max(d.dimensions, function(d) {
-//                     return d.value;
-//                 });
-//             })]);
-//
-//         color = d3.scaleOrdinal()
-//             .range(d3.schemeCategory10);
-//         //.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-//
-//         xAxis = d3.axisBottom(x0)
-//             .tickSizeOuter(0);
-//
-//         yAxis = d3.axisLeft(y)
-//             .tickSizeOuter(0);
-//
-//         guidelines = d3.axisRight(y)
-//             .tickSizeInner(canvasWidth())
-//             .tickSizeOuter(0)
-//             .tickFormat("");
-//
-//         // DRAW CHART
-//         // draw legend
-//         drawLegend();
-//
-//         // draw chart name
-//         drawChartName();
-//
-//         // draw guidelines
-//         drawGuidelines();
-//
-//         // draw bars
-//         drawBars();
-//         drawBarLabels();
-//
-//         // draw x axis and label
-//         drawXAxis();
-//
-//         // draw y axis and label
-//         drawYAxis();
-//
-//         drawTitle();
-//
-//     }
-//
-//     //////////////////////////////////////////////////////////////////////////////////////////
-//     // DRAWING CHART METHODS
-//     //////////////////////////////////////////////////////////////////////////////////////////
-//     function drawChartName() {
-//         svg.append("text")
-//             .attr("class", "chart-name")
-//             .attr("x", (canvasWidth() / 2))
-//             .attr("y", 0 - (margin.top / 2))
-//             .attr("text-anchor", "middle")
-//             .style("font-size", "16px")
-//             .text(labelChart);
-//     }
-//
-//     function drawXAxis() {
-//
-//         svg.append("g")
-//             .attr("class", "x axis bottom")
-//             .attr("transform", "translate(0," + canvasHeight() + ")")
-//             .call(xAxis)
-//             // draw label
-//             .append("text")
-//             .attr("class", "x-axis-name")
-//             .attr("text-anchor", "middle")
-//             .attr("alignment-baseline", "middle")
-//             .attr("x", (canvasWidth() / 2))
-//             .attr("y", margin.bottom / 2)
-//             .attr("fill", "#000")
-//             .style("font-size", "16px")
-//             .text(labelXAxis);
-//
-//             renameLabelsOnXAxis();
-//
-//         if (!xAxisVis) {
-//             $(".x.axis").css("display", "none");
-//         }
-//     }
-//
-//     function renameLabelsOnXAxis() {
-//         var tickNames = dataset.map(function(d){
-//                 return d[dimensionLabel];
-//         });
-//
-//         d3.select(".x.axis").selectAll("g.tick").selectAll("text")
-//             .each(function(d) {
-//                 d3.select(this).text(tickNames[d])
-//             });
-//
-//
-//         // remove this
-//         rotateLabelsOnXAxis(-45);
-//     }
-//
-//     function wrapLabelsOnXAxis(){}
-//
-//     function rotateLabelsOnXAxis(angle){
-//         var axis = d3.select(".x.axis").selectAll("g.tick").selectAll("text")
-//             .attr("text-anchor", "end")
-//             .attr("alignment-baseline", "baseline")
-//             .attr("transform", "rotate(" + angle + ")")
-//             .attr("dx", "-9")
-//             .attr("dy", "-.35em");
-//
-//
-//     }
-//
-//     function drawYAxis() {
-//         svg.append("g")
-//             .attr("class", "y axis left")
-//             .call(yAxis)
-//             // draw label
-//             .append("text")
-//             .attr("class", "y-axis-name")
-//             .attr("text-anchor", "right")
-//             .attr("alignment-baseline", "middle")
-//             .attr("transform", "rotate(-90)")
-//             .attr("x", -(canvasHeight() / 2))
-//             .attr("y", -(margin.left / 2))
-//             .attr("fill", "#000")
-//             .style("font-size", "16px")
-//             .text(labelYAxis);
-//
-//         if (!yAxisVis) {
-//             $(".y.axis").css("display", "none");
-//         }
-//     }
-//
-//     function drawGuidelines() {
-//         svg.append("g")
-//             .attr("class", "guidelines")
-//             .call(guidelines);
-//     }
-//
-//     function drawBars() {
-//         outerBand = svg.selectAll(".outerBand")
-//             .data(dataset)
-//             .enter()
-//             .append("g")
-//             .attr("class", "outerBand")
-//             // .attr("transform", function(d) {
-//             //     return "translate(" + x0(d[dimensionLabel]) + ",0)";
-//             // });
-//             .attr("transform", function(d, i) {
-//                 return "translate(" + x0(i) + ",0)";
-//             });
-//
-//
-//         innerBand = outerBand.selectAll("g")
-//             .data(function(d) {
-//                 return d.dimensions;
-//             })
-//             .enter()
-//             .append("g")
-//             .attr("class", "innerBand")
-//             .attr("transform", function(d) {
-//                 return "translate(" + x1(d.name) + ",0)";
-//             });
-//
-//         innerBand.append("rect")
-//             .attr("class", "bar")
-//             .attr("y", function(d) {
-//                 return y(d.value);
-//             })
-//             .attr("width", x1.bandwidth())
-//             .attr("height", function(d) {
-//                 return canvasHeight() - y(d.value);
-//             })
-//             .style("fill", function(d) {
-//                 return color(d.name);
-//             });
-//     }
-//
-//     function drawBarLabels() {
-//         innerBand.append("text")
-//             .attr("class", "label")
-//             .attr("x", x1.bandwidth() / 2)
-//             .attr("y", function(d) {
-//                 return y(d.value) + 16;
-//             })
-//             .attr("text-anchor", "middle")
-//             .attr("fill", "white")
-//             .style("font-size", "12px")
-//             .style("font-weight", "normal")
-//             .text(function(d) {
-//                 return d.value;
-//             });
-//     }
-//
-//     function drawLegend() {
-//         legend = svg.append("g")
-//             .attr("class", "legend container")
-//             .attr("transform", "translate(" + canvasWidth() + ",0)")
-//             .selectAll(".legend.row")
-//             .data(dimensionNames.slice().reverse())
-//             .enter()
-//             .append("g")
-//             .attr("class", "legend row")
-//             .attr("transform", function(d, i) {
-//                 return "translate(9," + i * 20 + ")";
-//             });
-//
-//         legend.append("rect")
-//             .attr("x", 0)
-//             .attr("width", 18)
-//             .attr("height", 18)
-//             .style("fill", color);
-//
-//         legend.append("text")
-//             .attr("x", 27)
-//             .attr("y", 9)
-//             .attr("dy", ".35em")
-//             .style("text-anchor", "start")
-//             .text(function(d) {
-//                 return d;
-//             });
-//     }
-//
-//     function drawTitle() {
-//         svg.append("text")
-//             .attr("class", "chart-title")
-//             .attr("x", 0 )
-//             .attr("y", - (margin.top / 2) )
-//             .style("text-anchor", "start");
-//     }
-//
-//     function swapXAxis() {
-//
-//         if (svg.select(".x.axis").classed("bottom")) {
-//
-//             xAxis = d3.axisTop(x0)
-//                 .tickSizeOuter(0);
-//
-//             svg.select(".x.axis")
-//                 .classed("bottom", false)
-//                 .classed("top", true)
-//                 .attr("transform", "translate(0,0)")
-//                 .call(xAxis)
-//                 // move label
-//                 .select(".x-axis-name")
-//                 .attr("y", -margin.top / 2);
-//         } else {
-//             xAxis = d3.axisBottom(x0)
-//                 .tickSizeOuter(0);
-//
-//             svg.select(".x.axis")
-//                 .classed("top", false)
-//                 .classed("bottom", true)
-//                 .attr("transform", "translate(0," + canvasHeight() + ")")
-//                 .call(xAxis)
-//                 // move label
-//                 .select(".x-axis-name")
-//                 .attr("y", margin.bottom / 2);
-//         }
-//     }
-//
-//     function swapYAxis() {
-//
-//         if (svg.select(".y.axis").classed("left")) {
-//
-//             yAxis = d3.axisRight(y)
-//                 .tickSizeOuter(0);
-//
-//             svg.select(".y.axis")
-//                 .classed("left", false)
-//                 .classed("right", true)
-//                 .attr("transform", "translate(" + canvasWidth() + ",0)")
-//                 .call(yAxis)
-//                 // move label
-//                 .select(".y-axis-name")
-//                 .attr("transform", "rotate(90)")
-//                 .attr("x", canvasHeight() / 2)
-//                 .attr("y", -(margin.right / 2));
-//         } else {
-//             yAxis = d3.axisLeft(y)
-//                 .tickSizeOuter(0);
-//
-//             svg.select(".y.axis")
-//                 .classed("right", false)
-//                 .classed("left", true)
-//                 .attr("transform", "translate(0,0)")
-//                 .call(yAxis)
-//                 // move label
-//                 .select(".y-axis-name")
-//                 .attr("transform", "rotate(-90)")
-//                 .attr("x", -(canvasHeight() / 2))
-//                 .attr("y", -(margin.left / 2));
-//         }
-//     }
-//
-//
-//     function generateChartTitleHTML() {
-//         var html = '<!--chart title, visibility, alignment--> \
-//                         <div class="row">\
-//                             <div class="form-group col-md-12">\
-//                                 <label class="control-label">Title</label>\
-//                                 <div class="input-group">\
-//                                     <span class="input-group-btn" data-toggle="buttons">\
-//                                         <!--chart title visibility-->\
-//                                         <button class="btn btn-default active id="btn-cus-title-vis">\
-//                                             <input type="checkbox" autocomplete="off" checked>\
-//                                                 <i class="fa fa-eye"></i>\
-//                                             </input>\
-//                                         </button>\
-//                                     </span>\
-//                                     <!--chart title -->\
-//                                     <input type="text" class="form-control" placeholder="Chart title" id="inp-cus-title">\
-//                                     <!--chart title alignmet-->\
-//                                     <span class="input-group-btn" data-toggle="buttons" id="btn-cus-title-align">\
-//                                         <button class="btn btn-default active">\
-//                                             <input type="radio" name="radio-cus-title-align" value="cus-title-align-left" autocomplete="off">\
-//                                                 <i class="glyphicon glyphicon-object-align-left" title="Align Left"></i>\
-//                                             </input>\
-//                                         </button>\
-//                                         <button class="btn btn-default">\
-//                                             <input type="radio" name="radio-cus-title-align" value="cus-title-align-center" autocomplete="off">\
-//                                                 <i class="glyphicon glyphicon-object-align-vertical" title="Align Center"></i>\
-//                                             </input>\
-//                                         </button>\
-//                                         <button class="btn btn-default">\
-//                                             <input type="radio" name="radio-cus-title-align" value="cus-title-align-right" autocomplete="off">\
-//                                                 <i class="glyphicon glyphicon-object-align-right" title="Align Right"></i>\
-//                                             </input>\
-//                                         </button>\
-//                                     </span>\
-//                                 </div>\
-//                             </div>\
-//                         </div>';
-//         return html;
-//     }
-//
-//
-//
-//
-// }
 
-
-exports.default = barChart;
-
-},{}],28:[function(require,module,exports){
-module.exports=[
-  {
-    "name":"bar_chart",
-    "label":"Bar chart icon",
-    "icon":"bar-chart",
-    "subtypes":[
-      [
-          {
-            "name":"bar_grouped",
-            "label":"Grouped bar chart"
-          },
-          {
-            "name":"bar_stacked",
-            "label":"Stacked bar chart"
-          }
-      ],
-      [
-          {
-            "name":"bar_vertical",
-            "label":"Vertical"
-
-          },
-          {
-            "name":"bar_horizontal",
-            "label":"Horizontal"
-          }
-      ]
-    ]
-  },
-  {
-    "name":"pie_chart",
-    "label":"Pie chart",
-    "icon":"pie-chart",
-    "subtypes":[
-      [
-          {
-            "name":"pie_pie",
-            "label":"Pie chart"
-          },
-          {
-            "name":"pie_donut",
-            "label":"Donut chart"
-          }
-      ]
-    ]
-  },
-  {
-    "name":"line_chart",
-    "label":"Line chart",
-    "icon":"line-chart",
-    "subtypes":[
-      [
-          {
-            "name":"line_line",
-            "label":"Line"
-          },
-          {
-            "name":"line_curve",
-            "label":"Curve"
-          }
-      ],
-      [
-          {
-            "name":"line_no_fill",
-            "label":"No fill"
-          },
-          {
-            "name":"line_fill",
-            "label":"Fill"
-          }
-      ]
-    ]
-  },
-  {
-    "name":"scatter_plot",
-    "label":"Scatter plot",
-    "icon":"braille"
-  }
-]
+pieChart.graphName = 'pieChart';
+pieChart.variables = [{
+  label: 'Pie',
+  desc: 'labels on x axis',
+  isRequired: true,
+  takesSingleDimension: false,
+  assignedDimensions: []
+}];
+pieChart.settings = {
+  graphLabel: 'Pie Chart'
+};
+pieChart.customizations = [{
+  type: 'form group',
+  label: 'PIE TEST FORM GROUP 1',
+  items: [{
+    type: 'btn',
+    label: 'B',
+    active: true,
+    onChange: ''
+  }, {
+    type: 'input',
+    placeholder: 'empty field',
+    value: 'filled field',
+    onChange: 'TO IMPLEMENT'
+  }, {
+    type: 'addon',
+    label: 'A'
+  }]
+}];
+exports.default = pieChart;
 
 },{}],29:[function(require,module,exports){
 'use strict';

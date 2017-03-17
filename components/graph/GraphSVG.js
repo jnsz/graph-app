@@ -1,5 +1,7 @@
 import * as d3 from 'd3';
-import ReactFauxDOM from 'react-faux-dom'
+import ReactFauxDOM from 'react-faux-dom';
+
+import BarChart from '../graphs/BarChart';
 
 export default class GraphSVG extends React.Component{
 
@@ -14,15 +16,15 @@ export default class GraphSVG extends React.Component{
   }
 
   generateSVG(){
-    const { svgSize, graphSettings } = this.props;
+    const { svgSize, graphSettings, dataset } = this.props;
     const margin = svgSize.margin;
     const widthMargin = svgSize.width * margin;
     const heightMargin = svgSize.height * margin;
     const canvasWidth = svgSize.width - widthMargin;
     const canvasHeight = svgSize.height - heightMargin;
 
-    // ReactFauxDOM (https://github.com/Olical/react-faux-dom)
-    // tahle knihovna slouzi na propojeni D3 a Reactu, react-d3 apod. knihovny jsou deprecated nebo nejsou cele apod., tohle je z toho co jsem nasel nejlepsi reseni
+
+
     let node = ReactFauxDOM.createElement('svg');
     let svg = d3.select(node)
         .attr('width', svgSize.width)
@@ -30,13 +32,11 @@ export default class GraphSVG extends React.Component{
         .style('display', 'block')
         .style('margin', 'auto');
 
-    svg.append('g')
+    let canvas = svg.append('g')
         .attr('id', 'canvas')
-        .attr('transform', 'translate(' + widthMargin/2 + ',' + heightMargin/2 + ')')//;
-        .append('circle')
-        .attr("cx", 0)
-        .attr("cy", 0)
-        .attr("r", 20);
+        .attr('transform', 'translate(' + widthMargin/2 + ',' + heightMargin/2 + ')');
+
+    BarChart.checkAndDrawChart(canvas, svgSize, dataset);
 
     return node.toReact();
   }

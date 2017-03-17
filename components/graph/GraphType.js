@@ -1,9 +1,29 @@
 import { Row, Col, ButtonGroup, Button } from 'react-bootstrap';
-import FontAwesome from 'react-fontawesome'
+import FontAwesome from 'react-fontawesome';
 
-import graph_types_list from '../graphs/graph_types_list.json';
+const graphTypes = [
+  {
+    "name":"BarChart",
+    "icon":"bar-chart",
+  },
+  {
+    "name":"pieChart",
+    "icon":"pie-chart",
+  },
+  {
+    "name":"lineChart",
+    "icon":"line-chart",
+  },
+  {
+    "name":"scatterPlot",
+    "icon":"braille"
+  }
+];
+
 
 export default class GraphType extends React.Component {
+
+
 
   render() {
     return (
@@ -12,7 +32,7 @@ export default class GraphType extends React.Component {
           <Col md={12}>
             <ButtonGroup justified>
 
-              {graph_types_list.map((type, i) => {
+              {graphTypes.map((type, i) => {
                 const isActive = this.props.selectedGraph === type.name;
                 return (
                   <ButtonGroup key={i+'btn'}>
