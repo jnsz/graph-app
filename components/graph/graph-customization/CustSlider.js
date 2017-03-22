@@ -1,11 +1,15 @@
-import { Col } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
+
+const rowStyle = {
+  padding: '0px 15px',
+}
 
 export default class CustSlider extends React.Component {
 
 	render() {
 		return (
-			<Col md={3}>
-
+			<Row style={rowStyle}>
+			<div>
 				<label style={{display: 'block'}}>
 					{this.props.label}
 				</label>
@@ -21,7 +25,8 @@ export default class CustSlider extends React.Component {
 				/>
 				<span style={{float: 'right'}}>{this.props.displayedValue}</span>
 
-			</Col>
+			</div>
+			</Row>
 		)
 	}
 }

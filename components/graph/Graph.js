@@ -48,16 +48,12 @@ export default class Graph extends React.Component{
           svgSize={this.props.svgSize}
           graphSettings={this.props.graphSettings}
           dataset={this.props.dataset}
-        />
 
-        <GraphCustomization
           selectedGraph={this.props.selectedGraph}
-          graphCustomizations={this.props.graphCustomizations}
-          graphSettings={this.props.graphSettings}
-          onGraphSettingsChange={this.props.onGraphSettingsChange}
-          svgSize={this.props.svgSize}
           onSvgSizeChange={this.props.onSvgSizeChange}
         />
+
+
 
         <GraphExport />
       </div>

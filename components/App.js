@@ -27,15 +27,12 @@ export default class App extends React.Component {
       // when graph is selected these are set
       selectedGraph: null,
       graphVariables: null,
-      graphCustomizations: null,
-      graphSettings: null,
     };
 
     this.setRawDataset = this.setRawDataset.bind(this);
     this.setDataset = this.setDataset.bind(this);
     this.setGraphType = this.setGraphType.bind(this);
     this.setSvgSize = this.setSvgSize.bind(this);
-    this.setGraphSettings = this.setGraphSettings.bind(this);
     this.setAssignedDimensions = this.setAssignedDimensions.bind(this);
   }
 
@@ -54,12 +51,8 @@ export default class App extends React.Component {
             dataset={this.state.dataset}
             selectedGraph={this.state.selectedGraph}
             onSelectedGraphChange={this.setGraphType}
-
             graphVariables={this.state.graphVariables}
             onAssignedDimensionsOfVariableChange={this.setAssignedDimensions}
-            graphCustomizations={this.state.graphCustomizations}
-            graphSettings={this.state.graphSettings}
-            onGraphSettingsChange={this.setGraphSettings}
             svgSize={this.state.svgSize}
             onSvgSizeChange={this.setSvgSize}
           />
@@ -95,22 +88,18 @@ export default class App extends React.Component {
         case 'BarChart':
           this.setState({
             graphVariables: BarChart.variables,
-            graphCustomizations: BarChart.customizations,
-            graphSettings: BarChart.settings,
+            // graphCustomizations: BarChart.customizations,
+            // graphSettings: BarChart.settings,
           });
           break;
         case 'pieChart':
         this.setState({
           graphVariables: pieChart.variables,
-          graphCustomizations: pieChart.customizations,
-          graphSettings: pieChart.settings,
         });
           break;
         default:
         this.setState({
           graphVariables: null,
-          graphCustomizations: null,
-          graphSettings: null,
         });
 
       }

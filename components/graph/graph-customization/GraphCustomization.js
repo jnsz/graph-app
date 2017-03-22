@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import CustButtonGroup from './CustButtonGroup';
@@ -10,6 +10,17 @@ import CustSlider from './CustSlider';
 
 import BarChart from '../../graphs/BarChart';
 import PieChart from '../../graphs/PieChart'
+
+
+const blockStyle ={
+	backgroundColor: 'white',
+	padding: '5px 15px',
+	margin: '0px 0px 10px 0px',
+	height: '145px'
+}
+const rowStyle = {
+  padding: '0px 15px',
+}
 
 export default class GraphCustomization extends React.Component {
 
@@ -23,7 +34,7 @@ export default class GraphCustomization extends React.Component {
 	render() {
 
 		return (
-			<div  style={{backgroundColor: '#f8f8f8'}}>
+			<div style={{backgroundColor: '#f8f8f8'}}>
 		    <div className='container'>
 		      <div className='wrapper'>
 						{ this.renderSizeCustomization() }
@@ -39,30 +50,30 @@ export default class GraphCustomization extends React.Component {
 		const height = this.props.svgSize.height;
 		const margin = this.props.svgSize.margin;
 		return (
-			<Row>
-				<CustFormGroup
-					label='Aspect ratio'
-					items={[
-						{'type' : 'input', 'text' : 'Width', 'value' : width, 'onChange': this.onChangeWidth},
-						{'type' : 'addon', 'label' : <FontAwesome name='times'/>},
-						{'type' : 'input', 'text' : 'Height', 'value' : height, 'onChange': this.onChangeHeight},
-						{/*{'type' : 'btn', 'label' : <FontAwesome name='arrows-alt'/>},*/}
-					]}
-				/>
-				<CustSlider
-					label='Margins'
-					min={0}
-					max={1}
-					step={0.01}
-					value={margin}
-					displayedValue={d3.format('.0%')(margin)}
-					onChange={this.onChangeMargin}
-				/>
-			</Row>
+			<Col md={6}>
+				<div style={blockStyle}>
+					<CustFormGroup
+						label='Aspect ratio'
+						items={[
+							{'type' : 'input', 'text' : 'Width', 'value' : width, 'onChange': this.onChangeWidth},
+							{'type' : 'addon', 'label' : <FontAwesome name='times'/>},
+							{'type' : 'input', 'text' : 'Height', 'value' : height, 'onChange': this.onChangeHeight},
+							{/*{'type' : 'btn', 'label' : <FontAwesome name='arrows-alt'/>},*/}
+						]}
+					/>
+					<CustSlider
+						label='Margins'
+						min={0}
+						max={1}
+						step={0.01}
+						value={margin}
+						displayedValue={d3.format('.0%')(margin)}
+						onChange={this.onChangeMargin}
+					/>
+				</div>
+			</Col>
 		)
 	}
-
-
 
 	renderGraphCustomization(){
 		const components = {
@@ -71,43 +82,8 @@ export default class GraphCustomization extends React.Component {
 		}
 		const SelectedGraph = components[this.props.selectedGraph];
 
-		return <SelectedGraph />;
+		return <SelectedGraph updateSVG={this.props.updateSVG} />;
 	}
-
-	// renderGraphCustomization() {
-	// 	return (
-	// 		<Row>
-	// 			{this.props.graphCustomizations.map((customization, i) => {
-	// 				// console.log(customization);
-	// 				switch (customization.type) {
-	// 		      case 'form group':
-	// 						return (
-	// 							<CustFormGroup
-	// 								label = {customization.label}
-	// 								items = {customization.items}
-	// 							/>
-	// 						)
-	// 		        break;
-	// 		      case 'slider':
-	// 						return (
-	// 							<CustSlider
-	// 								label = {customization.label}
-	// 								min = {customization.min}
-	// 								max = {customization.max}
-	// 								step = {customization.step}
-	// 								value = {customization.value}
-	// 								displayedValue = {customization.displayedValue}
-	// 								onChange = {customization.onChange}
-	// 							/>
-	// 						)
-	// 						break;
-	// 					default:
-	// 						console.log('Dunno how to render this ' + customization.type + ' of yours');
-	// 		    }
-	// 			})}
-	// 		</Row>
-	// 	)
-	// }
 
 	onChangeWidth(newWidth) {
 		const newSize = {width: newWidth};

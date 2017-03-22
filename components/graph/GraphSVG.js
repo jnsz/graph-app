@@ -2,8 +2,14 @@ import * as d3 from 'd3';
 import ReactFauxDOM from 'react-faux-dom';
 
 import BarChart from '../graphs/BarChart';
+import GraphCustomization from './graph-customization/GraphCustomization';
 
 export default class GraphSVG extends React.Component{
+
+  constructor(){
+    super();
+    this.updateSVG = this.updateSVG.bind(this);
+  }
 
   render() {
     return (
@@ -11,8 +17,19 @@ export default class GraphSVG extends React.Component{
         <div id='graph-SVG' style={{justifyContent: 'center'}}>
           { this.generateSVG() }
     		</div>
+
+      <GraphCustomization
+        selectedGraph={this.props.selectedGraph}
+        svgSize={this.props.svgSize}
+        onSvgSizeChange={this.props.onSvgSizeChange}
+        updateSVG={this.updateSVG}
+      />
       </div>
     );
+  }
+
+  updateSVG(){
+    this.forceUpdate();
   }
 
   generateSVG(){

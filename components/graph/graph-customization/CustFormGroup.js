@@ -1,13 +1,17 @@
-import { Col, FormGroup, FormControl, InputGroup, Button } from 'react-bootstrap';
+import { Row, FormGroup, FormControl, InputGroup, Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import VisibilityBtn from './VisibilityBtn'
+
+const rowStyle = {
+  padding: '0px 15px',
+}
 
 export default class CustFormGroup extends React.Component {
 
 	render() {
 		return (
-			<Col md={3}>
+			<Row style={rowStyle}>
 				<label>
 					{this.props.label}
 				</label>
@@ -16,7 +20,7 @@ export default class CustFormGroup extends React.Component {
 						{ this.renderInputGroup() }
 					</InputGroup>
 				</FormGroup>
-			</Col>
+			</Row >
 		)
 	}
 
@@ -35,12 +39,30 @@ export default class CustFormGroup extends React.Component {
 								</Button>
 							</InputGroup.Button>
 						)
-						break;
+						break;          
 
 					case 'btn-vis':
 						return (
 							<InputGroup.Button  key={items.indexOf(item)} >
-								<VisibilityBtn visible={true} toggleVisibility={e => console.log('vis btn clicked')} />
+								<VisibilityBtn
+									visible={item.visible}
+									toggleVisibility={item.onChange} />
+							</InputGroup.Button>
+						)
+						break;
+
+					case 'align':
+						return (
+							<InputGroup.Button  key={items.indexOf(item)} >
+								<Button onClick={() => {item.onChange('start')}} active={item.value === 'start'}>
+									<FontAwesome name='align-left'/>
+								</Button>
+								<Button onClick={() => {item.onChange('middle')}} active={item.value === 'middle'}>
+									<FontAwesome name='align-center'/>
+								</Button>
+								<Button onClick={() => {item.onChange('end')}} active={item.value === 'end'}>
+									<FontAwesome name='align-right'/>
+								</Button>
 							</InputGroup.Button>
 						)
 						break;
