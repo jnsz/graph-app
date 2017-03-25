@@ -24,6 +24,7 @@ export default class BarChart extends React.Component{
       <Col md={6}>
         <div style={blockStyle}>
           <CustButtonGroup
+						label='Graph type'
             buttons={[
               [{label:'Vertical', active:BarChart.settings.isVertical, onClick: () => {this.setSettings({isVertical:true})} },
               {label:'Horizontal', active:!BarChart.settings.isVertical, onClick: () => {this.setSettings({isVertical:false})} }],
@@ -61,8 +62,15 @@ export default class BarChart extends React.Component{
   				/>
           <CustButtonGroup
             buttons={[
-              [{label:'Grouped', active:BarChart.settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },],
-              [{label:'Grouped', active:BarChart.settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },],
+              [{type: 'dropdown',
+							tamplate: 'fontFamily',
+							active:BarChart.settings.fontFamily,
+							onClick: value => {this.setSettings({fontFamily:value})} },],
+
+              [{type: 'dropdown',
+							tamplate: 'fontSize',
+							active:BarChart.settings.fontSize,
+							onClick: value => {this.setSettings({fontSize:value})} },],
             ]}
           />
 
@@ -72,41 +80,31 @@ export default class BarChart extends React.Component{
       <Col md={6}>
         <div style={blockStyle}>
           <CustButtonGroup
+						label='General'
             buttons={[
-              [{label:'Color', active:BarChart.settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },],
-              [{label:'Bar label', active:BarChart.settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },],
-            ]}
-          />
-          <CustButtonGroup
-            buttons={[
-              [{label:'Padding', active:BarChart.settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },],
-              [{label:'Legend', active:BarChart.settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },],
-            ]}
-          />
-        </div>
-      </Col>
+              [{type:'dropdown',
+							tamplate:'color',
+							active:BarChart.settings.color,
+							onClick: value => {this.setSettings({color:value})} },],
 
-      <Col md={6}>
-        <div style={blockStyle}>
-          <CustFormGroup
-  					label='Graph Label'
-  					items={[
-              {type : 'input',
-               text : 'Graph label',
-               value : BarChart.settings.graphLabel.value,
-               onChange: value => {this.setSettings({graphLabel:{...BarChart.settings.graphLabel, value:value}})}
-             },
-              {type: 'align',
-               value: BarChart.settings.graphLabel.align,
-               onChange: value => {this.setSettings({graphLabel:{...BarChart.settings.graphLabel, align:value}})}
-              }
-  					]}
-  				/>
+							[{type: 'dropdown',
+							tamplate: 'barLabelPos',
+							active:BarChart.settings.barLabelPos,
+							onClick: value => {this.setSettings({barLabelPos:value})} },],
+            ]}
+          />
           <CustButtonGroup
             buttons={[
-              [{label:'0°', active:BarChart.settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },
-              {label:'45°', active:BarChart.settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },
-              {label:'90°', active:BarChart.settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },],
+							[{icon: (BarChart.settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
+							label: 'Legend',
+							active:BarChart.settings.yAxis.legend,
+							onClick: () => {this.setSettings({legend:!BarChart.settings.legend})} }],
+
+							[{type: 'dropdown',
+							tamplate: 'barPadding',
+							active:BarChart.settings.barPadding,
+							onClick: value => {this.setSettings({barPadding:value})} },],
+
             ]}
           />
         </div>
@@ -115,42 +113,75 @@ export default class BarChart extends React.Component{
       <Col md={6}>
         <div style={blockStyle}>
           <CustFormGroup
-  					label='Graph Label'
+  					label='X Axis'
   					items={[
               {type : 'input',
-               text : 'Graph label',
-               value : BarChart.settings.graphLabel.value,
-               onChange: value => {this.setSettings({graphLabel:{...BarChart.settings.graphLabel, value:value}})}
+               text : 'X Axis Label',
+               value : BarChart.settings.xAxis.value,
+               onChange: value => {this.setSettings({xAxis:{...BarChart.settings.xAxis, value:value}})}
              },
               {type: 'align',
-               value: BarChart.settings.graphLabel.align,
-               onChange: value => {this.setSettings({graphLabel:{...BarChart.settings.graphLabel, align:value}})}
+               value: BarChart.settings.xAxis.align,
+               onChange: value => {this.setSettings({xAxis:{...BarChart.settings.xAxis, align:value}})}
               }
   					]}
   				/>
           <CustButtonGroup
             buttons={[
-              [{label:'Guides', active:BarChart.settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },],
-              [{label:'Left', active:BarChart.settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },
-              {label:'Right', active:BarChart.settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },],
+              [{label:'0°', active:(BarChart.settings.xAxis.rotation === '0'), onClick: () => {this.setSettings({xAxis:{...BarChart.settings.xAxis, rotation:'0'}})} },
+              {label:'45°', active:(BarChart.settings.xAxis.rotation === '45'), onClick: () => {this.setSettings({xAxis:{...BarChart.settings.xAxis, rotation:'45'}})} },
+              {label:'90°', active:(BarChart.settings.xAxis.rotation === '90'), onClick: () => {this.setSettings({xAxis:{...BarChart.settings.xAxis, rotation:'90'}})} },],
             ]}
           />
         </div>
       </Col>
 
       <Col md={6}>
+        <div style={blockStyle}>
+          <CustFormGroup
+  					label='Y Axis'
+  					items={[
+              {type : 'input',
+               text : 'Graph label',
+               value : BarChart.settings.yAxis.value,
+               onChange: value => {this.setSettings({yAxis:{...BarChart.settings.yAxis, value:value}})}
+             },
+              {type: 'align',
+               value: BarChart.settings.yAxis.align,
+               onChange: value => {this.setSettings({yAxis:{...BarChart.settings.yAxis, align:value}})}
+              }
+  					]}
+  				/>
+          <CustButtonGroup
+            buttons={[
+              [{icon: (BarChart.settings.yAxis.guidelines?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
+							label: 'Guides',
+							active:BarChart.settings.yAxis.guidelines,
+							onClick: () => {this.setSettings({yAxis:{...BarChart.settings.yAxis, guidelines:!BarChart.settings.yAxis.guidelines}})} },],
+              [{label:'Left',
+							active:BarChart.settings.yAxis.position === 'left',
+							onClick: () => {this.setSettings({yAxis:{...BarChart.settings.yAxis, position:'left'}})} },
+              {label:'Right',
+							active:BarChart.settings.yAxis.position === 'right',
+							onClick: () => {this.setSettings({yAxis:{...BarChart.settings.yAxis, position:'right'}})} },],
+            ]}
+          />
+        </div>
+      </Col>
+
+      {/*<Col md={6}>
         <div style={blockStyle}>
           <CustSlider
             label='Bar padding'
             min={0}
             max={1}
             step={0.01}
-            value={BarChart.settings.x1Padding}
-            displayedValue={d3.format('.0%')(BarChart.settings.x1Padding)}
-            onChange= {value => {this.setSettings({x1Padding:value})}}
+            value={BarChart.settings.barPadding}
+            displayedValue={d3.format('.0%')(BarChart.settings.barPadding)}
+            onChange= {value => {this.setSettings({barPadding:value})}}
           />
         </div>
-      </Col>
+      </Col>*/}
       </div>
 
     )
@@ -158,6 +189,7 @@ export default class BarChart extends React.Component{
 
   setSettings(newSettings){
     BarChart.settings = {...BarChart.settings, ...newSettings};
+		console.log(BarChart.settings);
     this.props.updateSVG();
   }
 
@@ -179,31 +211,40 @@ export default class BarChart extends React.Component{
     }
   ];
   static settings = {
+		// block 1
     isVertical:true,
     isGrouped:true,
 
+		// block 2
     graphLabel:{
       value: 'Bar Chart',
-      visible: true,
       align: 'middle',
       isBold: false,
     },
+		fontFamily:'Helvetica',
+		fontSize:'14px',
 
-    xAxisVisible:true,
-    xAxisLabel:'X Axis',
-    xAxisPosition:'left',
-    xAxisLabelAlign:'middle',
+		// block 3
 
-    yAxisVisible:true,
-    yAxisLabel:'Y Axis',
-    yAxisLabelAlign:'middle',
+		color: d3.schemeCategory10,
+		barLabelPos:'above',
+		barPadding:0.1,
+		legend:true,
 
-    legendVisible:true,
-    guidelinesVisible:true,
+		// block 4
+    xAxis:{
+			value: 'X Axis',
+			align:'middle',
+	    rotation:'0',
+		},
 
-    yPadding:0,
-    x0Padding:0,
-    x1Padding:0.2,
+		// block 5
+		yAxis:{
+			value:'Y Axis',
+			align:'middle',
+			guidelines:false,
+			position:'left',
+		},
   }
 
   static checkAndDrawChart(canvas, svgSize, wholeDataset) {
@@ -243,12 +284,12 @@ export default class BarChart extends React.Component{
     const x0 = d3.scaleBand()
                 .range([0,width])
                 .domain(d3.range(dataset.length))
-                .padding(BarChart.settings.x0Padding);
+                .padding(BarChart.settings.barPadding);
 
     const x1 = d3.scaleBand()
               .domain(d3.range(barDimensions.length))
               .range([0, x0.bandwidth()])
-              .padding(BarChart.settings.x1Padding);
+              .padding(BarChart.settings.barPadding);
 
     const xAxis = d3.axisBottom(x0)
                     .tickSizeOuter(0);
@@ -301,7 +342,8 @@ export default class BarChart extends React.Component{
         .tickFormat('');
 
     // COLOR
-    const color = d3.scaleOrdinal().range(d3.schemeCategory10);
+    const color = d3.scaleOrdinal().range(BarChart.settings.color);
+
 
     // CREATE BARS
     const outerBand = canvas.append('g')
@@ -341,7 +383,7 @@ export default class BarChart extends React.Component{
 
 
     // CHART LABEL
-    if(BarChart.settings.graphLabel.visible) {
+    if(true) {
       let x = 0;
       switch(BarChart.settings.graphLabel.align){
         case 'start':
@@ -361,7 +403,9 @@ export default class BarChart extends React.Component{
             .attr('x', x)
             .attr('y', y)
             .attr('text-anchor', BarChart.settings.graphLabel.align)
-            .attr('alignment-baseline', 'middle')
+            .attr('alignment-baseline', 'alphabetic')
+						.attr("font-family", BarChart.settings.fontFamily)
+						.attr("font-size", BarChart.settings.fontSize)
             .attr('font-weight', BarChart.settings.graphLabel.isBold ? 'bold':'normal')
             .text(BarChart.settings.graphLabel.value);
     }
