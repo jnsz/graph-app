@@ -39,7 +39,7 @@ export default class CustFormGroup extends React.Component {
 								</Button>
 							</InputGroup.Button>
 						)
-						break;          
+						break;
 
 					case 'btn-vis':
 						return (
@@ -85,7 +85,7 @@ export default class CustFormGroup extends React.Component {
 						return (
 							<FormControl
 								key={items.indexOf(item)}
-								type="text"
+								type='text'
 								placeholder={item.placeholder}
 								value={item.value}
 								onChange={e => {item.onChange(e.target.value)}}

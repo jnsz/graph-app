@@ -3,20 +3,20 @@ import FontAwesome from 'react-fontawesome';
 
 const graphTypes = [
   {
-    "name":"BarChart",
-    "icon":"bar-chart",
+    'name':'BarChart',
+    'icon':'bar-chart',
   },
   {
-    "name":"pieChart",
-    "icon":"pie-chart",
+    'name':'pieChart',
+    'icon':'pie-chart',
   },
   {
-    "name":"lineChart",
-    "icon":"line-chart",
+    'name':'lineChart',
+    'icon':'line-chart',
   },
   {
-    "name":"scatterPlot",
-    "icon":"braille"
+    'name':'scatterPlot',
+    'icon':'braille'
   }
 ];
 

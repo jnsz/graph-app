@@ -1001,17 +1001,17 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var graphTypes = [{
-  "name": "BarChart",
-  "icon": "bar-chart"
+  'name': 'BarChart',
+  'icon': 'bar-chart'
 }, {
-  "name": "pieChart",
-  "icon": "pie-chart"
+  'name': 'pieChart',
+  'icon': 'pie-chart'
 }, {
-  "name": "lineChart",
-  "icon": "line-chart"
+  'name': 'lineChart',
+  'icon': 'line-chart'
 }, {
-  "name": "scatterPlot",
-  "icon": "braille"
+  'name': 'scatterPlot',
+  'icon': 'braille'
 }];
 
 var GraphType = function (_React$Component) {
@@ -2755,6 +2755,8 @@ var BarChart = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
+      var settings = BarChart.settings;
+
       return React.createElement(
         'div',
         null,
@@ -2766,16 +2768,16 @@ var BarChart = function (_React$Component) {
             { style: blockStyle },
             React.createElement(_CustButtonGroup2.default, {
               label: 'Graph type',
-              buttons: [[{ label: 'Vertical', active: BarChart.settings.isVertical, onClick: function onClick() {
+              buttons: [[{ label: 'Vertical', active: settings.isVertical, onClick: function onClick() {
                   _this2.setSettings({ isVertical: true });
-                } }, { label: 'Horizontal', active: !BarChart.settings.isVertical, onClick: function onClick() {
+                } }, { label: 'Horizontal', active: !settings.isVertical, onClick: function onClick() {
                   _this2.setSettings({ isVertical: false });
                 } }]]
             }),
             React.createElement(_CustButtonGroup2.default, {
-              buttons: [[{ label: 'Grouped', active: BarChart.settings.isGrouped, onClick: function onClick() {
+              buttons: [[{ label: 'Grouped', active: settings.isGrouped, onClick: function onClick() {
                   _this2.setSettings({ isGrouped: true });
-                } }, { label: 'Stacked', active: !BarChart.settings.isGrouped, onClick: function onClick() {
+                } }, { label: 'Stacked', active: !settings.isGrouped, onClick: function onClick() {
                   _this2.setSettings({ isGrouped: false });
                 } }]]
             })
@@ -2791,32 +2793,32 @@ var BarChart = function (_React$Component) {
               label: 'Graph Label',
               items: [{ type: 'btn',
                 label: React.createElement(_reactFontawesome2.default, { name: 'bold' }),
-                active: BarChart.settings.graphLabel.isBold,
+                active: settings.chartLabel.isBold,
                 onChange: function onChange() {
-                  _this2.setSettings({ graphLabel: _extends({}, BarChart.settings.graphLabel, { isBold: !BarChart.settings.graphLabel.isBold }) });
+                  _this2.setSettings({ chartLabel: _extends({}, settings.chartLabel, { isBold: !settings.chartLabel.isBold }) });
                 }
               }, { type: 'input',
                 text: 'Graph label',
-                value: BarChart.settings.graphLabel.value,
+                value: settings.chartLabel.value,
                 onChange: function onChange(value) {
-                  _this2.setSettings({ graphLabel: _extends({}, BarChart.settings.graphLabel, { value: value }) });
+                  _this2.setSettings({ chartLabel: _extends({}, settings.chartLabel, { value: value }) });
                 }
               }, { type: 'align',
-                value: BarChart.settings.graphLabel.align,
+                value: settings.chartLabel.align,
                 onChange: function onChange(value) {
-                  _this2.setSettings({ graphLabel: _extends({}, BarChart.settings.graphLabel, { align: value }) });
+                  _this2.setSettings({ chartLabel: _extends({}, settings.chartLabel, { align: value }) });
                 }
               }]
             }),
             React.createElement(_CustButtonGroup2.default, {
               buttons: [[{ type: 'dropdown',
                 tamplate: 'fontFamily',
-                active: BarChart.settings.fontFamily,
+                active: settings.fontFamily,
                 onClick: function onClick(value) {
                   _this2.setSettings({ fontFamily: value });
                 } }], [{ type: 'dropdown',
                 tamplate: 'fontSize',
-                active: BarChart.settings.fontSize,
+                active: settings.fontSize,
                 onClick: function onClick(value) {
                   _this2.setSettings({ fontSize: value });
                 } }]]
@@ -2833,25 +2835,25 @@ var BarChart = function (_React$Component) {
               label: 'General',
               buttons: [[{ type: 'dropdown',
                 tamplate: 'color',
-                active: BarChart.settings.color,
+                active: settings.color,
                 onClick: function onClick(value) {
                   _this2.setSettings({ color: value });
                 } }], [{ type: 'dropdown',
                 tamplate: 'barLabelPos',
-                active: BarChart.settings.barLabelPos,
+                active: settings.barLabelPos,
                 onClick: function onClick(value) {
                   _this2.setSettings({ barLabelPos: value });
                 } }]]
             }),
             React.createElement(_CustButtonGroup2.default, {
-              buttons: [[{ icon: BarChart.settings.legend ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
+              buttons: [[{ icon: settings.legend ? React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }) : React.createElement(_reactFontawesome2.default, { name: 'eye' }),
                 label: 'Legend',
-                active: BarChart.settings.yAxis.legend,
+                active: settings.yAxis.legend,
                 onClick: function onClick() {
-                  _this2.setSettings({ legend: !BarChart.settings.legend });
+                  _this2.setSettings({ legend: !settings.legend });
                 } }], [{ type: 'dropdown',
                 tamplate: 'barPadding',
-                active: BarChart.settings.barPadding,
+                active: settings.barPadding,
                 onClick: function onClick(value) {
                   _this2.setSettings({ barPadding: value });
                 } }]]
@@ -2868,24 +2870,24 @@ var BarChart = function (_React$Component) {
               label: 'X Axis',
               items: [{ type: 'input',
                 text: 'X Axis Label',
-                value: BarChart.settings.xAxis.value,
+                value: settings.xAxis.value,
                 onChange: function onChange(value) {
-                  _this2.setSettings({ xAxis: _extends({}, BarChart.settings.xAxis, { value: value }) });
+                  _this2.setSettings({ xAxis: _extends({}, settings.xAxis, { value: value }) });
                 }
               }, { type: 'align',
-                value: BarChart.settings.xAxis.align,
+                value: settings.xAxis.align,
                 onChange: function onChange(value) {
-                  _this2.setSettings({ xAxis: _extends({}, BarChart.settings.xAxis, { align: value }) });
+                  _this2.setSettings({ xAxis: _extends({}, settings.xAxis, { align: value }) });
                 }
               }]
             }),
             React.createElement(_CustButtonGroup2.default, {
-              buttons: [[{ label: '0°', active: BarChart.settings.xAxis.rotation === '0', onClick: function onClick() {
-                  _this2.setSettings({ xAxis: _extends({}, BarChart.settings.xAxis, { rotation: '0' }) });
-                } }, { label: '45°', active: BarChart.settings.xAxis.rotation === '45', onClick: function onClick() {
-                  _this2.setSettings({ xAxis: _extends({}, BarChart.settings.xAxis, { rotation: '45' }) });
-                } }, { label: '90°', active: BarChart.settings.xAxis.rotation === '90', onClick: function onClick() {
-                  _this2.setSettings({ xAxis: _extends({}, BarChart.settings.xAxis, { rotation: '90' }) });
+              buttons: [[{ label: '0°', active: settings.xAxis.rotation === 0, onClick: function onClick() {
+                  _this2.setSettings({ xAxis: _extends({}, settings.xAxis, { rotation: 0 }) });
+                } }, { label: '45°', active: settings.xAxis.rotation === 45, onClick: function onClick() {
+                  _this2.setSettings({ xAxis: _extends({}, settings.xAxis, { rotation: 45 }) });
+                } }, { label: '90°', active: settings.xAxis.rotation === 90, onClick: function onClick() {
+                  _this2.setSettings({ xAxis: _extends({}, settings.xAxis, { rotation: 90 }) });
                 } }]]
             })
           )
@@ -2900,31 +2902,31 @@ var BarChart = function (_React$Component) {
               label: 'Y Axis',
               items: [{ type: 'input',
                 text: 'Graph label',
-                value: BarChart.settings.yAxis.value,
+                value: settings.yAxis.value,
                 onChange: function onChange(value) {
-                  _this2.setSettings({ yAxis: _extends({}, BarChart.settings.yAxis, { value: value }) });
+                  _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { value: value }) });
                 }
               }, { type: 'align',
-                value: BarChart.settings.yAxis.align,
+                value: settings.yAxis.align,
                 onChange: function onChange(value) {
-                  _this2.setSettings({ yAxis: _extends({}, BarChart.settings.yAxis, { align: value }) });
+                  _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { align: value }) });
                 }
               }]
             }),
             React.createElement(_CustButtonGroup2.default, {
-              buttons: [[{ icon: BarChart.settings.yAxis.guidelines ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
+              buttons: [[{ icon: settings.yAxis.guidelines ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
                 label: 'Guides',
-                active: BarChart.settings.yAxis.guidelines,
+                active: settings.yAxis.guidelines,
                 onClick: function onClick() {
-                  _this2.setSettings({ yAxis: _extends({}, BarChart.settings.yAxis, { guidelines: !BarChart.settings.yAxis.guidelines }) });
+                  _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { guidelines: !settings.yAxis.guidelines }) });
                 } }], [{ label: 'Left',
-                active: BarChart.settings.yAxis.position === 'left',
+                active: settings.yAxis.position === 'left',
                 onClick: function onClick() {
-                  _this2.setSettings({ yAxis: _extends({}, BarChart.settings.yAxis, { position: 'left' }) });
+                  _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { position: 'left' }) });
                 } }, { label: 'Right',
-                active: BarChart.settings.yAxis.position === 'right',
+                active: settings.yAxis.position === 'right',
                 onClick: function onClick() {
-                  _this2.setSettings({ yAxis: _extends({}, BarChart.settings.yAxis, { position: 'right' }) });
+                  _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { position: 'right' }) });
                 } }]]
             })
           )
@@ -2938,21 +2940,27 @@ var BarChart = function (_React$Component) {
       console.log(BarChart.settings);
       this.props.updateSVG();
     }
-
-    //////////////////////////////////////////////////////////////////////////////
-
   }], [{
     key: 'checkAndDrawChart',
     value: function checkAndDrawChart(canvas, svgSize, wholeDataset) {
       var hasLabelDimension = this.variables[0].assignedDimensions.length != 0;
       var hasBarDimension = this.variables[1].assignedDimensions.length != 0;
 
+      var isVertical = BarChart.settings.isVertical;
+      var isGrouped = BarChart.settings.isGrouped;
+
       var canDraw = hasBarDimension;
-      if (canDraw) this.drawChart(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
+      if (canDraw) {
+        if (isVertical && isGrouped) this.drawChartVertGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);else this.drawChartVertGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
+        // else if(!isVertical && isGrouped) this.drawChartHorizonGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
+        // else if(isVertical && !isGrouped) this.drawChartVertStacked(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
+        // else this.drawChartHorizonStacked(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
+      }
     }
   }, {
-    key: 'drawChart',
-    value: function drawChart(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension) {
+    key: 'drawChartVertGroup',
+    value: function drawChartVertGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension) {
+      var settings = BarChart.settings;
       // GET CANVAS WIDTH AND HEIGHT
       var width = svgSize.width - svgSize.width * svgSize.margin;
       var height = svgSize.height - svgSize.height * svgSize.margin;
@@ -2981,14 +2989,63 @@ var BarChart = function (_React$Component) {
         });
       });
 
-      // X AXIS
-      var x0 = d3.scaleBand().range([0, width]).domain(d3.range(dataset.length)).padding(BarChart.settings.barPadding);
+      // Y AXIS
+      var y = d3.scaleLinear().range([height, 0]).domain([0, domainMax]);
 
-      var x1 = d3.scaleBand().domain(d3.range(barDimensions.length)).range([0, x0.bandwidth()]).padding(BarChart.settings.barPadding);
+      var yAxis = settings.yAxis.position === 'left' ? d3.axisLeft(y) : d3.axisRight(y);
+      yAxis.tickSizeOuter(0);
+
+      var yAxisGroup = canvas.append('g').attr('class', 'y axis').attr('transform', 'translate(' + (settings.yAxis.position === 'left' ? 0 : width) + ',0)');
+
+      yAxisGroup.append('g').call(yAxis);
+
+      canvas.select('.y.axis').selectAll('g.tick').selectAll('text').each(function () {
+        d3.select(this).attr('font-family', settings.fontFamily);
+      });
+
+      var labelPos = void 0;
+      switch (settings.yAxis.align) {
+        case 'start':
+          labelPos = height;break;
+        case 'middle':
+          labelPos = height / 2;break;
+        case 'end':
+          labelPos = 0;break;
+      }
+
+      yAxisGroup.append('text').attr('transform', 'translate(' + (settings.yAxis.position === 'left' ? -25 : 25) + ',' + labelPos + ') rotate(-90)').attr('text-anchor', settings.yAxis.align).attr('dominant-baseline', '' + (settings.yAxis.position === 'left' ? 'text-after-edge' : 'text-before-edge')).attr('font-family', settings.fontFamily).attr('font-size', settings.fontSize).text(settings.yAxis.value);
+
+      // GUIDELINES
+      if (settings.yAxis.guidelines) {
+        var guidelines = d3.axisRight(y).tickSizeInner(width).tickSizeOuter(0).tickFormat('');
+
+        canvas.append('g').attr('class', 'guidelines').call(guidelines);
+
+        canvas.select('.guidelines').selectAll('.tick').selectAll('line').attr('stroke', '#999');
+      }
+
+      // X AXIS
+      var x0 = d3.scaleBand().range([0, width]).domain(d3.range(dataset.length)).padding(settings.barPadding);
+
+      var x1 = d3.scaleBand().domain(d3.range(barDimensions.length)).range([0, x0.bandwidth()]).padding(settings.barPadding);
 
       var xAxis = d3.axisBottom(x0).tickSizeOuter(0);
 
-      canvas.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')').call(xAxis);
+      var xAxisGroup = canvas.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')');
+
+      xAxisGroup.append('g').call(xAxis);
+
+      //let labelPos;
+      switch (settings.xAxis.align) {
+        case 'start':
+          labelPos = 0;break;
+        case 'middle':
+          labelPos = width / 2;break;
+        case 'end':
+          labelPos = width;break;
+      }
+
+      xAxisGroup.append('text').attr('transform', 'translate(' + labelPos + ',25)').attr('text-anchor', settings.xAxis.align).attr('dominant-baseline', 'text-before-edge').attr('font-family', settings.fontFamily).attr('font-size', settings.fontSize).text(settings.xAxis.value);
 
       // DRAW TICKS ON X AXIS
       if (hasLabelDimension) {
@@ -2996,29 +3053,25 @@ var BarChart = function (_React$Component) {
           return d[labelDimension];
         });
 
-        canvas.select(".x.axis").selectAll("g.tick").selectAll("text").each(function (d) {
-          d3.select(this).text(tickNames[d]);
+        var pos = void 0;
+        switch (settings.xAxis.rotation) {
+          case 0:
+            pos = { x: 0, y: 0 };break;
+          case 45:
+            pos = { x: -9, y: 4 };break;
+          case 90:
+            pos = { x: -13, y: 10 };break;
+        }
+
+        canvas.select('.x.axis').selectAll('g.tick').selectAll('text').each(function (d) {
+          d3.select(this).attr('text-anchor', 'end').attr('text-anchor', settings.xAxis.rotation === 0 ? 'middle' : 'end').attr('transform', 'translate(' + pos.x + ',' + pos.y + ') rotate(-' + settings.xAxis.rotation + ')').attr('font-family', settings.fontFamily).text(tickNames[d]);
         });
       } else {
-        canvas.select(".x.axis").selectAll("g.tick").remove();
+        canvas.select('.x.axis').selectAll('g.tick').remove();
       }
 
-      // Y AXIS
-      var y = d3.scaleLinear().range([height, 0]).domain([0, domainMax]);
-
-      var yAxis = d3.axisLeft(y).tickSizeOuter(0);
-
-      var yAxisGroup = canvas.append('g').attr('class', 'y axis');
-
-      yAxisGroup.append('g').call(yAxis);
-
-      yAxisGroup.append('text').attr('x', 0).attr('y', 0).attr('text-anchor', BarChart.settings.yAxisLabelAlign).attr('alignment-baseline', 'middle').text(BarChart.settings.yAxisLabel);
-
-      // GUIDELINES
-      var guidelines = d3.axisRight(y).tickSizeInner(width).tickSizeOuter(0).tickFormat('');
-
       // COLOR
-      var color = d3.scaleOrdinal().range(BarChart.settings.color);
+      var color = d3.scaleOrdinal().range(settings.color);
 
       // CREATE BARS
       var outerBand = canvas.append('g').attr('class', 'bars').selectAll('.outerBand').data(dataset).enter().append('g').attr('class', 'outerBand').attr('transform', function (d, i) {
@@ -3040,25 +3093,158 @@ var BarChart = function (_React$Component) {
       });
 
       // CHART LABEL
-      if (true) {
-        var x = 0;
-        switch (BarChart.settings.graphLabel.align) {
+      this.drawChartLabel(canvas, width);
+    }
+  }, {
+    key: 'drawChartLabel',
+    value: function drawChartLabel(canvas, width) {
+      var settings = BarChart.settings;
+      var x = 0;
+      switch (settings.chartLabel.align) {
+        case 'start':
+          x = 0;
+          break;
+        case 'middle':
+          x = width / 2;
+          break;
+        case 'end':
+          x = width;
+          break;
+      }
+      canvas.append('text').attr('x', x).attr('y', -10).attr('text-anchor', settings.chartLabel.align).attr('dominant-baseline', 'text-after-edge').attr('font-family', settings.fontFamily).attr('font-size', settings.fontSize).attr('font-weight', settings.chartLabel.isBold ? 'bold' : 'normal').text(settings.chartLabel.value);
+    }
+
+    /*static drawChart(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension){
+      // GET CANVAS WIDTH AND HEIGHT
+      const width = svgSize.width-(svgSize.width*svgSize.margin);
+      const height = svgSize.height-(svgSize.height*svgSize.margin);
+        // GET LABEL DIMENSION
+      const labelDimension = hasLabelDimension ? this.variables[0].assignedDimensions[0].dimension : null;
+        // GET BARS DIMENSIONS
+      const barDimensions = [];
+      this.variables[1].assignedDimensions.map(dimension => {
+        barDimensions.push(dimension.dimension);
+      })
+        // simplified dataset
+      const dataset = wholeDataset.map(function(d, i) {
+        const row = barDimensions.map(function(dimension, index) {
+          return d[dimension]
+        })
+        return row;
+      })
+        // MAX VALUE OF ALL BAR DIMENSIONS
+      const domainMax = d3.max(wholeDataset, function(d){return d3.max(barDimensions, function(barDimension) {return d[barDimension];})});
+        // X AXIS
+      const x0 = d3.scaleBand()
+                  .range([0,width])
+                  .domain(d3.range(dataset.length))
+                  .padding(BarChart.settings.barPadding);
+        const x1 = d3.scaleBand()
+                .domain(d3.range(barDimensions.length))
+                .range([0, x0.bandwidth()])
+                .padding(BarChart.settings.barPadding);
+        const xAxis = d3.axisBottom(x0)
+                      .tickSizeOuter(0);
+        canvas.append('g')
+        .attr('class', 'x axis')
+        .attr('transform', `translate(0,${height})`)
+        .call(xAxis);
+        // DRAW TICKS ON X AXIS
+      if(hasLabelDimension){
+        const tickNames = wholeDataset.map(function(d){return d[labelDimension];});
+          canvas.select('.x.axis').selectAll('g.tick').selectAll('text').each(function(d) {
+              d3.select(this).text(tickNames[d])
+        });
+      } else {
+        canvas.select('.x.axis').selectAll('g.tick').remove();
+      }
+        // Y AXIS
+      const y = d3.scaleLinear()
+                  .range([height,0])
+                  .domain([0, domainMax]);
+        const yAxis = d3.axisLeft(y)
+                      .tickSizeOuter(0);
+        const yAxisGroup = canvas.append('g')
+                              .attr('class', 'y axis')
+        yAxisGroup.append('g').call(yAxis);
+    
+      yAxisGroup.append('text')
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('text-anchor', BarChart.settings.yAxisLabelAlign)
+                .attr('dominant-baseline', 'middle')
+                .text(BarChart.settings.yAxisLabel);
+    
+    
+        // GUIDELINES
+      const guidelines = d3.axisRight(y)
+          .tickSizeInner(width)
+          .tickSizeOuter(0)
+          .tickFormat('');
+        // COLOR
+      const color = d3.scaleOrdinal().range(BarChart.settings.color);
+    
+      // CREATE BARS
+      const outerBand = canvas.append('g')
+                              .attr('class', 'bars')
+                              .selectAll('.outerBand')
+                              .data(dataset)
+                              .enter()
+                              .append('g')
+                              .attr('class', 'outerBand')
+                              .attr('transform', function(d, i) {
+                                  return `translate(${x0(i)},0)`;
+                              });
+        const innerBand = outerBand.selectAll('g')
+          .data(function(d, i) {
+              return d;
+          })
+          .enter()
+          .append('g')
+          .attr('class', 'innerBand')
+          .attr('transform', function(d, i) {
+              return `translate(${x1(i)},0)`;
+          });
+        innerBand.append('rect')
+          .attr('class', 'bar')
+          .attr('y', function(d) {
+              return y(d);
+          })
+          .attr('width', x1.bandwidth())
+          .attr('height', function(d) {
+              return height - y(d);
+          })
+          .style('fill', function(d, i) {
+              return color(i);
+          });
+    
+      // CHART LABEL
+      if(true) {
+        let x = 0;
+        switch(BarChart.settings.chartLabel.align){
           case 'start':
             x = 0;
             break;
           case 'middle':
-            x = width / 2;
+            x = width/2;
             break;
           case 'end':
             x = width;
             break;
         }
-
-        var _y = -(svgSize.height * svgSize.margin / 4);
-
-        canvas.append('text').attr('x', x).attr('y', _y).attr('text-anchor', BarChart.settings.graphLabel.align).attr('alignment-baseline', 'alphabetic').attr("font-family", BarChart.settings.fontFamily).attr("font-size", BarChart.settings.fontSize).attr('font-weight', BarChart.settings.graphLabel.isBold ? 'bold' : 'normal').text(BarChart.settings.graphLabel.value);
+          const y = -(svgSize.height * svgSize.margin/4);
+          canvas.append('text')
+              .attr('x', x)
+              .attr('y', y)
+              .attr('text-anchor', BarChart.settings.chartLabel.align)
+              .attr('dominant-baseline', 'ideographic')
+    				.attr('font-family', BarChart.settings.fontFamily)
+    				.attr('font-size', BarChart.settings.fontSize)
+              .attr('font-weight', BarChart.settings.chartLabel.isBold ? 'bold':'normal')
+              .text(BarChart.settings.chartLabel.value);
       }
-    }
+    }*/
+
   }]);
 
   return BarChart;
@@ -3084,16 +3270,15 @@ BarChart.settings = {
   isGrouped: true,
 
   // block 2
-  graphLabel: {
+  chartLabel: {
     value: 'Bar Chart',
     align: 'middle',
-    isBold: false
+    isBold: true
   },
   fontFamily: 'Helvetica',
   fontSize: '14px',
 
   // block 3
-
   color: d3.schemeCategory10,
   barLabelPos: 'above',
   barPadding: 0.1,
@@ -3103,7 +3288,7 @@ BarChart.settings = {
   xAxis: {
     value: 'X Axis',
     align: 'middle',
-    rotation: '0'
+    rotation: 0
   },
 
   // block 5
