@@ -2,6 +2,13 @@ div.wrapper {
     margin: 20px 0px;
 }
 
+div.cust {
+  background-color: white;
+	padding: 5px 15px;
+  margin: 0px 0px 10px 0px;
+  height: 145px;
+}
+
 row {
   margin: 20px 0px;
 }

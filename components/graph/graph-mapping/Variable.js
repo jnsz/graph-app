@@ -27,7 +27,6 @@ export default class Variable extends React.Component{
   render() {
     const { variable } = this.props
     const label = variable.label;
-    const desc = variable.desc;
     const isRequired = typeof variable.isRequired === 'undefined' ? false : variable.isRequired;
     const takesSingleDimension = typeof variable.takesSingleDimension === 'undefined' ? false : variable.takesSingleDimension;
     const mustBeNumeric = typeof variable.mustBeNumeric === 'undefined' ? false : variable.mustBeNumeric;
@@ -41,7 +40,6 @@ export default class Variable extends React.Component{
             {takesSingleDimension ? <FontAwesome name='tag' style={iconStyle}/>: <FontAwesome name='tags' style={iconStyle}/>}
             <strong> {label} </strong>
           </div>
-          {/*<div><small> {desc} </small></div>*/}
 
           <ul style={{marginTop:'10px'}}>
             {assignedDimensions.map((dimension, i) => {

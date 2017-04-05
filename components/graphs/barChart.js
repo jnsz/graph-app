@@ -8,14 +8,6 @@ import CustDropdown from '../graph/graph-customization/CustDropdown';
 import CustFormGroup from '../graph/graph-customization/CustFormGroup';
 import CustSlider from '../graph/graph-customization/CustSlider';
 
-const blockStyle ={
-	backgroundColor: 'white',
-	padding: '5px 15px',
-  margin: '0px 0px 10px 0px',
-  height: '145px'
-}
-
-
 export default class BarChart extends React.Component{
 
 
@@ -25,7 +17,7 @@ export default class BarChart extends React.Component{
     return(
       <div>
       <Col md={6}>
-        <div style={blockStyle}>
+        <div className='cust'>
           <CustButtonGroup
 						label='Graph type'
             buttons={[
@@ -43,7 +35,7 @@ export default class BarChart extends React.Component{
       </Col>
 
       <Col md={6}>
-        <div style={blockStyle}>
+        <div className='cust'>
           <CustFormGroup
   					label='Graph Label'
   					items={[
@@ -81,7 +73,7 @@ export default class BarChart extends React.Component{
       </Col>
 
       <Col md={6}>
-        <div style={blockStyle}>
+        <div className='cust'>
           <CustButtonGroup
 						label='General'
             buttons={[
@@ -114,7 +106,7 @@ export default class BarChart extends React.Component{
       </Col>
 
       <Col md={6}>
-        <div style={blockStyle}>
+        <div className='cust'>
           <CustFormGroup
   					label='X Axis'
   					items={[
@@ -140,7 +132,7 @@ export default class BarChart extends React.Component{
       </Col>
 
       <Col md={6}>
-        <div style={blockStyle}>
+        <div className='cust'>
           <CustFormGroup
   					label='Y Axis'
   					items={[
@@ -173,7 +165,7 @@ export default class BarChart extends React.Component{
       </Col>
 
       {/*<Col md={6}>
-        <div style={blockStyle}>
+        <div className='cust'>
           <CustSlider
             label='Bar padding'
             min={0}
@@ -193,13 +185,11 @@ export default class BarChart extends React.Component{
   static variables = [
     {
         label: 'Label',
-        desc: 'labels on x axis',
         isRequired: false,
         takesSingleDimension: true,
         assignedDimensions:[]
     },{
         label: 'Bars',
-        desc: 'place number variables here',
         isRequired: true,
         mustBeNumeric: true,
         assignedDimensions:[]

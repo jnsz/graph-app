@@ -6,7 +6,9 @@ import Data from './data/Data';
 import Graph from './graph/Graph';
 
 import BarChart from './graphs/BarChart';
-import pieChart from './graphs/pieChart';
+import PieChart from './graphs/PieChart';
+import LineChart from './graphs/LineChart';
+import ScatterPlot from './graphs/ScatterPlot';
 
 export default class App extends React.Component {
 
@@ -82,29 +84,32 @@ export default class App extends React.Component {
         selectedGraph: newGraphTypeName
       });
 
-      // TODO predelat, aby nacetl spravny config file
-      // momentalne nacita pouze bar chart config
       switch(newGraphTypeName){
         case 'BarChart':
           this.setState({
             graphVariables: BarChart.variables,
-            // graphCustomizations: BarChart.customizations,
-            // graphSettings: BarChart.settings,
           });
           break;
-        case 'pieChart':
-        this.setState({
-          graphVariables: pieChart.variables,
-        });
+        case 'PieChart':
+          this.setState({
+            graphVariables: PieChart.variables,
+          });
           break;
+        case 'LineChart':
+          this.setState({
+            graphVariables: LineChart.variables,
+          });
+          break;
+        case 'ScatterPlot':
+          this.setState({
+            graphVariables: ScatterPlot.variables,
+          })
         default:
         this.setState({
           graphVariables: null,
         });
 
       }
-
-
     }
   }
 
