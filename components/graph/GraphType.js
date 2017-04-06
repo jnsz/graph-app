@@ -7,15 +7,15 @@ const graphTypes = [
     'icon':'bar-chart',
   },
   {
-    'name':'pieChart',
+    'name':'PieChart',
     'icon':'pie-chart',
   },
   {
-    'name':'lineChart',
+    'name':'LineChart',
     'icon':'line-chart',
   },
   {
-    'name':'scatterPlot',
+    'name':'ScatterPlot',
     'icon':'braille'
   }
 ];

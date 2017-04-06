@@ -19,14 +19,8 @@ export default class PieChart extends React.Component {
           <CustButtonGroup
 						label='Graph type'
             buttons={[
-              [{label:'Vertical', active:settings.isVertical, onClick: () => {this.setSettings({isVertical:true})} },
-              {label:'Horizontal', active:!settings.isVertical, onClick: () => {this.setSettings({isVertical:false})} }],
-            ]}
-          />
-          <CustButtonGroup
-            buttons={[
-              [{label:'Grouped', active:settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },
-              {label:'Stacked', active:!settings.isGrouped, onClick: () => {this.setSettings({isGrouped:false})} }],
+              [{label:'Pie', active:!settings.isDonut, onClick: () => {this.setSettings({isDonut:false})} },
+              {label:'Donut', active:settings.isDonut, onClick: () => {this.setSettings({isDonut:true})} }],
             ]}
           />
         </div>
@@ -47,10 +41,6 @@ export default class PieChart extends React.Component {
                value : settings.chartLabel.value,
                onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, value:value}})}
              },
-              {type: 'align',
-               value: settings.chartLabel.align,
-               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, align:value}})}
-              }
   					]}
   				/>
           <CustButtonGroup
@@ -68,7 +58,6 @@ export default class PieChart extends React.Component {
           />
         </div>
       </Col>
-
       </div>
 
     )
@@ -77,22 +66,36 @@ export default class PieChart extends React.Component {
   static graphName = 'PieChart';
   static variables = [
     {
+        label: 'Value',
+        isRequired: true,
+        mustBeNumeric: true,
+        takesSingleDimension: true,
+        assignedDimensions:[]
+    },
+    {
         label: 'Label',
         isRequired: false,
         takesSingleDimension: true,
         assignedDimensions:[]
     },
-    {
-        label: 'Value',
-        isRequired: true,
-        takesSingleDimension: true,
-        assignedDimensions:[]
-    }
+
   ];
 
   // TODO add settings vatiables
   static settings = {
     isDonut:false,
+
+    chartLabel:{
+      isBold:false,
+      value:'Pie Chart',
+    },
+    fontFamily:'Helvetica',
+		fontSize:'14px',
+
+    sliceMoved: 0.02,// %
+    innerRadius: 0.5,// %
+
+    color: d3.schemeCategory10,
   };
 
   setSettings(newSettings){
@@ -102,8 +105,8 @@ export default class PieChart extends React.Component {
 	}
 
   static checkAndDrawChart(canvas, svgSize, wholeDataset) {
-    const hasLabelDimension = this.variables[0].assignedDimensions.length != 0;
-    const hasValueDimension = this.variables[1].assignedDimensions.length != 0;
+    const hasValueDimension = this.variables[0].assignedDimensions.length != 0;
+    const hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
 
     const canDraw = hasValueDimension;
     if(canDraw) {
@@ -116,23 +119,59 @@ export default class PieChart extends React.Component {
 		// GET CANVAS WIDTH AND HEIGHT
     const width = svgSize.width-(svgSize.width*svgSize.margin);
     const height = svgSize.height-(svgSize.height*svgSize.margin);
+    const radius = Math.min(width, height) / 2;
+
+    // GET VALUE DIMENSIONS
+    const valueDimension = this.variables[0].assignedDimensions[0].dimension;
 
     // GET LABEL DIMENSION
-    const labelDimension = hasLabelDimension ? this.variables[0].assignedDimensions[0].dimension : null;
+    const labelDimension = hasLabelDimension ? this.variables[1].assignedDimensions[0].dimension : null;
 
-    // GET BARS DIMENSIONS
-    const valueDimensions = [];
-    this.variables[1].assignedDimensions.map(dimension => {
-      valueDimensions.push(dimension.dimension);
-    })
 
     // simplified dataset
-    const dataset = wholeDataset.map(function(d, i) {
-      const row = valueDimensions.map(function(dimension, index) {
-        return d[dimension]
-      })
-      return row;
-    })
+    const pie = d3.pie()
+                .value(function(d) { return d[valueDimension]})(wholeDataset);
+
+    const arc = d3.arc()
+                .outerRadius(radius)
+                .innerRadius(settings.isDonut ? radius * settings.innerRadius : 0);
+
+    // COLOR
+    const color = d3.scaleOrdinal().range(settings.color);
+
+    const slices = canvas.selectAll('arc')
+                  .data(pie)
+                  .enter()
+                  .append('g')
+                  .attr('class','arc')
+                  .attr('transform', `translate(${width/2},${height/2})`);
+
+    slices.append('path')
+      .attr('d', arc)
+      .attr('transform', function(d){
+        let vector = arc.centroid(d)
+        vector[0] *= settings.sliceMoved;
+        vector[1] *= settings.sliceMoved;
+        return `translate(${vector})`})
+      .style('fill', function(d) { return color(d.index);});
+
+
+      // CHART LABEL
+  		this.drawChartLabel(canvas, width);
   }
 
+  static drawChartLabel(canvas, width){
+    const settings = PieChart.settings;
+    const x = width/2;
+
+    canvas.append('text')
+          .attr('x', x)
+          .attr('y', -10)
+          .attr('text-anchor', 'middle')
+          .attr('dominant-baseline', 'text-after-edge')
+          .attr('font-family', settings.fontFamily)
+          .attr('font-size', settings.fontSize)
+          .attr('font-weight', settings.chartLabel.isBold ? 'bold':'normal')
+          .text(settings.chartLabel.value);
+  }
 }

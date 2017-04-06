@@ -83,7 +83,6 @@ export default class App extends React.Component {
       this.setState({
         selectedGraph: newGraphTypeName
       });
-
       switch(newGraphTypeName){
         case 'BarChart':
           this.setState({
@@ -104,6 +103,7 @@ export default class App extends React.Component {
           this.setState({
             graphVariables: ScatterPlot.variables,
           })
+          break;
         default:
         this.setState({
           graphVariables: null,

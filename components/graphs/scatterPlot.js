@@ -17,57 +17,7 @@ export default class ScatterPlot extends React.Component{
       <div>
       <Col md={6}>
         <div className='cust'>
-          <CustButtonGroup
-						label='Graph type'
-            buttons={[
-              [{label:'Vertical', active:settings.isVertical, onClick: () => {this.setSettings({isVertical:true})} },
-              {label:'Horizontal', active:!settings.isVertical, onClick: () => {this.setSettings({isVertical:false})} }],
-            ]}
-          />
-          <CustButtonGroup
-            buttons={[
-              [{label:'Grouped', active:settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },
-              {label:'Stacked', active:!settings.isGrouped, onClick: () => {this.setSettings({isGrouped:false})} }],
-            ]}
-          />
-        </div>
-      </Col>
-
-      <Col md={6}>
-        <div className='cust'>
-          <CustFormGroup
-  					label='Graph Label'
-  					items={[
-  						{type : 'btn',
-               label: <FontAwesome name='bold'/>,
-               active: settings.chartLabel.isBold,
-               onChange: () => {this.setSettings({chartLabel:{...settings.chartLabel, isBold:!settings.chartLabel.isBold}})}
-              },
-              {type : 'input',
-               text : 'Graph label',
-               value : settings.chartLabel.value,
-               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, value:value}})}
-             },
-              {type: 'align',
-               value: settings.chartLabel.align,
-               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, align:value}})}
-              }
-  					]}
-  				/>
-          <CustButtonGroup
-            buttons={[
-              [{type: 'dropdown',
-							tamplate: 'fontFamily',
-							active:settings.fontFamily,
-							onClick: value => {this.setSettings({fontFamily:value})} },],
-
-              [{type: 'dropdown',
-							tamplate: 'fontSize',
-							active:settings.fontSize,
-							onClick: value => {this.setSettings({fontSize:value})} },],
-            ]}
-          />
-
+          YEA!
         </div>
       </Col>
       </div>
@@ -89,7 +39,7 @@ export default class ScatterPlot extends React.Component{
     }
   ];
   static settings = {
-		isCurved:false,
+
   }
 	setSettings(newSettings){
 		ScatterPlot.settings = {...ScatterPlot.settings, ...newSettings};

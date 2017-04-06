@@ -275,19 +275,15 @@ export default class BarChart extends React.Component{
       })
       return row;
     })
+    console.log(dataset);
 
     // MAX VALUE OF ALL BAR DIMENSIONS
     const domainMax = d3.max(wholeDataset, function(d){return d3.max(barDimensions, function(barDimension) {return d[barDimension];})});
-
-
-
-
 
     // Y AXIS
     const y = d3.scaleLinear()
                 .range([height,0])
                 .domain([0, domainMax]);
-
 
     const yAxis = settings.yAxis.position === 'left' ? d3.axisLeft(y): d3.axisRight(y);
     yAxis.tickSizeOuter(0);
@@ -301,7 +297,6 @@ export default class BarChart extends React.Component{
 		canvas.select('.y.axis').selectAll('g.tick').selectAll('text').each(function() {
 			d3.select(this).attr('font-family', settings.fontFamily)
 		});
-
 
 		let labelPos;
 		switch (settings.yAxis.align) {

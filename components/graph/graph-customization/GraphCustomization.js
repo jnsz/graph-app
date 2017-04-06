@@ -2,14 +2,13 @@ import * as d3 from 'd3';
 import { Col, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import CustButtonGroup from './CustButtonGroup';
-import CustColorPicker from './CustColorPicker';
-import CustDropdown from './CustDropdown';
 import CustFormGroup from './CustFormGroup';
 import CustSlider from './CustSlider';
 
 import BarChart from '../../graphs/BarChart';
-import PieChart from '../../graphs/PieChart'
+import PieChart from '../../graphs/PieChart';
+import LineChart from '../../graphs/LineChart';
+import ScatterPlot from '../../graphs/ScatterPlot';
 
 
 const blockStyle ={
@@ -79,6 +78,8 @@ export default class GraphCustomization extends React.Component {
 		const components = {
 			BarChart: BarChart,
 			PieChart: PieChart,
+			LineChart: LineChart,
+			ScatterPlot: ScatterPlot,
 		}
 		const SelectedGraph = components[this.props.selectedGraph];
 

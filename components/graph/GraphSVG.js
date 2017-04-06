@@ -2,6 +2,9 @@ import * as d3 from 'd3';
 import ReactFauxDOM from 'react-faux-dom';
 
 import BarChart from '../graphs/BarChart';
+import PieChart from '../graphs/PieChart';
+import LineChart from '../graphs/LineChart';
+import ScatterPlot from '../graphs/ScatterPlot';
 import GraphCustomization from './graph-customization/GraphCustomization';
 
 export default class GraphSVG extends React.Component{
@@ -33,7 +36,7 @@ export default class GraphSVG extends React.Component{
   }
 
   generateSVG(){
-    const { svgSize, graphSettings, dataset } = this.props;
+    const { svgSize, graphSettings, dataset, selectedGraph } = this.props;
     const margin = svgSize.margin;
     const widthMargin = svgSize.width * margin;
     const heightMargin = svgSize.height * margin;
@@ -53,7 +56,21 @@ export default class GraphSVG extends React.Component{
         .attr('id', 'canvas')
         .attr('transform', 'translate(' + widthMargin/2 + ',' + heightMargin/2 + ')');
 
-    BarChart.checkAndDrawChart(canvas, svgSize, dataset);
+    switch(selectedGraph){
+      case 'BarChart':
+        BarChart.checkAndDrawChart(canvas, svgSize, dataset);
+        break;
+      case 'PieChart':
+        PieChart.checkAndDrawChart(canvas, svgSize, dataset);
+        break;
+      case 'LineChart':
+        LineChart.checkAndDrawChart(canvas, svgSize, dataset);
+        break;
+      case 'ScatterPlot':
+        ScatterPlot.checkAndDrawChart(canvas, svgSize, dataset);
+        break;
+    }
+
 
     return node.toReact();
   }

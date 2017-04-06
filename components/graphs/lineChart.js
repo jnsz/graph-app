@@ -20,56 +20,20 @@ export default class LineChart extends React.Component{
           <CustButtonGroup
 						label='Graph type'
             buttons={[
-              [{label:'Vertical', active:settings.isVertical, onClick: () => {this.setSettings({isVertical:true})} },
-              {label:'Horizontal', active:!settings.isVertical, onClick: () => {this.setSettings({isVertical:false})} }],
+              [{label:'Straight', active:!settings.isCurved, onClick: () => {this.setSettings({isCurved:false})} },
+              {label:'Curved', active:settings.isCurved, onClick: () => {this.setSettings({isCurved:true})} }],
             ]}
           />
           <CustButtonGroup
             buttons={[
-              [{label:'Grouped', active:settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },
-              {label:'Stacked', active:!settings.isGrouped, onClick: () => {this.setSettings({isGrouped:false})} }],
+              [{label:'Line', active:!settings.isArea, onClick: () => {this.setSettings({isArea:false})} },
+              {label:'Area', active:settings.isArea, onClick: () => {this.setSettings({isArea:true})} }],
             ]}
           />
         </div>
       </Col>
 
-      <Col md={6}>
-        <div className='cust'>
-          <CustFormGroup
-  					label='Graph Label'
-  					items={[
-  						{type : 'btn',
-               label: <FontAwesome name='bold'/>,
-               active: settings.chartLabel.isBold,
-               onChange: () => {this.setSettings({chartLabel:{...settings.chartLabel, isBold:!settings.chartLabel.isBold}})}
-              },
-              {type : 'input',
-               text : 'Graph label',
-               value : settings.chartLabel.value,
-               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, value:value}})}
-             },
-              {type: 'align',
-               value: settings.chartLabel.align,
-               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, align:value}})}
-              }
-  					]}
-  				/>
-          <CustButtonGroup
-            buttons={[
-              [{type: 'dropdown',
-							tamplate: 'fontFamily',
-							active:settings.fontFamily,
-							onClick: value => {this.setSettings({fontFamily:value})} },],
 
-              [{type: 'dropdown',
-							tamplate: 'fontSize',
-							active:settings.fontSize,
-							onClick: value => {this.setSettings({fontSize:value})} },],
-            ]}
-          />
-
-        </div>
-      </Col>
       </div>
 
     )
@@ -77,19 +41,22 @@ export default class LineChart extends React.Component{
   static graphName = 'LineChart';
   static variables = [
     {
-        label: 'LINE',
-        isRequired: false,
+        label: 'x axis',
+        isRequired: true,
+        mustBeNumeric: true,
         takesSingleDimension: true,
         assignedDimensions:[]
     },{
-        label: 'LINE',
+        label: 'y axis',
         isRequired: true,
         mustBeNumeric: true,
+        takesSingleDimension: false,
         assignedDimensions:[]
     }
   ];
   static settings = {
 		isCurved:false,
+    isArea:false,
   }
 	setSettings(newSettings){
 		LineChart.settings = {...LineChart.settings, ...newSettings};
@@ -98,6 +65,102 @@ export default class LineChart extends React.Component{
 	}
 
   static checkAndDrawChart(canvas, svgSize, wholeDataset) {
-    console.log('draw attempt but no LINE CHART draw method prepared');
+    const hasXDimension = this.variables[0].assignedDimensions.length != 0;
+    const hasYDimension = this.variables[1].assignedDimensions.length != 0;
+
+    const canDraw = hasXDimension && hasYDimension;
+    if(canDraw) {
+			this.drawChart(canvas, svgSize, wholeDataset, hasXDimension, hasYDimension);
+			}
+  }
+
+  static drawChart(canvas, svgSize, wholeDataset, hasXDimension, hasYDimension){
+    const settings = LineChart.settings;
+		// GET CANVAS WIDTH AND HEIGHT
+    const width = svgSize.width-(svgSize.width*svgSize.margin);
+    const height = svgSize.height-(svgSize.height*svgSize.margin);
+
+    // GET LABEL DIMENSION
+    const xAxisDimension = this.variables[0].assignedDimensions[0].dimension;
+    // const xAxisValues =
+
+    // GET BARS DIMENSIONS
+    const yAxisDimensions = [];
+    this.variables[1].assignedDimensions.map(dimension => {
+      yAxisDimensions.push(dimension.dimension);
+    })
+
+    //sort dataset
+    const sortedDataset = wholeDataset.map(row => {
+        const newRow = {};
+        newRow[xAxisDimension] = row[xAxisDimension];
+        yAxisDimensions.forEach(yAxisDimension => {
+          newRow[yAxisDimension] = row[yAxisDimension];
+        })
+        return newRow;
+      });
+
+    sortedDataset.sort((a, b) => {
+      return d3.ascending(a[xAxisDimension], b[xAxisDimension]);
+    });
+
+    const lineData = yAxisDimensions.map(dimension => {
+      const array = [];
+      sortedDataset.map(row => {
+        array.push(row[dimension]);
+      })
+      return array;
+    });
+
+    const x = d3.scaleLinear()
+              .range([0,width])
+              .domain(d3.extent(sortedDataset, d => { return d[xAxisDimension]; }))
+              .nice();
+
+    const xAxis = d3.axisBottom(x)
+										.tickSizeOuter(0);
+
+		const xAxisGroup = canvas.append('g')
+			.attr('class', 'x axis')
+			.attr('transform', `translate(0,${height})`);
+
+		xAxisGroup.append('g').call(xAxis);
+
+    const y = d3.scaleLinear()
+              .range([height, 0])
+              .domain([
+                d3.min(lineData, (column) => {return d3.min(column, (d,i) => {return column[i];})}),
+                d3.max(lineData, (column) => {return d3.max(column, (d,i) => {return column[i];})}),
+              ])
+              .nice();
+
+    const yAxis = d3.axisLeft(y)
+										.tickSizeOuter(0);
+
+		const yAxisGroup = canvas.append('g')
+			.attr('class', 'y axis')
+			.attr('transform', `translate(0,0)`);
+
+		yAxisGroup.append('g').call(yAxis);
+
+
+    const lineGenerator = d3.line()
+                  .x((d,i) => {return x(sortedDataset[i][xAxisDimension]);})
+                  .y(d => {return y(d);})
+                  .curve(settings.isCurved ? d3.curveMonotoneX : d3.curveLinear);
+
+    const line = canvas.selectAll('.line')
+                        .data(lineData, d => {
+                          return d;
+                        })
+                        .enter()
+                        .append('g')
+                        .attr('class', 'line')
+                        .append('path')
+                        .attr('d', lineGenerator)
+                        .style('fill', 'none')
+                        .style('stroke', 'black')
+                        .style('stroke-width', '1.5px');
+
   }
 }
