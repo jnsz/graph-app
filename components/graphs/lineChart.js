@@ -41,13 +41,13 @@ export default class LineChart extends React.Component{
   static graphName = 'LineChart';
   static variables = [
     {
-        label: 'x axis',
+        label: 'X axis',
         isRequired: true,
         mustBeNumeric: true,
         takesSingleDimension: true,
         assignedDimensions:[]
     },{
-        label: 'y axis',
+        label: 'Y axis',
         isRequired: true,
         mustBeNumeric: true,
         takesSingleDimension: false,
@@ -71,7 +71,7 @@ export default class LineChart extends React.Component{
     const canDraw = hasXDimension && hasYDimension;
     if(canDraw) {
 			this.drawChart(canvas, svgSize, wholeDataset, hasXDimension, hasYDimension);
-			}
+		}
   }
 
   static drawChart(canvas, svgSize, wholeDataset, hasXDimension, hasYDimension){
@@ -82,7 +82,6 @@ export default class LineChart extends React.Component{
 
     // GET LABEL DIMENSION
     const xAxisDimension = this.variables[0].assignedDimensions[0].dimension;
-    // const xAxisValues =
 
     // GET BARS DIMENSIONS
     const yAxisDimensions = [];

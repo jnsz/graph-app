@@ -184,16 +184,17 @@ export default class BarChart extends React.Component{
   static graphName = 'BarChart';
   static variables = [
     {
-        label: 'Label',
-        isRequired: false,
-        takesSingleDimension: true,
-        assignedDimensions:[]
-    },{
         label: 'Bars',
         isRequired: true,
         mustBeNumeric: true,
         assignedDimensions:[]
-    }
+    },
+    {
+        label: 'Label',
+        isRequired: false,
+        takesSingleDimension: true,
+        assignedDimensions:[]
+    },
   ];
   static settings = {
 		// block 1
@@ -237,8 +238,8 @@ export default class BarChart extends React.Component{
 	}
 
   static checkAndDrawChart(canvas, svgSize, wholeDataset) {
-    const hasLabelDimension = this.variables[0].assignedDimensions.length != 0;
-    const hasBarDimension = this.variables[1].assignedDimensions.length != 0;
+    const hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
+    const hasBarDimension = this.variables[0].assignedDimensions.length != 0;
 
 		const isVertical = BarChart.settings.isVertical;
 		const isGrouped = BarChart.settings.isGrouped;
@@ -260,11 +261,11 @@ export default class BarChart extends React.Component{
     const height = svgSize.height-(svgSize.height*svgSize.margin);
 
     // GET LABEL DIMENSION
-    const labelDimension = hasLabelDimension ? this.variables[0].assignedDimensions[0].dimension : null;
+    const labelDimension = hasLabelDimension ? this.variables[1].assignedDimensions[0].dimension : null;
 
     // GET BARS DIMENSIONS
     const barDimensions = [];
-    this.variables[1].assignedDimensions.map(dimension => {
+    this.variables[0].assignedDimensions.map(dimension => {
       barDimensions.push(dimension.dimension);
     })
 
@@ -386,7 +387,7 @@ export default class BarChart extends React.Component{
 		}
 
     // COLOR
-    const color = d3.scaleOrdinal().range(settings.color);
+    const colorGenerator = d3.scaleOrdinal().range(settings.color);
 
     // CREATE BARS
     const outerBand = canvas.append('g')
@@ -421,7 +422,7 @@ export default class BarChart extends React.Component{
             return height - y(d);
         })
         .style('fill', function(d, i) {
-            return color(i);
+            return colorGenerator(i);
         });
 
 
@@ -453,160 +454,4 @@ export default class BarChart extends React.Component{
 					.attr('font-weight', settings.chartLabel.isBold ? 'bold':'normal')
 					.text(settings.chartLabel.value);
 	}
-
-  /*static drawChart(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension){
-    // GET CANVAS WIDTH AND HEIGHT
-    const width = svgSize.width-(svgSize.width*svgSize.margin);
-    const height = svgSize.height-(svgSize.height*svgSize.margin);
-
-    // GET LABEL DIMENSION
-    const labelDimension = hasLabelDimension ? this.variables[0].assignedDimensions[0].dimension : null;
-
-    // GET BARS DIMENSIONS
-    const barDimensions = [];
-    this.variables[1].assignedDimensions.map(dimension => {
-      barDimensions.push(dimension.dimension);
-    })
-
-    // simplified dataset
-    const dataset = wholeDataset.map(function(d, i) {
-      const row = barDimensions.map(function(dimension, index) {
-        return d[dimension]
-      })
-      return row;
-    })
-
-    // MAX VALUE OF ALL BAR DIMENSIONS
-    const domainMax = d3.max(wholeDataset, function(d){return d3.max(barDimensions, function(barDimension) {return d[barDimension];})});
-
-    // X AXIS
-    const x0 = d3.scaleBand()
-                .range([0,width])
-                .domain(d3.range(dataset.length))
-                .padding(BarChart.settings.barPadding);
-
-    const x1 = d3.scaleBand()
-              .domain(d3.range(barDimensions.length))
-              .range([0, x0.bandwidth()])
-              .padding(BarChart.settings.barPadding);
-
-    const xAxis = d3.axisBottom(x0)
-                    .tickSizeOuter(0);
-
-    canvas.append('g')
-      .attr('class', 'x axis')
-      .attr('transform', `translate(0,${height})`)
-      .call(xAxis);
-
-    // DRAW TICKS ON X AXIS
-    if(hasLabelDimension){
-      const tickNames = wholeDataset.map(function(d){return d[labelDimension];});
-
-      canvas.select('.x.axis').selectAll('g.tick').selectAll('text').each(function(d) {
-            d3.select(this).text(tickNames[d])
-      });
-    } else {
-      canvas.select('.x.axis').selectAll('g.tick').remove();
-    }
-
-    // Y AXIS
-    const y = d3.scaleLinear()
-                .range([height,0])
-                .domain([0, domainMax]);
-
-    const yAxis = d3.axisLeft(y)
-                    .tickSizeOuter(0);
-
-    const yAxisGroup = canvas.append('g')
-                            .attr('class', 'y axis')
-
-    yAxisGroup.append('g').call(yAxis);
-
-
-    yAxisGroup.append('text')
-              .attr('x', 0)
-              .attr('y', 0)
-              .attr('text-anchor', BarChart.settings.yAxisLabelAlign)
-              .attr('dominant-baseline', 'middle')
-              .text(BarChart.settings.yAxisLabel);
-
-
-
-
-
-    // GUIDELINES
-    const guidelines = d3.axisRight(y)
-        .tickSizeInner(width)
-        .tickSizeOuter(0)
-        .tickFormat('');
-
-    // COLOR
-    const color = d3.scaleOrdinal().range(BarChart.settings.color);
-
-
-    // CREATE BARS
-    const outerBand = canvas.append('g')
-                            .attr('class', 'bars')
-                            .selectAll('.outerBand')
-                            .data(dataset)
-                            .enter()
-                            .append('g')
-                            .attr('class', 'outerBand')
-                            .attr('transform', function(d, i) {
-                                return `translate(${x0(i)},0)`;
-                            });
-
-    const innerBand = outerBand.selectAll('g')
-        .data(function(d, i) {
-            return d;
-        })
-        .enter()
-        .append('g')
-        .attr('class', 'innerBand')
-        .attr('transform', function(d, i) {
-            return `translate(${x1(i)},0)`;
-        });
-
-    innerBand.append('rect')
-        .attr('class', 'bar')
-        .attr('y', function(d) {
-            return y(d);
-        })
-        .attr('width', x1.bandwidth())
-        .attr('height', function(d) {
-            return height - y(d);
-        })
-        .style('fill', function(d, i) {
-            return color(i);
-        });
-
-
-    // CHART LABEL
-    if(true) {
-      let x = 0;
-      switch(BarChart.settings.chartLabel.align){
-        case 'start':
-          x = 0;
-          break;
-        case 'middle':
-          x = width/2;
-          break;
-        case 'end':
-          x = width;
-          break;
-      }
-
-      const y = -(svgSize.height * svgSize.margin/4);
-
-      canvas.append('text')
-            .attr('x', x)
-            .attr('y', y)
-            .attr('text-anchor', BarChart.settings.chartLabel.align)
-            .attr('dominant-baseline', 'ideographic')
-						.attr('font-family', BarChart.settings.fontFamily)
-						.attr('font-size', BarChart.settings.fontSize)
-            .attr('font-weight', BarChart.settings.chartLabel.isBold ? 'bold':'normal')
-            .text(BarChart.settings.chartLabel.value);
-    }
-  }*/
 }

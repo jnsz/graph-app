@@ -9,7 +9,7 @@ export default class Graph extends React.Component{
   render() {
     return (
       <div>
-        <div style={{backgroundColor: '#f8f8f8'}}>
+        <div style={{backgroundColor: '#ededed'}}>
           <div className='container'>
             <div className='wrapper'>
 

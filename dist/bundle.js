@@ -753,7 +753,7 @@ var Graph = function (_React$Component) {
         null,
         React.createElement(
           'div',
-          { style: { backgroundColor: '#f8f8f8' } },
+          { style: { backgroundColor: '#ededed' } },
           React.createElement(
             'div',
             { className: 'container' },
@@ -852,7 +852,7 @@ var GraphExport = function (_React$Component) {
 
       return React.createElement(
         'div',
-        { style: { backgroundColor: '#f8f8f8' } },
+        { style: { backgroundColor: '#ededed' } },
         React.createElement(
           'div',
           { className: 'container' },
@@ -1743,7 +1743,7 @@ var GraphCustomization = function (_React$Component) {
 
 			return React.createElement(
 				'div',
-				{ style: { backgroundColor: '#f8f8f8' } },
+				{ style: { backgroundColor: '#ededed' } },
 				React.createElement(
 					'div',
 					{ className: 'container' },
@@ -2556,7 +2556,7 @@ var Variable = function (_React$Component) {
 
       return React.createElement(
         _reactBootstrap.Col,
-        { md: 4 },
+        { md: 4, style: { height: '130px' } },
         React.createElement(
           'div',
           { style: variableStyle },
@@ -2974,8 +2974,8 @@ var BarChart = function (_React$Component) {
   }], [{
     key: 'checkAndDrawChart',
     value: function checkAndDrawChart(canvas, svgSize, wholeDataset) {
-      var hasLabelDimension = this.variables[0].assignedDimensions.length != 0;
-      var hasBarDimension = this.variables[1].assignedDimensions.length != 0;
+      var hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
+      var hasBarDimension = this.variables[0].assignedDimensions.length != 0;
 
       var isVertical = BarChart.settings.isVertical;
       var isGrouped = BarChart.settings.isGrouped;
@@ -2997,11 +2997,11 @@ var BarChart = function (_React$Component) {
       var height = svgSize.height - svgSize.height * svgSize.margin;
 
       // GET LABEL DIMENSION
-      var labelDimension = hasLabelDimension ? this.variables[0].assignedDimensions[0].dimension : null;
+      var labelDimension = hasLabelDimension ? this.variables[1].assignedDimensions[0].dimension : null;
 
       // GET BARS DIMENSIONS
       var barDimensions = [];
-      this.variables[1].assignedDimensions.map(function (dimension) {
+      this.variables[0].assignedDimensions.map(function (dimension) {
         barDimensions.push(dimension.dimension);
       });
 
@@ -3103,7 +3103,7 @@ var BarChart = function (_React$Component) {
       }
 
       // COLOR
-      var color = d3.scaleOrdinal().range(settings.color);
+      var colorGenerator = d3.scaleOrdinal().range(settings.color);
 
       // CREATE BARS
       var outerBand = canvas.append('g').attr('class', 'bars').selectAll('.outerBand').data(dataset).enter().append('g').attr('class', 'outerBand').attr('transform', function (d, i) {
@@ -3121,7 +3121,7 @@ var BarChart = function (_React$Component) {
       }).attr('width', x1.bandwidth()).attr('height', function (d) {
         return height - y(d);
       }).style('fill', function (d, i) {
-        return color(i);
+        return colorGenerator(i);
       });
 
       // CHART LABEL
@@ -3145,138 +3145,6 @@ var BarChart = function (_React$Component) {
       }
       canvas.append('text').attr('x', x).attr('y', -10).attr('text-anchor', settings.chartLabel.align).attr('dominant-baseline', 'text-after-edge').attr('font-family', settings.fontFamily).attr('font-size', settings.fontSize).attr('font-weight', settings.chartLabel.isBold ? 'bold' : 'normal').text(settings.chartLabel.value);
     }
-
-    /*static drawChart(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension){
-      // GET CANVAS WIDTH AND HEIGHT
-      const width = svgSize.width-(svgSize.width*svgSize.margin);
-      const height = svgSize.height-(svgSize.height*svgSize.margin);
-        // GET LABEL DIMENSION
-      const labelDimension = hasLabelDimension ? this.variables[0].assignedDimensions[0].dimension : null;
-        // GET BARS DIMENSIONS
-      const barDimensions = [];
-      this.variables[1].assignedDimensions.map(dimension => {
-        barDimensions.push(dimension.dimension);
-      })
-        // simplified dataset
-      const dataset = wholeDataset.map(function(d, i) {
-        const row = barDimensions.map(function(dimension, index) {
-          return d[dimension]
-        })
-        return row;
-      })
-        // MAX VALUE OF ALL BAR DIMENSIONS
-      const domainMax = d3.max(wholeDataset, function(d){return d3.max(barDimensions, function(barDimension) {return d[barDimension];})});
-        // X AXIS
-      const x0 = d3.scaleBand()
-                  .range([0,width])
-                  .domain(d3.range(dataset.length))
-                  .padding(BarChart.settings.barPadding);
-        const x1 = d3.scaleBand()
-                .domain(d3.range(barDimensions.length))
-                .range([0, x0.bandwidth()])
-                .padding(BarChart.settings.barPadding);
-        const xAxis = d3.axisBottom(x0)
-                      .tickSizeOuter(0);
-        canvas.append('g')
-        .attr('class', 'x axis')
-        .attr('transform', `translate(0,${height})`)
-        .call(xAxis);
-        // DRAW TICKS ON X AXIS
-      if(hasLabelDimension){
-        const tickNames = wholeDataset.map(function(d){return d[labelDimension];});
-          canvas.select('.x.axis').selectAll('g.tick').selectAll('text').each(function(d) {
-              d3.select(this).text(tickNames[d])
-        });
-      } else {
-        canvas.select('.x.axis').selectAll('g.tick').remove();
-      }
-        // Y AXIS
-      const y = d3.scaleLinear()
-                  .range([height,0])
-                  .domain([0, domainMax]);
-        const yAxis = d3.axisLeft(y)
-                      .tickSizeOuter(0);
-        const yAxisGroup = canvas.append('g')
-                              .attr('class', 'y axis')
-        yAxisGroup.append('g').call(yAxis);
-    
-      yAxisGroup.append('text')
-                .attr('x', 0)
-                .attr('y', 0)
-                .attr('text-anchor', BarChart.settings.yAxisLabelAlign)
-                .attr('dominant-baseline', 'middle')
-                .text(BarChart.settings.yAxisLabel);
-    
-    
-        // GUIDELINES
-      const guidelines = d3.axisRight(y)
-          .tickSizeInner(width)
-          .tickSizeOuter(0)
-          .tickFormat('');
-        // COLOR
-      const color = d3.scaleOrdinal().range(BarChart.settings.color);
-    
-      // CREATE BARS
-      const outerBand = canvas.append('g')
-                              .attr('class', 'bars')
-                              .selectAll('.outerBand')
-                              .data(dataset)
-                              .enter()
-                              .append('g')
-                              .attr('class', 'outerBand')
-                              .attr('transform', function(d, i) {
-                                  return `translate(${x0(i)},0)`;
-                              });
-        const innerBand = outerBand.selectAll('g')
-          .data(function(d, i) {
-              return d;
-          })
-          .enter()
-          .append('g')
-          .attr('class', 'innerBand')
-          .attr('transform', function(d, i) {
-              return `translate(${x1(i)},0)`;
-          });
-        innerBand.append('rect')
-          .attr('class', 'bar')
-          .attr('y', function(d) {
-              return y(d);
-          })
-          .attr('width', x1.bandwidth())
-          .attr('height', function(d) {
-              return height - y(d);
-          })
-          .style('fill', function(d, i) {
-              return color(i);
-          });
-    
-      // CHART LABEL
-      if(true) {
-        let x = 0;
-        switch(BarChart.settings.chartLabel.align){
-          case 'start':
-            x = 0;
-            break;
-          case 'middle':
-            x = width/2;
-            break;
-          case 'end':
-            x = width;
-            break;
-        }
-          const y = -(svgSize.height * svgSize.margin/4);
-          canvas.append('text')
-              .attr('x', x)
-              .attr('y', y)
-              .attr('text-anchor', BarChart.settings.chartLabel.align)
-              .attr('dominant-baseline', 'ideographic')
-    				.attr('font-family', BarChart.settings.fontFamily)
-    				.attr('font-size', BarChart.settings.fontSize)
-              .attr('font-weight', BarChart.settings.chartLabel.isBold ? 'bold':'normal')
-              .text(BarChart.settings.chartLabel.value);
-      }
-    }*/
-
   }]);
 
   return BarChart;
@@ -3284,14 +3152,14 @@ var BarChart = function (_React$Component) {
 
 BarChart.graphName = 'BarChart';
 BarChart.variables = [{
-  label: 'Label',
-  isRequired: false,
-  takesSingleDimension: true,
-  assignedDimensions: []
-}, {
   label: 'Bars',
   isRequired: true,
   mustBeNumeric: true,
+  assignedDimensions: []
+}, {
+  label: 'Label',
+  isRequired: false,
+  takesSingleDimension: true,
   assignedDimensions: []
 }];
 BarChart.settings = {
@@ -3454,7 +3322,6 @@ var LineChart = function (_React$Component) {
 
       // GET LABEL DIMENSION
       var xAxisDimension = this.variables[0].assignedDimensions[0].dimension;
-      // const xAxisValues =
 
       // GET BARS DIMENSIONS
       var yAxisDimensions = [];
@@ -3527,13 +3394,13 @@ var LineChart = function (_React$Component) {
 
 LineChart.graphName = 'LineChart';
 LineChart.variables = [{
-  label: 'x axis',
+  label: 'X axis',
   isRequired: true,
   mustBeNumeric: true,
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
-  label: 'y axis',
+  label: 'Y axis',
   isRequired: true,
   mustBeNumeric: true,
   takesSingleDimension: false,
@@ -3862,7 +3729,100 @@ var ScatterPlot = function (_React$Component) {
   }], [{
     key: 'checkAndDrawChart',
     value: function checkAndDrawChart(canvas, svgSize, wholeDataset) {
-      console.log('draw attempt but no SCATTER PLOT draw method prepared');
+      var hasXDimension = this.variables[0].assignedDimensions.length != 0;
+      var hasYDimension = this.variables[1].assignedDimensions.length != 0;
+
+      var canDraw = hasXDimension && hasYDimension;
+      if (canDraw) {
+        this.drawChart(canvas, svgSize, wholeDataset);
+      }
+    }
+  }, {
+    key: 'drawChart',
+    value: function drawChart(canvas, svgSize, wholeDataset) {
+      var settings = ScatterPlot.settings;
+      // GET CANVAS WIDTH AND HEIGHT
+      var width = svgSize.width - svgSize.width * svgSize.margin;
+      var height = svgSize.height - svgSize.height * svgSize.margin;
+
+      // GET DIMENSIONS
+      var xAxisDimension = this.variables[0].assignedDimensions[0].dimension;
+      var yAxisDimension = this.variables[1].assignedDimensions[0].dimension;
+      var sizeDimension = this.variables[2].assignedDimensions.length != 0 ? this.variables[2].assignedDimensions[0].dimension : null;
+      var colorDimension = this.variables[3].assignedDimensions.length != 0 ? this.variables[3].assignedDimensions[0].dimension : null;
+      var symbolDimension = this.variables[4].assignedDimensions.length != 0 ? this.variables[4].assignedDimensions[0].dimension : null;
+      var labelDimension = this.variables[5].assignedDimensions.length != 0 ? this.variables[5].assignedDimensions[0].dimension : null;
+
+      // CREATE REDUCED DATASET
+      var dataset = wholeDataset.map(function (row) {
+        var newRow = {};
+        newRow[xAxisDimension] = row[xAxisDimension];
+        newRow[yAxisDimension] = row[yAxisDimension];
+        if (sizeDimension !== null) newRow[sizeDimension] = row[sizeDimension];
+        if (colorDimension !== null) newRow[colorDimension] = row[colorDimension];
+        if (symbolDimension !== null) newRow[symbolDimension] = row[symbolDimension];
+        if (labelDimension !== null) newRow[labelDimension] = row[labelDimension];
+
+        return newRow;
+      });
+
+      // X AXIS
+      var x = d3.scaleLinear().range([0, width]).domain(d3.extent(dataset, function (d) {
+        return d[xAxisDimension];
+      })).nice();
+
+      var xAxis = d3.axisBottom(x).tickSizeOuter(0);
+
+      var xAxisGroup = canvas.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')');
+
+      xAxisGroup.append('g').call(xAxis);
+
+      // Y AXIS
+      var y = d3.scaleLinear().range([height, 0]).domain(d3.extent(dataset, function (d) {
+        return d[yAxisDimension];
+      })).nice();
+
+      var yAxis = d3.axisLeft(y).tickSizeOuter(0);
+
+      var yAxisGroup = canvas.append('g').attr('class', 'y axis').attr('transform', 'translate(0,0)');
+
+      yAxisGroup.append('g').call(yAxis);
+
+      var sizeGenerator = d3.scaleLinear().range([30, 500]).domain(d3.extent(dataset, function (d) {
+        return d[sizeDimension];
+      }));
+
+      var colorGenerator = d3.scaleOrdinal().range(settings.color);
+
+      var symbolGenerator = d3.scaleOrdinal().range(d3.symbols);
+
+      var symbol = d3.symbol().size(sizeDimension === null ? 100 : function (d) {
+        return sizeGenerator(d[sizeDimension]);
+      }).type(function (d) {
+        return symbolGenerator(d[symbolDimension]);
+      });
+
+      var dotGroup = canvas.append('g').attr('class', 'dots');
+
+      var dots = dotGroup.selectAll('.dot').data(dataset).enter().append('g').attr('class', 'dot').attr('transform', function (d) {
+        return 'translate(' + x(d[xAxisDimension]) + ',' + y(d[yAxisDimension]) + ')';
+      });
+
+      dots.append('path').attr('d', function (d) {
+        return symbol(d);
+      }).style('stroke-width', '0').style('fill', function (d) {
+        return colorGenerator(d[colorDimension]);
+      });
+
+      if (labelDimension !== null) {
+        dots.append('text').attr('dx', 10)
+        //.attr('font-family', 'Helvetica')
+        //.attr('font-size', '14px')
+        //.attr('fill','black')
+        .attr('alignment-baseline', 'middle').text(function (d) {
+          return d[labelDimension];
+        });
+      }
     }
   }]);
 
@@ -3871,17 +3831,38 @@ var ScatterPlot = function (_React$Component) {
 
 ScatterPlot.graphName = 'ScatterPlot';
 ScatterPlot.variables = [{
-  label: 'SCATTER X',
+  label: 'X axis',
   isRequired: true,
+  mustBeNumeric: true,
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
-  label: 'SCATTER Y',
+  label: 'Y axis',
   isRequired: true,
   mustBeNumeric: true,
+  takesSingleDimension: true,
+  assignedDimensions: []
+}, {
+  label: 'Size',
+  mustBeNumeric: true,
+  takesSingleDimension: true,
+  assignedDimensions: []
+}, {
+  label: 'Color',
+  takesSingleDimension: true,
+  assignedDimensions: []
+}, {
+  label: 'Shape',
+  takesSingleDimension: true,
+  assignedDimensions: []
+}, {
+  label: 'Label',
+  takesSingleDimension: true,
   assignedDimensions: []
 }];
-ScatterPlot.settings = {};
+ScatterPlot.settings = {
+  color: d3.schemeCategory10
+};
 exports.default = ScatterPlot;
 
 },{"../graph/graph-customization/CustButtonGroup":11,"../graph/graph-customization/CustColorPicker":12,"../graph/graph-customization/CustDropdown":13,"../graph/graph-customization/CustFormGroup":14,"../graph/graph-customization/CustSlider":15,"d3":138,"react-bootstrap":521,"react-fontawesome":758}],31:[function(require,module,exports){

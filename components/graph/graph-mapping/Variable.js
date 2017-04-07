@@ -33,7 +33,7 @@ export default class Variable extends React.Component{
     const assignedDimensions = variable.assignedDimensions;
 
     return (
-      <Col md={4}>
+      <Col md={4} style={{height:'130px'}}>
         <div style={variableStyle}>
           <div>
             {isRequired ? <FontAwesome name='asterisk' style={iconStyle}/> : false}

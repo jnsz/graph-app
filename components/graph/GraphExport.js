@@ -6,7 +6,7 @@ export default class GraphExport extends React.Component{
 
   render() {
     return (
-      <div style={{backgroundColor: '#f8f8f8'}}>
+      <div style={{backgroundColor: '#ededed'}}>
         <div className='container'>
           <div className='wrapper'>
             <Button
