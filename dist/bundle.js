@@ -724,10 +724,6 @@ var _GraphCustomization = require('./graph-customization/GraphCustomization');
 
 var _GraphCustomization2 = _interopRequireDefault(_GraphCustomization);
 
-var _GraphExport = require('./GraphExport');
-
-var _GraphExport2 = _interopRequireDefault(_GraphExport);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -796,8 +792,7 @@ var Graph = function (_React$Component) {
 
           selectedGraph: this.props.selectedGraph,
           onSvgSizeChange: this.props.onSvgSizeChange
-        }),
-        React.createElement(_GraphExport2.default, null)
+        })
       );
     }
   }]);
@@ -807,7 +802,7 @@ var Graph = function (_React$Component) {
 
 exports.default = Graph;
 
-},{"./GraphExport":8,"./GraphSVG":9,"./GraphType":10,"./graph-customization/GraphCustomization":17,"./graph-mapping/Mapping":24}],8:[function(require,module,exports){
+},{"./GraphSVG":9,"./GraphType":10,"./graph-customization/GraphCustomization":17,"./graph-mapping/Mapping":24}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -908,6 +903,10 @@ var _reactFauxDom = require('react-faux-dom');
 
 var _reactFauxDom2 = _interopRequireDefault(_reactFauxDom);
 
+var _GraphExport = require('./GraphExport');
+
+var _GraphExport2 = _interopRequireDefault(_GraphExport);
+
 var _BarChart = require('../graphs/BarChart');
 
 var _BarChart2 = _interopRequireDefault(_BarChart);
@@ -946,6 +945,7 @@ var GraphSVG = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (GraphSVG.__proto__ || Object.getPrototypeOf(GraphSVG)).call(this));
 
+    _this.canDraw = false;
     _this.updateSVG = _this.updateSVG.bind(_this);
     return _this;
   }
@@ -961,12 +961,7 @@ var GraphSVG = function (_React$Component) {
           { id: 'graph-SVG', style: { justifyContent: 'center' } },
           this.generateSVG()
         ),
-        React.createElement(_GraphCustomization2.default, {
-          selectedGraph: this.props.selectedGraph,
-          svgSize: this.props.svgSize,
-          onSvgSizeChange: this.props.onSvgSizeChange,
-          updateSVG: this.updateSVG
-        })
+        this.canDraw ? this.renderCustomization() : false
       );
     }
   }, {
@@ -1009,7 +1004,27 @@ var GraphSVG = function (_React$Component) {
           break;
       }
 
-      return node.toReact();
+      if (node.childNodes[0].childNodes.length === 0) {
+        this.canDraw = false;
+      } else {
+        this.canDraw = true;
+        return node.toReact();
+      }
+    }
+  }, {
+    key: 'renderCustomization',
+    value: function renderCustomization() {
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(_GraphCustomization2.default, {
+          selectedGraph: this.props.selectedGraph,
+          svgSize: this.props.svgSize,
+          onSvgSizeChange: this.props.onSvgSizeChange,
+          updateSVG: this.updateSVG
+        }),
+        React.createElement(_GraphExport2.default, null)
+      );
     }
   }]);
 
@@ -1018,7 +1033,7 @@ var GraphSVG = function (_React$Component) {
 
 exports.default = GraphSVG;
 
-},{"../graphs/BarChart":27,"../graphs/LineChart":28,"../graphs/PieChart":29,"../graphs/ScatterPlot":30,"./graph-customization/GraphCustomization":17,"d3":138,"react-faux-dom":748}],10:[function(require,module,exports){
+},{"../graphs/BarChart":27,"../graphs/LineChart":28,"../graphs/PieChart":29,"../graphs/ScatterPlot":30,"./GraphExport":8,"./graph-customization/GraphCustomization":17,"d3":138,"react-faux-dom":748}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1183,7 +1198,6 @@ var CustButtonGroup = function (_React$Component) {
               _reactBootstrap.ButtonGroup,
               { justified: true, style: { padding: padding }, key: i + 'group' },
               group.map(function (button, j) {
-                //console.log(button.type);
                 if (typeof button.type === 'undefined') return _this2.renderButton(button, j);else return _this2.renderDropdown(button, j);
               })
             );
@@ -2096,8 +2110,6 @@ var CustomDragLayer = function (_React$Component) {
   _createClass(CustomDragLayer, [{
     key: 'renderItem',
     value: function renderItem(type, item) {
-      // console.log(type);
-      // console.log(item);
       switch (type) {
         case 'dimension':
           return _react2.default.createElement(_Dimension2.default, { column: 'dimension', isNumeric: true });
@@ -3012,7 +3024,6 @@ var BarChart = function (_React$Component) {
         });
         return row;
       });
-      console.log(dataset);
 
       // MAX VALUE OF ALL BAR DIMENSIONS
       var domainMax = d3.max(wholeDataset, function (d) {
@@ -3495,6 +3506,14 @@ var PieChart = function (_React$Component) {
                 } }, { label: 'Donut', active: settings.isDonut, onClick: function onClick() {
                   _this2.setSettings({ isDonut: true });
                 } }]]
+            }),
+            React.createElement(_CustButtonGroup2.default, {
+              label: 'Label position',
+              buttons: [[{ label: 'Around', active: settings.labelAround, onClick: function onClick() {
+                  _this2.setSettings({ labelAround: true });
+                } }, { label: 'Inside', active: !settings.labelAround, onClick: function onClick() {
+                  _this2.setSettings({ labelAround: false });
+                } }]]
             })
           )
         ),
@@ -3583,16 +3602,47 @@ var PieChart = function (_React$Component) {
       // COLOR
       var color = d3.scaleOrdinal().range(settings.color);
 
-      var slices = canvas.selectAll('arc').data(pie).enter().append('g').attr('class', 'arc').attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+      var pieGroup = canvas.append('g').attr('class', 'pie').attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-      slices.append('path').attr('d', arc).attr('transform', function (d) {
-        var vector = arc.centroid(d);
-        vector[0] *= settings.sliceMoved;
-        vector[1] *= settings.sliceMoved;
-        return 'translate(' + vector + ')';
-      }).style('fill', function (d) {
+      var slices = pieGroup.selectAll('arc').data(pie).enter().append('g').attr('class', 'arc');
+
+      slices.append('path').attr('d', arc)
+      // .attr('transform', function(d){
+      //   let vector = arc.centroid(d)
+      //   vector[0] *= settings.sliceMoved;
+      //   vector[1] *= settings.sliceMoved;
+      //   console.log(Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)));
+      //   return `translate(${vector})`})
+      .style('fill', function (d) {
         return color(d.index);
       });
+
+      if (labelDimension !== null) {
+
+        var labels = slices.append('text').text(function (d) {
+          return d.data[labelDimension];
+        });
+        //.attr('font-family', 'Helvetica')
+        //.attr('font-size', '14px')
+
+        if (settings.labelAround) {
+          var labelsArc = d3.arc().outerRadius(radius + 10).innerRadius(radius + 10);
+
+          labels.attr('transform', function (d) {
+            return 'translate(' + labelsArc.centroid(d) + ')';
+          }).attr('text-anchor', function (d) {
+            return labelsArc.centroid(d)[0] > 0 ? 'start' : 'end';
+          }).attr('alignment-baseline', 'middle');
+        } else {
+          var _labelsArc = d3.arc().outerRadius(radius).innerRadius(radius * settings.innerRadius);
+
+          labels.attr('transform', function (d) {
+            return 'translate(' + _labelsArc.centroid(d) + ')';
+          }).attr('text-anchor', 'middle').attr('alignment-baseline', 'middle').attr('fill', 'white').text(function (d) {
+            return d.data[labelDimension];
+          });
+        }
+      }
 
       // CHART LABEL
       this.drawChartLabel(canvas, width);
@@ -3632,6 +3682,8 @@ PieChart.settings = {
   },
   fontFamily: 'Helvetica',
   fontSize: '14px',
+
+  labelAround: true,
 
   sliceMoved: 0.02, // %
   innerRadius: 0.5, // %
@@ -3877,11 +3929,6 @@ var _Root = require('./Root');
 var _Root2 = _interopRequireDefault(_Root);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// window.onChangeState = function(state) {
-//   //console.log(state);
-//   //TODO -> re-render d3 chart
-// }
 
 _reactDom2.default.render(React.createElement(_Root2.default, null), document.getElementById('root'));
 

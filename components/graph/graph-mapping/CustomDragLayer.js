@@ -23,8 +23,6 @@ function collect(monitor) {
 
 class CustomDragLayer extends React.Component {
   renderItem(type, item) {
-    // console.log(type);
-    // console.log(item);
     switch (type) {
       case 'dimension':
         return <Dimension column='dimension' isNumeric={true} />;

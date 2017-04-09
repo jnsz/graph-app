@@ -33,7 +33,6 @@ export default class CustButtonGroup extends React.Component {
             return(
               <ButtonGroup justified style={{padding:padding}} key={i+'group'}>
               {group.map((button, j) => {
-                //console.log(button.type);
                 if(typeof button.type === 'undefined') return this.renderButton(button, j);
                 else return this.renderDropdown(button, j);
               })}

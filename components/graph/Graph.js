@@ -2,7 +2,6 @@ import GraphType from './GraphType';
 import Mapping from './graph-mapping/Mapping';
 import GraphSVG from './GraphSVG';
 import GraphCustomization from './graph-customization/GraphCustomization';
-import GraphExport from './GraphExport';
 
 export default class Graph extends React.Component{
 
@@ -52,10 +51,6 @@ export default class Graph extends React.Component{
           selectedGraph={this.props.selectedGraph}
           onSvgSizeChange={this.props.onSvgSizeChange}
         />
-
-
-
-        <GraphExport />
       </div>
     )
   }

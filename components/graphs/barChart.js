@@ -276,7 +276,6 @@ export default class BarChart extends React.Component{
       })
       return row;
     })
-    console.log(dataset);
 
     // MAX VALUE OF ALL BAR DIMENSIONS
     const domainMax = d3.max(wholeDataset, function(d){return d3.max(barDimensions, function(barDimension) {return d[barDimension];})});

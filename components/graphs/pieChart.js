@@ -23,6 +23,13 @@ export default class PieChart extends React.Component {
               {label:'Donut', active:settings.isDonut, onClick: () => {this.setSettings({isDonut:true})} }],
             ]}
           />
+          <CustButtonGroup
+						label='Label position'
+            buttons={[
+              [{label:'Around', active:settings.labelAround, onClick: () => {this.setSettings({labelAround:true})} },
+              {label:'Inside', active:!settings.labelAround, onClick: () => {this.setSettings({labelAround:false})} }],
+            ]}
+          />
         </div>
       </Col>
 
@@ -92,6 +99,9 @@ export default class PieChart extends React.Component {
     fontFamily:'Helvetica',
 		fontSize:'14px',
 
+    labelAround:true,
+
+
     sliceMoved: 0.02,// %
     innerRadius: 0.5,// %
 
@@ -130,31 +140,63 @@ export default class PieChart extends React.Component {
 
     // simplified dataset
     const pie = d3.pie()
-                .value(function(d) { return d[valueDimension]})(wholeDataset);
+                .value(d => {return d[valueDimension]})(wholeDataset);
 
     const arc = d3.arc()
                 .outerRadius(radius)
                 .innerRadius(settings.isDonut ? radius * settings.innerRadius : 0);
 
+
+
     // COLOR
     const color = d3.scaleOrdinal().range(settings.color);
 
-    const slices = canvas.selectAll('arc')
+    const pieGroup = canvas.append('g')
+                      .attr('class', 'pie')
+                      .attr('transform', `translate(${width/2},${height/2})`);
+
+    const slices = pieGroup.selectAll('arc')
                   .data(pie)
                   .enter()
                   .append('g')
-                  .attr('class','arc')
-                  .attr('transform', `translate(${width/2},${height/2})`);
+                  .attr('class','arc');
+
 
     slices.append('path')
-      .attr('d', arc)
-      .attr('transform', function(d){
-        let vector = arc.centroid(d)
-        vector[0] *= settings.sliceMoved;
-        vector[1] *= settings.sliceMoved;
-        return `translate(${vector})`})
-      .style('fill', function(d) { return color(d.index);});
+    .attr('d', arc)
+    // .attr('transform', function(d){
+    //   let vector = arc.centroid(d)
+    //   vector[0] *= settings.sliceMoved;
+    //   vector[1] *= settings.sliceMoved;
+    //   console.log(Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)));
+    //   return `translate(${vector})`})
+    .style('fill', function(d) { return color(d.index);});
 
+    if(labelDimension !== null){
+
+
+      const labels = slices.append('text')
+            .text(d => {return d.data[labelDimension]});
+            //.attr('font-family', 'Helvetica')
+            //.attr('font-size', '14px')
+
+      if(settings.labelAround){
+        const labelsArc = d3.arc().outerRadius(radius + 10).innerRadius(radius + 10);
+
+        labels.attr('transform', d => {return `translate(${labelsArc.centroid(d)})`})
+              .attr('text-anchor', d => {return (labelsArc.centroid(d)[0] > 0) ? 'start' : 'end'} )
+              .attr('alignment-baseline','middle')
+      }
+      else{
+        const labelsArc = d3.arc().outerRadius(radius).innerRadius(radius * settings.innerRadius : 0);
+
+        labels.attr('transform', d => {return `translate(${labelsArc.centroid(d)})`})
+              .attr('text-anchor', 'middle' )
+              .attr('alignment-baseline','middle')
+              .attr('fill','white')
+              .text(d => {return d.data[labelDimension]});
+      }
+    }
 
       // CHART LABEL
   		this.drawChartLabel(canvas, width);
