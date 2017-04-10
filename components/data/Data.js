@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import DataTable from './DataTable';
-import example_data from '../example_data/example_data.json';
+import exampleData from '../exampleData/exampleData.js';
 
 export default class Data extends React.Component{
 
@@ -16,13 +16,17 @@ export default class Data extends React.Component{
 
   }
 
+
   render() {
     return (
       <div className='container'>
-        <Button bsStyle='link' onClick={e => this.handleChange(example_data.cars)}><FontAwesome name='clipboard'/></Button>
+        <h2>Data parsing</h2>
+
+        <Button bsStyle='link' onClick={e => this.handleChange(exampleData.cars)}><FontAwesome name='clipboard'/> Paste example data</Button>
 
         {typeof this.props.dataset.columns === 'undefined' ? false :
         <div className='pull-right'>
+          change view >>
           <Button bsStyle='link' onClick={e => this.changeView('txt')}><FontAwesome name='align-left'/></Button>
           <Button bsStyle='link' onClick={e => this.changeView('table')}><FontAwesome name='table'/></Button>
         </div>

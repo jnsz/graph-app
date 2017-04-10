@@ -368,9 +368,9 @@ var _DataTable = require('./DataTable');
 
 var _DataTable2 = _interopRequireDefault(_DataTable);
 
-var _example_data = require('../example_data/example_data.json');
+var _exampleData = require('../exampleData/exampleData.js');
 
-var _example_data2 = _interopRequireDefault(_example_data);
+var _exampleData2 = _interopRequireDefault(_exampleData);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -407,15 +407,22 @@ var Data = function (_React$Component) {
         'div',
         { className: 'container' },
         React.createElement(
+          'h2',
+          null,
+          'Data parsing'
+        ),
+        React.createElement(
           _reactBootstrap.Button,
           { bsStyle: 'link', onClick: function onClick(e) {
-              return _this2.handleChange(_example_data2.default.cars);
+              return _this2.handleChange(_exampleData2.default.cars);
             } },
-          React.createElement(_reactFontawesome2.default, { name: 'clipboard' })
+          React.createElement(_reactFontawesome2.default, { name: 'clipboard' }),
+          ' Paste example data'
         ),
         typeof this.props.dataset.columns === 'undefined' ? false : React.createElement(
           'div',
           { className: 'pull-right' },
+          'change view >>',
           React.createElement(
             _reactBootstrap.Button,
             { bsStyle: 'link', onClick: function onClick(e) {
@@ -573,7 +580,7 @@ var Data = function (_React$Component) {
 
 exports.default = Data;
 
-},{"../example_data/example_data.json":6,"./DataTable":5,"d3":138,"react-bootstrap":521,"react-fontawesome":758}],5:[function(require,module,exports){
+},{"../exampleData/exampleData.js":6,"./DataTable":5,"d3":138,"react-bootstrap":521,"react-fontawesome":758}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -675,29 +682,16 @@ var DataInput = function (_React$Component) {
 exports.default = DataInput;
 
 },{}],6:[function(require,module,exports){
-module.exports={
-  "cars":"name,economy (mpg),cylinders,displacement (cc),power (hp),weight (lb),0-60 mph (s),year\n\
-AMC Ambassador Brougham,13,8,360,175,3821,11,73\n\
-AMC Ambassador DPL,15,8,390,190,3850,8.5,70\n\
-AMC Ambassador SST,17,8,304,150,3672,11.5,72\n\
-AMC Concord DL 6,20.2,6,232,90,3265,18.2,79\n\
-AMC Concord DL,18.1,6,258,120,3410,15.1,78\n\
-AMC Concord DL,23,4,151,,3035,20.5,82\n\
-AMC Concord,19.4,6,232,90,3210,17.2,78\n\
-AMC Concord,24.3,4,151,90,3003,20.1,80\n\
-AMC Gremlin,18,6,232,100,2789,15,73\n\
-AMC Gremlin,19,6,232,100,2634,13,71\n\
-AMC Gremlin,20,6,232,100,2914,16,75\n\
-AMC Gremlin,21,6,199,90,2648,15,70\n\
-AMC Hornet Sportabout (Wagon),18,6,258,110,2962,13.5,71\n\
-AMC Hornet,18,6,199,97,2774,15.5,70",
-  "random":"name,fame,bane\n\
-1,a,x\n\
-2,b,y\n\
-3,c,z\n\
-4,d,x\n\
-5,e,y"
-}
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var exampleData = {
+  'cars': 'name,economy (mpg),cylinders,displacement (cc),power (hp),weight (lb),0-60 mph (s),year\nAMC Ambassador Brougham,13,8,360,175,3821,11,73\nAMC Ambassador DPL,15,8,390,190,3850,8.5,70\nAMC Ambassador SST,17,8,304,150,3672,11.5,72\nAMC Concord DL 6,20.2,6,232,90,3265,18.2,79\nAMC Concord DL,18.1,6,258,120,3410,15.1,78\nAMC Concord DL,23,4,151,,3035,20.5,82\nAMC Concord,19.4,6,232,90,3210,17.2,78\nAMC Concord,24.3,4,151,90,3003,20.1,80\nAMC Gremlin,18,6,232,100,2789,15,73\nAMC Gremlin,19,6,232,100,2634,13,71\nAMC Gremlin,20,6,232,100,2914,16,75\nAMC Gremlin,21,6,199,90,2648,15,70\nAMC Hornet Sportabout (Wagon),18,6,258,110,2962,13.5,71\nAMC Hornet,18,6,199,97,2774,15.5,70'
+};
+
+exports.default = exampleData;
 
 },{}],7:[function(require,module,exports){
 'use strict';
@@ -756,6 +750,11 @@ var Graph = function (_React$Component) {
             React.createElement(
               'div',
               { className: 'wrapper' },
+              React.createElement(
+                'h2',
+                null,
+                'Graph selection'
+              ),
               React.createElement(_GraphType2.default, {
                 selectedGraph: this.props.selectedGraph,
                 onSelectedGraphChange: this.props.onSelectedGraphChange
@@ -773,11 +772,20 @@ var Graph = function (_React$Component) {
   }, {
     key: 'renderMapping',
     value: function renderMapping() {
-      return React.createElement(_Mapping2.default, {
-        dataset: this.props.dataset,
-        graphVariables: this.props.graphVariables,
-        onAssignedDimensionsOfVariableChange: this.props.onAssignedDimensionsOfVariableChange
-      });
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(
+          'h2',
+          null,
+          'Map dimensions on graphic variables'
+        ),
+        React.createElement(_Mapping2.default, {
+          dataset: this.props.dataset,
+          graphVariables: this.props.graphVariables,
+          onAssignedDimensionsOfVariableChange: this.props.onAssignedDimensionsOfVariableChange
+        })
+      );
     }
   }, {
     key: 'renderGraph',
@@ -2812,16 +2820,16 @@ var BarChart = function (_React$Component) {
             React.createElement(_CustButtonGroup2.default, {
               label: 'Graph type',
               buttons: [[{ label: 'Vertical', active: settings.isVertical, onClick: function onClick() {
-                  _this2.setSettings({ isVertical: true });
+                  alert('Not yet implemented');_this2.setSettings({ isVertical: true });
                 } }, { label: 'Horizontal', active: !settings.isVertical, onClick: function onClick() {
-                  _this2.setSettings({ isVertical: false });
+                  alert('Not yet implemented');_this2.setSettings({ isVertical: false });
                 } }]]
             }),
             React.createElement(_CustButtonGroup2.default, {
               buttons: [[{ label: 'Grouped', active: settings.isGrouped, onClick: function onClick() {
-                  _this2.setSettings({ isGrouped: true });
+                  alert('Not yet implemented');_this2.setSettings({ isGrouped: true });
                 } }, { label: 'Stacked', active: !settings.isGrouped, onClick: function onClick() {
-                  _this2.setSettings({ isGrouped: false });
+                  alert('Not yet implemented');_this2.setSettings({ isGrouped: false });
                 } }]]
             })
           )
@@ -2885,7 +2893,7 @@ var BarChart = function (_React$Component) {
                 tamplate: 'barLabelPos',
                 active: settings.barLabelPos,
                 onClick: function onClick(value) {
-                  _this2.setSettings({ barLabelPos: value });
+                  alert('Not yet implemented');_this2.setSettings({ barLabelPos: value });
                 } }]]
             }),
             React.createElement(_CustButtonGroup2.default, {
@@ -2893,7 +2901,7 @@ var BarChart = function (_React$Component) {
                 label: 'Legend',
                 active: settings.yAxis.legend,
                 onClick: function onClick() {
-                  _this2.setSettings({ legend: !settings.legend });
+                  alert('Not yet implemented');_this2.setSettings({ legend: !settings.legend });
                 } }], [{ type: 'dropdown',
                 tamplate: 'barPadding',
                 active: settings.barPadding,
@@ -2980,7 +2988,7 @@ var BarChart = function (_React$Component) {
     key: 'setSettings',
     value: function setSettings(newSettings) {
       BarChart.settings = _extends({}, BarChart.settings, newSettings);
-      console.log(BarChart.settings);
+      // console.log(BarChart.settings);
       this.props.updateSVG();
     }
   }], [{
@@ -3163,12 +3171,12 @@ var BarChart = function (_React$Component) {
 
 BarChart.graphName = 'BarChart';
 BarChart.variables = [{
-  label: 'Bars',
+  label: 'Bar height',
   isRequired: true,
   mustBeNumeric: true,
   assignedDimensions: []
 }, {
-  label: 'Label',
+  label: 'X Axis Label',
   isRequired: false,
   takesSingleDimension: true,
   assignedDimensions: []
@@ -3180,7 +3188,7 @@ BarChart.settings = {
 
   // block 2
   chartLabel: {
-    value: 'Bar Chart',
+    value: 'hart',
     align: 'middle',
     isBold: true
   },
@@ -3296,9 +3304,9 @@ var LineChart = function (_React$Component) {
             }),
             React.createElement(_CustButtonGroup2.default, {
               buttons: [[{ label: 'Line', active: !settings.isArea, onClick: function onClick() {
-                  _this2.setSettings({ isArea: false });
+                  alert('Not yet implemented');_this2.setSettings({ isArea: false });
                 } }, { label: 'Area', active: settings.isArea, onClick: function onClick() {
-                  _this2.setSettings({ isArea: true });
+                  alert('Not yet implemented');_this2.setSettings({ isArea: true });
                 } }]]
             })
           )
@@ -3309,7 +3317,7 @@ var LineChart = function (_React$Component) {
     key: 'setSettings',
     value: function setSettings(newSettings) {
       LineChart.settings = _extends({}, LineChart.settings, newSettings);
-      console.log(LineChart.settings);
+      // console.log(LineChart.settings);
       this.props.updateSVG();
     }
   }], [{
@@ -3662,13 +3670,13 @@ var PieChart = function (_React$Component) {
 
 PieChart.graphName = 'PieChart';
 PieChart.variables = [{
-  label: 'Value',
+  label: 'Values',
   isRequired: true,
   mustBeNumeric: true,
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
-  label: 'Label',
+  label: 'Labels',
   isRequired: false,
   takesSingleDimension: true,
   assignedDimensions: []
@@ -3766,7 +3774,7 @@ var ScatterPlot = function (_React$Component) {
           React.createElement(
             'div',
             { className: 'cust' },
-            'YEA!'
+            'Sorry. Nothing implemented here yet.'
           )
         )
       );
@@ -3775,7 +3783,7 @@ var ScatterPlot = function (_React$Component) {
     key: 'setSettings',
     value: function setSettings(newSettings) {
       ScatterPlot.settings = _extends({}, ScatterPlot.settings, newSettings);
-      console.log(ScatterPlot.settings);
+      // console.log(ScatterPlot.settings);
       this.props.updateSVG();
     }
   }], [{

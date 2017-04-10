@@ -26,8 +26,8 @@ export default class LineChart extends React.Component{
           />
           <CustButtonGroup
             buttons={[
-              [{label:'Line', active:!settings.isArea, onClick: () => {this.setSettings({isArea:false})} },
-              {label:'Area', active:settings.isArea, onClick: () => {this.setSettings({isArea:true})} }],
+              [{label:'Line', active:!settings.isArea, onClick: () => {alert('Not yet implemented');this.setSettings({isArea:false})} },
+              {label:'Area', active:settings.isArea, onClick: () => {alert('Not yet implemented');this.setSettings({isArea:true})} }],
             ]}
           />
         </div>
@@ -60,7 +60,7 @@ export default class LineChart extends React.Component{
   }
 	setSettings(newSettings){
 		LineChart.settings = {...LineChart.settings, ...newSettings};
-		console.log(LineChart.settings);
+		// console.log(LineChart.settings);
 		this.props.updateSVG();
 	}
 

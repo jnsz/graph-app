@@ -12,6 +12,8 @@ export default class Graph extends React.Component{
           <div className='container'>
             <div className='wrapper'>
 
+              <h2>Graph selection</h2>
+
               <GraphType
                 selectedGraph={this.props.selectedGraph}
                 onSelectedGraphChange={this.props.onSelectedGraphChange}
@@ -32,11 +34,14 @@ export default class Graph extends React.Component{
   // DragDropContextProvider je z react-dnd vsechny; child komponenty jsou dnd enabled
   renderMapping() {
     return(
+      <div>
+        <h2>Map dimensions on graphic variables</h2>
         <Mapping
           dataset={this.props.dataset}
           graphVariables={this.props.graphVariables}
           onAssignedDimensionsOfVariableChange={this.props.onAssignedDimensionsOfVariableChange}
         />
+      </div>
     )
   }
 

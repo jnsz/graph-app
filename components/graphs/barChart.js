@@ -21,14 +21,14 @@ export default class BarChart extends React.Component{
           <CustButtonGroup
 						label='Graph type'
             buttons={[
-              [{label:'Vertical', active:settings.isVertical, onClick: () => {this.setSettings({isVertical:true})} },
-              {label:'Horizontal', active:!settings.isVertical, onClick: () => {this.setSettings({isVertical:false})} }],
+              [{label:'Vertical', active:settings.isVertical, onClick: () => {alert('Not yet implemented');this.setSettings({isVertical:true})} },
+              {label:'Horizontal', active:!settings.isVertical, onClick: () => {alert('Not yet implemented');this.setSettings({isVertical:false})} }],
             ]}
           />
           <CustButtonGroup
             buttons={[
-              [{label:'Grouped', active:settings.isGrouped, onClick: () => {this.setSettings({isGrouped:true})} },
-              {label:'Stacked', active:!settings.isGrouped, onClick: () => {this.setSettings({isGrouped:false})} }],
+              [{label:'Grouped', active:settings.isGrouped, onClick: () => {alert('Not yet implemented');this.setSettings({isGrouped:true})} },
+              {label:'Stacked', active:!settings.isGrouped, onClick: () => {alert('Not yet implemented');this.setSettings({isGrouped:false})} }],
             ]}
           />
         </div>
@@ -85,7 +85,7 @@ export default class BarChart extends React.Component{
 							[{type: 'dropdown',
 							tamplate: 'barLabelPos',
 							active:settings.barLabelPos,
-							onClick: value => {this.setSettings({barLabelPos:value})} },],
+							onClick: value => {alert('Not yet implemented');this.setSettings({barLabelPos:value})} },],
             ]}
           />
           <CustButtonGroup
@@ -93,7 +93,7 @@ export default class BarChart extends React.Component{
 							[{icon: (settings.legend?<FontAwesome name='eye-slash'/>:<FontAwesome name='eye'/>),
 							label: 'Legend',
 							active:settings.yAxis.legend,
-							onClick: () => {this.setSettings({legend:!settings.legend})} }],
+							onClick: () => {alert('Not yet implemented');this.setSettings({legend:!settings.legend})} }],
 
 							[{type: 'dropdown',
 							tamplate: 'barPadding',
@@ -184,13 +184,13 @@ export default class BarChart extends React.Component{
   static graphName = 'BarChart';
   static variables = [
     {
-        label: 'Bars',
+        label: 'Bar height',
         isRequired: true,
         mustBeNumeric: true,
         assignedDimensions:[]
     },
     {
-        label: 'Label',
+        label: 'X Axis Label',
         isRequired: false,
         takesSingleDimension: true,
         assignedDimensions:[]
@@ -203,7 +203,7 @@ export default class BarChart extends React.Component{
 
 		// block 2
     chartLabel:{
-      value: 'Bar Chart',
+      value: 'hart',
       align: 'middle',
       isBold: true,
     },
@@ -233,7 +233,7 @@ export default class BarChart extends React.Component{
   }
 	setSettings(newSettings){
 		BarChart.settings = {...BarChart.settings, ...newSettings};
-		console.log(BarChart.settings);
+		// console.log(BarChart.settings);
 		this.props.updateSVG();
 	}
 

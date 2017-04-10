@@ -73,14 +73,14 @@ export default class PieChart extends React.Component {
   static graphName = 'PieChart';
   static variables = [
     {
-        label: 'Value',
+        label: 'Values',
         isRequired: true,
         mustBeNumeric: true,
         takesSingleDimension: true,
         assignedDimensions:[]
     },
     {
-        label: 'Label',
+        label: 'Labels',
         isRequired: false,
         takesSingleDimension: true,
         assignedDimensions:[]

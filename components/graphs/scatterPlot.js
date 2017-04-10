@@ -17,7 +17,7 @@ export default class ScatterPlot extends React.Component{
       <div>
       <Col md={6}>
         <div className='cust'>
-          YEA!
+          Sorry. Nothing implemented here yet.
         </div>
       </Col>
       </div>
@@ -62,7 +62,7 @@ export default class ScatterPlot extends React.Component{
   }
 	setSettings(newSettings){
 		ScatterPlot.settings = {...ScatterPlot.settings, ...newSettings};
-		console.log(ScatterPlot.settings);
+		// console.log(ScatterPlot.settings);
 		this.props.updateSVG();
 	}
 
