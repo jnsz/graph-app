@@ -1676,7 +1676,7 @@ var FontFamily = exports.FontFamily = ['Georgia', 'Palatino Linotype', 'Times Ne
 
 var FontSize = exports.FontSize = ['12px', '14px', '18px', '24px', '30px', '36px'];
 
-var BarLabelPos = exports.BarLabelPos = ['top', 'above', 'bellow', 'bottom'];
+var BarLabelPos = exports.BarLabelPos = ['none', 'top', 'above', 'bellow', 'bottom'];
 
 var BarPadding = exports.BarPadding = ['none', 'small', 'middle', 'big', 'extreme'];
 
@@ -2893,7 +2893,7 @@ var BarChart = function (_React$Component) {
                 tamplate: 'barLabelPos',
                 active: settings.barLabelPos,
                 onClick: function onClick(value) {
-                  alert('Not yet implemented');_this2.setSettings({ barLabelPos: value });
+                  _this2.setSettings({ barLabelPos: value });
                 } }]]
             }),
             React.createElement(_CustButtonGroup2.default, {
@@ -2919,13 +2919,22 @@ var BarChart = function (_React$Component) {
             { className: 'cust' },
             React.createElement(_CustFormGroup2.default, {
               label: 'X Axis',
-              items: [{ type: 'input',
+              items: [{
+                type: 'btn',
+                label: settings.xAxis.visible ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
+                active: settings.xAxis.visible,
+                onChange: function onChange() {
+                  _this2.setSettings({ xAxis: _extends({}, settings.xAxis, { visible: !settings.xAxis.visible }) });
+                }
+              }, {
+                type: 'input',
                 text: 'X Axis Label',
                 value: settings.xAxis.value,
                 onChange: function onChange(value) {
                   _this2.setSettings({ xAxis: _extends({}, settings.xAxis, { value: value }) });
                 }
-              }, { type: 'align',
+              }, {
+                type: 'align',
                 value: settings.xAxis.align,
                 onChange: function onChange(value) {
                   _this2.setSettings({ xAxis: _extends({}, settings.xAxis, { align: value }) });
@@ -2951,13 +2960,22 @@ var BarChart = function (_React$Component) {
             { className: 'cust' },
             React.createElement(_CustFormGroup2.default, {
               label: 'Y Axis',
-              items: [{ type: 'input',
+              items: [{
+                type: 'btn',
+                label: settings.yAxis.visible ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
+                active: settings.yAxis.visible,
+                onChange: function onChange() {
+                  _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { visible: !settings.yAxis.visible }) });
+                }
+              }, {
+                type: 'input',
                 text: 'Graph label',
                 value: settings.yAxis.value,
                 onChange: function onChange(value) {
                   _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { value: value }) });
                 }
-              }, { type: 'align',
+              }, {
+                type: 'align',
                 value: settings.yAxis.align,
                 onChange: function onChange(value) {
                   _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { align: value }) });
@@ -2965,20 +2983,26 @@ var BarChart = function (_React$Component) {
               }]
             }),
             React.createElement(_CustButtonGroup2.default, {
-              buttons: [[{ icon: settings.yAxis.guidelines ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
+              buttons: [[{
+                icon: settings.yAxis.guidelines ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
                 label: 'Guides',
                 active: settings.yAxis.guidelines,
                 onClick: function onClick() {
                   _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { guidelines: !settings.yAxis.guidelines }) });
-                } }], [{ label: 'Left',
+                }
+              }], [{
+                label: 'Left',
                 active: settings.yAxis.position === 'left',
                 onClick: function onClick() {
                   _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { position: 'left' }) });
-                } }, { label: 'Right',
+                }
+              }, {
+                label: 'Right',
                 active: settings.yAxis.position === 'right',
                 onClick: function onClick() {
                   _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { position: 'right' }) });
-                } }]]
+                }
+              }]]
             })
           )
         )
@@ -3066,6 +3090,10 @@ var BarChart = function (_React$Component) {
 
       yAxisGroup.append('text').attr('transform', 'translate(' + (settings.yAxis.position === 'left' ? -25 : 25) + ',' + labelPos + ') rotate(-90)').attr('text-anchor', settings.yAxis.align).attr('dominant-baseline', '' + (settings.yAxis.position === 'left' ? 'text-after-edge' : 'text-before-edge')).attr('font-family', settings.fontFamily).attr('font-size', settings.fontSize).text(settings.yAxis.value);
 
+      if (!settings.yAxis.visible) {
+        canvas.select('.y.axis').selectAll('g').remove();
+      }
+
       // GUIDELINES
       if (settings.yAxis.guidelines) {
         var guidelines = d3.axisRight(y).tickSizeInner(width).tickSizeOuter(0).tickFormat('');
@@ -3098,6 +3126,11 @@ var BarChart = function (_React$Component) {
 
       xAxisGroup.append('text').attr('transform', 'translate(' + labelPos + ',25)').attr('text-anchor', settings.xAxis.align).attr('dominant-baseline', 'text-before-edge').attr('font-family', settings.fontFamily).attr('font-size', settings.fontSize).text(settings.xAxis.value);
 
+      if (!settings.xAxis.visible) {
+        canvas.select('.x.axis').selectAll('path.domain').remove();
+        canvas.select('.x.axis').selectAll('g.tick').selectAll('line').remove();
+      }
+
       // DRAW TICKS ON X AXIS
       if (hasLabelDimension) {
         var tickNames = wholeDataset.map(function (d) {
@@ -3129,7 +3162,7 @@ var BarChart = function (_React$Component) {
         return 'translate(' + x0(i) + ',0)';
       });
 
-      var innerBand = outerBand.selectAll('g').data(function (d, i) {
+      var innerBand = outerBand.selectAll('g').data(function (d) {
         return d;
       }).enter().append('g').attr('class', 'innerBand').attr('transform', function (d, i) {
         return 'translate(' + x1(i) + ',0)';
@@ -3142,6 +3175,42 @@ var BarChart = function (_React$Component) {
       }).style('fill', function (d, i) {
         return colorGenerator(i);
       });
+
+      if (settings.barLabelPos !== 'none') {
+
+        innerBand.append('text').attr('x', x1.bandwidth() / 2).attr('y', function (d) {
+          switch (settings.barLabelPos) {
+            case 'top':
+              return 0;
+            case 'above':
+              return y(d) - 5;
+            case 'bellow':
+              return y(d) + 5;
+            case 'bottom':
+              return height - 10;
+          }
+        }).attr('text-anchor', 'middle').attr('dominant-baseline', function () {
+          switch (settings.barLabelPos) {
+            case 'top':
+              return 'text-before-edge';
+            case 'above':
+              return 'text-after-edge';
+            case 'bellow':
+              return 'text-before-edge';
+            case 'buttom':
+              return 'text-after-edge';
+          }
+        }).style('fill', function () {
+          switch (settings.barLabelPos) {
+            case 'bellow':
+              return 'white';
+            case 'bottom':
+              return 'white';
+          }
+        }).text(function (d) {
+          return d;
+        });
+      }
 
       // CHART LABEL
       this.drawChartLabel(canvas, width);
@@ -3188,7 +3257,7 @@ BarChart.settings = {
 
   // block 2
   chartLabel: {
-    value: 'hart',
+    value: 'Bar Chart',
     align: 'middle',
     isBold: true
   },
@@ -3203,6 +3272,7 @@ BarChart.settings = {
 
   // block 4
   xAxis: {
+    visible: true,
     value: 'X Axis',
     align: 'middle',
     rotation: 0
@@ -3210,6 +3280,7 @@ BarChart.settings = {
 
   // block 5
   yAxis: {
+    visible: true,
     value: 'Y Axis',
     align: 'middle',
     guidelines: false,

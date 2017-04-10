@@ -56,6 +56,7 @@ export const FontSize = [
 ];
 
 export const BarLabelPos = [
+  'none',
   'top',
   'above',
   'bellow',
