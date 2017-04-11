@@ -780,6 +780,22 @@ var Graph = function (_React$Component) {
           null,
           'Map dimensions on graphic variables'
         ),
+        React.createElement(
+          'p',
+          null,
+          'Drag and drop ',
+          React.createElement(
+            'span',
+            { style: { color: 'white', backgroundColor: '#337ab7', borderRadius: '4px', padding: '6px 12px' } },
+            'dimensions'
+          ),
+          ' into ',
+          React.createElement(
+            'span',
+            { style: { border: '1px dashed', borderRadius: '4px', padding: '6px 12px' } },
+            'drop areas'
+          )
+        ),
         React.createElement(_Mapping2.default, {
           dataset: this.props.dataset,
           graphVariables: this.props.graphVariables,

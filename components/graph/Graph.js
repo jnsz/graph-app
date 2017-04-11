@@ -36,6 +36,7 @@ export default class Graph extends React.Component{
     return(
       <div>
         <h2>Map dimensions on graphic variables</h2>
+        <p>Drag and drop <span style={{color: 'white',backgroundColor: '#337ab7',borderRadius: '4px',padding: '6px 12px',}}>dimensions</span> into <span style={{border: '1px dashed', borderRadius:'4px', padding:'6px 12px'}}>drop areas</span></p>
         <Mapping
           dataset={this.props.dataset}
           graphVariables={this.props.graphVariables}
