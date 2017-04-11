@@ -46,6 +46,7 @@ export default class GraphSVG extends React.Component{
     let svg = d3.select(node)
         .attr('width', svgSize.width)
         .attr('height', svgSize.height)
+        .style('backgroundColor','white')
         .style('display', 'block')
         .style('margin', 'auto');
 

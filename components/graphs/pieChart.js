@@ -2,6 +2,8 @@ import * as d3 from 'd3';
 import { Col, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
+import ChartModel from './ChartModel';
+
 import CustButtonGroup from '../graph/graph-customization/CustButtonGroup';
 import CustColorPicker from '../graph/graph-customization/CustColorPicker';
 import CustDropdown from '../graph/graph-customization/CustDropdown';
@@ -38,15 +40,17 @@ export default class PieChart extends React.Component {
           <CustFormGroup
   					label='Graph Label'
   					items={[
-  						{type : 'btn',
-               label: <FontAwesome name='bold'/>,
-               active: settings.chartLabel.isBold,
-               onChange: () => {this.setSettings({chartLabel:{...settings.chartLabel, isBold:!settings.chartLabel.isBold}})}
+  						{
+                type : 'btn',
+                label: <FontAwesome name='bold'/>,
+                active: settings.chartLabel.isBold,
+                onChange: () => {this.setSettings({chartLabel:{...settings.chartLabel, isBold:!settings.chartLabel.isBold}})}
               },
-              {type : 'input',
-               text : 'Graph label',
-               value : settings.chartLabel.value,
-               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, value:value}})}
+              {
+                type : 'input',
+                text : 'Graph label',
+                value : settings.chartLabel.value,
+                onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, value:value}})}
              },
   					]}
   				/>
@@ -63,6 +67,28 @@ export default class PieChart extends React.Component {
 							onClick: value => {this.setSettings({fontSize:value})} },],
             ]}
           />
+        </div>
+      </Col>
+
+      <Col md={6}>
+        <div className='cust'>
+          <CustButtonGroup
+						label='General'
+            buttons={[
+              [{type:'dropdown',
+							tamplate:'color',
+							active:settings.color,
+							onClick: value => {this.setSettings({color:value})} },],
+            ]}
+          />
+          {/*<CustButtonGroup
+            buttons={[
+							[{icon: (settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
+							label: 'Legend',
+							active:settings.legend,
+							onClick: () => {this.setSettings({legend:!settings.legend})} }],
+            ]}
+          />*/}
         </div>
       </Col>
       </div>
@@ -91,6 +117,8 @@ export default class PieChart extends React.Component {
   // TODO add settings vatiables
   static settings = {
     isDonut:false,
+    innerRadius: 0.5,// %
+    labelAround:true,
 
     chartLabel:{
       isBold:false,
@@ -99,13 +127,8 @@ export default class PieChart extends React.Component {
     fontFamily:'Helvetica',
 		fontSize:'14px',
 
-    labelAround:true,
-
-
-    sliceMoved: 0.02,// %
-    innerRadius: 0.5,// %
-
     color: d3.schemeCategory10,
+    // legend:false,
   };
 
   setSettings(newSettings){
@@ -140,66 +163,64 @@ export default class PieChart extends React.Component {
 
     // simplified dataset
     const pie = d3.pie()
-                .value(d => {return d[valueDimension]})(wholeDataset);
+      .value(d => {return d[valueDimension]})(wholeDataset);
 
     const arc = d3.arc()
-                .outerRadius(radius)
-                .innerRadius(settings.isDonut ? radius * settings.innerRadius : 0);
+      .outerRadius(radius)
+      .innerRadius(settings.isDonut ? radius * settings.innerRadius : 0);
 
 
 
     // COLOR
-    const color = d3.scaleOrdinal().range(settings.color);
+    const colorGenerator = d3.scaleOrdinal().range(settings.color);
 
     const pieGroup = canvas.append('g')
-                      .attr('class', 'pie')
-                      .attr('transform', `translate(${width/2},${height/2})`);
+      .attr('class', 'pie')
+      .attr('transform', `translate(${width/2},${height/2})`);
 
     const slices = pieGroup.selectAll('arc')
-                  .data(pie)
-                  .enter()
-                  .append('g')
-                  .attr('class','arc');
+      .data(pie)
+      .enter()
+      .append('g')
+      .attr('class','arc');
 
 
     slices.append('path')
-    .attr('d', arc)
-    // .attr('transform', function(d){
-    //   let vector = arc.centroid(d)
-    //   vector[0] *= settings.sliceMoved;
-    //   vector[1] *= settings.sliceMoved;
-    //   console.log(Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)));
-    //   return `translate(${vector})`})
-    .style('fill', function(d) { return color(d.index);});
+      .attr('d', arc)
+      // .attr('transform', d => {
+      //   let vector = arc.centroid(d)
+      //   vector[0] *= settings.sliceMoved;
+      //   vector[1] *= settings.sliceMoved;
+      //   console.log(Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)));
+      //   return `translate(${vector})`})
+      .style('fill', (d,i) => {return colorGenerator(i)});
 
     if(labelDimension !== null){
-
-
       const labels = slices.append('text')
-            .text(d => {return d.data[labelDimension]});
-            //.attr('font-family', 'Helvetica')
-            //.attr('font-size', '14px')
+        .attr('font-family', settings.fontFamily)
+        .attr('font-size', settings.fontSize)
+        .text(d => {return d.data[labelDimension]});
 
       if(settings.labelAround){
         const labelsArc = d3.arc().outerRadius(radius + 10).innerRadius(radius + 10);
 
         labels.attr('transform', d => {return `translate(${labelsArc.centroid(d)})`})
-              .attr('text-anchor', d => {return (labelsArc.centroid(d)[0] > 0) ? 'start' : 'end'} )
-              .attr('alignment-baseline','middle')
+          .attr('text-anchor', d => {return (labelsArc.centroid(d)[0] > 0) ? 'start' : 'end'} )
+          .attr('alignment-baseline','middle')
       }
       else{
         const labelsArc = d3.arc().outerRadius(radius).innerRadius(radius * settings.innerRadius : 0);
 
         labels.attr('transform', d => {return `translate(${labelsArc.centroid(d)})`})
-              .attr('text-anchor', 'middle' )
-              .attr('alignment-baseline','middle')
-              .attr('fill','white')
-              .text(d => {return d.data[labelDimension]});
+          .attr('text-anchor', 'middle' )
+          .attr('alignment-baseline','middle')
+          .attr('fill','white')
+          .text(d => {return d.data[labelDimension]});
       }
     }
 
-      // CHART LABEL
-  		this.drawChartLabel(canvas, width);
+    // CHART LABEL
+		this.drawChartLabel(canvas, width);
   }
 
   static drawChartLabel(canvas, width){

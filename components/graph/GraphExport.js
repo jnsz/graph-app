@@ -6,17 +6,15 @@ export default class GraphExport extends React.Component{
 
   render() {
     return (
-      <div style={{backgroundColor: '#ededed'}}>
-        <div className='container'>
-          <div className='wrapper'>
-            <Button
-              bsStyle='success'
-              block
-              onClick={e => this.saveSVG()}
-            >
-              Export graph as SVG
-            </Button>
-          </div>
+      <div className='container'>
+        <div className='wrapper'>
+          <Button
+            bsStyle='success'
+            block
+            onClick={e => this.saveSVG()}
+          >
+            Export graph as SVG
+          </Button>
         </div>
       </div>
     );

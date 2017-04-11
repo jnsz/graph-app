@@ -1,9 +1,10 @@
 import update from 'react/lib/update';
 import FontAwesome from 'react-fontawesome';
-import { Col, Label } from 'react-bootstrap';
+import { Col, Label, OverlayTrigger } from 'react-bootstrap';
 
 import DropArea from './DropArea';
 import AssignedDimension from './AssignedDimension';
+import Overlay from '../Overlay';
 
 const variableStyle = {
   backgroundColor: 'white',
@@ -36,8 +37,8 @@ export default class Variable extends React.Component{
       <Col md={4} style={{height:'130px'}}>
         <div style={variableStyle}>
           <div>
-            {isRequired ? <FontAwesome name='asterisk' style={iconStyle}/> : false}
-            {takesSingleDimension ? <FontAwesome name='tag' style={iconStyle}/>: <FontAwesome name='tags' style={iconStyle}/>}
+            {isRequired ? <Overlay tooltip='Is required'><FontAwesome name='asterisk' style={iconStyle}/></Overlay> : false}
+            {takesSingleDimension ? <Overlay tooltip='Takes single dimension'><FontAwesome name='tag' style={iconStyle}/></Overlay> : <Overlay tooltip='Takes multiple dimensions'><FontAwesome name='tags' style={iconStyle}/></Overlay>}
             <strong> {label} </strong>
           </div>
 

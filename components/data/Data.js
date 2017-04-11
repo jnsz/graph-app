@@ -4,6 +4,7 @@ import FontAwesome from 'react-fontawesome';
 
 import DataTable from './DataTable';
 import exampleData from '../exampleData/exampleData.js';
+import Overlay from '../Overlay';
 
 export default class Data extends React.Component{
 
@@ -26,9 +27,12 @@ export default class Data extends React.Component{
 
         {typeof this.props.dataset.columns === 'undefined' ? false :
         <div className='pull-right'>
-          change view >>
-          <Button bsStyle='link' onClick={e => this.changeView('txt')}><FontAwesome name='align-left'/></Button>
-          <Button bsStyle='link' onClick={e => this.changeView('table')}><FontAwesome name='table'/></Button>
+          <Overlay tooltip='Input view'>
+            <Button bsStyle='link' onClick={e => this.changeView('txt')} active={this.state.showTxtArea}><FontAwesome name='align-left'/></Button>
+          </Overlay>
+          <Overlay tooltip='Table view'>
+            <Button bsStyle='link' onClick={e => this.changeView('table')} active={this.state.showTable}><FontAwesome name='table'/></Button>
+          </Overlay>
         </div>
         }
 

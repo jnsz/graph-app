@@ -1,6 +1,10 @@
-import * as d3 from 'd3';
+import * as d3_core from 'd3';
+import * as d3_symbol from 'd3-symbol-extra';
+const d3 = {...d3_core, ...d3_symbol};
 import { Col, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
+
+import ChartModel from './ChartModel';
 
 import CustButtonGroup from '../graph/graph-customization/CustButtonGroup';
 import CustColorPicker from '../graph/graph-customization/CustColorPicker';
@@ -17,7 +21,53 @@ export default class ScatterPlot extends React.Component{
       <div>
       <Col md={6}>
         <div className='cust'>
-          Sorry. Nothing implemented here yet.
+          <CustFormGroup
+  					label='Graph Label'
+  					items={[
+  						{type : 'btn',
+               label: <FontAwesome name='bold'/>,
+               active: settings.chartLabel.isBold,
+               onChange: () => {this.setSettings({chartLabel:{...settings.chartLabel, isBold:!settings.chartLabel.isBold}})}
+              },
+              {type : 'input',
+               text : 'Graph label',
+               value : settings.chartLabel.value,
+               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, value:value}})}
+             },
+              {type: 'align',
+               value: settings.chartLabel.align,
+               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, align:value}})}
+              }
+  					]}
+  				/>
+          <CustButtonGroup
+            buttons={[
+              [{type: 'dropdown',
+							tamplate: 'fontFamily',
+							active:settings.fontFamily,
+							onClick: value => {this.setSettings({fontFamily:value})} },],
+
+              [{type: 'dropdown',
+							tamplate: 'fontSize',
+							active:settings.fontSize,
+							onClick: value => {this.setSettings({fontSize:value})} },],
+            ]}
+          />
+
+        </div>
+      </Col>
+
+      <Col md={6}>
+        <div className='cust'>
+          <CustButtonGroup
+						label='General'
+            buttons={[
+              [{type:'dropdown',
+							tamplate:'color',
+							active:settings.color,
+							onClick: value => {this.setSettings({color:value})} },]
+            ]}
+          />
         </div>
       </Col>
       </div>
@@ -48,7 +98,7 @@ export default class ScatterPlot extends React.Component{
       takesSingleDimension: true,
       assignedDimensions:[]
     },{
-      label: 'Shape',
+      label: 'Shape (max. 8 uniques)',
       takesSingleDimension: true,
       assignedDimensions:[]
     },{
@@ -58,6 +108,14 @@ export default class ScatterPlot extends React.Component{
     }
   ];
   static settings = {
+    chartLabel:{
+      value: 'Line Chart',
+      align: 'middle',
+      isBold: true,
+    },
+		fontFamily:'Helvetica',
+		fontSize:'14px',
+
     color: d3.schemeCategory10,
   }
 	setSettings(newSettings){
@@ -141,7 +199,7 @@ export default class ScatterPlot extends React.Component{
                             .range(settings.color);
 
     const symbolGenerator = d3.scaleOrdinal()
-                              .range(d3.symbols);
+                              .range([d3.symbolCircle, d3.symbolSquare, d3.symbolTriangle, d3.symbolCross, d3.symbolDiamondSquare, d3.symbolTriangleDown, d3.symbolX, d3.symbolWye ]);
 
     const symbol = d3.symbol()
                   .size((sizeDimension === null) ? 100 : d => {return sizeGenerator(d[sizeDimension])})
@@ -172,5 +230,10 @@ export default class ScatterPlot extends React.Component{
           .text(d => {return d[labelDimension]});
     }
 
+
+    ChartModel.drawChartLabel(canvas, settings, width);
+
   }
+
+
 }

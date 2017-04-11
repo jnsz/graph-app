@@ -52,7 +52,7 @@ export default class GraphCustomization extends React.Component {
 			<Col md={6}>
 				<div style={blockStyle}>
 					<CustFormGroup
-						label='Aspect ratio'
+						label='Width x height'
 						items={[
 							{'type' : 'input', 'text' : 'Width', 'value' : width, 'onChange': this.onChangeWidth},
 							{'type' : 'addon', 'label' : <FontAwesome name='times'/>},

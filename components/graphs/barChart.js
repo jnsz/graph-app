@@ -1,6 +1,9 @@
-import * as d3 from 'd3';
+import * as d3_core from 'd3';
+const d3 = {...d3_core};
 import { Col, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
+
+import ChartModel from './ChartModel';
 
 import CustButtonGroup from '../graph/graph-customization/CustButtonGroup';
 import CustColorPicker from '../graph/graph-customization/CustColorPicker';
@@ -90,10 +93,10 @@ export default class BarChart extends React.Component{
           />
           <CustButtonGroup
             buttons={[
-							[{icon: (settings.legend?<FontAwesome name='eye-slash'/>:<FontAwesome name='eye'/>),
+							[{icon: (settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
 							label: 'Legend',
-							active:settings.yAxis.legend,
-							onClick: () => {alert('Not yet implemented');this.setSettings({legend:!settings.legend})} }],
+							active:settings.legend,
+							onClick: () => {this.setSettings({legend:!settings.legend})} }],
 
 							[{type: 'dropdown',
 							tamplate: 'barPadding',
@@ -239,7 +242,7 @@ export default class BarChart extends React.Component{
 		color: d3.schemeCategory10,
 		barLabelPos:'above',
 		barPadding:0.1,
-		legend:true,
+		legend:false,
 
 		// block 4
     xAxis:{
@@ -265,6 +268,7 @@ export default class BarChart extends React.Component{
 	}
 
   static checkAndDrawChart(canvas, svgSize, wholeDataset) {
+
     const hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
     const hasBarDimension = this.variables[0].assignedDimensions.length != 0;
 
@@ -297,15 +301,13 @@ export default class BarChart extends React.Component{
     })
 
     // simplified dataset
-    const dataset = wholeDataset.map(function(d, i) {
-      const row = barDimensions.map(function(dimension, index) {
-        return d[dimension]
-      })
+    const dataset = wholeDataset.map((d, i) => {
+      const row = barDimensions.map(dimension => {return d[dimension]})
       return row;
     })
 
     // MAX VALUE OF ALL BAR DIMENSIONS
-    const domainMax = d3.max(wholeDataset, function(d){return d3.max(barDimensions, function(barDimension) {return d[barDimension];})});
+    const domainMax = d3.max(wholeDataset, d => {return d3.max(barDimensions, barDimension => {return d[barDimension]})});
 
     // Y AXIS
     const y = d3.scaleLinear()
@@ -316,21 +318,23 @@ export default class BarChart extends React.Component{
     yAxis.tickSizeOuter(0);
 
     const yAxisGroup = canvas.append('g')
-                            .attr('class', 'y axis')
+                            .classed('y axis', true)
 														.attr('transform', `translate(${settings.yAxis.position === 'left' ? 0:width},0)`)
 
     yAxisGroup.append('g').call(yAxis);
 
-		canvas.select('.y.axis').selectAll('g.tick').selectAll('text').each(function() {
+		canvas.select('g.y.axis').selectAll('g.tick').selectAll('text').each(function() {
 			d3.select(this).attr('font-family', settings.fontFamily)
 		});
 
-		let labelPos;
-		switch (settings.yAxis.align) {
-			case 'start': labelPos = height; break;
-			case 'middle': labelPos = height/2; break;
-			case 'end': labelPos = 0; break;
-		}
+		let labelPos = function(){
+      switch (settings.yAxis.align) {
+  			case 'start': return height;
+  			case 'middle': return height/2;
+  			case 'end': return 0;
+  		}
+    }()
+
 
     yAxisGroup.append('text')
               .attr('transform', `translate(${settings.yAxis.position === 'left' ? -25:25},${labelPos}) rotate(-90)`)
@@ -341,7 +345,7 @@ export default class BarChart extends React.Component{
               .text(settings.yAxis.value);
 
     if(!settings.yAxis.visible){
-      canvas.select('.y.axis').selectAll('g').remove();
+      canvas.select('g.y.axis').selectAll('g').remove();
     }
 
     // GUIDELINES
@@ -352,10 +356,11 @@ export default class BarChart extends React.Component{
 	        .tickFormat('');
 
 			canvas.append('g')
-					.attr('class', 'guidelines')
+					.classed('guidelines', true)
 					.call(guidelines);
 
-			canvas.select('.guidelines').selectAll('.tick').selectAll('line').attr('stroke','#999');
+			canvas.select('g.guidelines').selectAll('g.tick').selectAll('line').attr('stroke','#999');
+      canvas.select('g.guidelines').select('path.domain').remove();
 		}
 
 		// X AXIS
@@ -373,17 +378,18 @@ export default class BarChart extends React.Component{
 										.tickSizeOuter(0);
 
 		const xAxisGroup = canvas.append('g')
-			.attr('class', 'x axis')
+			.classed('x axis', true)
 			.attr('transform', `translate(0,${height})`);
 
 		xAxisGroup.append('g').call(xAxis);
 
-		//let labelPos;
-		switch (settings.xAxis.align) {
-			case 'start': labelPos = 0; break;
-			case 'middle': labelPos = width/2; break;
-			case 'end': labelPos = width; break;
-		}
+		labelPos = function(){
+      switch (settings.xAxis.align) {
+        case 'start': return 0;
+        case 'middle': return width/2;
+        case 'end': return width;
+      }
+    }()
 
 		xAxisGroup.append('text')
 							.attr('transform', `translate(${labelPos},25)`)
@@ -394,13 +400,13 @@ export default class BarChart extends React.Component{
 							.text(settings.xAxis.value);
 
     if(!settings.xAxis.visible){
-      canvas.select('.x.axis').selectAll('path.domain').remove();
-      canvas.select('.x.axis').selectAll('g.tick').selectAll('line').remove();
+      canvas.select('g.x.axis').selectAll('path.domain').remove();
+      canvas.select('g.x.axis').selectAll('g.tick').selectAll('line').remove();
     }
 
 		// DRAW TICKS ON X AXIS
     if(hasLabelDimension){
-			const tickNames = wholeDataset.map(function(d){return d[labelDimension];});
+			const tickNames = wholeDataset.map(d => {return d[labelDimension]});
 
 			let pos;
 			switch(settings.xAxis.rotation){
@@ -409,7 +415,7 @@ export default class BarChart extends React.Component{
 				case 90: pos = {x:-13,y:10};break;
 			}
 
-			canvas.select('.x.axis').selectAll('g.tick').selectAll('text').each(function(d) {
+			canvas.select('g.x.axis').selectAll('g.tick').selectAll('text').each(function (d){
 				d3.select(this)
 					.attr('text-anchor', 'end')
 					.attr('text-anchor', settings.xAxis.rotation===0 ? 'middle':'end')
@@ -418,7 +424,7 @@ export default class BarChart extends React.Component{
 					.text(tickNames[d])
 			});
 		} else {
-			canvas.select('.x.axis').selectAll('g.tick').remove();
+			canvas.select('g.x.axis').selectAll('g.tick').remove();
 		}
 
     // COLOR
@@ -426,31 +432,30 @@ export default class BarChart extends React.Component{
 
     // CREATE BARS
     const outerBand = canvas.append('g')
-      .attr('class', 'bars')
+      .classed('bars', true)
       .selectAll('.outerBand')
       .data(dataset)
       .enter()
       .append('g')
-      .attr('class', 'outerBand')
+      .classed('outerBand', true)
       .attr('transform', (d, i) => {return `translate(${x0(i)},0)`});
 
     const innerBand = outerBand.selectAll('g')
       .data(d => {return d})
       .enter()
       .append('g')
-      .attr('class', 'innerBand')
+      .classed('innerBand', true)
       .attr('transform', (d, i) => {return `translate(${x1(i)},0)`});
 
     innerBand.append('rect')
-      .attr('class', 'bar')
+      .classed('bar', true)
       .attr('y', d => {return y(d)})
       .attr('width', x1.bandwidth())
       .attr('height', d => {return height - y(d)})
       .style('fill', (d, i) => {return colorGenerator(i)});
 
+
     if(settings.barLabelPos !=='none'){
-
-
       innerBand.append('text')
         .attr('x', x1.bandwidth()/2)
         .attr('y', d => {
@@ -477,9 +482,33 @@ export default class BarChart extends React.Component{
         .text(d => {return d});
     }
 
-
+    // LEGEND
+    if(settings.legend)  ChartModel.drawLegend(canvas, width, barDimensions, colorGenerator);
     // CHART LABEL
-		this.drawChartLabel(canvas, width);
+		ChartModel.drawChartLabel(canvas, settings, width);
+  }
+
+  static drawLegend(canvas, width, barDimensions, colorGenerator){
+    const legend = canvas.append('g')
+      .classed('legend', true)
+      .attr('transform', `translate(${width},0)`)
+      .selectAll('.row')
+      .data(barDimensions)
+      .enter()
+      .append('g')
+      .classed('row', true)
+      .attr('transform', (d,i) => { return `translate(0,${i*20})`});
+
+    legend.append('rect')
+      .attr('width', 19)
+      .attr('height', 19)
+      .style('fill', (d, i) => {return colorGenerator(i)});
+
+    legend.append('text')
+      .attr('x',24)
+      .attr('y', 9.5)
+      .attr('dy', '0.32em')
+      .text(d => {return d});
   }
 
 	static drawChartLabel(canvas, width){
