@@ -72,37 +72,58 @@ export default class App extends React.Component {
   }
 
   setDataset(newParsedDataset) {
-    // TODO
-    // vzit seznam starych columns
-    // porovnat ho s novym seznameme columns
-    // ty co v novem nejsou hodit do noveho seznamu toDelete
-    // projet vsechny assignedDimensions a vyhodit vsechny pokud jsou v toDelete
-
+    const graphList = [BarChart, PieChart, LineChart, ScatterPlot];
+    graphList.map(graph => {
+      graph.variables.map(variable => {variable.assignedDimensions = []})
+    })
 
     this.setState({
       dataset: newParsedDataset
-    },
-      function(){
-
-        const columns = this.state.dataset.columns;
-        const graphList = [BarChart, PieChart, LineChart, ScatterPlot];
-        graphList.map(graph => {
-          graph.variables.map(variable => {
-
-            let toDelete = [];
-            variable.assignedDimensions.map(dimension => {
-              if(!columns.includes(dimension.dimension)) toDelete.push(dimension);
-
-            })
-            // variable.assignedDimensions.filter()
-            console.log(toDelete);
-          })
-        });
-      }
-    )
-
-
+    })
   }
+
+  // setDataset(newParsedDataset) {
+  //   // TODO
+  //   // vzit seznam starych columns
+  //   // porovnat ho s novym seznameme columns
+  //   // ty co v novem nejsou hodit do noveho seznamu toDelete
+  //   // projet vsechny assignedDimensions a vyhodit vsechny pokud jsou v toDelete
+  //
+  //   let oldColumns;
+  //   if(this.state.rawDataset === '') oldColumns = [];
+  //   else oldColumns = this.state.dataset.columns;
+  //
+  //   let newColumns = [];
+  //   let toDelete = [];
+  //
+  //   this.setState({
+  //     dataset: newParsedDataset
+  //   },
+  //     function(){
+  //       newColumns = this.state.dataset.columns;
+  //
+  //       for(let oldC of oldColumns){
+  //         let notInNew = true;
+  //         for(let newC of newColumns){
+  //           if(oldC === newC) {notInNew = false; break;}
+  //         }
+  //         if(notInNew) toDelete.push(oldC);
+  //       }
+  //
+  //       const graphList = [BarChart, PieChart, LineChart, ScatterPlot];
+  //       graphList.map(graph => {
+  //         graph.variables.map(variable => {
+  //           if(variable.assignedDimensions.length != 0){
+  //             let newAssignedDimensions = [];
+  //             variable.assignedDimensions.map(dimension => {
+  //               console.log(dimension.dimension);
+  //             })
+  //           }
+  //         })
+  //       });
+  //     }
+  //   )
+  // }
 
   // nastavi grapf type a nastavi variables (vizualni promenne), customizations (upravení) a default settings (hodnoty pro vykresleni grafu)
   setGraphType(newGraphTypeName) {

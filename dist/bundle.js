@@ -120,32 +120,60 @@ var App = function (_React$Component) {
   }, {
     key: 'setDataset',
     value: function setDataset(newParsedDataset) {
-      // TODO
-      // vzit seznam starych columns
-      // porovnat ho s novym seznameme columns
-      // ty co v novem nejsou hodit do noveho seznamu toDelete
-      // projet vsechny assignedDimensions a vyhodit vsechny pokud jsou v toDelete
-
+      var graphList = [_BarChart2.default, _PieChart2.default, _LineChart2.default, _ScatterPlot2.default];
+      graphList.map(function (graph) {
+        graph.variables.map(function (variable) {
+          variable.assignedDimensions = [];
+        });
+      });
 
       this.setState({
         dataset: newParsedDataset
-      }, function () {
-
-        var columns = this.state.dataset.columns;
-        var graphList = [_BarChart2.default, _PieChart2.default, _LineChart2.default, _ScatterPlot2.default];
-        graphList.map(function (graph) {
-          graph.variables.map(function (variable) {
-
-            var toDelete = [];
-            variable.assignedDimensions.map(function (dimension) {
-              if (!columns.includes(dimension.dimension)) toDelete.push(dimension);
-            });
-            // variable.assignedDimensions.filter()
-            console.log(toDelete);
-          });
-        });
       });
     }
+
+    // setDataset(newParsedDataset) {
+    //   // TODO
+    //   // vzit seznam starych columns
+    //   // porovnat ho s novym seznameme columns
+    //   // ty co v novem nejsou hodit do noveho seznamu toDelete
+    //   // projet vsechny assignedDimensions a vyhodit vsechny pokud jsou v toDelete
+    //
+    //   let oldColumns;
+    //   if(this.state.rawDataset === '') oldColumns = [];
+    //   else oldColumns = this.state.dataset.columns;
+    //
+    //   let newColumns = [];
+    //   let toDelete = [];
+    //
+    //   this.setState({
+    //     dataset: newParsedDataset
+    //   },
+    //     function(){
+    //       newColumns = this.state.dataset.columns;
+    //
+    //       for(let oldC of oldColumns){
+    //         let notInNew = true;
+    //         for(let newC of newColumns){
+    //           if(oldC === newC) {notInNew = false; break;}
+    //         }
+    //         if(notInNew) toDelete.push(oldC);
+    //       }
+    //
+    //       const graphList = [BarChart, PieChart, LineChart, ScatterPlot];
+    //       graphList.map(graph => {
+    //         graph.variables.map(variable => {
+    //           if(variable.assignedDimensions.length != 0){
+    //             let newAssignedDimensions = [];
+    //             variable.assignedDimensions.map(dimension => {
+    //               console.log(dimension.dimension);
+    //             })
+    //           }
+    //         })
+    //       });
+    //     }
+    //   )
+    // }
 
     // nastavi grapf type a nastavi variables (vizualni promenne), customizations (upravení) a default settings (hodnoty pro vykresleni grafu)
 
@@ -2902,14 +2930,6 @@ var _CustButtonGroup = require('../graph/graph-customization/CustButtonGroup');
 
 var _CustButtonGroup2 = _interopRequireDefault(_CustButtonGroup);
 
-var _CustColorPicker = require('../graph/graph-customization/CustColorPicker');
-
-var _CustColorPicker2 = _interopRequireDefault(_CustColorPicker);
-
-var _CustDropdown = require('../graph/graph-customization/CustDropdown');
-
-var _CustDropdown2 = _interopRequireDefault(_CustDropdown);
-
 var _CustFormGroup = require('../graph/graph-customization/CustFormGroup');
 
 var _CustFormGroup2 = _interopRequireDefault(_CustFormGroup);
@@ -3203,6 +3223,9 @@ var BarChart = function (_React$Component) {
         });
       });
 
+      // COLOR
+      var colorGenerator = d3.scaleOrdinal().range(settings.color);
+
       // Y AXIS
       var y = d3.scaleLinear().range([height, 0]).domain([0, domainMax]);
 
@@ -3296,9 +3319,6 @@ var BarChart = function (_React$Component) {
         canvas.select('g.x.axis').selectAll('g.tick').remove();
       }
 
-      // COLOR
-      var colorGenerator = d3.scaleOrdinal().range(settings.color);
-
       // CREATE BARS
       var outerBand = canvas.append('g').classed('bars', true).selectAll('.outerBand').data(dataset).enter().append('g').classed('outerBand', true).attr('transform', function (d, i) {
         return 'translate(' + x0(i) + ',0)';
@@ -3358,39 +3378,6 @@ var BarChart = function (_React$Component) {
       // CHART LABEL
       _ChartModel2.default.drawChartLabel(canvas, settings, width);
     }
-  }, {
-    key: 'drawLegend',
-    value: function drawLegend(canvas, width, barDimensions, colorGenerator) {
-      var legend = canvas.append('g').classed('legend', true).attr('transform', 'translate(' + width + ',0)').selectAll('.row').data(barDimensions).enter().append('g').classed('row', true).attr('transform', function (d, i) {
-        return 'translate(0,' + i * 20 + ')';
-      });
-
-      legend.append('rect').attr('width', 19).attr('height', 19).style('fill', function (d, i) {
-        return colorGenerator(i);
-      });
-
-      legend.append('text').attr('x', 24).attr('y', 9.5).attr('dy', '0.32em').text(function (d) {
-        return d;
-      });
-    }
-  }, {
-    key: 'drawChartLabel',
-    value: function drawChartLabel(canvas, width) {
-      var settings = BarChart.settings;
-      var x = 0;
-      switch (settings.chartLabel.align) {
-        case 'start':
-          x = 0;
-          break;
-        case 'middle':
-          x = width / 2;
-          break;
-        case 'end':
-          x = width;
-          break;
-      }
-      canvas.append('text').attr('x', x).attr('y', -10).attr('text-anchor', settings.chartLabel.align).attr('dominant-baseline', 'text-after-edge').attr('font-family', settings.fontFamily).attr('font-size', settings.fontSize).attr('font-weight', settings.chartLabel.isBold ? 'bold' : 'normal').text(settings.chartLabel.value);
-    }
   }]);
 
   return BarChart;
@@ -3447,7 +3434,7 @@ BarChart.settings = {
 };
 exports.default = BarChart;
 
-},{"../graph/graph-customization/CustButtonGroup":13,"../graph/graph-customization/CustColorPicker":14,"../graph/graph-customization/CustDropdown":15,"../graph/graph-customization/CustFormGroup":16,"../graph/graph-customization/CustSlider":17,"./ChartModel":30,"d3":142,"react-bootstrap":525,"react-fontawesome":762}],30:[function(require,module,exports){
+},{"../graph/graph-customization/CustButtonGroup":13,"../graph/graph-customization/CustFormGroup":16,"../graph/graph-customization/CustSlider":17,"./ChartModel":30,"d3":142,"react-bootstrap":525,"react-fontawesome":762}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

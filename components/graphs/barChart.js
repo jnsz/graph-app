@@ -6,8 +6,6 @@ import FontAwesome from 'react-fontawesome';
 import ChartModel from './ChartModel';
 
 import CustButtonGroup from '../graph/graph-customization/CustButtonGroup';
-import CustColorPicker from '../graph/graph-customization/CustColorPicker';
-import CustDropdown from '../graph/graph-customization/CustDropdown';
 import CustFormGroup from '../graph/graph-customization/CustFormGroup';
 import CustSlider from '../graph/graph-customization/CustSlider';
 
@@ -309,6 +307,9 @@ export default class BarChart extends React.Component{
     // MAX VALUE OF ALL BAR DIMENSIONS
     const domainMax = d3.max(wholeDataset, d => {return d3.max(barDimensions, barDimension => {return d[barDimension]})});
 
+    // COLOR
+    const colorGenerator = d3.scaleOrdinal().range(settings.color);
+
     // Y AXIS
     const y = d3.scaleLinear()
                 .range([height,0])
@@ -316,6 +317,7 @@ export default class BarChart extends React.Component{
 
     const yAxis = settings.yAxis.position === 'left' ? d3.axisLeft(y) : d3.axisRight(y);
     yAxis.tickSizeOuter(0);
+
 
     const yAxisGroup = canvas.append('g')
                             .classed('y axis', true)
@@ -335,7 +337,6 @@ export default class BarChart extends React.Component{
   		}
     }()
 
-
     yAxisGroup.append('text')
               .attr('transform', `translate(${settings.yAxis.position === 'left' ? -25:25},${labelPos}) rotate(-90)`)
               .attr('text-anchor', settings.yAxis.align)
@@ -347,6 +348,7 @@ export default class BarChart extends React.Component{
     if(!settings.yAxis.visible){
       canvas.select('g.y.axis').selectAll('g').remove();
     }
+
 
     // GUIDELINES
 		if(settings.yAxis.guidelines){
@@ -423,12 +425,10 @@ export default class BarChart extends React.Component{
 					.attr('font-family', settings.fontFamily)
 					.text(tickNames[d])
 			});
-		} else {
+		}
+    else {
 			canvas.select('g.x.axis').selectAll('g.tick').remove();
 		}
-
-    // COLOR
-    const colorGenerator = d3.scaleOrdinal().range(settings.color);
 
     // CREATE BARS
     const outerBand = canvas.append('g')
@@ -483,56 +483,8 @@ export default class BarChart extends React.Component{
     }
 
     // LEGEND
-    if(settings.legend)  ChartModel.drawLegend(canvas, width, barDimensions, colorGenerator);
+    if(settings.legend) ChartModel.drawLegend(canvas, width, barDimensions, colorGenerator);
     // CHART LABEL
 		ChartModel.drawChartLabel(canvas, settings, width);
   }
-
-  static drawLegend(canvas, width, barDimensions, colorGenerator){
-    const legend = canvas.append('g')
-      .classed('legend', true)
-      .attr('transform', `translate(${width},0)`)
-      .selectAll('.row')
-      .data(barDimensions)
-      .enter()
-      .append('g')
-      .classed('row', true)
-      .attr('transform', (d,i) => { return `translate(0,${i*20})`});
-
-    legend.append('rect')
-      .attr('width', 19)
-      .attr('height', 19)
-      .style('fill', (d, i) => {return colorGenerator(i)});
-
-    legend.append('text')
-      .attr('x',24)
-      .attr('y', 9.5)
-      .attr('dy', '0.32em')
-      .text(d => {return d});
-  }
-
-	static drawChartLabel(canvas, width){
-		const settings = BarChart.settings;
-		let x = 0;
-		switch(settings.chartLabel.align){
-			case 'start':
-				x = 0;
-				break;
-			case 'middle':
-				x = width/2;
-				break;
-			case 'end':
-				x = width;
-				break;
-		}
-		canvas.append('text')
-					.attr('x', x)
-					.attr('y', -10)
-					.attr('text-anchor', settings.chartLabel.align)
-					.attr('dominant-baseline', 'text-after-edge')
-					.attr('font-family', settings.fontFamily)
-					.attr('font-size', settings.fontSize)
-					.attr('font-weight', settings.chartLabel.isBold ? 'bold':'normal')
-					.text(settings.chartLabel.value);
-	}
 }
