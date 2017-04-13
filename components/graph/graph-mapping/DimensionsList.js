@@ -14,7 +14,7 @@ export default class DimensionsList extends React.Component{
 
   renderDimensions(){
 
-    if( typeof this.props.dataset.columns !== 'undefined') {
+    if(this.props.dataset.columns != null) {
       return (
         <ul>
           {this.props.dataset.columns.map((column, i) => {

@@ -12,7 +12,7 @@ const variableStyle = {
   margin: '0px 0px 10px 0px'
 }
 const iconStyle = {
-  color: '#696969',
+  color: '#666',
   margin: '0px 2px'
 }
 
@@ -28,6 +28,7 @@ export default class Variable extends React.Component{
   render() {
     const { variable } = this.props
     const label = variable.label;
+    const desc = variable.desc == null ? false : variable.desc;
     const isRequired = typeof variable.isRequired === 'undefined' ? false : variable.isRequired;
     const takesSingleDimension = typeof variable.takesSingleDimension === 'undefined' ? false : variable.takesSingleDimension;
     const mustBeNumeric = typeof variable.mustBeNumeric === 'undefined' ? false : variable.mustBeNumeric;
@@ -35,12 +36,13 @@ export default class Variable extends React.Component{
 
     return (
       <Col md={4} style={{height:'130px'}}>
-        <div style={variableStyle}>
-          <div>
-            {isRequired ? <Overlay tooltip='Is required'><FontAwesome name='asterisk' style={iconStyle}/></Overlay> : false}
-            {takesSingleDimension ? <Overlay tooltip='Takes single dimension'><FontAwesome name='tag' style={iconStyle}/></Overlay> : <Overlay tooltip='Takes multiple dimensions'><FontAwesome name='tags' style={iconStyle}/></Overlay>}
-            <strong> {label} </strong>
-          </div>
+        <div className='box small' style={variableStyle}>
+          <span>
+            {isRequired ? <Overlay tooltipText='Is required'><FontAwesome name='asterisk' style={iconStyle}/></Overlay> : false}
+            {takesSingleDimension ? <Overlay tooltipText='Takes single dimension'><FontAwesome name='tag' style={iconStyle}/></Overlay> : <Overlay tooltipText='Takes multiple dimensions'><FontAwesome name='tags' style={iconStyle}/></Overlay>}
+            <strong> {label} </strong><br />
+            <small style={{color:'#666'}}>{desc}</small>
+          </span>
 
           <ul style={{marginTop:'10px'}}>
             {assignedDimensions.map((dimension, i) => {

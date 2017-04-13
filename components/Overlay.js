@@ -1,13 +1,30 @@
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Tooltip, Popover, OverlayTrigger } from 'react-bootstrap';
 
 export default class Overlay extends React.Component{
   render(){
-    const tooltip = (
-      <Tooltip id="tooltip">{this.props.tooltip}</Tooltip>
-    );
+    const { type, tooltipText, title, placement} = this.props;
+
+    const overlay = function(){
+      switch(type){
+        case 'popover':
+          return (
+            <Popover id='popover' title={title}>
+              {tooltipText}
+            </Popover>
+          )
+          break;
+
+        default:
+          return (
+            <Tooltip id='tooltip'>
+              {tooltipText}
+            </Tooltip>
+          )
+      }
+    }()
 
     return (
-      <OverlayTrigger placement='top' overlay={tooltip}>
+      <OverlayTrigger placement={this.props.placement} overlay={overlay}>
         {this.props.children}
       </OverlayTrigger>
     )
@@ -15,6 +32,7 @@ export default class Overlay extends React.Component{
 }
 
 Overlay.defaultProps = {
-  tooltip:'NO TOOLTIP SET',
+  tooltipText:'NO TOOLTIP SET',
+  type:'tooltip',
   placement:'top',
 }

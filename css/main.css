@@ -1,5 +1,45 @@
-div.wrapper {
-    margin: 20px 0px;
+body {
+  background-color: #ededed;
+}
+
+table {
+  background-color: white;
+}
+
+.box{
+  box-shadow: -10px 10px #c9c9c9;
+  border: none;
+  border-radius: 0;
+}
+
+.box.small{
+  box-shadow: -5px 5px #c9c9c9;
+}
+
+/*.no-radius{
+  border: none;
+  border-radius: 0;
+}*/
+
+/*.no-radius:focus{
+  box-shadow: none;
+}*/
+
+.nav-pills>li>a {
+  border-radius: 0px;
+}
+
+.btn{
+  border-radius: 0px;
+}
+
+
+.form-control{
+  border-radius: 0px;
+}
+
+textarea.form-control{
+  border: none;
 }
 
 div.cust {
@@ -7,6 +47,9 @@ div.cust {
 	padding: 5px 15px;
   margin: 0px 0px 10px 0px;
   height: 145px;
+  box-shadow: -5px 5px #c9c9c9;
+  border: none;
+  border-radius: 0;
 }
 
 row {
@@ -16,4 +59,13 @@ row {
 ul {
     list-style:none;
     padding-left:0;
+}
+
+ul.about {
+    list-style:disc;
+    padding-left:40px;
+}
+
+.popover {
+  max-width: none;
 }

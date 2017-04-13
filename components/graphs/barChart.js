@@ -5,6 +5,7 @@ import FontAwesome from 'react-fontawesome';
 
 import ChartModel from './ChartModel';
 
+import * as UI from '../graph/graph-customization/CustomizerUI';
 import CustButtonGroup from '../graph/graph-customization/CustButtonGroup';
 import CustFormGroup from '../graph/graph-customization/CustFormGroup';
 import CustSlider from '../graph/graph-customization/CustSlider';
@@ -17,8 +18,7 @@ export default class BarChart extends React.Component{
 
     return(
       <div>
-      <Col md={6}>
-        <div className='cust'>
+        <UI.Wrapper>
           <CustButtonGroup
 						label='Graph type'
             buttons={[
@@ -32,49 +32,14 @@ export default class BarChart extends React.Component{
               {label:'Stacked', active:!settings.isGrouped, onClick: () => {alert('Not yet implemented');this.setSettings({isGrouped:false})} }],
             ]}
           />
-        </div>
-      </Col>
+        </UI.Wrapper>
 
-      <Col md={6}>
-        <div className='cust'>
-          <CustFormGroup
-  					label='Graph Label'
-  					items={[
-  						{type : 'btn',
-               label: <FontAwesome name='bold'/>,
-               active: settings.chartLabel.isBold,
-               onChange: () => {this.setSettings({chartLabel:{...settings.chartLabel, isBold:!settings.chartLabel.isBold}})}
-              },
-              {type : 'input',
-               text : 'Graph label',
-               value : settings.chartLabel.value,
-               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, value:value}})}
-             },
-              {type: 'align',
-               value: settings.chartLabel.align,
-               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, align:value}})}
-              }
-  					]}
-  				/>
-          <CustButtonGroup
-            buttons={[
-              [{type: 'dropdown',
-							tamplate: 'fontFamily',
-							active:settings.fontFamily,
-							onClick: value => {this.setSettings({fontFamily:value})} },],
+        <UI.LabelChart
+          settings={settings}
+          onChange={newSettings => {this.setSettings(newSettings)}}
+        />
 
-              [{type: 'dropdown',
-							tamplate: 'fontSize',
-							active:settings.fontSize,
-							onClick: value => {this.setSettings({fontSize:value})} },],
-            ]}
-          />
-
-        </div>
-      </Col>
-
-      <Col md={6}>
-        <div className='cust'>
+        <UI.Wrapper>
           <CustButtonGroup
 						label='General'
             buttons={[
@@ -103,11 +68,9 @@ export default class BarChart extends React.Component{
 
             ]}
           />
-        </div>
-      </Col>
+        </UI.Wrapper>
 
-      <Col md={6}>
-        <div className='cust'>
+        <UI.Wrapper>
           <CustFormGroup
   					label='X Axis'
   					items={[
@@ -137,11 +100,9 @@ export default class BarChart extends React.Component{
               {label:'90°', active:(settings.xAxis.rotation === 90), onClick: () => {this.setSettings({xAxis:{...settings.xAxis, rotation:90}})} },],
             ]}
           />
-        </div>
-      </Col>
+        </UI.Wrapper>
 
-      <Col md={6}>
-        <div className='cust'>
+        <UI.Wrapper>
           <CustFormGroup
   					label='Y Axis'
   					items={[
@@ -187,22 +148,7 @@ export default class BarChart extends React.Component{
               ]
             ]}
           />
-        </div>
-      </Col>
-
-      {/*<Col md={6}>
-        <div className='cust'>
-          <CustSlider
-            label='Bar padding'
-            min={0}
-            max={1}
-            step={0.01}
-            value={BarChart.settings.barPadding}
-            displayedValue={d3.format('.0%')(BarChart.settings.barPadding)}
-            onChange= {value => {this.setSettings({barPadding:value})}}
-          />
-        </div>
-      </Col>*/}
+        </UI.Wrapper>
       </div>
 
     )
@@ -211,12 +157,14 @@ export default class BarChart extends React.Component{
   static variables = [
     {
         label: 'Bar height',
+        desc: 'Determines height of individual bars',
         isRequired: true,
         mustBeNumeric: true,
         assignedDimensions:[]
     },
     {
-        label: 'X Axis Label',
+        label: 'Ticks on x axis',
+        desc: 'Names each bar/bar group',
         isRequired: false,
         takesSingleDimension: true,
         assignedDimensions:[]

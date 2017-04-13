@@ -1,27 +1,26 @@
-import { Button } from 'react-bootstrap';
-import * as d3 from 'd3';
+import { Button, Row } from 'react-bootstrap';
+import { select } from 'd3';
 import FileSaver from 'file-saver';
+import FontAwesome from 'react-fontawesome';
 
 export default class GraphExport extends React.Component{
 
   render() {
+
     return (
-      <div className='container'>
-        <div className='wrapper'>
-          <Button
+      <Row style={{marginBottom:'50px'}}>
+        <h1>
+          Export <Button
             bsStyle='success'
-            block
             onClick={e => this.saveSVG()}
-          >
-            Export graph as SVG
-          </Button>
-        </div>
-      </div>
+          ><FontAwesome name='download' /> SVG</Button>
+        </h1>
+      </Row>
     );
   }
 
   saveSVG(){
-    var html = d3.select('svg')
+    var html = select('svg')
         .attr('title', 'test')
         .attr('version', 1.1)
         .attr('xmlns', 'http://www.w3.org/2000/svg')

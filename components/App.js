@@ -1,9 +1,11 @@
 import * as d3 from 'd3';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import { Tabs, Tab } from 'react-bootstrap';
+import FontAwesome from 'react-fontawesome';
 
 import Data from './data/Data';
 import Graph from './graph/Graph';
+import GraphExport from './GraphExport';
+import About from './About';
 
 import BarChart from './graphs/BarChart';
 import PieChart from './graphs/PieChart';
@@ -21,14 +23,14 @@ export default class App extends React.Component {
 
       // svg size
       svgSize:{
-          width:  Math.round(window.innerWidth * 0.8),
-          height: Math.round(window.innerWidth * 0.5),
+          width:  d3.min([Math.round(window.innerWidth * 0.8), 1000]),
+          height: d3.min([Math.round(window.innerWidth * 0.5), 800]),
           margin: 0.2,
       },
 
       // when graph is selected these are set
-      selectedGraph: null,
-      graphVariables: null,
+      selectedGraph: 'BarChart',
+      graphVariables: BarChart.variables,
     };
 
     this.setRawDataset = this.setRawDataset.bind(this);
@@ -36,34 +38,95 @@ export default class App extends React.Component {
     this.setGraphType = this.setGraphType.bind(this);
     this.setSvgSize = this.setSvgSize.bind(this);
     this.setAssignedDimensions = this.setAssignedDimensions.bind(this);
+    this.handleTabChange = this.handleTabChange.bind(this);
   }
 
   render() {
 
-    return (
+    const dataNode =(
+      <Data
+        onRawDatasetChanged={this.setRawDataset}
+        onDatasetChanged={this.setDataset}
+        rawDataset={this.state.rawDataset}
+        dataset={this.state.dataset}
+      />)
+
+    const graphNode =(
+      this.state.dataset.columns == null ? false :
       <div>
-        <Data
-          onRawDatasetChanged={this.setRawDataset}
-          onDatasetChanged={this.setDataset}
-          rawDataset={this.state.rawDataset}
+        <Graph
           dataset={this.state.dataset}
+          selectedGraph={this.state.selectedGraph}
+          onSelectedGraphChange={this.setGraphType}
+          graphVariables={this.state.graphVariables}
+          onAssignedDimensionsOfVariableChange={this.setAssignedDimensions}
+          svgSize={this.state.svgSize}
+          onSvgSizeChange={this.setSvgSize}
         />
-        {typeof this.state.dataset.columns === 'undefined' ? false :
-          <Graph
-            dataset={this.state.dataset}
-            selectedGraph={this.state.selectedGraph}
-            onSelectedGraphChange={this.setGraphType}
-            graphVariables={this.state.graphVariables}
-            onAssignedDimensionsOfVariableChange={this.setAssignedDimensions}
-            svgSize={this.state.svgSize}
-            onSvgSizeChange={this.setSvgSize}
-          />
-        }
+
+
+        <GraphExport/>
+      </div>
+    )
+
+
+    return (
+      <div className='container'>
+        <Tabs defaultActiveKey={0} onSelect={key => {this.handleTabChange(key)}} bsStyle='pills' id='main-nav' animation={false}>
+          <Tab
+            eventKey={0}
+            title={<span><FontAwesome name='table'/> Data parsing</span>}
+          >
+            {dataNode}
+
+          </Tab>
+          <Tab title='Select graph:' disabled />
+          <Tab
+            eventKey={'BarChart'}
+            title={<span><FontAwesome name='bar-chart'/> Bar chart</span>}
+            disabled={this.state.dataset.columns == null}
+          >
+            {this.state.selectedGraph === 'BarChart' ? graphNode : false}
+          </Tab>
+          <Tab
+            eventKey={'PieChart'}
+            title={<span><FontAwesome name='pie-chart'/> Pie chart</span>}
+            disabled={this.state.dataset.columns == null}
+          >
+            {this.state.selectedGraph === 'PieChart' ? graphNode : false}
+          </Tab>
+          <Tab
+            eventKey={'LineChart'}
+            title={<span><FontAwesome name='line-chart'/> Line chart</span>}
+            disabled={this.state.dataset.columns == null}
+          >
+            {this.state.selectedGraph === 'LineChart' ? graphNode : false}
+          </Tab>
+          <Tab
+            eventKey={'ScatterPlot'}
+            title={<span><FontAwesome name='braille'/> Scatter plot</span>}
+            disabled={this.state.dataset.columns == null}
+          >
+            {this.state.selectedGraph === 'ScatterPlot' ? graphNode : false}
+          </Tab>
+
+          <Tab
+            eventKey={5}
+            title={<span><FontAwesome name='info'/> About</span>}
+            tabClassName='pull-right'
+          >
+            <About />
+          </Tab>
+        </Tabs>
       </div>
     );
   }
 
-
+  handleTabChange(key){
+    if(isNaN(key)){
+      this.setGraphType(key);
+    }
+  }
 
   setRawDataset(newRawDataset) {
     this.setState({
@@ -81,49 +144,6 @@ export default class App extends React.Component {
       dataset: newParsedDataset
     })
   }
-
-  // setDataset(newParsedDataset) {
-  //   // TODO
-  //   // vzit seznam starych columns
-  //   // porovnat ho s novym seznameme columns
-  //   // ty co v novem nejsou hodit do noveho seznamu toDelete
-  //   // projet vsechny assignedDimensions a vyhodit vsechny pokud jsou v toDelete
-  //
-  //   let oldColumns;
-  //   if(this.state.rawDataset === '') oldColumns = [];
-  //   else oldColumns = this.state.dataset.columns;
-  //
-  //   let newColumns = [];
-  //   let toDelete = [];
-  //
-  //   this.setState({
-  //     dataset: newParsedDataset
-  //   },
-  //     function(){
-  //       newColumns = this.state.dataset.columns;
-  //
-  //       for(let oldC of oldColumns){
-  //         let notInNew = true;
-  //         for(let newC of newColumns){
-  //           if(oldC === newC) {notInNew = false; break;}
-  //         }
-  //         if(notInNew) toDelete.push(oldC);
-  //       }
-  //
-  //       const graphList = [BarChart, PieChart, LineChart, ScatterPlot];
-  //       graphList.map(graph => {
-  //         graph.variables.map(variable => {
-  //           if(variable.assignedDimensions.length != 0){
-  //             let newAssignedDimensions = [];
-  //             variable.assignedDimensions.map(dimension => {
-  //               console.log(dimension.dimension);
-  //             })
-  //           }
-  //         })
-  //       });
-  //     }
-  //   )
-  // }
 
   // nastavi grapf type a nastavi variables (vizualni promenne), customizations (upravení) a default settings (hodnoty pro vykresleni grafu)
   setGraphType(newGraphTypeName) {
@@ -175,7 +195,6 @@ export default class App extends React.Component {
   setSvgSize(newSize){
     this.setState({
       svgSize: {...this.state.svgSize, ...newSize}
-      //svgSize: Object.assign(this.state.svgSize, newSize)
     })
   }
 

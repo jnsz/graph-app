@@ -6,7 +6,6 @@ import FontAwesome from 'react-fontawesome';
 const liStyle = {
   color: 'white',
   backgroundColor: '#39D831',
-  borderRadius: '4px',
   padding: '6px 12px',
   fontSize: '14px',
   whiteSpace: 'nowrap',
@@ -16,7 +15,6 @@ const liStyle = {
 const liBorderStyle = {
   backgroundColor: 'white',
   border: '1px solid #39D831',
-  borderRadius: '4px',
   marginBottom: '5px',
 }
 const typeStyle = {

@@ -58,8 +58,6 @@ export default class CustButtonGroup extends React.Component {
   }
 
   renderDropdown(menu, index){
-
-
     if(typeof menu.tamplate !== 'undefined')
     {
       switch (menu.tamplate) {

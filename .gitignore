@@ -1,6 +1,7 @@
 node_modules/
 
 npm-debug.log
+debug.log
 robots.txt
 
 # Windows image file caches

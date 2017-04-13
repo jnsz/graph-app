@@ -1,8 +1,6 @@
 import { Row, FormGroup, FormControl, InputGroup, Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import VisibilityBtn from './VisibilityBtn'
-
 const rowStyle = {
   padding: '0px 15px',
 }
@@ -37,16 +35,6 @@ export default class CustFormGroup extends React.Component {
 								<Button onClick={item.onChange} active={item.active}>
 									{item.label}
 								</Button>
-							</InputGroup.Button>
-						)
-						break;
-
-					case 'btn-vis':
-						return (
-							<InputGroup.Button  key={items.indexOf(item)} >
-								<VisibilityBtn
-									visible={item.visible}
-									toggleVisibility={item.onChange} />
 							</InputGroup.Button>
 						)
 						break;

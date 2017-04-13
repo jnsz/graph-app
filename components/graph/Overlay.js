@@ -2,12 +2,14 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 export default class Overlay extends React.Component{
   render(){
+    const { tooltipText, placement } = this.props;
+
     const tooltip = (
-      <Tooltip id="tooltip">{this.props.tooltip}</Tooltip>
+      <Tooltip id="tooltip">{tooltipText}</Tooltip>
     );
 
     return (
-      <OverlayTrigger placement='top' overlay={tooltip}>
+      <OverlayTrigger placement={placement} overlay={tooltip}>
         {this.props.children}
       </OverlayTrigger>
     )
@@ -15,6 +17,6 @@ export default class Overlay extends React.Component{
 }
 
 Overlay.defaultProps = {
-  tooltip:'NO TOOLTIP SET',
+  tooltipText:'NO TOOLTIP SET',
   placement:'top',
 }

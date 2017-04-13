@@ -1,29 +1,28 @@
-/*
-TODO predelat tabulku na react-table
-TODO umoznit sorting
-TODO fixed width, max height, scrollbary
-TODO umoznit prepisovat hodnoty
-*/
+import { Row } from 'react-bootstrap';
+import TutorialPopover from '../TutorialPopover';
 
 export default class DataInput extends React.Component{
 
   render() {
-    const data = this.props.dataset;
-    const hasData = this.hasData(data);
+    const tutorialTxt =(
+      <span>
+        This area displays data in table.<br />
+        You <strong>can</strong> review your data here.<br />
+        You <strong>cannot</strong> edit or reorder data.
+      </span>)
+
+    const { dataset } = this.props;
+
     return (
-      <div className='wrapper'>
-        <table className='table table-bordered table-hover table-condensed'>
+      <Row>
+      <h1>Data table <small><TutorialPopover tooltipText={tutorialTxt} /></small> </h1>
 
-          { hasData ? this.renderHead(data.columns) : false }
-          { hasData ? this.renderBody(data) : false }
-
+        <table className='table table-hover box'>
+          {this.renderHead(dataset.columns)}
+          {this.renderBody(dataset)}
         </table>
-      </div>
+      </Row>
      )
-  }
-
-  hasData(data) {
-    return typeof data.columns !== 'undefined';
   }
 
   renderHead(columns) {
@@ -31,6 +30,7 @@ export default class DataInput extends React.Component{
       return (
         <thead>
           <tr>
+            <th></th>
             {columns.map((column, i) => {
               return (
                 <th key={i+'th'}>
@@ -50,6 +50,7 @@ export default class DataInput extends React.Component{
         {data.map((row, i) => {
           return (
             <tr key={i+'tr'}>
+              <td><strong>{i}</strong></td>
               {data.columns.map((column, i) => {
                 return <td key={i+'td'}>{row[column]}</td>
               })}

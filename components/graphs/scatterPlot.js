@@ -6,9 +6,8 @@ import FontAwesome from 'react-fontawesome';
 
 import ChartModel from './ChartModel';
 
+import * as UI from '../graph/graph-customization/CustomizerUI';
 import CustButtonGroup from '../graph/graph-customization/CustButtonGroup';
-import CustColorPicker from '../graph/graph-customization/CustColorPicker';
-import CustDropdown from '../graph/graph-customization/CustDropdown';
 import CustFormGroup from '../graph/graph-customization/CustFormGroup';
 import CustSlider from '../graph/graph-customization/CustSlider';
 
@@ -19,8 +18,7 @@ export default class ScatterPlot extends React.Component{
 
     return(
       <div>
-      <Col md={6}>
-        <div className='cust'>
+        <UI.Wrapper>
           <CustFormGroup
   					label='Graph Label'
   					items={[
@@ -54,11 +52,9 @@ export default class ScatterPlot extends React.Component{
             ]}
           />
 
-        </div>
-      </Col>
+        </UI.Wrapper>
 
-      <Col md={6}>
-        <div className='cust'>
+        <UI.Wrapper>
           <CustButtonGroup
 						label='General'
             buttons={[
@@ -68,8 +64,7 @@ export default class ScatterPlot extends React.Component{
 							onClick: value => {this.setSettings({color:value})} },]
             ]}
           />
-        </div>
-      </Col>
+        </UI.Wrapper>
       </div>
 
     )

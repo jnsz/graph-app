@@ -4,7 +4,6 @@ import FontAwesome from 'react-fontawesome';
 const dropAreaStyle = {
   borderColor: '#2e6da4',
   border: '1px dashed',
-  borderRadius: '4px',
   padding: '6px 12px',
   lineHeight: '1.428',
   fontSize: '100%',

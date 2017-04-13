@@ -5,21 +5,12 @@ import FontAwesome from 'react-fontawesome';
 import CustFormGroup from './CustFormGroup';
 import CustSlider from './CustSlider';
 
+import * as UI from './CustomizerUI';
+import ChartModel from '../../graphs/ChartModel';
 import BarChart from '../../graphs/BarChart';
 import PieChart from '../../graphs/PieChart';
 import LineChart from '../../graphs/LineChart';
 import ScatterPlot from '../../graphs/ScatterPlot';
-
-
-const blockStyle ={
-	backgroundColor: 'white',
-	padding: '5px 15px',
-	margin: '0px 0px 10px 0px',
-	height: '145px'
-}
-const rowStyle = {
-  padding: '0px 15px',
-}
 
 export default class GraphCustomization extends React.Component {
 
@@ -31,16 +22,11 @@ export default class GraphCustomization extends React.Component {
 	}
 
 	render() {
-
 		return (
-			<div style={{backgroundColor: '#ededed'}}>
-		    <div className='container'>
-		      <div className='wrapper'>
-						{ this.renderSizeCustomization() }
-						{ this.renderGraphCustomization() }
-		      </div>
-		    </div>
-			</div>
+      <div>
+				{ this.renderSizeCustomization() }
+				{ this.renderGraphCustomization() }
+	    </div>
 		);
 	}
 
@@ -49,28 +35,30 @@ export default class GraphCustomization extends React.Component {
 		const height = this.props.svgSize.height;
 		const margin = this.props.svgSize.margin;
 		return (
-			<Col md={6}>
-				<div style={blockStyle}>
-					<CustFormGroup
-						label='Width x height'
-						items={[
-							{'type' : 'input', 'text' : 'Width', 'value' : width, 'onChange': this.onChangeWidth},
-							{'type' : 'addon', 'label' : <FontAwesome name='times'/>},
-							{'type' : 'input', 'text' : 'Height', 'value' : height, 'onChange': this.onChangeHeight},
-							{/*{'type' : 'btn', 'label' : <FontAwesome name='arrows-alt'/>},*/}
-						]}
+			<UI.Wrapper>
+				<UI.Form label='Width x height'>
+					<UI.FInput
+						text='Width'
+						value={width}
+						onChange={this.onChangeWidth}
 					/>
-					<CustSlider
-						label='Margins'
-						min={0}
-						max={1}
-						step={0.01}
-						value={margin}
-						displayedValue={d3.format('.0%')(margin)}
-						onChange={this.onChangeMargin}
+					<UI.FAddon><FontAwesome name='times'/></UI.FAddon>
+					<UI.FInput
+						text='Height'
+						value={height}
+						onChange={this.onChangeHeight}
 					/>
-				</div>
-			</Col>
+				</UI.Form>
+				<CustSlider
+					label='Margins'
+					min={0}
+					max={1}
+					step={0.01}
+					value={margin}
+					displayedValue={d3.format('.0%')(margin)}
+					onChange={this.onChangeMargin}
+				/>
+			</UI.Wrapper>
 		)
 	}
 
