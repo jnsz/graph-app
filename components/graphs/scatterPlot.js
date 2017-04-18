@@ -7,9 +7,6 @@ import FontAwesome from 'react-fontawesome';
 import ChartModel from './ChartModel';
 
 import * as UI from '../graph/graph-customization/CustomizerUI';
-import CustButtonGroup from '../graph/graph-customization/CustButtonGroup';
-import CustFormGroup from '../graph/graph-customization/CustFormGroup';
-import CustSlider from '../graph/graph-customization/CustSlider';
 
 export default class ScatterPlot extends React.Component{
 
@@ -18,53 +15,33 @@ export default class ScatterPlot extends React.Component{
 
     return(
       <div>
+        <UI.LabelChart
+          settings={settings}
+          onChange={newSettings => {this.setSettings(newSettings)}}
+        />
+
         <UI.Wrapper>
-          <CustFormGroup
-  					label='Graph Label'
-  					items={[
-  						{type : 'btn',
-               label: <FontAwesome name='bold'/>,
-               active: settings.chartLabel.isBold,
-               onChange: () => {this.setSettings({chartLabel:{...settings.chartLabel, isBold:!settings.chartLabel.isBold}})}
-              },
-              {type : 'input',
-               text : 'Graph label',
-               value : settings.chartLabel.value,
-               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, value:value}})}
-             },
-              {type: 'align',
-               value: settings.chartLabel.align,
-               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, align:value}})}
-              }
-  					]}
-  				/>
-          <CustButtonGroup
-            buttons={[
-              [{type: 'dropdown',
-							tamplate: 'fontFamily',
-							active:settings.fontFamily,
-							onClick: value => {this.setSettings({fontFamily:value})} },],
-
-              [{type: 'dropdown',
-							tamplate: 'fontSize',
-							active:settings.fontSize,
-							onClick: value => {this.setSettings({fontSize:value})} },],
-            ]}
+          <UI.LabelAxis
+            label='X Axis'
+            axisSettings={settings.xAxis}
+            onChange={newSettings => {this.setSettings(newSettings)}}
           />
-
+          <UI.LabelAxis
+            label='Y Axis'
+            axisSettings={settings.yAxis}
+            onChange={newSettings => {this.setSettings(newSettings)}}
+          />
         </UI.Wrapper>
 
         <UI.Wrapper>
-          <CustButtonGroup
-						label='General'
-            buttons={[
-              [{type:'dropdown',
-							tamplate:'color',
-							active:settings.color,
-							onClick: value => {this.setSettings({color:value})} },]
-            ]}
-          />
+          <UI.BtnGroup label="General">
+            <UI.BColorPalette
+              active={settings.color}
+              onChange={value => {this.setSettings({color:value})}}
+            />
+          </UI.BtnGroup>
         </UI.Wrapper>
+
       </div>
 
     )
@@ -112,6 +89,23 @@ export default class ScatterPlot extends React.Component{
 		fontSize:'14px',
 
     color: d3.schemeCategory10,
+
+    // block 4
+    xAxis:{
+      visible:true,
+			value: 'Label on X Axis',
+			align:'middle',
+	    rotation:0,
+		},
+
+		// block 5
+		yAxis:{
+      visible:true,
+			value:'Label on Y Axis',
+			align:'middle',
+			guidelines:false,
+			position:'left',
+		},
   }
 	setSettings(newSettings){
 		ScatterPlot.settings = {...ScatterPlot.settings, ...newSettings};

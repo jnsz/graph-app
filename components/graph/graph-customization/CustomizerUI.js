@@ -1,7 +1,7 @@
 import { Col, Row, Button, FormControl, FormGroup, InputGroup, ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import {FontFamily, FontSize, BarLabelPos, BarPadding, BarPaddingValue, ColorSchemeNames, ColorSchemes} from './Enums';
+import {FontFamily, FontSize, ColorSchemeNames, ColorSchemes} from './Enums';
 
 const rowStyle = {padding: '0px 15px'}
 
@@ -133,6 +133,51 @@ BtnGroup.defaultProps = {
   label: '',
 }
 
+export class BBtn extends React.Component {
+  render(){
+    const { active, onChange, icon, label } = this.props;
+
+    return (
+      <ButtonGroup>
+        <Button
+          active={active}
+          onClick={onChange}
+        >
+          {icon} {label}
+        </Button>
+      </ButtonGroup>
+    )
+  }
+}
+BBtn.defaultProps = {
+  icon: '',
+}
+
+export class BDropdown extends React.Component {
+  render(){
+    const { title, id, arrayOfValues, onChange, active,  } = this.props;
+
+    return (
+      <DropdownButton
+        title={title}
+        id={id}
+        onSelect={value => {onChange(value)}}
+      >
+        {arrayOfValues.map(value => {
+          return (
+            <MenuItem
+              eventKey={value}
+              active={active === value}
+            >
+              {value}
+            </MenuItem>
+          )
+        })}
+      </DropdownButton>
+    )
+  }
+}
+
 export class BFontFamily extends React.Component {
   render(){
     const { active, onChange } = this.props;
@@ -187,12 +232,53 @@ export class BFontSize extends React.Component {
 
 export class BColorPalette extends React.Component {
   render(){
-    return(
-      false
+    const { active, onChange } = this.props;
+
+    return (
+      <DropdownButton title='Color scheme' id={`color-scheme`} onSelect={value => {onChange(value)}}>
+        {ColorSchemes.map((scheme, i) => {
+          return (
+            <MenuItem eventKey={scheme} active={active === scheme}>
+              <div style={{border:'2px solid white'}}>
+              {scheme.map((color,j) => {
+                if (j < 8) return <div title={ColorSchemeNames[i]} style={{background:color, height: '25px', width: '25px', display:'table-cell'}}></div>
+              })}
+              </div>
+            </MenuItem>
+            )
+          }
+        )}
+      </DropdownButton>
     )
   }
 }
 ///////////////////////////////////////////
+
+export class LabelAxis extends React.Component {
+  render() {
+    const { label, axisSettings, onChange } = this.props;
+
+    return(
+      <Form label={label}>
+        <FBtn
+          active={axisSettings.visible}
+          onChange={() => {axisSettings.visible = !axisSettings.visible; onChange(axisSettings)}}
+          >
+            {axisSettings.visible ? <FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>}
+          </FBtn>
+          <FInput
+            placeholder='if left empty, nothing will display'
+            value={axisSettings.value}
+            onChange={value => {axisSettings.value = value; onChange(axisSettings)}}
+          />
+          <FAlign
+            value={axisSettings.align}
+            onChange={value => {axisSettings.align = value; onChange(axisSettings)}}
+          />
+        </Form>
+    )
+	}
+}
 
 export class LabelChart extends React.Component {
   render() {
@@ -233,3 +319,42 @@ export class LabelChart extends React.Component {
     )
 	}
 }
+
+export class Slider extends React.Component {
+
+	render() {
+
+
+		return (
+			<Row style={rowStyle}>
+  			<div>
+  				<label style={{display: 'block'}}>
+  					{this.props.label}
+  				</label>
+
+  				<input
+  					style={{width:'90%', display: 'inline-block'}}
+  					type='range'
+  					min={this.props.min}
+  					max={this.props.max}
+  					step={this.props.step}
+  					value={this.props.value}
+  					onChange={e => {this.props.onChange(e.target.value)}}
+            className='slider'
+  				/>
+  				<span style={{float: 'right'}}>{this.props.displayedValue}</span>
+
+  			</div>
+			</Row>
+		)
+	}
+}
+Slider.PropTypes = {
+	label : React.PropTypes.string.isRequired,
+	min : React.PropTypes.number.isRequired,
+	max : React.PropTypes.number.isRequired,
+	step : React.PropTypes.number.isRequired,
+	value : React.PropTypes.number.isRequired,
+	displayedValue : React.PropTypes.number.isRequired,
+	onChange : React.PropTypes.func.isRequired,
+};

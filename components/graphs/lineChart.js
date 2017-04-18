@@ -3,11 +3,7 @@ import { Col, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import ChartModel from './ChartModel';
-
 import * as UI from '../graph/graph-customization/CustomizerUI';
-import CustButtonGroup from '../graph/graph-customization/CustButtonGroup';
-import CustFormGroup from '../graph/graph-customization/CustFormGroup';
-import CustSlider from '../graph/graph-customization/CustSlider';
 
 export default class LineChart extends React.Component{
 
@@ -17,75 +13,67 @@ export default class LineChart extends React.Component{
     return(
       <div>
         <UI.Wrapper>
-          <CustButtonGroup
-						label='Graph type'
-            buttons={[
-              [{label:'Straight', active:!settings.isCurved, onClick: () => {this.setSettings({isCurved:false})} },
-              {label:'Curved', active:settings.isCurved, onClick: () => {this.setSettings({isCurved:true})} }],
-            ]}
+          <UI.BtnGroup label="Graph type">
+            <UI.BBtn
+              label='Straight'
+              active={!settings.isCurved}
+              onChange={() => {this.setSettings({isCurved:false})}}
+            />
+            <UI.BBtn
+              label='Curved'
+              active={settings.isCurved}
+              onChange={() => {this.setSettings({isCurved:true})}}
+            />
+          </UI.BtnGroup>
+
+          <UI.BtnGroup label="Graph type">
+            <UI.BBtn
+              label='Line'
+              active={!settings.isArea}
+              onChange={() => {this.setSettings({isArea:false})}}
+            />
+            <UI.BBtn
+              label='Area'
+              active={settings.isArea}
+              onChange={() => {this.setSettings({isArea:true})}}
+            />
+          </UI.BtnGroup>
+        </UI.Wrapper>
+
+        <UI.LabelChart
+          settings={settings}
+          onChange={newSettings => {this.setSettings(newSettings)}}
+        />
+
+        <UI.Wrapper>
+          <UI.LabelAxis
+            label='X Axis'
+            axisSettings={settings.xAxis}
+            onChange={newSettings => {this.setSettings(newSettings)}}
           />
-          <CustButtonGroup
-            buttons={[
-              [{label:'Line', active:!settings.isArea, onClick: () => {this.setSettings({isArea:false})} },
-              {label:'Area', active:settings.isArea, onClick: () => {this.setSettings({isArea:true})} }],
-            ]}
+          <UI.LabelAxis
+            label='Y Axis'
+            axisSettings={settings.yAxis}
+            onChange={newSettings => {this.setSettings(newSettings)}}
           />
         </UI.Wrapper>
 
         <UI.Wrapper>
-          <CustFormGroup
-  					label='Graph Label'
-  					items={[
-  						{type : 'btn',
-               label: <FontAwesome name='bold'/>,
-               active: settings.chartLabel.isBold,
-               onChange: () => {this.setSettings({chartLabel:{...settings.chartLabel, isBold:!settings.chartLabel.isBold}})}
-              },
-              {type : 'input',
-               text : 'Graph label',
-               value : settings.chartLabel.value,
-               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, value:value}})}
-             },
-              {type: 'align',
-               value: settings.chartLabel.align,
-               onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, align:value}})}
-              }
-  					]}
-  				/>
-          <CustButtonGroup
-            buttons={[
-              [{type: 'dropdown',
-							tamplate: 'fontFamily',
-							active:settings.fontFamily,
-							onClick: value => {this.setSettings({fontFamily:value})} },],
-
-              [{type: 'dropdown',
-							tamplate: 'fontSize',
-							active:settings.fontSize,
-							onClick: value => {this.setSettings({fontSize:value})} },],
-            ]}
-          />
-
-        </UI.Wrapper>
-
-        <UI.Wrapper>
-          <CustButtonGroup
-						label='General'
-            buttons={[
-              [{type:'dropdown',
-							tamplate:'color',
-							active:settings.color,
-							onClick: value => {this.setSettings({color:value})} },]
-            ]}
-          />
-          <CustButtonGroup
-            buttons={[
-							[{icon: (settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
-							label: 'Legend',
-							active:settings.legend,
-							onClick: () => {this.setSettings({legend:!settings.legend})} }]
-            ]}
-          />
+          <UI.BtnGroup label="General">
+            <UI.BColorPalette
+              active={settings.color}
+              onChange={value => {this.setSettings({color:value})}}
+            />
+          </UI.BtnGroup>
+          
+          <UI.BtnGroup>
+            <UI.BBtn
+              icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
+              label='Legend'
+              active={settings.legend}
+              onChange={() => {this.setSettings({legend:!settings.legend})}}
+            />
+          </UI.BtnGroup>
         </UI.Wrapper>
       </div>
 
@@ -121,6 +109,23 @@ export default class LineChart extends React.Component{
 
     color: d3.schemeCategory10,
     legend: false,
+
+    // block 4
+    xAxis:{
+      visible:true,
+			value: 'Label on X Axis',
+			align:'middle',
+	    rotation:0,
+		},
+
+		// block 5
+		yAxis:{
+      visible:true,
+			value:'Label on Y Axis',
+			align:'middle',
+			guidelines:false,
+			position:'left',
+		},
   }
 	setSettings(newSettings){
 		LineChart.settings = {...LineChart.settings, ...newSettings};

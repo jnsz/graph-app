@@ -5,9 +5,6 @@ import FontAwesome from 'react-fontawesome';
 import ChartModel from './ChartModel';
 
 import * as UI from '../graph/graph-customization/CustomizerUI';
-import CustButtonGroup from '../graph/graph-customization/CustButtonGroup';
-import CustFormGroup from '../graph/graph-customization/CustFormGroup';
-import CustSlider from '../graph/graph-customization/CustSlider';
 
 export default class PieChart extends React.Component {
   render(){
@@ -16,65 +13,47 @@ export default class PieChart extends React.Component {
     return(
       <div>
         <UI.Wrapper>
-          <CustButtonGroup
-						label='Graph type'
-            buttons={[
-              [{label:'Pie', active:!settings.isDonut, onClick: () => {this.setSettings({isDonut:false})} },
-              {label:'Donut', active:settings.isDonut, onClick: () => {this.setSettings({isDonut:true})} }],
-            ]}
-          />
-          <CustButtonGroup
-						label='Label position'
-            buttons={[
-              [{label:'Around', active:settings.labelAround, onClick: () => {this.setSettings({labelAround:true})} },
-              {label:'Inside', active:!settings.labelAround, onClick: () => {this.setSettings({labelAround:false})} }],
-            ]}
-          />
+          <UI.BtnGroup label="Graph type">
+            <UI.BBtn
+              label='Pie'
+              active={settings.isDonut}
+              onChange={() => {this.setSettings({isDonut:true})}}
+            />
+            <UI.BBtn
+              label='Donut'
+              active={!settings.isDonut}
+              onChange={() => {this.setSettings({isDonut:false})}}
+            />
+          </UI.BtnGroup>
+          <UI.BtnGroup label="Graph type">
+            <UI.BBtn
+              label='Around'
+              active={settings.labelAround}
+              onChange={() => {this.setSettings({labelAround:true})}}
+            />
+            <UI.BBtn
+              label='Inside'
+              active={!settings.labelAround}
+              onChange={() => {this.setSettings({labelAround:false})}}
+            />
+          </UI.BtnGroup>
         </UI.Wrapper>
 
-        <UI.Wrapper>
-          <CustFormGroup
-  					label='Graph Label'
-  					items={[
-  						{
-                type : 'btn',
-                label: <FontAwesome name='bold'/>,
-                active: settings.chartLabel.isBold,
-                onChange: () => {this.setSettings({chartLabel:{...settings.chartLabel, isBold:!settings.chartLabel.isBold}})}
-              },
-              {
-                type : 'input',
-                text : 'Graph label',
-                value : settings.chartLabel.value,
-                onChange: value => {this.setSettings({chartLabel:{...settings.chartLabel, value:value}})}
-             },
-  					]}
-  				/>
-          <CustButtonGroup
-            buttons={[
-              [{type: 'dropdown',
-							tamplate: 'fontFamily',
-							active:settings.fontFamily,
-							onClick: value => {this.setSettings({fontFamily:value})} },],
 
-              [{type: 'dropdown',
-							tamplate: 'fontSize',
-							active:settings.fontSize,
-							onClick: value => {this.setSettings({fontSize:value})} },],
-            ]}
-          />
-        </UI.Wrapper>
+        <UI.LabelChart
+          settings={settings}
+          onChange={newSettings => {this.setSettings(newSettings)}}
+        />
 
         <UI.Wrapper>
-          <CustButtonGroup
-						label='General'
-            buttons={[
-              [{type:'dropdown',
-							tamplate:'color',
-							active:settings.color,
-							onClick: value => {this.setSettings({color:value})} },],
-            ]}
-          />
+          <UI.BtnGroup label="General">
+
+            <UI.BColorPalette
+              active={settings.color}
+              onChange={value => {this.setSettings({color:value})}}
+            />
+
+          </UI.BtnGroup>
           {/*<CustButtonGroup
             buttons={[
 							[{icon: (settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
@@ -115,6 +94,7 @@ export default class PieChart extends React.Component {
 
     chartLabel:{
       isBold:false,
+      align: 'middle',
       value:'Pie Chart',
     },
     fontFamily:'Helvetica',
@@ -213,21 +193,6 @@ export default class PieChart extends React.Component {
     }
 
     // CHART LABEL
-		this.drawChartLabel(canvas, width);
-  }
-
-  static drawChartLabel(canvas, width){
-    const settings = PieChart.settings;
-    const x = width/2;
-
-    canvas.append('text')
-          .attr('x', x)
-          .attr('y', -10)
-          .attr('text-anchor', 'middle')
-          .attr('dominant-baseline', 'text-after-edge')
-          .attr('font-family', settings.fontFamily)
-          .attr('font-size', settings.fontSize)
-          .attr('font-weight', settings.chartLabel.isBold ? 'bold':'normal')
-          .text(settings.chartLabel.value);
+		ChartModel.drawChartLabel(canvas, settings, width);
   }
 }

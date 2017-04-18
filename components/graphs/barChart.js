@@ -1,37 +1,39 @@
 import * as d3_core from 'd3';
 const d3 = {...d3_core};
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, ButtonGroup } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import ChartModel from './ChartModel';
 
 import * as UI from '../graph/graph-customization/CustomizerUI';
-import CustButtonGroup from '../graph/graph-customization/CustButtonGroup';
-import CustFormGroup from '../graph/graph-customization/CustFormGroup';
-import CustSlider from '../graph/graph-customization/CustSlider';
+
+const barPadding = {
+  none: 0,
+  small: 0.1,
+  middle: 0.3,
+  big: 0.5,
+  extreme: 0.7
+}
 
 export default class BarChart extends React.Component{
-
-
   render(){
 		const settings = BarChart.settings;
 
     return(
       <div>
         <UI.Wrapper>
-          <CustButtonGroup
-						label='Graph type'
-            buttons={[
-              [{label:'Vertical', active:settings.isVertical, onClick: () => {alert('Not yet implemented');this.setSettings({isVertical:true})} },
-              {label:'Horizontal', active:!settings.isVertical, onClick: () => {alert('Not yet implemented');this.setSettings({isVertical:false})} }],
-            ]}
-          />
-          <CustButtonGroup
-            buttons={[
-              [{label:'Grouped', active:settings.isGrouped, onClick: () => {alert('Not yet implemented');this.setSettings({isGrouped:true})} },
-              {label:'Stacked', active:!settings.isGrouped, onClick: () => {alert('Not yet implemented');this.setSettings({isGrouped:false})} }],
-            ]}
-          />
+          <UI.BtnGroup label="Graph type">
+            <UI.BBtn
+              label='Vertical'
+              active={settings.isVertical}
+              onChange={() => {this.setSettings({isVertical:true})}}
+            />
+            <UI.BBtn
+              label='Horizontal'
+              active={!settings.isVertical}
+              onChange={() => {this.setSettings({isVertical:false})}}
+            />
+          </UI.BtnGroup>
         </UI.Wrapper>
 
         <UI.LabelChart
@@ -40,114 +42,106 @@ export default class BarChart extends React.Component{
         />
 
         <UI.Wrapper>
-          <CustButtonGroup
-						label='General'
-            buttons={[
-              [{type:'dropdown',
-							tamplate:'color',
-							active:settings.color,
-							onClick: value => {this.setSettings({color:value})} },],
+          <UI.BtnGroup label="General">
 
-							[{type: 'dropdown',
-							tamplate: 'barLabelPos',
-							active:settings.barLabelPos,
-							onClick: value => {this.setSettings({barLabelPos:value})} },],
-            ]}
-          />
-          <CustButtonGroup
-            buttons={[
-							[{icon: (settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
-							label: 'Legend',
-							active:settings.legend,
-							onClick: () => {this.setSettings({legend:!settings.legend})} }],
+            <ButtonGroup justified style={{paddingRight:'5px'}}>
+              <UI.BColorPalette
+                active={settings.color}
+                onChange={value => {this.setSettings({color:value})}}
+              />
+            </ButtonGroup>
 
-							[{type: 'dropdown',
-							tamplate: 'barPadding',
-							active:settings.barPadding,
-							onClick: value => {this.setSettings({barPadding:value})} },],
-
-            ]}
-          />
-        </UI.Wrapper>
-
-        <UI.Wrapper>
-          <CustFormGroup
-  					label='X Axis'
-  					items={[
-              {
-                type : 'btn',
-                label: settings.xAxis.visible ? <FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>,
-                active: settings.xAxis.visible,
-                onChange: () => {this.setSettings({xAxis:{...settings.xAxis, visible:!settings.xAxis.visible}})}
-              },
-              {
-                type : 'input',
-                text : 'X Axis Label',
-                value : settings.xAxis.value,
-                onChange: value => {this.setSettings({xAxis:{...settings.xAxis, value:value}})}
-              },
-              {
-                type: 'align',
-                value: settings.xAxis.align,
-                onChange: value => {this.setSettings({xAxis:{...settings.xAxis, align:value}})}
-              }
-  					]}
-  				/>
-          <CustButtonGroup
-            buttons={[
-              [{label:'0°', active:(settings.xAxis.rotation === 0), onClick: () => {this.setSettings({xAxis:{...settings.xAxis, rotation:0}})} },
-              {label:'45°', active:(settings.xAxis.rotation === 45), onClick: () => {this.setSettings({xAxis:{...settings.xAxis, rotation:45}})} },
-              {label:'90°', active:(settings.xAxis.rotation === 90), onClick: () => {this.setSettings({xAxis:{...settings.xAxis, rotation:90}})} },],
-            ]}
-          />
-        </UI.Wrapper>
-
-        <UI.Wrapper>
-          <CustFormGroup
-  					label='Y Axis'
-  					items={[
-              {
-                type : 'btn',
-                label: settings.yAxis.visible ? <FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>,
-                active: settings.yAxis.visible,
-                onChange: () => {this.setSettings({yAxis:{...settings.yAxis, visible:!settings.yAxis.visible}})}
-              },
-              {
-                type : 'input',
-                text : 'Graph label',
-                value : settings.yAxis.value,
-                onChange: value => {this.setSettings({yAxis:{...settings.yAxis, value:value}})}
-              },
-              {
-                type: 'align',
-                value: settings.yAxis.align,
-                onChange: value => {this.setSettings({yAxis:{...settings.yAxis, align:value}})}
-              }
-  					]}
-  				/>
-          <CustButtonGroup
-            buttons={[
-              [
-                {
-                  icon: (settings.yAxis.guidelines?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
-  							  label: 'Guides',
-  							  active:settings.yAxis.guidelines,
-  							  onClick: () => {this.setSettings({yAxis:{...settings.yAxis, guidelines:!settings.yAxis.guidelines}})}
-                }],
-              [
-                {
-                  label:'Left',
-  							  active:settings.yAxis.position === 'left',
-  							  onClick: () => {this.setSettings({yAxis:{...settings.yAxis, position:'left'}})}
-                },
-                {
-                  label:'Right',
-  							  active:settings.yAxis.position === 'right',
-  							  onClick: () => {this.setSettings({yAxis:{...settings.yAxis, position:'right'}})}
+            <ButtonGroup justified style={{paddingLeft:'5px'}}>
+              <UI.BDropdown
+                id='bar-padding'
+                title='Bar padding'
+                arrayOfValues={['none','small','middle','big','extreme',]}
+                active={settings.barPadding}
+                onChange={name => {
+                  this.setSettings({barPadding:name})}
                 }
-              ]
-            ]}
+              />
+            </ButtonGroup>
+
+          </UI.BtnGroup>
+          <UI.BtnGroup>
+
+            <ButtonGroup justified style={{paddingRight:'5px'}}>
+              <UI.BBtn
+                icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
+                label='Legend'
+                active={settings.legend}
+                onChange={() => {this.setSettings({legend:!settings.legend})}}
+              />
+            </ButtonGroup>
+
+            <ButtonGroup justified style={{paddingLeft:'5px'}}>
+              <UI.BDropdown
+                id='bar-label-pos'
+                title='Bar labes position'
+                arrayOfValues={['none','top','above','bellow','bottom',]}
+                active={settings.barLabelPos}
+                onChange={value => {this.setSettings({barLabelPos:value})}}
+              />
+            </ButtonGroup>
+
+          </UI.BtnGroup>
+        </UI.Wrapper>
+
+        <UI.Wrapper>
+          <UI.LabelAxis
+            label='X Axis'
+            placeholder='if left empty, nothing will display'
+            axisSettings={settings.xAxis}
+            onChange={newSettings => {this.setSettings(newSettings)}}
           />
+
+          <UI.BtnGroup label="X Axis tick labels' rotation">
+            <UI.BBtn
+              label='0°'
+              active={settings.xAxis.rotation === 0}
+              onChange={() => {xAxis.rotation = 0; onChange(xAxis)}}
+            />
+            <UI.BBtn
+              label='45°'
+              active={settings.xAxis.rotation === 45}
+              onChange={() => {xAxis.rotation = 45; onChange(xAxis)}}
+            />
+            <UI.BBtn
+              label='90°'
+              active={settings.xAxis.rotation === 90}
+              onChange={() => {xAxis.rotation = 90; onChange(xAxis)}}
+            />
+          </UI.BtnGroup>
+        </UI.Wrapper>
+
+        <UI.Wrapper>
+          <UI.LabelAxis
+            label='Y Axis'
+            axisSettings={settings.yAxis}
+            onChange={newSettings => {this.setSettings(newSettings)}}
+          />
+          <UI.BtnGroup>
+            <UI.BBtn
+              icon={settings.yAxis.guidelines? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
+              label='Guides'
+              active={settings.yAxis.guidelines}
+              onChange={() => {this.setSettings({yAxis:{...settings.yAxis, guidelines:!settings.yAxis.guidelines}})}}
+              style={{paddingRight:'5px'}}
+            />
+            <ButtonGroup justified style={{paddingLeft:'5px'}}>
+              <UI.BBtn
+                label='Left'
+                active={settings.yAxis.position === 'left'}
+                onChange={() => {this.setSettings({yAxis:{...settings.yAxis, position:'left'}})}}
+              />
+              <UI.BBtn
+                label='Right'
+                active={settings.yAxis.position === 'right'}
+                onChange={() => {this.setSettings({yAxis:{...settings.yAxis, position:'right'}})}}
+              />
+            </ButtonGroup>
+          </UI.BtnGroup>
         </UI.Wrapper>
       </div>
 
@@ -187,7 +181,7 @@ export default class BarChart extends React.Component{
 		// block 3
 		color: d3.schemeCategory10,
 		barLabelPos:'above',
-		barPadding:0.1,
+		barPadding:'small',
 		legend:false,
 
 		// block 4
@@ -317,12 +311,12 @@ export default class BarChart extends React.Component{
 		const x0 = d3.scaleBand()
 								.range([0,width])
 								.domain(d3.range(dataset.length))
-								.padding(settings.barPadding);
+								.padding(0);
 
 		const x1 = d3.scaleBand()
 							.domain(d3.range(barDimensions.length))
 							.range([0, x0.bandwidth()])
-							.padding(settings.barPadding);
+							.padding(barPadding[settings.barPadding]);
 
 		const xAxis = d3.axisBottom(x0)
 										.tickSizeOuter(0);

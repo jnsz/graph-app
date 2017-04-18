@@ -2,9 +2,6 @@ import * as d3 from 'd3';
 import { Col, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import CustFormGroup from './CustFormGroup';
-import CustSlider from './CustSlider';
-
 import * as UI from './CustomizerUI';
 import ChartModel from '../../graphs/ChartModel';
 import BarChart from '../../graphs/BarChart';
@@ -49,7 +46,7 @@ export default class GraphCustomization extends React.Component {
 						onChange={this.onChangeHeight}
 					/>
 				</UI.Form>
-				<CustSlider
+				<UI.Slider
 					label='Margins'
 					min={0}
 					max={1}

@@ -54,27 +54,3 @@ export const FontSize = [
   '30px',
   '36px',
 ];
-
-export const BarLabelPos = [
-  'none',
-  'top',
-  'above',
-  'bellow',
-  'bottom',
-]
-
-export const BarPadding = [
-  'none',
-  'small',
-  'middle',
-  'big',
-  'extreme',
-]
-
-export const BarPaddingValue = [
-  0,
-  0.1,
-  0.3,
-  0.5,
-  0.7,
-]
