@@ -16,6 +16,8 @@ table {
   box-shadow: -5px 5px #c9c9c9;
 }
 
+
+
 /*.no-radius{
   border: none;
   border-radius: 0;
@@ -33,7 +35,6 @@ table {
   border-radius: 0px;
 }
 
-
 .form-control{
   border-radius: 0px;
 }
@@ -42,11 +43,16 @@ textarea.form-control{
   border: none;
 }
 
+.form-group{
+  margin-bottom: 0;
+}
+
+
 div.cust {
   background-color: white;
 	padding: 5px 15px;
   margin: 0px 0px 10px 0px;
-  height: 145px;
+  /*height: 145px;*/
   box-shadow: -5px 5px #c9c9c9;
   border: none;
   border-radius: 0;
@@ -68,4 +74,37 @@ ul.about {
 
 .popover {
   max-width: none;
+}
+
+#svg-parent {
+  position: absolute;
+  left: 1%;
+  right: 1%;
+}
+
+#svg {
+  float:right;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+/*#sidebar {
+  width: 25%;
+  float: left;
+}*/
+
+
+
+@media only screen and (max-width: 991px) {
+    #svg-parent {
+      position: static;
+    }
+    #svg {
+      float: none;
+      position: static;
+    }
+    #sidebar {
+      width: 100%;
+
+    }
 }

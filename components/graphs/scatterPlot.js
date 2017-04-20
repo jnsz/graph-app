@@ -15,33 +15,34 @@ export default class ScatterPlot extends React.Component{
 
     return(
       <div>
-        <UI.LabelChart
-          settings={settings}
-          onChange={newSettings => {this.setSettings(newSettings)}}
-        />
-
-        <UI.Wrapper>
-          <UI.LabelAxis
-            label='X Axis'
-            axisSettings={settings.xAxis}
+          <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
+          <UI.LabelChart
+            settings={settings}
             onChange={newSettings => {this.setSettings(newSettings)}}
           />
-          <UI.LabelAxis
-            label='Y Axis'
-            axisSettings={settings.yAxis}
-            onChange={newSettings => {this.setSettings(newSettings)}}
-          />
-        </UI.Wrapper>
 
-        <UI.Wrapper>
-          <UI.BtnGroup label="General">
-            <UI.BColorPalette
-              active={settings.color}
-              onChange={value => {this.setSettings({color:value})}}
+          <UI.Wrapper>
+            <UI.LabelAxis
+              label='X Axis'
+              axisSettings={settings.xAxis}
+              onChange={newSettings => {this.setSettings(newSettings)}}
             />
-          </UI.BtnGroup>
-        </UI.Wrapper>
+            <UI.LabelAxis
+              label='Y Axis'
+              axisSettings={settings.yAxis}
+              onChange={newSettings => {this.setSettings(newSettings)}}
+            />
+            
+          </UI.Wrapper>
 
+          <UI.Wrapper>
+            <UI.BtnGroup label="General">
+              <UI.BColorPalette
+                active={settings.color}
+                onChange={value => {this.setSettings({color:value})}}
+              />
+            </UI.BtnGroup>
+          </UI.Wrapper>
       </div>
 
     )
@@ -50,31 +51,37 @@ export default class ScatterPlot extends React.Component{
   static variables = [
     {
       label: 'X axis',
+      desc: 'X coordinate of a point.',
       isRequired: true,
       mustBeNumeric: true,
       takesSingleDimension: true,
       assignedDimensions:[]
     },{
       label: 'Y axis',
+      desc: 'Y coordinate of a point.',
       isRequired: true,
       mustBeNumeric: true,
       takesSingleDimension: true,
       assignedDimensions:[]
     },{
       label: 'Size',
+      desc: "Maps dimesnion on symbol's volume",
       mustBeNumeric: true,
       takesSingleDimension: true,
       assignedDimensions:[]
     },{
       label: 'Color',
+      desc: "Maps dimesnion on symbol's color",
       takesSingleDimension: true,
       assignedDimensions:[]
     },{
-      label: 'Shape (max. 8 uniques)',
+      label: 'Shape',
+      desc: "Maps dimesnion on symbol's color (max. 8 uniques).",
       takesSingleDimension: true,
       assignedDimensions:[]
     },{
       label: 'Label',
+      desc: "Labels points. If left empty, coordinates are used.",
       takesSingleDimension: true,
       assignedDimensions:[]
     }
@@ -113,7 +120,7 @@ export default class ScatterPlot extends React.Component{
 		this.props.updateSVG();
 	}
 
-  static checkAndDrawChart(canvas, svgSize, wholeDataset) {
+  static drawEmptyAndCheck(canvas, svgSize, wholeDataset) {
     const hasXDimension = this.variables[0].assignedDimensions.length != 0;
     const hasYDimension = this.variables[1].assignedDimensions.length != 0;
 

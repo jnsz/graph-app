@@ -12,69 +12,71 @@ export default class LineChart extends React.Component{
 
     return(
       <div>
-        <UI.Wrapper>
-          <UI.BtnGroup label="Graph type">
-            <UI.BBtn
-              label='Straight'
-              active={!settings.isCurved}
-              onChange={() => {this.setSettings({isCurved:false})}}
-            />
-            <UI.BBtn
-              label='Curved'
-              active={settings.isCurved}
-              onChange={() => {this.setSettings({isCurved:true})}}
-            />
-          </UI.BtnGroup>
+          <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
+          <UI.Wrapper>
+            <UI.BtnGroup label="Graph type">
+              <UI.BBtn
+                label='Straight'
+                active={!settings.isCurved}
+                onChange={() => {this.setSettings({isCurved:false})}}
+              />
+              <UI.BBtn
+                label='Curved'
+                active={settings.isCurved}
+                onChange={() => {this.setSettings({isCurved:true})}}
+              />
+            </UI.BtnGroup>
 
-          <UI.BtnGroup label="Graph type">
-            <UI.BBtn
-              label='Line'
-              active={!settings.isArea}
-              onChange={() => {this.setSettings({isArea:false})}}
-            />
-            <UI.BBtn
-              label='Area'
-              active={settings.isArea}
-              onChange={() => {this.setSettings({isArea:true})}}
-            />
-          </UI.BtnGroup>
-        </UI.Wrapper>
+            <UI.BtnGroup label="Graph type">
+              <UI.BBtn
+                label='Line'
+                active={!settings.isArea}
+                onChange={() => {this.setSettings({isArea:false})}}
+              />
+              <UI.BBtn
+                label='Area'
+                active={settings.isArea}
+                onChange={() => {this.setSettings({isArea:true})}}
+              />
+            </UI.BtnGroup>
+          </UI.Wrapper>
 
-        <UI.LabelChart
-          settings={settings}
-          onChange={newSettings => {this.setSettings(newSettings)}}
-        />
-
-        <UI.Wrapper>
-          <UI.LabelAxis
-            label='X Axis'
-            axisSettings={settings.xAxis}
+          <UI.LabelChart
+            settings={settings}
             onChange={newSettings => {this.setSettings(newSettings)}}
           />
-          <UI.LabelAxis
-            label='Y Axis'
-            axisSettings={settings.yAxis}
-            onChange={newSettings => {this.setSettings(newSettings)}}
-          />
-        </UI.Wrapper>
 
-        <UI.Wrapper>
-          <UI.BtnGroup label="General">
-            <UI.BColorPalette
-              active={settings.color}
-              onChange={value => {this.setSettings({color:value})}}
+          <UI.Wrapper>
+            <UI.LabelAxis
+              label='X Axis'
+              axisSettings={settings.xAxis}
+              onChange={newSettings => {this.setSettings(newSettings)}}
             />
-          </UI.BtnGroup>
+            <UI.LabelAxis
+              label='Y Axis'
+              axisSettings={settings.yAxis}
+              onChange={newSettings => {this.setSettings(newSettings)}}
+            />
+          </UI.Wrapper>
+
+          <UI.Wrapper>
+            <UI.BtnGroup label="General">
+              <UI.BColorPalette
+                active={settings.color}
+                onChange={value => {this.setSettings({color:value})}}
+              />
+            </UI.BtnGroup>
+
+            <UI.BtnGroup>
+              <UI.BBtn
+                icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
+                label='Legend'
+                active={settings.legend}
+                onChange={() => {this.setSettings({legend:!settings.legend})}}
+              />
+            </UI.BtnGroup>
+          </UI.Wrapper>
           
-          <UI.BtnGroup>
-            <UI.BBtn
-              icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
-              label='Legend'
-              active={settings.legend}
-              onChange={() => {this.setSettings({legend:!settings.legend})}}
-            />
-          </UI.BtnGroup>
-        </UI.Wrapper>
       </div>
 
     )
@@ -83,12 +85,14 @@ export default class LineChart extends React.Component{
   static variables = [
     {
         label: 'X axis',
+        desc: 'Values get sorted first. Then get displayed on axis.',
         isRequired: true,
         mustBeNumeric: true,
         takesSingleDimension: true,
         assignedDimensions:[]
     },{
         label: 'Y axis',
+        desc: 'Values displayed on y axis.',
         isRequired: true,
         mustBeNumeric: true,
         takesSingleDimension: false,
@@ -133,7 +137,7 @@ export default class LineChart extends React.Component{
 		this.props.updateSVG();
 	}
 
-  static checkAndDrawChart(canvas, svgSize, wholeDataset) {
+  static drawEmptyAndCheck(canvas, svgSize, wholeDataset) {
     const hasXDimension = this.variables[0].assignedDimensions.length != 0;
     const hasYDimension = this.variables[1].assignedDimensions.length != 0;
 
@@ -249,7 +253,7 @@ export default class LineChart extends React.Component{
     yAxisGroup.append('g').call(yAxis);
 
     // LEGEND
-    if(settings.legend) ChartModel.drawLegend(canvas, width, yAxisDimensions, colorGenerator);
+    if(settings.legend) ChartModel.drawLegend(canvas, settings, width, yAxisDimensions, colorGenerator);
 
     // CHART LABEL
 		ChartModel.drawChartLabel(canvas, settings, width);

@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import ReactFauxDOM from 'react-faux-dom';
 import FontAwesome from 'react-fontawesome';
-import { Row } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
 import TutorialPopover from '../TutorialPopover';
 import BarChart from '../graphs/BarChart';
@@ -20,8 +20,8 @@ export default class GraphSVG extends React.Component{
   render() {
     const tutorialTxtGraph =(
       <span >
-        This is the <code>.svg</code> of graph.<br />
-        You can customize look down bellow <FontAwesome name='arrow-down'/> <br />
+        This is the <code>.svg</code> of your graph.<br />
+        You can customize some aspects of the look.
         Even if some text is clipping out of the canvas, it will be in exported <code>.svg</code> <br />
         If some elements overlap or you want to make further changes you can open exported <code>.svg</code> in vector graphics editor of your choice and edit.
       </span>
@@ -32,27 +32,34 @@ export default class GraphSVG extends React.Component{
       </span>
     )
 
+
+
     return (
       <div>
-        <Row>
-          <h1>
-            Graph <small><TutorialPopover tooltipText={tutorialTxtGraph} /></small>
-          </h1>
-          <div style={{justifyContent: 'center', margin:'20px 0px 30px 0px'}}>
-            {this.generateSVG()}
-      		</div>
-        </Row>
+        <h1>
+          Graph <small><TutorialPopover tooltipText={tutorialTxtGraph} /></small>
+        </h1>
+        <Row id='svg-parent'>
 
-        <Row>
-          <h1>
-            Customization <small><TutorialPopover tooltipText={tutorialTxtCust} /></small>
-          </h1>
-          <GraphCustomization
-            selectedGraph={this.props.selectedGraph}
-            svgSize={this.props.svgSize}
-            onSvgSizeChange={this.props.onSvgSizeChange}
-            updateSVG={this.updateSVG}
-        />
+          <Col md={8} id='svg'>
+            {/* <h1>
+              Graph <small><TutorialPopover tooltipText={tutorialTxtGraph} /></small>
+            </h1> */}
+            <div style={{margin:'0px 0px 30px 0px'}}>
+              {this.generateSVG()}
+            </div>
+          </Col>
+          <Col md={4} id='sidebar'>
+            {/* <h1>
+              Customization <small><TutorialPopover tooltipText={tutorialTxtCust} /></small>
+            </h1> */}
+            <GraphCustomization
+              selectedGraph={this.props.selectedGraph}
+              svgSize={this.props.svgSize}
+              onSvgSizeChange={this.props.onSvgSizeChange}
+              updateSVG={this.updateSVG}
+            />
+          </Col>
         </Row>
       </div>
     );
@@ -75,9 +82,7 @@ export default class GraphSVG extends React.Component{
       .attr('class', 'box')
       .attr('width', svgSize.width)
       .attr('height', svgSize.height)
-      .style('backgroundColor','white')
-      .style('display', 'block')
-      .style('margin', 'auto');
+      .style('backgroundColor','white');
 
     let canvas = svg.append('g')
         .attr('id', 'canvas')
@@ -85,16 +90,16 @@ export default class GraphSVG extends React.Component{
 
     switch(selectedGraph){
       case 'BarChart':
-        BarChart.checkAndDrawChart(canvas, svgSize, dataset);
+        BarChart.drawEmptyAndCheck(canvas, svgSize, dataset);
         break;
       case 'PieChart':
-        PieChart.checkAndDrawChart(canvas, svgSize, dataset);
+        PieChart.drawEmptyAndCheck(canvas, svgSize, dataset);
         break;
       case 'LineChart':
-        LineChart.checkAndDrawChart(canvas, svgSize, dataset);
+        LineChart.drawEmptyAndCheck(canvas, svgSize, dataset);
         break;
       case 'ScatterPlot':
-        ScatterPlot.checkAndDrawChart(canvas, svgSize, dataset);
+        ScatterPlot.drawEmptyAndCheck(canvas, svgSize, dataset);
         break;
     }
 

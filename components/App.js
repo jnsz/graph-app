@@ -1,10 +1,9 @@
 import * as d3 from 'd3';
-import { Tabs, Tab } from 'react-bootstrap';
+import { Tabs, Tab, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import Data from './data/Data';
 import Graph from './graph/Graph';
-import GraphExport from './GraphExport';
 import About from './About';
 
 import BarChart from './graphs/BarChart';
@@ -23,8 +22,8 @@ export default class App extends React.Component {
 
       // svg size
       svgSize:{
-          width:  d3.min([Math.round(window.innerWidth * 0.8), 1000]),
-          height: d3.min([Math.round(window.innerWidth * 0.5), 800]),
+          width:  d3.min([Math.round(window.innerWidth * 0.8), 900]),
+          height: d3.min([Math.round(window.innerWidth * 0.5), 700]),
           margin: 0.2,
       },
 
@@ -63,9 +62,6 @@ export default class App extends React.Component {
           svgSize={this.state.svgSize}
           onSvgSizeChange={this.setSvgSize}
         />
-
-
-        <GraphExport/>
       </div>
     )
 

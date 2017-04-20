@@ -12,57 +12,61 @@ export default class PieChart extends React.Component {
 
     return(
       <div>
-        <UI.Wrapper>
-          <UI.BtnGroup label="Graph type">
-            <UI.BBtn
-              label='Pie'
-              active={settings.isDonut}
-              onChange={() => {this.setSettings({isDonut:true})}}
-            />
-            <UI.BBtn
-              label='Donut'
-              active={!settings.isDonut}
-              onChange={() => {this.setSettings({isDonut:false})}}
-            />
-          </UI.BtnGroup>
-          <UI.BtnGroup label="Graph type">
-            <UI.BBtn
-              label='Around'
-              active={settings.labelAround}
-              onChange={() => {this.setSettings({labelAround:true})}}
-            />
-            <UI.BBtn
-              label='Inside'
-              active={!settings.labelAround}
-              onChange={() => {this.setSettings({labelAround:false})}}
-            />
-          </UI.BtnGroup>
-        </UI.Wrapper>
 
+          <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
 
-        <UI.LabelChart
-          settings={settings}
-          onChange={newSettings => {this.setSettings(newSettings)}}
-        />
+          <UI.Wrapper>
+            <UI.BtnGroup label="Graph type">
+              <UI.BBtn
+                label='Pie'
+                active={settings.isDonut}
+                onChange={() => {this.setSettings({isDonut:true})}}
+              />
+              <UI.BBtn
+                label='Donut'
+                active={!settings.isDonut}
+                onChange={() => {this.setSettings({isDonut:false})}}
+              />
+            </UI.BtnGroup>
+            <UI.BtnGroup label="Graph type">
+              <UI.BBtn
+                label='Around'
+                active={settings.labelAround}
+                onChange={() => {this.setSettings({labelAround:true})}}
+              />
+              <UI.BBtn
+                label='Inside'
+                active={!settings.labelAround}
+                onChange={() => {this.setSettings({labelAround:false})}}
+              />
+            </UI.BtnGroup>
+          </UI.Wrapper>
 
-        <UI.Wrapper>
-          <UI.BtnGroup label="General">
+          <UI.LabelChart
+            settings={settings}
+            onChange={newSettings => {this.setSettings(newSettings)}}
+          />
 
-            <UI.BColorPalette
-              active={settings.color}
-              onChange={value => {this.setSettings({color:value})}}
-            />
+          <UI.Wrapper>
+            <UI.BtnGroup label="General">
 
-          </UI.BtnGroup>
-          {/*<CustButtonGroup
-            buttons={[
-							[{icon: (settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
-							label: 'Legend',
-							active:settings.legend,
-							onClick: () => {this.setSettings({legend:!settings.legend})} }],
-            ]}
-          />*/}
-        </UI.Wrapper>
+              <UI.BColorPalette
+                active={settings.color}
+                onChange={value => {this.setSettings({color:value})}}
+              />
+
+            </UI.BtnGroup>
+            {/*<CustButtonGroup
+              buttons={[
+  							[{icon: (settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
+  							label: 'Legend',
+  							active:settings.legend,
+  							onClick: () => {this.setSettings({legend:!settings.legend})} }],
+              ]}
+            />*/}
+          </UI.Wrapper>
+          
+
       </div>
 
     )
@@ -72,6 +76,7 @@ export default class PieChart extends React.Component {
   static variables = [
     {
         label: 'Values',
+        desc: 'Determines size of individual slices.',
         isRequired: true,
         mustBeNumeric: true,
         takesSingleDimension: true,
@@ -79,6 +84,7 @@ export default class PieChart extends React.Component {
     },
     {
         label: 'Labels',
+        desc: "Labels individual slices. If left empty 'Values' dimesnion will be used instead.",
         isRequired: false,
         takesSingleDimension: true,
         assignedDimensions:[]
@@ -110,7 +116,7 @@ export default class PieChart extends React.Component {
 		this.props.updateSVG();
 	}
 
-  static checkAndDrawChart(canvas, svgSize, wholeDataset) {
+  static drawEmptyAndCheck(canvas, svgSize, wholeDataset) {
     const hasValueDimension = this.variables[0].assignedDimensions.length != 0;
     const hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
 

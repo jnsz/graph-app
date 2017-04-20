@@ -1,14 +1,16 @@
+import * as d3 from 'd3';
 import { Col, Row, Button, FormControl, FormGroup, InputGroup, ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
+import Overlay from '../../Overlay';
 import {FontFamily, FontSize, ColorSchemeNames, ColorSchemes} from './Enums';
 
-const rowStyle = {padding: '0px 15px'}
+const rowStyle = {padding: '0px 15px', marginBottom:'15px'}
 
 export class Wrapper extends React.Component {
   render() {
     return(
-      <Col md={6}>
+      <Col md={12}>
         <div className='cust'>
           {this.props.children}
         </div>
@@ -30,18 +32,19 @@ export class Form extends React.Component {
 						{ this.props.children }
 					</InputGroup>
 				</FormGroup>
-			</Row >
+			</Row>
     )
   }
 }
 Form.defaultProps = {
-  label: '',
+  label: String.fromCharCode(160) // non-breaking space char
 }
 
 export class FInput extends React.Component {
   render(){
     return(
       <FormControl
+        disabled={this.props.disabled}
         type='text'
         placeholder={ this.props.placeholder }
         value={ this.props.value }
@@ -52,6 +55,7 @@ export class FInput extends React.Component {
 }
 FInput.defaultProps = {
   placeholder: '',
+  disabled:false,
 }
 
 export class FAddon extends React.Component {
@@ -69,19 +73,24 @@ export class FAddon extends React.Component {
 
 export class FBtn extends React.Component {
   render(){
-    const {active, onChange, children} = this.props;
+    const {active, onChange, children, tooltip} = this.props;
 
     return(
       <InputGroup.Button>
-        <Button
-          active={ this.props.active }
-          onClick={ this.props.onChange }
-        >
-          { this.props.children }
-        </Button>
+        <Overlay tooltipText={tooltip} placement='top'>
+          <Button
+            active={ active }
+            onClick={ onChange }
+          >
+            { children }
+          </Button>
+        </Overlay>
       </InputGroup.Button>
     )
   }
+}
+FBtn.defaultProps = {
+  tooltip:''
 }
 
 export class FAlign extends React.Component {
@@ -90,24 +99,34 @@ export class FAlign extends React.Component {
 
     return (
       <InputGroup.Button>
-        <Button
-          active={value === 'start'}
-          onClick={() => {onChange('start')}}
-        >
-          <FontAwesome name='align-left'/>
-        </Button>
-        <Button
-          active={value === 'middle'}
-          onClick={() => {onChange('middle')}}
-        >
-          <FontAwesome name='align-center'/>
-        </Button>
-        <Button
-          active={value === 'end'}
-          onClick={() => {onChange('end')}}
-        >
-          <FontAwesome name='align-right'/>
-        </Button>
+
+        <Overlay tooltipText='Align left' placement='top'>
+          <Button
+            active={value === 'start'}
+            onClick={() => {onChange('start')}}
+          >
+            <FontAwesome name='align-left'/>
+          </Button>
+        </Overlay>
+
+        <Overlay tooltipText='Align center' placement='top'>
+          <Button
+            active={value === 'middle'}
+            onClick={() => {onChange('middle')}}
+          >
+            <FontAwesome name='align-center'/>
+          </Button>
+        </Overlay>
+
+        <Overlay tooltipText='Align right' placement='top'>
+          <Button
+            active={value === 'end'}
+            onClick={() => {onChange('end')}}
+          >
+            <FontAwesome name='align-right'/>
+          </Button>
+        </Overlay>
+
       </InputGroup.Button>
     )
   }
@@ -125,12 +144,12 @@ export class BtnGroup extends React.Component {
         <ButtonGroup justified>
           { this.props.children }
         </ButtonGroup>
-			</Row >
+			</Row>
     )
   }
 }
 BtnGroup.defaultProps = {
-  label: '',
+  label: String.fromCharCode(160) // non-breaking space char
 }
 
 export class BBtn extends React.Component {
@@ -254,6 +273,42 @@ export class BColorPalette extends React.Component {
 }
 ///////////////////////////////////////////
 
+export class Size extends React.Component {
+  render() {
+    const { svgSize, onSvgSizeChange } = this.props;
+    const width = svgSize.width;
+		const height = svgSize.height;
+		const margin = svgSize.margin;
+		return (
+			<Wrapper>
+				<Form label='Width x height'>
+					<FInput
+						text='Width'
+						value={width}
+						onChange={newWidth => {onSvgSizeChange({width:newWidth})}}
+					/>
+					<FAddon><FontAwesome name='times'/></FAddon>
+					<FInput
+						text='Height'
+						value={height}
+						onChange={newHeight => {onSvgSizeChange({height:newHeight})}}
+					/>
+				</Form>
+				<Slider
+					label='Margins'
+					min={0}
+					max={1}
+					step={0.01}
+					value={margin}
+					displayedValue={d3.format('.0%')(margin)}
+					onChange={newMargin => {onSvgSizeChange({margin:newMargin})}}
+				/>
+			</Wrapper>
+    )
+	}
+}
+
+
 export class LabelAxis extends React.Component {
   render() {
     const { label, axisSettings, onChange } = this.props;
@@ -263,19 +318,20 @@ export class LabelAxis extends React.Component {
         <FBtn
           active={axisSettings.visible}
           onChange={() => {axisSettings.visible = !axisSettings.visible; onChange(axisSettings)}}
-          >
-            {axisSettings.visible ? <FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>}
-          </FBtn>
-          <FInput
-            placeholder='if left empty, nothing will display'
-            value={axisSettings.value}
-            onChange={value => {axisSettings.value = value; onChange(axisSettings)}}
-          />
-          <FAlign
-            value={axisSettings.align}
-            onChange={value => {axisSettings.align = value; onChange(axisSettings)}}
-          />
-        </Form>
+          tooltip='Show/hide axis'
+        >
+          {axisSettings.visible ? <FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>}
+        </FBtn>
+        <FInput
+          placeholder='if left empty, nothing will display'
+          value={axisSettings.value}
+          onChange={value => {axisSettings.value = value; onChange(axisSettings)}}
+        />
+        <FAlign
+          value={axisSettings.align}
+          onChange={value => {axisSettings.align = value; onChange(axisSettings)}}
+        />
+      </Form>
     )
 	}
 }
@@ -291,6 +347,7 @@ export class LabelChart extends React.Component {
           <FBtn
             active={chartLabel.isBold}
             onChange={() => {chartLabel.isBold = !chartLabel.isBold; onChange(chartLabel)}}
+            tooltip='Bold'
           >
             <FontAwesome name='bold'/>
           </FBtn>

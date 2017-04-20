@@ -1,21 +1,24 @@
-import { Button, Row } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { select } from 'd3';
 import FileSaver from 'file-saver';
 import FontAwesome from 'react-fontawesome';
+
+import { Wrapper } from './graph/graph-customization/CustomizerUI';
 
 export default class GraphExport extends React.Component{
 
   render() {
 
     return (
-      <Row style={{marginBottom:'50px'}}>
+      <Wrapper>
         <h1>
-          Export <Button
-            bsStyle='success'
+          Export
+          <Button
+            bsStyle='success pull-right'
             onClick={e => this.saveSVG()}
           ><FontAwesome name='download' /> SVG</Button>
         </h1>
-      </Row>
+      </Wrapper>
     );
   }
 

@@ -15,134 +15,156 @@ const barPadding = {
   extreme: 0.7
 }
 
-export default class BarChart extends React.Component{
+export default class BarChart extends React.Component {
+
+
   render(){
 		const settings = BarChart.settings;
 
     return(
       <div>
-        <UI.Wrapper>
-          <UI.BtnGroup label="Graph type">
-            <UI.BBtn
-              label='Vertical'
-              active={settings.isVertical}
-              onChange={() => {this.setSettings({isVertical:true})}}
-            />
-            <UI.BBtn
-              label='Horizontal'
-              active={!settings.isVertical}
-              onChange={() => {this.setSettings({isVertical:false})}}
-            />
-          </UI.BtnGroup>
-        </UI.Wrapper>
+          <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
 
-        <UI.LabelChart
-          settings={settings}
-          onChange={newSettings => {this.setSettings(newSettings)}}
-        />
-
-        <UI.Wrapper>
-          <UI.BtnGroup label="General">
-
-            <ButtonGroup justified style={{paddingRight:'5px'}}>
-              <UI.BColorPalette
-                active={settings.color}
-                onChange={value => {this.setSettings({color:value})}}
-              />
-            </ButtonGroup>
-
-            <ButtonGroup justified style={{paddingLeft:'5px'}}>
-              <UI.BDropdown
-                id='bar-padding'
-                title='Bar padding'
-                arrayOfValues={['none','small','middle','big','extreme',]}
-                active={settings.barPadding}
-                onChange={name => {
-                  this.setSettings({barPadding:name})}
-                }
-              />
-            </ButtonGroup>
-
-          </UI.BtnGroup>
-          <UI.BtnGroup>
-
-            <ButtonGroup justified style={{paddingRight:'5px'}}>
+          <UI.Wrapper>
+            <UI.BtnGroup label="Graph type">
               <UI.BBtn
-                icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
-                label='Legend'
-                active={settings.legend}
-                onChange={() => {this.setSettings({legend:!settings.legend})}}
+                label='Vertical'
+                active={settings.isVertical}
+                onChange={() => {this.setSettings({isVertical:true})}}
               />
-            </ButtonGroup>
-
-            <ButtonGroup justified style={{paddingLeft:'5px'}}>
-              <UI.BDropdown
-                id='bar-label-pos'
-                title='Bar labes position'
-                arrayOfValues={['none','top','above','bellow','bottom',]}
-                active={settings.barLabelPos}
-                onChange={value => {this.setSettings({barLabelPos:value})}}
+              <UI.BBtn
+                label='Horizontal'
+                active={!settings.isVertical}
+                onChange={() => {this.setSettings({isVertical:false})}}
               />
-            </ButtonGroup>
+            </UI.BtnGroup>
+          </UI.Wrapper>
 
-          </UI.BtnGroup>
-        </UI.Wrapper>
-
-        <UI.Wrapper>
-          <UI.LabelAxis
-            label='X Axis'
-            placeholder='if left empty, nothing will display'
-            axisSettings={settings.xAxis}
+          <UI.LabelChart
+            settings={settings}
             onChange={newSettings => {this.setSettings(newSettings)}}
           />
 
-          <UI.BtnGroup label="X Axis tick labels' rotation">
-            <UI.BBtn
-              label='0°'
-              active={settings.xAxis.rotation === 0}
-              onChange={() => {xAxis.rotation = 0; onChange(xAxis)}}
-            />
-            <UI.BBtn
-              label='45°'
-              active={settings.xAxis.rotation === 45}
-              onChange={() => {xAxis.rotation = 45; onChange(xAxis)}}
-            />
-            <UI.BBtn
-              label='90°'
-              active={settings.xAxis.rotation === 90}
-              onChange={() => {xAxis.rotation = 90; onChange(xAxis)}}
-            />
-          </UI.BtnGroup>
-        </UI.Wrapper>
+          <UI.Wrapper>
+            <UI.BtnGroup label="General">
 
-        <UI.Wrapper>
-          <UI.LabelAxis
-            label='Y Axis'
-            axisSettings={settings.yAxis}
-            onChange={newSettings => {this.setSettings(newSettings)}}
-          />
-          <UI.BtnGroup>
-            <UI.BBtn
-              icon={settings.yAxis.guidelines? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
-              label='Guides'
-              active={settings.yAxis.guidelines}
-              onChange={() => {this.setSettings({yAxis:{...settings.yAxis, guidelines:!settings.yAxis.guidelines}})}}
-              style={{paddingRight:'5px'}}
+              <ButtonGroup justified style={{paddingRight:'5px'}}>
+                <UI.BColorPalette
+                  active={settings.color}
+                  onChange={value => {this.setSettings({color:value})}}
+                />
+              </ButtonGroup>
+
+              <ButtonGroup justified style={{paddingRight:'5px'}}>
+                <UI.BBtn
+                  icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
+                  label='Legend'
+                  active={settings.legend}
+                  onChange={() => {this.setSettings({legend:!settings.legend})}}
+                />
+              </ButtonGroup>
+
+            </UI.BtnGroup>
+            <UI.BtnGroup>
+
+              <ButtonGroup justified style={{paddingLeft:'5px'}}>
+                <UI.BDropdown
+                  id='bar-padding'
+                  title='Bar padding'
+                  arrayOfValues={['none','small','middle','big','extreme',]}
+                  active={settings.barPadding}
+                  onChange={name => {
+                    this.setSettings({barPadding:name})}
+                  }
+                />
+              </ButtonGroup>
+
+              <ButtonGroup justified style={{paddingLeft:'5px'}}>
+                <UI.BDropdown
+                  id='bar-label-pos'
+                  title='Bar labels position'
+                  arrayOfValues={['none','top','above','bellow','bottom',]}
+                  active={settings.barLabelPos}
+                  onChange={value => {this.setSettings({barLabelPos:value})}}
+                />
+              </ButtonGroup>
+
+            </UI.BtnGroup>
+          </UI.Wrapper>
+
+          <UI.Wrapper>
+            <UI.LabelAxis
+              label='X Axis'
+              placeholder='if left empty, nothing will display'
+              axisSettings={settings.xAxis}
+              onChange={newSettings => {this.setSettings(newSettings)}}
             />
-            <ButtonGroup justified style={{paddingLeft:'5px'}}>
+
+            <UI.BtnGroup label="Tick labels' rotation">
               <UI.BBtn
-                label='Left'
-                active={settings.yAxis.position === 'left'}
-                onChange={() => {this.setSettings({yAxis:{...settings.yAxis, position:'left'}})}}
+                label='0°'
+                active={settings.xAxis.rotation === 0}
+                onChange={() => {xAxis.rotation = 0; onChange(xAxis)}}
               />
               <UI.BBtn
-                label='Right'
-                active={settings.yAxis.position === 'right'}
-                onChange={() => {this.setSettings({yAxis:{...settings.yAxis, position:'right'}})}}
+                label='45°'
+                active={settings.xAxis.rotation === 45}
+                onChange={() => {xAxis.rotation = 45; onChange(xAxis)}}
               />
-            </ButtonGroup>
-          </UI.BtnGroup>
-        </UI.Wrapper>
+              <UI.BBtn
+                label='90°'
+                active={settings.xAxis.rotation === 90}
+                onChange={() => {xAxis.rotation = 90; onChange(xAxis)}}
+              />
+            </UI.BtnGroup>
+          </UI.Wrapper>
+
+          <UI.Wrapper>
+            <UI.LabelAxis
+              label='Y Axis'
+              axisSettings={settings.yAxis}
+              onChange={newSettings => {this.setSettings(newSettings)}}
+            />
+            <UI.BtnGroup>
+              <UI.BBtn
+                icon={settings.yAxis.guidelines? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
+                label='Guides'
+                active={settings.yAxis.guidelines}
+                onChange={() => {this.setSettings({yAxis:{...settings.yAxis, guidelines:!settings.yAxis.guidelines}})}}
+                style={{paddingRight:'5px'}}
+              />
+              <ButtonGroup justified style={{paddingLeft:'5px'}}>
+                <UI.BBtn
+                  label='Left'
+                  active={settings.yAxis.position === 'left'}
+                  onChange={() => {this.setSettings({yAxis:{...settings.yAxis, position:'left'}})}}
+                />
+                <UI.BBtn
+                  label='Right'
+                  active={settings.yAxis.position === 'right'}
+                  onChange={() => {this.setSettings({yAxis:{...settings.yAxis, position:'right'}})}}
+                />
+              </ButtonGroup>
+            </UI.BtnGroup>
+          </UI.Wrapper>
+
+          <UI.Wrapper>
+            <UI.Form label="Domain height">
+              <UI.FInput
+                disabled={settings.automaticDomain}
+                value={settings.domainHeight}
+                onChange={value => {this.setSettings({domainHeight:value})}}
+              />
+              <UI.FBtn
+                active={settings.automaticDomain}
+                onChange={() => {this.setSettings({automaticDomain:!settings.automaticDomain})}}
+                tooltip='Set domain automatically'
+                >
+                  <FontAwesome name='magic'/>
+              </UI.FBtn>
+            </UI.Form>
+          </UI.Wrapper>
+
       </div>
 
     )
@@ -151,14 +173,14 @@ export default class BarChart extends React.Component{
   static variables = [
     {
         label: 'Bar height',
-        desc: 'Determines height of individual bars',
+        desc: 'Determines height of individual bars.',
         isRequired: true,
         mustBeNumeric: true,
         assignedDimensions:[]
     },
     {
         label: 'Ticks on x axis',
-        desc: 'Names each bar/bar group',
+        desc: 'Names each bar/bar group.',
         isRequired: false,
         takesSingleDimension: true,
         assignedDimensions:[]
@@ -200,6 +222,10 @@ export default class BarChart extends React.Component{
 			guidelines:false,
 			position:'left',
 		},
+
+    // block 6
+    automaticDomain: true,
+    domainHeight: 10,
   }
 	setSettings(newSettings){
 		BarChart.settings = {...BarChart.settings, ...newSettings};
@@ -207,7 +233,10 @@ export default class BarChart extends React.Component{
 		this.props.updateSVG();
 	}
 
-  static checkAndDrawChart(canvas, svgSize, wholeDataset) {
+
+
+  static drawEmptyAndCheck(canvas, svgSize, wholeDataset) {
+
 
     const hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
     const hasBarDimension = this.variables[0].assignedDimensions.length != 0;
@@ -425,7 +454,7 @@ export default class BarChart extends React.Component{
     }
 
     // LEGEND
-    if(settings.legend) ChartModel.drawLegend(canvas, width, barDimensions, colorGenerator);
+    if(settings.legend) ChartModel.drawLegend(canvas, settings, width, barDimensions, colorGenerator);
     // CHART LABEL
 		ChartModel.drawChartLabel(canvas, settings, width);
   }

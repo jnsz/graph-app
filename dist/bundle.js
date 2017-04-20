@@ -142,10 +142,6 @@ var _Graph = require('./graph/Graph');
 
 var _Graph2 = _interopRequireDefault(_Graph);
 
-var _GraphExport = require('./GraphExport');
-
-var _GraphExport2 = _interopRequireDefault(_GraphExport);
-
 var _About = require('./About');
 
 var _About2 = _interopRequireDefault(_About);
@@ -191,8 +187,8 @@ var App = function (_React$Component) {
 
       // svg size
       svgSize: {
-        width: d3.min([Math.round(window.innerWidth * 0.8), 1000]),
-        height: d3.min([Math.round(window.innerWidth * 0.5), 800]),
+        width: d3.min([Math.round(window.innerWidth * 0.8), 900]),
+        height: d3.min([Math.round(window.innerWidth * 0.5), 700]),
         margin: 0.2
       },
 
@@ -233,8 +229,7 @@ var App = function (_React$Component) {
           onAssignedDimensionsOfVariableChange: this.setAssignedDimensions,
           svgSize: this.state.svgSize,
           onSvgSizeChange: this.setSvgSize
-        }),
-        React.createElement(_GraphExport2.default, null)
+        })
       );
 
       return React.createElement(
@@ -436,7 +431,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"./About":1,"./GraphExport":3,"./data/Data":8,"./graph/Graph":12,"./graphs/BarChart":26,"./graphs/LineChart":28,"./graphs/PieChart":29,"./graphs/ScatterPlot":30,"d3":139,"react-bootstrap":435,"react-fontawesome":616}],3:[function(require,module,exports){
+},{"./About":1,"./data/Data":8,"./graph/Graph":12,"./graphs/BarChart":26,"./graphs/LineChart":28,"./graphs/PieChart":29,"./graphs/ScatterPlot":30,"d3":139,"react-bootstrap":435,"react-fontawesome":616}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -456,6 +451,8 @@ var _fileSaver2 = _interopRequireDefault(_fileSaver);
 var _reactFontawesome = require('react-fontawesome');
 
 var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
+
+var _CustomizerUI = require('./graph/graph-customization/CustomizerUI');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -480,16 +477,16 @@ var GraphExport = function (_React$Component) {
       var _this2 = this;
 
       return React.createElement(
-        _reactBootstrap.Row,
-        { style: { marginBottom: '50px' } },
+        _CustomizerUI.Wrapper,
+        null,
         React.createElement(
           'h1',
           null,
-          'Export ',
+          'Export',
           React.createElement(
             _reactBootstrap.Button,
             {
-              bsStyle: 'success',
+              bsStyle: 'success pull-right',
               onClick: function onClick(e) {
                 return _this2.saveSVG();
               }
@@ -517,7 +514,7 @@ var GraphExport = function (_React$Component) {
 
 exports.default = GraphExport;
 
-},{"d3":139,"file-saver":215,"react-bootstrap":435,"react-fontawesome":616}],4:[function(require,module,exports){
+},{"./graph/graph-customization/CustomizerUI":15,"d3":139,"file-saver":215,"react-bootstrap":435,"react-fontawesome":616}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1444,13 +1441,9 @@ var GraphSVG = function (_React$Component) {
           null,
           '.svg'
         ),
-        ' of graph.',
+        ' of your graph.',
         React.createElement('br', null),
-        'You can customize look down bellow ',
-        React.createElement(_reactFontawesome2.default, { name: 'arrow-down' }),
-        ' ',
-        React.createElement('br', null),
-        'Even if some text is clipping out of the canvas, it will be in exported ',
+        'You can customize some aspects of the look. Even if some text is clipping out of the canvas, it will be in exported ',
         React.createElement(
           'code',
           null,
@@ -1476,43 +1469,37 @@ var GraphSVG = function (_React$Component) {
         'div',
         null,
         React.createElement(
-          _reactBootstrap.Row,
+          'h1',
           null,
+          'Graph ',
           React.createElement(
-            'h1',
+            'small',
             null,
-            'Graph ',
-            React.createElement(
-              'small',
-              null,
-              React.createElement(_TutorialPopover2.default, { tooltipText: tutorialTxtGraph })
-            )
-          ),
-          React.createElement(
-            'div',
-            { style: { justifyContent: 'center', margin: '20px 0px 30px 0px' } },
-            this.generateSVG()
+            React.createElement(_TutorialPopover2.default, { tooltipText: tutorialTxtGraph })
           )
         ),
         React.createElement(
           _reactBootstrap.Row,
-          null,
+          { id: 'svg-parent' },
           React.createElement(
-            'h1',
-            null,
-            'Customization ',
+            _reactBootstrap.Col,
+            { md: 8, id: 'svg' },
             React.createElement(
-              'small',
-              null,
-              React.createElement(_TutorialPopover2.default, { tooltipText: tutorialTxtCust })
+              'div',
+              { style: { margin: '0px 0px 30px 0px' } },
+              this.generateSVG()
             )
           ),
-          React.createElement(_GraphCustomization2.default, {
-            selectedGraph: this.props.selectedGraph,
-            svgSize: this.props.svgSize,
-            onSvgSizeChange: this.props.onSvgSizeChange,
-            updateSVG: this.updateSVG
-          })
+          React.createElement(
+            _reactBootstrap.Col,
+            { md: 4, id: 'sidebar' },
+            React.createElement(_GraphCustomization2.default, {
+              selectedGraph: this.props.selectedGraph,
+              svgSize: this.props.svgSize,
+              onSvgSizeChange: this.props.onSvgSizeChange,
+              updateSVG: this.updateSVG
+            })
+          )
         )
       );
     }
@@ -1537,22 +1524,22 @@ var GraphSVG = function (_React$Component) {
       var canvasHeight = svgSize.height - heightMargin;
 
       var node = _reactFauxDom2.default.createElement('svg');
-      var svg = d3.select(node).attr('class', 'box').attr('width', svgSize.width).attr('height', svgSize.height).style('backgroundColor', 'white').style('display', 'block').style('margin', 'auto');
+      var svg = d3.select(node).attr('class', 'box').attr('width', svgSize.width).attr('height', svgSize.height).style('backgroundColor', 'white');
 
       var canvas = svg.append('g').attr('id', 'canvas').attr('transform', 'translate(' + widthMargin / 2 + ',' + heightMargin / 2 + ')');
 
       switch (selectedGraph) {
         case 'BarChart':
-          _BarChart2.default.checkAndDrawChart(canvas, svgSize, dataset);
+          _BarChart2.default.drawEmptyAndCheck(canvas, svgSize, dataset);
           break;
         case 'PieChart':
-          _PieChart2.default.checkAndDrawChart(canvas, svgSize, dataset);
+          _PieChart2.default.drawEmptyAndCheck(canvas, svgSize, dataset);
           break;
         case 'LineChart':
-          _LineChart2.default.checkAndDrawChart(canvas, svgSize, dataset);
+          _LineChart2.default.drawEmptyAndCheck(canvas, svgSize, dataset);
           break;
         case 'ScatterPlot':
-          _ScatterPlot2.default.checkAndDrawChart(canvas, svgSize, dataset);
+          _ScatterPlot2.default.drawEmptyAndCheck(canvas, svgSize, dataset);
           break;
       }
 
@@ -1630,9 +1617,13 @@ Overlay.defaultProps = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Slider = exports.LabelChart = exports.LabelAxis = exports.BColorPalette = exports.BFontSize = exports.BFontFamily = exports.BDropdown = exports.BBtn = exports.BtnGroup = exports.FAlign = exports.FBtn = exports.FAddon = exports.FInput = exports.Form = exports.Wrapper = undefined;
+exports.Slider = exports.LabelChart = exports.LabelAxis = exports.Size = exports.BColorPalette = exports.BFontSize = exports.BFontFamily = exports.BDropdown = exports.BBtn = exports.BtnGroup = exports.FAlign = exports.FBtn = exports.FAddon = exports.FInput = exports.Form = exports.Wrapper = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _d = require('d3');
+
+var d3 = _interopRequireWildcard(_d);
 
 var _reactBootstrap = require('react-bootstrap');
 
@@ -1640,9 +1631,15 @@ var _reactFontawesome = require('react-fontawesome');
 
 var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
 
+var _Overlay = require('../../Overlay');
+
+var _Overlay2 = _interopRequireDefault(_Overlay);
+
 var _Enums = require('./Enums');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1650,7 +1647,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var rowStyle = { padding: '0px 15px' };
+var rowStyle = { padding: '0px 15px', marginBottom: '15px' };
 
 var Wrapper = exports.Wrapper = function (_React$Component) {
   _inherits(Wrapper, _React$Component);
@@ -1666,7 +1663,7 @@ var Wrapper = exports.Wrapper = function (_React$Component) {
     value: function render() {
       return React.createElement(
         _reactBootstrap.Col,
-        { md: 6 },
+        { md: 12 },
         React.createElement(
           'div',
           { className: 'cust' },
@@ -1719,7 +1716,7 @@ var Form = exports.Form = function (_React$Component2) {
 }(React.Component);
 
 Form.defaultProps = {
-  label: ''
+  label: String.fromCharCode(160) // non-breaking space char
 };
 
 var FInput = exports.FInput = function (_React$Component3) {
@@ -1737,6 +1734,7 @@ var FInput = exports.FInput = function (_React$Component3) {
       var _this4 = this;
 
       return React.createElement(_reactBootstrap.FormControl, {
+        disabled: this.props.disabled,
         type: 'text',
         placeholder: this.props.placeholder,
         value: this.props.value,
@@ -1751,7 +1749,8 @@ var FInput = exports.FInput = function (_React$Component3) {
 }(React.Component);
 
 FInput.defaultProps = {
-  placeholder: ''
+  placeholder: '',
+  disabled: false
 };
 
 var FAddon = exports.FAddon = function (_React$Component4) {
@@ -1794,19 +1793,24 @@ var FBtn = exports.FBtn = function (_React$Component5) {
       var _props = this.props,
           active = _props.active,
           onChange = _props.onChange,
-          children = _props.children;
+          children = _props.children,
+          tooltip = _props.tooltip;
 
 
       return React.createElement(
         _reactBootstrap.InputGroup.Button,
         null,
         React.createElement(
-          _reactBootstrap.Button,
-          {
-            active: this.props.active,
-            onClick: this.props.onChange
-          },
-          this.props.children
+          _Overlay2.default,
+          { tooltipText: tooltip, placement: 'top' },
+          React.createElement(
+            _reactBootstrap.Button,
+            {
+              active: active,
+              onClick: onChange
+            },
+            children
+          )
         )
       );
     }
@@ -1814,6 +1818,10 @@ var FBtn = exports.FBtn = function (_React$Component5) {
 
   return FBtn;
 }(React.Component);
+
+FBtn.defaultProps = {
+  tooltip: ''
+};
 
 var FAlign = exports.FAlign = function (_React$Component6) {
   _inherits(FAlign, _React$Component6);
@@ -1836,34 +1844,46 @@ var FAlign = exports.FAlign = function (_React$Component6) {
         _reactBootstrap.InputGroup.Button,
         null,
         React.createElement(
-          _reactBootstrap.Button,
-          {
-            active: value === 'start',
-            onClick: function onClick() {
-              onChange('start');
-            }
-          },
-          React.createElement(_reactFontawesome2.default, { name: 'align-left' })
+          _Overlay2.default,
+          { tooltipText: 'Align left', placement: 'top' },
+          React.createElement(
+            _reactBootstrap.Button,
+            {
+              active: value === 'start',
+              onClick: function onClick() {
+                onChange('start');
+              }
+            },
+            React.createElement(_reactFontawesome2.default, { name: 'align-left' })
+          )
         ),
         React.createElement(
-          _reactBootstrap.Button,
-          {
-            active: value === 'middle',
-            onClick: function onClick() {
-              onChange('middle');
-            }
-          },
-          React.createElement(_reactFontawesome2.default, { name: 'align-center' })
+          _Overlay2.default,
+          { tooltipText: 'Align center', placement: 'top' },
+          React.createElement(
+            _reactBootstrap.Button,
+            {
+              active: value === 'middle',
+              onClick: function onClick() {
+                onChange('middle');
+              }
+            },
+            React.createElement(_reactFontawesome2.default, { name: 'align-center' })
+          )
         ),
         React.createElement(
-          _reactBootstrap.Button,
-          {
-            active: value === 'end',
-            onClick: function onClick() {
-              onChange('end');
-            }
-          },
-          React.createElement(_reactFontawesome2.default, { name: 'align-right' })
+          _Overlay2.default,
+          { tooltipText: 'Align right', placement: 'top' },
+          React.createElement(
+            _reactBootstrap.Button,
+            {
+              active: value === 'end',
+              onClick: function onClick() {
+                onChange('end');
+              }
+            },
+            React.createElement(_reactFontawesome2.default, { name: 'align-right' })
+          )
         )
       );
     }
@@ -1909,7 +1929,7 @@ var BtnGroup = exports.BtnGroup = function (_React$Component7) {
 }(React.Component);
 
 BtnGroup.defaultProps = {
-  label: ''
+  label: String.fromCharCode(160) // non-breaking space char
 };
 
 var BBtn = exports.BBtn = function (_React$Component8) {
@@ -2132,8 +2152,71 @@ var BColorPalette = exports.BColorPalette = function (_React$Component12) {
 }(React.Component);
 ///////////////////////////////////////////
 
-var LabelAxis = exports.LabelAxis = function (_React$Component13) {
-  _inherits(LabelAxis, _React$Component13);
+var Size = exports.Size = function (_React$Component13) {
+  _inherits(Size, _React$Component13);
+
+  function Size() {
+    _classCallCheck(this, Size);
+
+    return _possibleConstructorReturn(this, (Size.__proto__ || Object.getPrototypeOf(Size)).apply(this, arguments));
+  }
+
+  _createClass(Size, [{
+    key: 'render',
+    value: function render() {
+      var _props8 = this.props,
+          svgSize = _props8.svgSize,
+          onSvgSizeChange = _props8.onSvgSizeChange;
+
+      var width = svgSize.width;
+      var height = svgSize.height;
+      var margin = svgSize.margin;
+      return React.createElement(
+        Wrapper,
+        null,
+        React.createElement(
+          Form,
+          { label: 'Width x height' },
+          React.createElement(FInput, {
+            text: 'Width',
+            value: width,
+            onChange: function onChange(newWidth) {
+              onSvgSizeChange({ width: newWidth });
+            }
+          }),
+          React.createElement(
+            FAddon,
+            null,
+            React.createElement(_reactFontawesome2.default, { name: 'times' })
+          ),
+          React.createElement(FInput, {
+            text: 'Height',
+            value: height,
+            onChange: function onChange(newHeight) {
+              onSvgSizeChange({ height: newHeight });
+            }
+          })
+        ),
+        React.createElement(Slider, {
+          label: 'Margins',
+          min: 0,
+          max: 1,
+          step: 0.01,
+          value: margin,
+          displayedValue: d3.format('.0%')(margin),
+          onChange: function onChange(newMargin) {
+            onSvgSizeChange({ margin: newMargin });
+          }
+        })
+      );
+    }
+  }]);
+
+  return Size;
+}(React.Component);
+
+var LabelAxis = exports.LabelAxis = function (_React$Component14) {
+  _inherits(LabelAxis, _React$Component14);
 
   function LabelAxis() {
     _classCallCheck(this, LabelAxis);
@@ -2144,10 +2227,10 @@ var LabelAxis = exports.LabelAxis = function (_React$Component13) {
   _createClass(LabelAxis, [{
     key: 'render',
     value: function render() {
-      var _props8 = this.props,
-          label = _props8.label,
-          axisSettings = _props8.axisSettings,
-          _onChange = _props8.onChange;
+      var _props9 = this.props,
+          label = _props9.label,
+          axisSettings = _props9.axisSettings,
+          _onChange = _props9.onChange;
 
 
       return React.createElement(
@@ -2159,7 +2242,8 @@ var LabelAxis = exports.LabelAxis = function (_React$Component13) {
             active: axisSettings.visible,
             onChange: function onChange() {
               axisSettings.visible = !axisSettings.visible;_onChange(axisSettings);
-            }
+            },
+            tooltip: 'Show/hide axis'
           },
           axisSettings.visible ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' })
         ),
@@ -2183,8 +2267,8 @@ var LabelAxis = exports.LabelAxis = function (_React$Component13) {
   return LabelAxis;
 }(React.Component);
 
-var LabelChart = exports.LabelChart = function (_React$Component14) {
-  _inherits(LabelChart, _React$Component14);
+var LabelChart = exports.LabelChart = function (_React$Component15) {
+  _inherits(LabelChart, _React$Component15);
 
   function LabelChart() {
     _classCallCheck(this, LabelChart);
@@ -2195,9 +2279,9 @@ var LabelChart = exports.LabelChart = function (_React$Component14) {
   _createClass(LabelChart, [{
     key: 'render',
     value: function render() {
-      var _props9 = this.props,
-          settings = _props9.settings,
-          _onChange2 = _props9.onChange;
+      var _props10 = this.props,
+          settings = _props10.settings,
+          _onChange2 = _props10.onChange;
 
       var chartLabel = settings.chartLabel;
 
@@ -2213,7 +2297,8 @@ var LabelChart = exports.LabelChart = function (_React$Component14) {
               active: chartLabel.isBold,
               onChange: function onChange() {
                 chartLabel.isBold = !chartLabel.isBold;_onChange2(chartLabel);
-              }
+              },
+              tooltip: 'Bold'
             },
             React.createElement(_reactFontawesome2.default, { name: 'bold' })
           ),
@@ -2254,8 +2339,8 @@ var LabelChart = exports.LabelChart = function (_React$Component14) {
   return LabelChart;
 }(React.Component);
 
-var Slider = exports.Slider = function (_React$Component15) {
-  _inherits(Slider, _React$Component15);
+var Slider = exports.Slider = function (_React$Component16) {
+  _inherits(Slider, _React$Component16);
 
   function Slider() {
     _classCallCheck(this, Slider);
@@ -2266,7 +2351,7 @@ var Slider = exports.Slider = function (_React$Component15) {
   _createClass(Slider, [{
     key: 'render',
     value: function render() {
-      var _this17 = this;
+      var _this18 = this;
 
       return React.createElement(
         _reactBootstrap.Row,
@@ -2287,7 +2372,7 @@ var Slider = exports.Slider = function (_React$Component15) {
             step: this.props.step,
             value: this.props.value,
             onChange: function onChange(e) {
-              _this17.props.onChange(e.target.value);
+              _this18.props.onChange(e.target.value);
             },
             className: 'slider'
           }),
@@ -2314,7 +2399,7 @@ Slider.PropTypes = {
   onChange: React.PropTypes.func.isRequired
 };
 
-},{"./Enums":16,"react-bootstrap":435,"react-fontawesome":616}],16:[function(require,module,exports){
+},{"../../Overlay":5,"./Enums":16,"d3":139,"react-bootstrap":435,"react-fontawesome":616}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2357,6 +2442,10 @@ var _CustomizerUI = require('./CustomizerUI');
 
 var UI = _interopRequireWildcard(_CustomizerUI);
 
+var _GraphExport = require('../../GraphExport');
+
+var _GraphExport2 = _interopRequireDefault(_GraphExport);
+
 var _ChartModel = require('../../graphs/ChartModel');
 
 var _ChartModel2 = _interopRequireDefault(_ChartModel);
@@ -2393,12 +2482,7 @@ var GraphCustomization = function (_React$Component) {
 	function GraphCustomization() {
 		_classCallCheck(this, GraphCustomization);
 
-		var _this = _possibleConstructorReturn(this, (GraphCustomization.__proto__ || Object.getPrototypeOf(GraphCustomization)).call(this));
-
-		_this.onChangeWidth = _this.onChangeWidth.bind(_this);
-		_this.onChangeHeight = _this.onChangeHeight.bind(_this);
-		_this.onChangeMargin = _this.onChangeMargin.bind(_this);
-		return _this;
+		return _possibleConstructorReturn(this, (GraphCustomization.__proto__ || Object.getPrototypeOf(GraphCustomization)).apply(this, arguments));
 	}
 
 	_createClass(GraphCustomization, [{
@@ -2407,47 +2491,8 @@ var GraphCustomization = function (_React$Component) {
 			return React.createElement(
 				'div',
 				null,
-				this.renderSizeCustomization(),
-				this.renderGraphCustomization()
-			);
-		}
-	}, {
-		key: 'renderSizeCustomization',
-		value: function renderSizeCustomization() {
-			var width = this.props.svgSize.width;
-			var height = this.props.svgSize.height;
-			var margin = this.props.svgSize.margin;
-			return React.createElement(
-				UI.Wrapper,
-				null,
-				React.createElement(
-					UI.Form,
-					{ label: 'Width x height' },
-					React.createElement(UI.FInput, {
-						text: 'Width',
-						value: width,
-						onChange: this.onChangeWidth
-					}),
-					React.createElement(
-						UI.FAddon,
-						null,
-						React.createElement(_reactFontawesome2.default, { name: 'times' })
-					),
-					React.createElement(UI.FInput, {
-						text: 'Height',
-						value: height,
-						onChange: this.onChangeHeight
-					})
-				),
-				React.createElement(UI.Slider, {
-					label: 'Margins',
-					min: 0,
-					max: 1,
-					step: 0.01,
-					value: margin,
-					displayedValue: d3.format('.0%')(margin),
-					onChange: this.onChangeMargin
-				})
+				this.renderGraphCustomization(),
+				React.createElement(_GraphExport2.default, null)
 			);
 		}
 	}, {
@@ -2461,25 +2506,7 @@ var GraphCustomization = function (_React$Component) {
 			};
 			var SelectedGraph = components[this.props.selectedGraph];
 
-			return React.createElement(SelectedGraph, { updateSVG: this.props.updateSVG });
-		}
-	}, {
-		key: 'onChangeWidth',
-		value: function onChangeWidth(newWidth) {
-			var newSize = { width: newWidth };
-			this.props.onSvgSizeChange(newSize);
-		}
-	}, {
-		key: 'onChangeHeight',
-		value: function onChangeHeight(newHeight) {
-			var newSize = { height: newHeight };
-			this.props.onSvgSizeChange(newSize);
-		}
-	}, {
-		key: 'onChangeMargin',
-		value: function onChangeMargin(newMargin) {
-			var newSize = { margin: newMargin };
-			this.props.onSvgSizeChange(newSize);
+			return React.createElement(SelectedGraph, { updateSVG: this.props.updateSVG, svgSize: this.props.svgSize, onSvgSizeChange: this.props.onSvgSizeChange });
 		}
 	}]);
 
@@ -2488,7 +2515,7 @@ var GraphCustomization = function (_React$Component) {
 
 exports.default = GraphCustomization;
 
-},{"../../graphs/BarChart":26,"../../graphs/ChartModel":27,"../../graphs/LineChart":28,"../../graphs/PieChart":29,"../../graphs/ScatterPlot":30,"./CustomizerUI":15,"d3":139,"react-bootstrap":435,"react-fontawesome":616}],18:[function(require,module,exports){
+},{"../../GraphExport":3,"../../graphs/BarChart":26,"../../graphs/ChartModel":27,"../../graphs/LineChart":28,"../../graphs/PieChart":29,"../../graphs/ScatterPlot":30,"./CustomizerUI":15,"d3":139,"react-bootstrap":435,"react-fontawesome":616}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3421,6 +3448,7 @@ var BarChart = function (_React$Component) {
       return React.createElement(
         'div',
         null,
+        React.createElement(UI.Size, { svgSize: this.props.svgSize, onSvgSizeChange: this.props.onSvgSizeChange }),
         React.createElement(
           UI.Wrapper,
           null,
@@ -3467,6 +3495,22 @@ var BarChart = function (_React$Component) {
             ),
             React.createElement(
               _reactBootstrap.ButtonGroup,
+              { justified: true, style: { paddingRight: '5px' } },
+              React.createElement(UI.BBtn, {
+                icon: settings.legend ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
+                label: 'Legend',
+                active: settings.legend,
+                onChange: function onChange() {
+                  _this2.setSettings({ legend: !settings.legend });
+                }
+              })
+            )
+          ),
+          React.createElement(
+            UI.BtnGroup,
+            null,
+            React.createElement(
+              _reactBootstrap.ButtonGroup,
               { justified: true, style: { paddingLeft: '5px' } },
               React.createElement(UI.BDropdown, {
                 id: 'bar-padding',
@@ -3477,29 +3521,13 @@ var BarChart = function (_React$Component) {
                   _this2.setSettings({ barPadding: name });
                 }
               })
-            )
-          ),
-          React.createElement(
-            UI.BtnGroup,
-            null,
-            React.createElement(
-              _reactBootstrap.ButtonGroup,
-              { justified: true, style: { paddingRight: '5px' } },
-              React.createElement(UI.BBtn, {
-                icon: settings.legend ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
-                label: 'Legend',
-                active: settings.legend,
-                onChange: function onChange() {
-                  _this2.setSettings({ legend: !settings.legend });
-                }
-              })
             ),
             React.createElement(
               _reactBootstrap.ButtonGroup,
               { justified: true, style: { paddingLeft: '5px' } },
               React.createElement(UI.BDropdown, {
                 id: 'bar-label-pos',
-                title: 'Bar labes position',
+                title: 'Bar labels position',
                 arrayOfValues: ['none', 'top', 'above', 'bellow', 'bottom'],
                 active: settings.barLabelPos,
                 onChange: function onChange(value) {
@@ -3522,7 +3550,7 @@ var BarChart = function (_React$Component) {
           }),
           React.createElement(
             UI.BtnGroup,
-            { label: 'X Axis tick labels\' rotation' },
+            { label: 'Tick labels\' rotation' },
             React.createElement(UI.BBtn, {
               label: '0\xB0',
               active: settings.xAxis.rotation === 0,
@@ -3617,6 +3645,32 @@ var BarChart = function (_React$Component) {
               })
             )
           )
+        ),
+        React.createElement(
+          UI.Wrapper,
+          null,
+          React.createElement(
+            UI.Form,
+            { label: 'Domain height' },
+            React.createElement(UI.FInput, {
+              disabled: settings.automaticDomain,
+              value: settings.domainHeight,
+              onChange: function onChange(value) {
+                _this2.setSettings({ domainHeight: value });
+              }
+            }),
+            React.createElement(
+              UI.FBtn,
+              {
+                active: settings.automaticDomain,
+                onChange: function onChange() {
+                  _this2.setSettings({ automaticDomain: !settings.automaticDomain });
+                },
+                tooltip: 'Set domain automatically'
+              },
+              React.createElement(_reactFontawesome2.default, { name: 'magic' })
+            )
+          )
         )
       );
     }
@@ -3628,8 +3682,8 @@ var BarChart = function (_React$Component) {
       this.props.updateSVG();
     }
   }], [{
-    key: 'checkAndDrawChart',
-    value: function checkAndDrawChart(canvas, svgSize, wholeDataset) {
+    key: 'drawEmptyAndCheck',
+    value: function drawEmptyAndCheck(canvas, svgSize, wholeDataset) {
 
       var hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
       var hasBarDimension = this.variables[0].assignedDimensions.length != 0;
@@ -3828,7 +3882,7 @@ var BarChart = function (_React$Component) {
       }
 
       // LEGEND
-      if (settings.legend) _ChartModel2.default.drawLegend(canvas, width, barDimensions, colorGenerator);
+      if (settings.legend) _ChartModel2.default.drawLegend(canvas, settings, width, barDimensions, colorGenerator);
       // CHART LABEL
       _ChartModel2.default.drawChartLabel(canvas, settings, width);
     }
@@ -3840,13 +3894,13 @@ var BarChart = function (_React$Component) {
 BarChart.graphName = 'BarChart';
 BarChart.variables = [{
   label: 'Bar height',
-  desc: 'Determines height of individual bars',
+  desc: 'Determines height of individual bars.',
   isRequired: true,
   mustBeNumeric: true,
   assignedDimensions: []
 }, {
   label: 'Ticks on x axis',
-  desc: 'Names each bar/bar group',
+  desc: 'Names each bar/bar group.',
   isRequired: false,
   takesSingleDimension: true,
   assignedDimensions: []
@@ -3886,7 +3940,11 @@ BarChart.settings = {
     align: 'middle',
     guidelines: false,
     position: 'left'
-  }
+  },
+
+  // block 6
+  automaticDomain: true,
+  domainHeight: 10
 };
 exports.default = BarChart;
 
@@ -3942,7 +4000,7 @@ var ChartModel = function () {
     }
   }, {
     key: 'drawLegend',
-    value: function drawLegend(canvas, width, dimensions, colorGenerator) {
+    value: function drawLegend(canvas, settings, width, dimensions, colorGenerator) {
       var legend = canvas.append('g').classed('legend', true).attr('transform', 'translate(' + width + ',0)').selectAll('.row').data(dimensions).enter().append('g').classed('row', true).attr('transform', function (d, i) {
         return 'translate(0,' + i * 20 + ')';
       });
@@ -3951,7 +4009,7 @@ var ChartModel = function () {
         return colorGenerator(i);
       });
 
-      legend.append('text').attr('x', 24).attr('y', 9.5).attr('dy', '0.32em').text(function (d) {
+      legend.append('text').attr('x', 24).attr('y', 9.5).attr('dy', '0.32em').style('font-family', settings.fontFamily).text(function (d) {
         return d;
       });
     }
@@ -4020,6 +4078,7 @@ var LineChart = function (_React$Component) {
       return React.createElement(
         'div',
         null,
+        React.createElement(UI.Size, { svgSize: this.props.svgSize, onSvgSizeChange: this.props.onSvgSizeChange }),
         React.createElement(
           UI.Wrapper,
           null,
@@ -4120,8 +4179,8 @@ var LineChart = function (_React$Component) {
       this.props.updateSVG();
     }
   }], [{
-    key: 'checkAndDrawChart',
-    value: function checkAndDrawChart(canvas, svgSize, wholeDataset) {
+    key: 'drawEmptyAndCheck',
+    value: function drawEmptyAndCheck(canvas, svgSize, wholeDataset) {
       var hasXDimension = this.variables[0].assignedDimensions.length != 0;
       var hasYDimension = this.variables[1].assignedDimensions.length != 0;
 
@@ -4231,7 +4290,7 @@ var LineChart = function (_React$Component) {
       yAxisGroup.append('g').call(yAxis);
 
       // LEGEND
-      if (settings.legend) _ChartModel2.default.drawLegend(canvas, width, yAxisDimensions, colorGenerator);
+      if (settings.legend) _ChartModel2.default.drawLegend(canvas, settings, width, yAxisDimensions, colorGenerator);
 
       // CHART LABEL
       _ChartModel2.default.drawChartLabel(canvas, settings, width);
@@ -4244,12 +4303,14 @@ var LineChart = function (_React$Component) {
 LineChart.graphName = 'LineChart';
 LineChart.variables = [{
   label: 'X axis',
+  desc: 'Values get sorted first. Then get displayed on axis.',
   isRequired: true,
   mustBeNumeric: true,
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
   label: 'Y axis',
+  desc: 'Values displayed on y axis.',
   isRequired: true,
   mustBeNumeric: true,
   takesSingleDimension: false,
@@ -4347,6 +4408,7 @@ var PieChart = function (_React$Component) {
       return React.createElement(
         'div',
         null,
+        React.createElement(UI.Size, { svgSize: this.props.svgSize, onSvgSizeChange: this.props.onSvgSizeChange }),
         React.createElement(
           UI.Wrapper,
           null,
@@ -4420,8 +4482,8 @@ var PieChart = function (_React$Component) {
       this.props.updateSVG();
     }
   }], [{
-    key: 'checkAndDrawChart',
-    value: function checkAndDrawChart(canvas, svgSize, wholeDataset) {
+    key: 'drawEmptyAndCheck',
+    value: function drawEmptyAndCheck(canvas, svgSize, wholeDataset) {
       var hasValueDimension = this.variables[0].assignedDimensions.length != 0;
       var hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
 
@@ -4505,12 +4567,14 @@ var PieChart = function (_React$Component) {
 PieChart.graphName = 'PieChart';
 PieChart.variables = [{
   label: 'Values',
+  desc: 'Determines size of individual slices.',
   isRequired: true,
   mustBeNumeric: true,
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
   label: 'Labels',
+  desc: "Labels individual slices. If left empty 'Values' dimesnion will be used instead.",
   isRequired: false,
   takesSingleDimension: true,
   assignedDimensions: []
@@ -4596,6 +4660,7 @@ var ScatterPlot = function (_React$Component) {
       return React.createElement(
         'div',
         null,
+        React.createElement(UI.Size, { svgSize: this.props.svgSize, onSvgSizeChange: this.props.onSvgSizeChange }),
         React.createElement(UI.LabelChart, {
           settings: settings,
           onChange: function onChange(newSettings) {
@@ -4644,8 +4709,8 @@ var ScatterPlot = function (_React$Component) {
       this.props.updateSVG();
     }
   }], [{
-    key: 'checkAndDrawChart',
-    value: function checkAndDrawChart(canvas, svgSize, wholeDataset) {
+    key: 'drawEmptyAndCheck',
+    value: function drawEmptyAndCheck(canvas, svgSize, wholeDataset) {
       var hasXDimension = this.variables[0].assignedDimensions.length != 0;
       var hasYDimension = this.variables[1].assignedDimensions.length != 0;
 
@@ -4751,31 +4816,37 @@ var ScatterPlot = function (_React$Component) {
 ScatterPlot.graphName = 'ScatterPlot';
 ScatterPlot.variables = [{
   label: 'X axis',
+  desc: 'X coordinate of a point.',
   isRequired: true,
   mustBeNumeric: true,
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
   label: 'Y axis',
+  desc: 'Y coordinate of a point.',
   isRequired: true,
   mustBeNumeric: true,
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
   label: 'Size',
+  desc: "Maps dimesnion on symbol's volume",
   mustBeNumeric: true,
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
   label: 'Color',
+  desc: "Maps dimesnion on symbol's color",
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
-  label: 'Shape (max. 8 uniques)',
+  label: 'Shape',
+  desc: "Maps dimesnion on symbol's color (max. 8 uniques).",
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
   label: 'Label',
+  desc: "Labels points. If left empty, coordinates are used.",
   takesSingleDimension: true,
   assignedDimensions: []
 }];

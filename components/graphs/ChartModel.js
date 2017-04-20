@@ -25,7 +25,7 @@ export default class ChartModel {
 					.text(settings.chartLabel.value);
 	}
 
-  static drawLegend(canvas, width, dimensions, colorGenerator){
+  static drawLegend(canvas, settings, width, dimensions, colorGenerator){
     const legend = canvas.append('g')
       .classed('legend', true)
       .attr('transform', `translate(${width},0)`)
@@ -45,6 +45,7 @@ export default class ChartModel {
       .attr('x',24)
       .attr('y', 9.5)
       .attr('dy', '0.32em')
+			.style('font-family', settings.fontFamily)
       .text(d => {return d});
   }
 }
