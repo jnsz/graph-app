@@ -40,7 +40,7 @@ Form.defaultProps = {
   label: String.fromCharCode(160) // non-breaking space char
 }
 
-export class FInput extends React.Component {
+export class FormInput extends React.Component {
   render(){
     return(
       <FormControl
@@ -53,12 +53,12 @@ export class FInput extends React.Component {
     )
   }
 }
-FInput.defaultProps = {
+FormInput.defaultProps = {
   placeholder: '',
   disabled:false,
 }
 
-export class FAddon extends React.Component {
+export class FormAddon extends React.Component {
   render(){
     if (this.props.children == null) return <InputGroup.Addon style={{padding:'0', border:'0', width:'0'}}/>
     else {
@@ -71,7 +71,7 @@ export class FAddon extends React.Component {
   }
 }
 
-export class FBtn extends React.Component {
+export class FormBtn extends React.Component {
   render(){
     const {active, onChange, children, tooltip} = this.props;
 
@@ -89,11 +89,11 @@ export class FBtn extends React.Component {
     )
   }
 }
-FBtn.defaultProps = {
+FormBtn.defaultProps = {
   tooltip:''
 }
 
-export class FAlign extends React.Component {
+export class FormAlign extends React.Component {
   render(){
     const { value, onChange } = this.props;
 
@@ -152,7 +152,7 @@ BtnGroup.defaultProps = {
   label: String.fromCharCode(160) // non-breaking space char
 }
 
-export class BBtn extends React.Component {
+export class BtnGroupBtn extends React.Component {
   render(){
     const { active, onChange, icon, label } = this.props;
 
@@ -168,11 +168,11 @@ export class BBtn extends React.Component {
     )
   }
 }
-BBtn.defaultProps = {
+BtnGroupBtn.defaultProps = {
   icon: '',
 }
 
-export class BDropdown extends React.Component {
+export class BtnGroupDropdown extends React.Component {
   render(){
     const { title, id, arrayOfValues, onChange, active,  } = this.props;
 
@@ -197,7 +197,7 @@ export class BDropdown extends React.Component {
   }
 }
 
-export class BFontFamily extends React.Component {
+export class BtnGroupDropdownFontFamily extends React.Component {
   render(){
     const { active, onChange } = this.props;
 
@@ -223,7 +223,7 @@ export class BFontFamily extends React.Component {
   }
 }
 
-export class BFontSize extends React.Component {
+export class BtnGroupDropdownFontSize extends React.Component {
   render(){
     const { active, onChange } = this.props;
 
@@ -249,7 +249,7 @@ export class BFontSize extends React.Component {
   }
 }
 
-export class BColorPalette extends React.Component {
+export class BtnGroupDropdownColor extends React.Component {
   render(){
     const { active, onChange } = this.props;
 
@@ -282,13 +282,13 @@ export class Size extends React.Component {
 		return (
 			<Wrapper>
 				<Form label='Width x height'>
-					<FInput
+					<FormInput
 						text='Width'
 						value={width}
 						onChange={newWidth => {onSvgSizeChange({width:newWidth})}}
 					/>
-					<FAddon><FontAwesome name='times'/></FAddon>
-					<FInput
+					<FormAddon><FontAwesome name='times'/></FormAddon>
+					<FormInput
 						text='Height'
 						value={height}
 						onChange={newHeight => {onSvgSizeChange({height:newHeight})}}
@@ -308,26 +308,25 @@ export class Size extends React.Component {
 	}
 }
 
-
 export class LabelAxis extends React.Component {
   render() {
     const { label, axisSettings, onChange } = this.props;
 
     return(
       <Form label={label}>
-        <FBtn
+        <FormBtn
           active={axisSettings.visible}
           onChange={() => {axisSettings.visible = !axisSettings.visible; onChange(axisSettings)}}
           tooltip='Show/hide axis'
         >
           {axisSettings.visible ? <FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>}
-        </FBtn>
-        <FInput
+        </FormBtn>
+        <FormInput
           placeholder='if left empty, nothing will display'
           value={axisSettings.value}
           onChange={value => {axisSettings.value = value; onChange(axisSettings)}}
         />
-        <FAlign
+        <FormAlign
           value={axisSettings.align}
           onChange={value => {axisSettings.align = value; onChange(axisSettings)}}
         />
@@ -344,30 +343,30 @@ export class LabelChart extends React.Component {
     return(
       <Wrapper>
         <Form label='Graph label'>
-          <FBtn
+          <FormBtn
             active={chartLabel.isBold}
             onChange={() => {chartLabel.isBold = !chartLabel.isBold; onChange(chartLabel)}}
             tooltip='Bold'
           >
             <FontAwesome name='bold'/>
-          </FBtn>
-          <FInput
+          </FormBtn>
+          <FormInput
 						placeholder='Graph label'
 						value={chartLabel.value}
 						onChange={value => {chartLabel.value = value; onChange(chartLabel)}}
 					/>
-          <FAlign
+          <FormAlign
             value={chartLabel.align}
             onChange={value => {chartLabel.align = value; onChange(chartLabel)}}
           />
         </Form>
 
         <BtnGroup>
-          <BFontFamily
+          <BtnGroupDropdownFontFamily
             active={settings.fontFamily}
             onChange={value => {onChange({fontFamily:value})}}
           />
-          <BFontSize
+          <BtnGroupDropdownFontSize
             active={settings.fontSize}
             onChange={value => {onChange({fontSize:value})}}
           />

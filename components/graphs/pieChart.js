@@ -9,66 +9,63 @@ import * as UI from '../graph/graph-customization/CustomizerUI';
 export default class PieChart extends React.Component {
   render(){
     const settings = PieChart.settings;
-
     return(
       <div>
 
-          <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
+        <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
 
-          <UI.Wrapper>
-            <UI.BtnGroup label="Graph type">
-              <UI.BBtn
-                label='Pie'
-                active={settings.isDonut}
-                onChange={() => {this.setSettings({isDonut:true})}}
-              />
-              <UI.BBtn
-                label='Donut'
-                active={!settings.isDonut}
-                onChange={() => {this.setSettings({isDonut:false})}}
-              />
-            </UI.BtnGroup>
-            <UI.BtnGroup label="Graph type">
-              <UI.BBtn
-                label='Around'
-                active={settings.labelAround}
-                onChange={() => {this.setSettings({labelAround:true})}}
-              />
-              <UI.BBtn
-                label='Inside'
-                active={!settings.labelAround}
-                onChange={() => {this.setSettings({labelAround:false})}}
-              />
-            </UI.BtnGroup>
-          </UI.Wrapper>
+        <UI.Wrapper>
+          <UI.BtnGroup label="Graph type">
+            <UI.BtnGroupBtn
+              label='Pie'
+              active={settings.isDonut}
+              onChange={() => {this.setSettings({isDonut:true})}}
+            />
+            <UI.BtnGroupBtn
+              label='Donut'
+              active={!settings.isDonut}
+              onChange={() => {this.setSettings({isDonut:false})}}
+            />
+          </UI.BtnGroup>
+          <UI.BtnGroup label="Graph type">
+            <UI.BtnGroupBtn
+              label='Around'
+              active={settings.labelAround}
+              onChange={() => {this.setSettings({labelAround:true})}}
+            />
+            <UI.BtnGroupBtn
+              label='Inside'
+              active={!settings.labelAround}
+              onChange={() => {this.setSettings({labelAround:false})}}
+            />
+          </UI.BtnGroup>
+        </UI.Wrapper>
 
-          <UI.LabelChart
-            settings={settings}
-            onChange={newSettings => {this.setSettings(newSettings)}}
-          />
+        <UI.LabelChart
+          settings={settings}
+          onChange={newSettings => {this.setSettings(newSettings)}}
+        />
 
-          <UI.Wrapper>
-            <UI.BtnGroup label="General">
+        <UI.Wrapper>
+          <UI.BtnGroup label="General">
 
-              <UI.BColorPalette
-                active={settings.color}
-                onChange={value => {this.setSettings({color:value})}}
-              />
+            <UI.BtnGroupDropdownColor
+              active={settings.color}
+              onChange={value => {this.setSettings({color:value})}}
+            />
 
-            </UI.BtnGroup>
-            {/*<CustButtonGroup
-              buttons={[
-  							[{icon: (settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
-  							label: 'Legend',
-  							active:settings.legend,
-  							onClick: () => {this.setSettings({legend:!settings.legend})} }],
-              ]}
-            />*/}
-          </UI.Wrapper>
-          
+          </UI.BtnGroup>
+          {/*<CustButtonGroup
+            buttons={[
+							[{icon: (settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
+							label: 'Legend',
+							active:settings.legend,
+							onClick: () => {this.setSettings({legend:!settings.legend})} }],
+            ]}
+          />*/}
+        </UI.Wrapper>
 
       </div>
-
     )
   }
 
@@ -89,7 +86,6 @@ export default class PieChart extends React.Component {
         takesSingleDimension: true,
         assignedDimensions:[]
     },
-
   ];
 
   // TODO add settings vatiables
@@ -147,8 +143,6 @@ export default class PieChart extends React.Component {
     const arc = d3.arc()
       .outerRadius(radius)
       .innerRadius(settings.isDonut ? radius * settings.innerRadius : 0);
-
-
 
     // COLOR
     const colorGenerator = d3.scaleOrdinal().range(settings.color);

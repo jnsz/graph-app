@@ -37,7 +37,7 @@ export default class ScatterPlot extends React.Component{
 
           <UI.Wrapper>
             <UI.BtnGroup label="General">
-              <UI.BColorPalette
+              <UI.BtnGroupDropdownColor
                 active={settings.color}
                 onChange={value => {this.setSettings({color:value})}}
               />

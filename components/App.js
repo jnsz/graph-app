@@ -76,7 +76,7 @@ export default class App extends React.Component {
             {dataNode}
 
           </Tab>
-          <Tab title='Select graph:' disabled />
+          <Tab title={(this.state.dataset.columns == null) ? 'No data:' : 'Select graph:'} disabled />
           <Tab
             eventKey={'BarChart'}
             title={<span><FontAwesome name='bar-chart'/> Bar chart</span>}

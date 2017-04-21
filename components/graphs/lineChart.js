@@ -12,71 +12,70 @@ export default class LineChart extends React.Component{
 
     return(
       <div>
-          <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
-          <UI.Wrapper>
-            <UI.BtnGroup label="Graph type">
-              <UI.BBtn
-                label='Straight'
-                active={!settings.isCurved}
-                onChange={() => {this.setSettings({isCurved:false})}}
-              />
-              <UI.BBtn
-                label='Curved'
-                active={settings.isCurved}
-                onChange={() => {this.setSettings({isCurved:true})}}
-              />
-            </UI.BtnGroup>
+        <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
+        <UI.Wrapper>
+          <UI.BtnGroup label="Graph type">
+            <UI.BtnGroupBtn
+              label='Straight'
+              active={!settings.isCurved}
+              onChange={() => {this.setSettings({isCurved:false})}}
+            />
+            <UI.BtnGroupBtn
+              label='Curved'
+              active={settings.isCurved}
+              onChange={() => {this.setSettings({isCurved:true})}}
+            />
+          </UI.BtnGroup>
 
-            <UI.BtnGroup label="Graph type">
-              <UI.BBtn
-                label='Line'
-                active={!settings.isArea}
-                onChange={() => {this.setSettings({isArea:false})}}
-              />
-              <UI.BBtn
-                label='Area'
-                active={settings.isArea}
-                onChange={() => {this.setSettings({isArea:true})}}
-              />
-            </UI.BtnGroup>
-          </UI.Wrapper>
+          <UI.BtnGroup label="Graph type">
+            <UI.BtnGroupBtn
+              label='Line'
+              active={!settings.isArea}
+              onChange={() => {this.setSettings({isArea:false})}}
+            />
+            <UI.BtnGroupBtn
+              label='Area'
+              active={settings.isArea}
+              onChange={() => {this.setSettings({isArea:true})}}
+            />
+          </UI.BtnGroup>
+        </UI.Wrapper>
 
-          <UI.LabelChart
-            settings={settings}
+        <UI.LabelChart
+          settings={settings}
+          onChange={newSettings => {this.setSettings(newSettings)}}
+        />
+
+        <UI.Wrapper>
+          <UI.LabelAxis
+            label='X Axis'
+            axisSettings={settings.xAxis}
             onChange={newSettings => {this.setSettings(newSettings)}}
           />
+          <UI.LabelAxis
+            label='Y Axis'
+            axisSettings={settings.yAxis}
+            onChange={newSettings => {this.setSettings(newSettings)}}
+          />
+        </UI.Wrapper>
 
-          <UI.Wrapper>
-            <UI.LabelAxis
-              label='X Axis'
-              axisSettings={settings.xAxis}
-              onChange={newSettings => {this.setSettings(newSettings)}}
+        <UI.Wrapper>
+          <UI.BtnGroup label="General">
+            <UI.BtnGroupDropdownColor
+              active={settings.color}
+              onChange={value => {this.setSettings({color:value})}}
             />
-            <UI.LabelAxis
-              label='Y Axis'
-              axisSettings={settings.yAxis}
-              onChange={newSettings => {this.setSettings(newSettings)}}
+          </UI.BtnGroup>
+
+          <UI.BtnGroup>
+            <UI.BtnGroupBtn
+              icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
+              label='Legend'
+              active={settings.legend}
+              onChange={() => {this.setSettings({legend:!settings.legend})}}
             />
-          </UI.Wrapper>
-
-          <UI.Wrapper>
-            <UI.BtnGroup label="General">
-              <UI.BColorPalette
-                active={settings.color}
-                onChange={value => {this.setSettings({color:value})}}
-              />
-            </UI.BtnGroup>
-
-            <UI.BtnGroup>
-              <UI.BBtn
-                icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
-                label='Legend'
-                active={settings.legend}
-                onChange={() => {this.setSettings({legend:!settings.legend})}}
-              />
-            </UI.BtnGroup>
-          </UI.Wrapper>
-          
+          </UI.BtnGroup>
+        </UI.Wrapper>
       </div>
 
     )

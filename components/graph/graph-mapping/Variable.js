@@ -9,7 +9,8 @@ import Overlay from '../Overlay';
 const variableStyle = {
   backgroundColor: 'white',
   padding: '15px',
-  margin: '0px 0px 10px 0px'
+  margin: '0px 0px 10px 0px',
+  fontSize: '14px',
 }
 const iconStyle = {
   color: '#666',
@@ -33,9 +34,9 @@ export default class Variable extends React.Component{
     const takesSingleDimension = typeof variable.takesSingleDimension === 'undefined' ? false : variable.takesSingleDimension;
     const mustBeNumeric = typeof variable.mustBeNumeric === 'undefined' ? false : variable.mustBeNumeric;
     const assignedDimensions = variable.assignedDimensions;
-
+//style={{height:'130px'}}
     return (
-      <Col md={4} style={{height:'130px'}}>
+      <Col md={4}>
         <div className='box small' style={variableStyle}>
           <span>
             {isRequired ? <Overlay tooltipText='Is required'><FontAwesome name='asterisk' style={iconStyle}/></Overlay> : false}
