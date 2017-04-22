@@ -34,7 +34,7 @@ export default class Variable extends React.Component{
     const takesSingleDimension = typeof variable.takesSingleDimension === 'undefined' ? false : variable.takesSingleDimension;
     const mustBeNumeric = typeof variable.mustBeNumeric === 'undefined' ? false : variable.mustBeNumeric;
     const assignedDimensions = variable.assignedDimensions;
-//style={{height:'130px'}}
+
     return (
       <Col md={4}>
         <div className='box small' style={variableStyle}>

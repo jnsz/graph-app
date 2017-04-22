@@ -25,7 +25,7 @@ export default class BarChart extends React.Component {
       <div>
         <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
 
-        <UI.Wrapper>
+        {/* <UI.Wrapper>
           <UI.BtnGroup label="Graph type">
             <UI.BtnGroupBtn
               label='Vertical'
@@ -38,12 +38,7 @@ export default class BarChart extends React.Component {
               onChange={() => {this.setSettings({isVertical:false})}}
             />
           </UI.BtnGroup>
-        </UI.Wrapper>
-
-        <UI.LabelChart
-          settings={settings}
-          onChange={newSettings => {this.setSettings(newSettings)}}
-        />
+        </UI.Wrapper> */}
 
         <UI.Wrapper>
           <UI.BtnGroup label="General">
@@ -82,7 +77,7 @@ export default class BarChart extends React.Component {
             <ButtonGroup justified style={{paddingLeft:'5px'}}>
               <UI.BtnGroupDropdown
                 id='bar-label-pos'
-                title='Bar labels position'
+                title="Bar label's position"
                 arrayOfValues={['none','top','above','bellow','bottom',]}
                 active={settings.barLabelPos}
                 onChange={value => {this.setSettings({barLabelPos:value})}}
@@ -91,16 +86,21 @@ export default class BarChart extends React.Component {
 
           </UI.BtnGroup>
         </UI.Wrapper>
+        <UI.LabelChart
+          settings={settings}
+          onChange={newSettings => {this.setSettings(newSettings)}}
+        />
+
 
         <UI.Wrapper>
           <UI.LabelAxis
             label='X Axis'
-            placeholder='if left empty, nothing will display'
+            placeholder='Display nothing'
             axisSettings={settings.xAxis}
             onChange={newSettings => {this.setSettings(newSettings)}}
           />
 
-          <UI.BtnGroup label="Tick labels' rotation">
+          <UI.BtnGroup label="Tick Labels' Rotation">
             <UI.BtnGroupBtn
               label='0°'
               active={settings.xAxis.rotation === 0}
@@ -149,7 +149,7 @@ export default class BarChart extends React.Component {
         </UI.Wrapper>
 
         <UI.Wrapper>
-          <UI.Form label="Max Y value">
+          <UI.Form label="Y Axis Domain">
             <UI.FormBtn
               active={settings.automaticDomain}
               onChange={() => {this.setSettings({automaticDomain:!settings.automaticDomain})}}
@@ -160,7 +160,7 @@ export default class BarChart extends React.Component {
             <UI.FormInput
               disabled={settings.automaticDomain}
               value={settings.domainHeight}
-              onChange={value => {this.setSettings({domainHeight:value})}}
+              onChange={value => {console.log(typeof value);this.setSettings({domainHeight:value})}}
             />
           </UI.Form>
         </UI.Wrapper>
@@ -189,11 +189,10 @@ export default class BarChart extends React.Component {
   static settings = {
 		// block 1
     isVertical:true,
-    isGrouped:true,
 
 		// block 2
     chartLabel:{
-      value: 'Bar Chart',
+      value: 'Title of the graph',
       align: 'middle',
       isBold: true,
     },
@@ -209,7 +208,7 @@ export default class BarChart extends React.Component {
 		// block 4
     xAxis:{
       visible:true,
-			value: 'X Axis',
+			value: 'Label on X Axis',
 			align:'middle',
 	    rotation:0,
 		},
@@ -217,7 +216,7 @@ export default class BarChart extends React.Component {
 		// block 5
 		yAxis:{
       visible:true,
-			value:'Y Axis',
+			value:'Label on Y Axis',
 			align:'middle',
 			guidelines:false,
 			position:'left',
@@ -236,133 +235,163 @@ export default class BarChart extends React.Component {
 
 
   static drawEmptyAndCheck(canvas, svgSize, wholeDataset) {
+    const settings = BarChart.settings;
+    const width = svgSize.width-(svgSize.width*svgSize.margin);
+    const height = svgSize.height-(svgSize.height*svgSize.margin);
 
+    const y = d3.scaleLinear()
+      .range([height,0])
+      .domain([0, settings.domainHeight]);
+
+    const xAxisGroup = canvas.append('g')
+      .classed('x axis group', true)
+      .attr('transform', `translate(0,${height})`);
 
     const hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
     const hasBarDimension = this.variables[0].assignedDimensions.length != 0;
 
 		const isVertical = BarChart.settings.isVertical;
-		const isGrouped = BarChart.settings.isGrouped;
 
-    const canDraw = hasBarDimension;
-    if(canDraw) {
-			if(isVertical && isGrouped) this.drawChartVertGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
-			else this.drawChartVertGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
-			// else if(!isVertical && isGrouped) this.drawChartHorizonGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
-			// else if(isVertical && !isGrouped) this.drawChartVertStacked(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
-			// else this.drawChartHorizonStacked(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
-		}
-  }
+    if(hasBarDimension) {
+      /*if(isVertical && isGrouped) this.drawChartVertGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
+      else this.drawChartVertGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
+      // else if(!isVertical && isGrouped) this.drawChartHorizonGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
+      // else if(isVertical && !isGrouped) this.drawChartVertStacked(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
+      // else this.drawChartHorizonStacked(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);*/
 
-	static drawChartVertGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension){
-		const settings = BarChart.settings;
-		// GET CANVAS WIDTH AND HEIGHT
-    const width = svgSize.width-(svgSize.width*svgSize.margin);
-    const height = svgSize.height-(svgSize.height*svgSize.margin);
 
-    // GET LABEL DIMENSION
-    const labelDimension = hasLabelDimension ? this.variables[1].assignedDimensions[0].dimension : null;
 
-    // GET BARS DIMENSIONS
-    const barDimensions = [];
-    this.variables[0].assignedDimensions.map(dimension => {
-      barDimensions.push(dimension.dimension);
-    })
+      // GET BARS DIMENSIONS
+      const barDimensions = [];
+      this.variables[0].assignedDimensions.map(dimension => {
+        barDimensions.push(dimension.dimension);
+      })
+      // GET LABEL DIMENSION
+      const labelDimension = hasLabelDimension ? this.variables[1].assignedDimensions[0].dimension : null;
 
-    // simplified dataset
-    const dataset = wholeDataset.map((d, i) => {
-      const row = barDimensions.map(dimension => {return d[dimension]})
-      return row;
-    })
+      // simplified dataset
+      const dataset = wholeDataset.map((d, i) => {
+        const row = barDimensions.map(dimension => {return d[dimension]})
+        return row;
+      })
 
-    // COLOR
-    const colorGenerator = d3.scaleOrdinal().range(settings.color);
+      // COLOR
+      const colorGenerator = d3.scaleOrdinal().range(settings.color);
 
-    // MAX VALUE OF ALL BAR DIMENSIONS
-    const domainMax = d3.max(wholeDataset, d => {return d3.max(barDimensions, barDimension => {return d[barDimension]})});
-    if(settings.automaticDomain) settings.domainHeight = domainMax;
-    // const domainHeight = settings.automaticDomain ? domainMax : settings.domainHeight
+      // Y AXIS DOMAIN
+      if(settings.automaticDomain){
+        const domainMax = d3.max(wholeDataset, d => {return d3.max(barDimensions, barDimension => {return d[barDimension]})});
+        y.domain([0, domainMax]).nice()
+        settings.domainHeight = y.domain()[1];
+      }
 
-    // Y AXIS
-    const y = d3.scaleLinear()
-                .range([height,0])
-                .domain([0, settings.domainHeight]);
+  		// X AXIS
+  		const x0 = d3.scaleBand()
+  								.range([0,width])
+  								.domain(d3.range(dataset.length))
+  								.padding(0);
 
-    if(settings.automaticDomain) {
-      y.nice();
-      settings.domainHeight = y.domain()[1];
-    }
+  		const x1 = d3.scaleBand()
+  							.domain(d3.range(barDimensions.length))
+  							.range([0, x0.bandwidth()])
+  							.padding(barPadding[settings.barPadding]);
 
-    const yAxis = settings.yAxis.position === 'left' ? d3.axisLeft(y) : d3.axisRight(y);
-    // yAxis.tickSizeOuter(0);
+  		const xAxis = d3.axisBottom(x0)
+  										.tickSizeOuter(0);
 
-    const yAxisGroup = canvas.append('g')
-                            .classed('y axis', true)
-														.attr('transform', `translate(${settings.yAxis.position === 'left' ? 0:width},0)`)
+  		xAxisGroup.append('g').call(xAxis);
 
-    yAxisGroup.append('g').call(yAxis);
+      if(!settings.xAxis.visible){
+        canvas.select('g.x.axis').selectAll('path.domain').remove();
+        canvas.select('g.x.axis').selectAll('g.tick').selectAll('line').remove();
+      }
 
-		canvas.select('g.y.axis').selectAll('g.tick').selectAll('text').each(function() {
-			d3.select(this).attr('font-family', settings.fontFamily)
-		});
+  		// DRAW TICKS ON X AXIS
+      if(hasLabelDimension){
+  			const tickNames = wholeDataset.map(d => {return d[labelDimension]});
 
-		let labelPos = function(){
-      switch (settings.yAxis.align) {
-  			case 'start': return height;
-  			case 'middle': return height/2;
-  			case 'end': return 0;
+  			let pos;
+  			switch(settings.xAxis.rotation){
+  				case 0: pos = {x:0,y:0};break;
+  				case 45: pos = {x:-9,y:4};break;
+  				case 90: pos = {x:-13,y:10};break;
+  			}
+
+  			canvas.select('g.x.axis').selectAll('g.tick').selectAll('text').each(function (d){
+  				d3.select(this)
+  					.attr('text-anchor', 'end')
+  					.attr('text-anchor', settings.xAxis.rotation===0 ? 'middle':'end')
+  					.attr('transform', `translate(${pos.x},${pos.y}) rotate(-${settings.xAxis.rotation})`)
+  					.attr('font-family', settings.fontFamily)
+  					.text(tickNames[d])
+  			});
   		}
-    }()
+      else {
+  			canvas.select('g.x.axis').selectAll('g.tick').remove();
+  		}
 
-    yAxisGroup.append('text')
-              .attr('transform', `translate(${settings.yAxis.position === 'left' ? -25:25},${labelPos}) rotate(-90)`)
-              .attr('text-anchor', settings.yAxis.align)
-              .attr('dominant-baseline', `${settings.yAxis.position === 'left' ? 'text-after-edge':'text-before-edge'}`)
-							.attr('font-family', settings.fontFamily)
-							.attr('font-size', settings.fontSize)
-              .text(settings.yAxis.value);
+      // CREATE BARS
+      const outerBand = canvas.append('g')
+        .classed('bars', true)
+        .selectAll('.outerBand')
+        .data(dataset)
+        .enter()
+        .append('g')
+        .classed('outerBand', true)
+        .attr('transform', (d, i) => {return `translate(${x0(i)},0)`});
 
-    if(!settings.yAxis.visible){
-      canvas.select('g.y.axis').selectAll('g').remove();
-    }
+      const innerBand = outerBand.selectAll('g')
+        .data(d => {return d})
+        .enter()
+        .append('g')
+        .classed('innerBand', true)
+        .attr('transform', (d, i) => {return `translate(${x1(i)},0)`});
+
+      innerBand.append('rect')
+        .classed('bar', true)
+        .attr('y', d => {return y(d)})
+        .attr('width', x1.bandwidth())
+        .attr('height', d => {return height - y(d)})
+        .style('fill', (d, i) => {return colorGenerator(i)});
 
 
-    // GUIDELINES
-		if(settings.yAxis.guidelines){
-			const guidelines = d3.axisRight(y)
-	        .tickSizeInner(width)
-	        .tickSizeOuter(0)
-	        .tickFormat('');
+      if(settings.barLabelPos !=='none'){
+        innerBand.append('text')
+          .attr('x', x1.bandwidth()/2)
+          .attr('y', d => {
+            switch(settings.barLabelPos) {
+            case 'top': return 0;
+            case 'above': return y(d) - 5;
+            case 'bellow': return y(d) + 5;
+            case 'bottom':  return height - 10;
+          }})
+          .attr('text-anchor','middle')
+          .attr('dominant-baseline',() => {
+            switch(settings.barLabelPos) {
+            case 'top': return 'text-before-edge';
+            case 'above': return 'text-after-edge';
+            case 'bellow':  return 'text-before-edge';
+            case 'buttom': return 'text-after-edge';
+          }})
+          .style('fill', () => {
+            switch(settings.barLabelPos) {
+            case 'bellow': return 'white';
+            case 'bottom':  return 'white';
+          }
+          })
+          .text(d => {return d});
+      }
 
-			canvas.append('g')
-					.classed('guidelines', true)
-					.call(guidelines);
+      // LEGEND
+      if(settings.legend) ChartModel.drawLegend(canvas, settings, width, barDimensions, colorGenerator);
 
-			canvas.select('g.guidelines').selectAll('g.tick').selectAll('line').attr('stroke','#999');
-      canvas.select('g.guidelines').select('path.domain').remove();
-		}
+		} // AFTER CAN DRAW
 
-		// X AXIS
-		const x0 = d3.scaleBand()
-								.range([0,width])
-								.domain(d3.range(dataset.length))
-								.padding(0);
+    // CHART LABEL
+    ChartModel.drawChartLabel(canvas, settings, width);
 
-		const x1 = d3.scaleBand()
-							.domain(d3.range(barDimensions.length))
-							.range([0, x0.bandwidth()])
-							.padding(barPadding[settings.barPadding]);
-
-		const xAxis = d3.axisBottom(x0)
-										.tickSizeOuter(0);
-
-		const xAxisGroup = canvas.append('g')
-			.classed('x axis', true)
-			.attr('transform', `translate(0,${height})`);
-
-		xAxisGroup.append('g').call(xAxis);
-
-		labelPos = function(){
+    // APPEND X AXIS LABEL
+    let labelPos = function(){
       switch (settings.xAxis.align) {
         case 'start': return 0;
         case 'middle': return width/2;
@@ -370,98 +399,62 @@ export default class BarChart extends React.Component {
       }
     }()
 
-		xAxisGroup.append('text')
-							.attr('transform', `translate(${labelPos},25)`)
-							.attr('text-anchor', settings.xAxis.align)
-							.attr('dominant-baseline', 'text-before-edge')
-							.attr('font-family', settings.fontFamily)
-							.attr('font-size', settings.fontSize)
-							.text(settings.xAxis.value);
+    xAxisGroup.append('text')
+      .attr('transform', `translate(${labelPos},25)`)
+      .attr('text-anchor', settings.xAxis.align)
+      .attr('dominant-baseline', 'text-before-edge')
+      .attr('font-family', settings.fontFamily)
+      .attr('font-size', settings.fontSize)
+      .text(settings.xAxis.value);
 
-    if(!settings.xAxis.visible){
-      canvas.select('g.x.axis').selectAll('path.domain').remove();
-      canvas.select('g.x.axis').selectAll('g.tick').selectAll('line').remove();
+    // APPEND Y AXIS
+    // create group
+    const yAxisGroup = canvas.append('g')
+      .classed('y axis group', true)
+      .attr('transform', `translate(${settings.yAxis.position === 'left' ? 0:width},0)`)
+
+    // create axis
+    if(settings.yAxis.visible){
+      const yAxis = settings.yAxis.position === 'left' ? d3.axisLeft(y) : d3.axisRight(y);
+      yAxisGroup.append('g')
+        .attr('class', 'y axis')
+        .call(yAxis);
+
+      canvas.select('g.y.axis.group').select('g.y.axis').selectAll('g.tick').selectAll('text').each(function() {
+        d3.select(this).attr('font-family', settings.fontFamily)
+      });
     }
 
-		// DRAW TICKS ON X AXIS
-    if(hasLabelDimension){
-			const tickNames = wholeDataset.map(d => {return d[labelDimension]});
+    // create label
+    labelPos = function(){
+      switch (settings.yAxis.align) {
+        case 'start': return height;
+        case 'middle': return height/2;
+        case 'end': return 0;
+      }
+    }()
 
-			let pos;
-			switch(settings.xAxis.rotation){
-				case 0: pos = {x:0,y:0};break;
-				case 45: pos = {x:-9,y:4};break;
-				case 90: pos = {x:-13,y:10};break;
-			}
+    yAxisGroup.append('text')
+      .attr('transform', `translate(${settings.yAxis.position === 'left' ? -25:25},${labelPos}) rotate(-90)`)
+      .attr('text-anchor', settings.yAxis.align)
+      .attr('dominant-baseline', `${settings.yAxis.position === 'left' ? 'text-after-edge':'text-before-edge'}`)
+      .attr('font-family', settings.fontFamily)
+      .attr('font-size', settings.fontSize)
+      .text(settings.yAxis.value);
 
-			canvas.select('g.x.axis').selectAll('g.tick').selectAll('text').each(function (d){
-				d3.select(this)
-					.attr('text-anchor', 'end')
-					.attr('text-anchor', settings.xAxis.rotation===0 ? 'middle':'end')
-					.attr('transform', `translate(${pos.x},${pos.y}) rotate(-${settings.xAxis.rotation})`)
-					.attr('font-family', settings.fontFamily)
-					.text(tickNames[d])
-			});
-		}
-    else {
-			canvas.select('g.x.axis').selectAll('g.tick').remove();
-		}
+    // APPEND GUIDELINES
+    if(settings.yAxis.guidelines){
+      const guidelines = d3.axisRight(y)
+          .tickSizeInner(width)
+          .tickSizeOuter(0)
+          .tickFormat('');
 
-    // CREATE BARS
-    const outerBand = canvas.append('g')
-      .classed('bars', true)
-      .selectAll('.outerBand')
-      .data(dataset)
-      .enter()
-      .append('g')
-      .classed('outerBand', true)
-      .attr('transform', (d, i) => {return `translate(${x0(i)},0)`});
+      canvas.append('g')
+          .classed('guidelines', true)
+          .call(guidelines);
 
-    const innerBand = outerBand.selectAll('g')
-      .data(d => {return d})
-      .enter()
-      .append('g')
-      .classed('innerBand', true)
-      .attr('transform', (d, i) => {return `translate(${x1(i)},0)`});
-
-    innerBand.append('rect')
-      .classed('bar', true)
-      .attr('y', d => {return y(d)})
-      .attr('width', x1.bandwidth())
-      .attr('height', d => {return height - y(d)})
-      .style('fill', (d, i) => {return colorGenerator(i)});
-
-
-    if(settings.barLabelPos !=='none'){
-      innerBand.append('text')
-        .attr('x', x1.bandwidth()/2)
-        .attr('y', d => {
-          switch(settings.barLabelPos) {
-          case 'top': return 0;
-          case 'above': return y(d) - 5;
-          case 'bellow': return y(d) + 5;
-          case 'bottom':  return height - 10;
-        }})
-        .attr('text-anchor','middle')
-        .attr('dominant-baseline',() => {
-          switch(settings.barLabelPos) {
-          case 'top': return 'text-before-edge';
-          case 'above': return 'text-after-edge';
-          case 'bellow':  return 'text-before-edge';
-          case 'buttom': return 'text-after-edge';
-        }})
-        .style('fill', () => {
-          switch(settings.barLabelPos) {
-          case 'bellow': return 'white';
-          case 'bottom':  return 'white';
-        }
-        })
-        .text(d => {return d});
+      canvas.select('g.guidelines').selectAll('g.tick').selectAll('line').attr('stroke','#999');
+      canvas.select('g.guidelines').select('path.domain').remove();
     }
-
-    // LEGEND
-    if(settings.legend) ChartModel.drawLegend(canvas, settings, width, barDimensions, colorGenerator);
-    // CHART LABEL
-		ChartModel.drawChartLabel(canvas, settings, width);
   }
 }

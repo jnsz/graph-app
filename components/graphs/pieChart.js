@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, ButtonGroup } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import ChartModel from './ChartModel';
@@ -15,30 +15,15 @@ export default class PieChart extends React.Component {
         <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
 
         <UI.Wrapper>
-          <UI.BtnGroup label="Graph type">
-            <UI.BtnGroupBtn
-              label='Pie'
-              active={settings.isDonut}
-              onChange={() => {this.setSettings({isDonut:true})}}
-            />
-            <UI.BtnGroupBtn
-              label='Donut'
-              active={!settings.isDonut}
-              onChange={() => {this.setSettings({isDonut:false})}}
-            />
-          </UI.BtnGroup>
-          <UI.BtnGroup label="Graph type">
-            <UI.BtnGroupBtn
-              label='Around'
-              active={settings.labelAround}
-              onChange={() => {this.setSettings({labelAround:true})}}
-            />
-            <UI.BtnGroupBtn
-              label='Inside'
-              active={!settings.labelAround}
-              onChange={() => {this.setSettings({labelAround:false})}}
-            />
-          </UI.BtnGroup>
+          <UI.Slider
+  					label='Donutation'
+  					min={0}
+  					max={1}
+  					step={0.01}
+  					value={settings.innerRadius}
+  					displayedValue={d3.format('.0%')(settings.innerRadius)}
+  					onChange={value => {this.setSettings({innerRadius:value})}}
+  				/>
         </UI.Wrapper>
 
         <UI.LabelChart
@@ -48,11 +33,23 @@ export default class PieChart extends React.Component {
 
         <UI.Wrapper>
           <UI.BtnGroup label="General">
-
-            <UI.BtnGroupDropdownColor
-              active={settings.color}
-              onChange={value => {this.setSettings({color:value})}}
+            <ButtonGroup justified style={{paddingRight:'5px'}}>
+              <UI.BtnGroupDropdownColor
+                active={settings.color}
+                onChange={value => {this.setSettings({color:value})}}
+              />
+          </ButtonGroup>
+          <ButtonGroup justified style={{paddingLeft:'5px'}}>
+            <UI.BtnGroupDropdown
+              id='label-position'
+              title='Label'
+              arrayOfValues={['none','inside','around']}
+              active={settings.labelPos}
+              onChange={name => {
+                this.setSettings({labelPos:name})}
+              }
             />
+          </ButtonGroup>
 
           </UI.BtnGroup>
           {/*<CustButtonGroup
@@ -87,25 +84,21 @@ export default class PieChart extends React.Component {
         assignedDimensions:[]
     },
   ];
-
-  // TODO add settings vatiables
   static settings = {
-    isDonut:false,
-    innerRadius: 0.5,// %
-    labelAround:true,
+    innerRadius: 0,// %
+    labelPos:'around',
 
     chartLabel:{
-      isBold:false,
+      isBold:true,
       align: 'middle',
-      value:'Pie Chart',
+      value:'Title of the graph',
     },
     fontFamily:'Helvetica',
 		fontSize:'14px',
 
     color: d3.schemeCategory10,
-    // legend:false,
+    legend:false,
   };
-
   setSettings(newSettings){
 		PieChart.settings = {...PieChart.settings, ...newSettings};
 		console.log(PieChart.settings);
@@ -113,86 +106,77 @@ export default class PieChart extends React.Component {
 	}
 
   static drawEmptyAndCheck(canvas, svgSize, wholeDataset) {
-    const hasValueDimension = this.variables[0].assignedDimensions.length != 0;
-    const hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
-
-    const canDraw = hasValueDimension;
-    if(canDraw) {
-			this.drawChart(canvas, svgSize, wholeDataset, hasLabelDimension, hasValueDimension);
-			}
-  }
-
-  static drawChart(canvas, svgSize, wholeDataset, hasLabelDimension, hasValueDimension){
     const settings = PieChart.settings;
 		// GET CANVAS WIDTH AND HEIGHT
     const width = svgSize.width-(svgSize.width*svgSize.margin);
     const height = svgSize.height-(svgSize.height*svgSize.margin);
     const radius = Math.min(width, height) / 2;
 
-    // GET VALUE DIMENSIONS
-    const valueDimension = this.variables[0].assignedDimensions[0].dimension;
+    const hasValueDimension = this.variables[0].assignedDimensions.length != 0;
+    const hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
 
-    // GET LABEL DIMENSION
-    const labelDimension = hasLabelDimension ? this.variables[1].assignedDimensions[0].dimension : null;
+    if(hasValueDimension) {
+      // GET VALUE DIMENSIONS
+      const valueDimension = this.variables[0].assignedDimensions[0].dimension;
+      // GET LABEL DIMENSION
+      const labelDimension = hasLabelDimension ? this.variables[1].assignedDimensions[0].dimension : this.variables[0].assignedDimensions[0].dimension;
 
+      // simplified dataset
+      const pie = d3.pie()
+        .value(d => {return d[valueDimension]})(wholeDataset);
 
-    // simplified dataset
-    const pie = d3.pie()
-      .value(d => {return d[valueDimension]})(wholeDataset);
+      const arc = d3.arc()
+        .outerRadius(radius)
+        .innerRadius(radius * settings.innerRadius);
 
-    const arc = d3.arc()
-      .outerRadius(radius)
-      .innerRadius(settings.isDonut ? radius * settings.innerRadius : 0);
+      // COLOR
+      const colorGenerator = d3.scaleOrdinal().range(settings.color);
 
-    // COLOR
-    const colorGenerator = d3.scaleOrdinal().range(settings.color);
+      const pieGroup = canvas.append('g')
+        .attr('class', 'pie')
+        .attr('transform', `translate(${width/2},${height/2})`);
 
-    const pieGroup = canvas.append('g')
-      .attr('class', 'pie')
-      .attr('transform', `translate(${width/2},${height/2})`);
+      const slices = pieGroup.selectAll('arc')
+        .data(pie)
+        .enter()
+        .append('g')
+        .attr('class','arc');
 
-    const slices = pieGroup.selectAll('arc')
-      .data(pie)
-      .enter()
-      .append('g')
-      .attr('class','arc');
+      slices.append('path')
+        .attr('d', arc)
+        // .attr('transform', d => {
+        //   let vector = arc.centroid(d)
+        //   vector[0] *= settings.sliceMoved;
+        //   vector[1] *= settings.sliceMoved;
+        //   console.log(Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)));
+        //   return `translate(${vector})`})
+        .style('fill', (d,i) => {return colorGenerator(i)});
 
-
-    slices.append('path')
-      .attr('d', arc)
-      // .attr('transform', d => {
-      //   let vector = arc.centroid(d)
-      //   vector[0] *= settings.sliceMoved;
-      //   vector[1] *= settings.sliceMoved;
-      //   console.log(Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)));
-      //   return `translate(${vector})`})
-      .style('fill', (d,i) => {return colorGenerator(i)});
-
-    if(labelDimension !== null){
-      const labels = slices.append('text')
-        .attr('font-family', settings.fontFamily)
-        .attr('font-size', settings.fontSize)
-        .text(d => {return d.data[labelDimension]});
-
-      if(settings.labelAround){
-        const labelsArc = d3.arc().outerRadius(radius + 10).innerRadius(radius + 10);
-
-        labels.attr('transform', d => {return `translate(${labelsArc.centroid(d)})`})
-          .attr('text-anchor', d => {return (labelsArc.centroid(d)[0] > 0) ? 'start' : 'end'} )
-          .attr('alignment-baseline','middle')
-      }
-      else{
-        const labelsArc = d3.arc().outerRadius(radius).innerRadius(radius * settings.innerRadius : 0);
-
-        labels.attr('transform', d => {return `translate(${labelsArc.centroid(d)})`})
-          .attr('text-anchor', 'middle' )
-          .attr('alignment-baseline','middle')
-          .attr('fill','white')
+      if(settings.labelPos !== 'none'){
+        const labels = slices.append('text')
+          .attr('font-family', settings.fontFamily)
+          .attr('font-size', settings.fontSize)
           .text(d => {return d.data[labelDimension]});
-      }
-    }
 
+        if(settings.labelPos === 'around'){
+          const labelsArc = d3.arc().outerRadius(radius + 10).innerRadius(radius + 10);
+
+          labels.attr('transform', d => {return `translate(${labelsArc.centroid(d)})`})
+            .attr('text-anchor', d => {return (labelsArc.centroid(d)[0] > 0) ? 'start' : 'end'} )
+            .attr('alignment-baseline','middle')
+        }
+        else{
+          const labelsArc = d3.arc().outerRadius(radius).innerRadius(radius * settings.innerRadius : 0);
+
+          labels.attr('transform', d => {return `translate(${labelsArc.centroid(d)})`})
+            .attr('text-anchor', 'middle' )
+            .attr('alignment-baseline','middle')
+            .attr('fill','white')
+            .text(d => {return d.data[labelDimension]});
+        }
+      }
+		} // AFTER CAN DRAW
     // CHART LABEL
-		ChartModel.drawChartLabel(canvas, settings, width);
+    ChartModel.drawChartLabel(canvas, settings, width);
   }
 }

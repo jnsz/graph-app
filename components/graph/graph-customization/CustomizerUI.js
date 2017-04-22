@@ -24,9 +24,7 @@ export class Form extends React.Component {
   render(){
     return(
       <Row style={rowStyle}>
-				<label>
-					{ this.props.label }
-				</label>
+				{this.props.label === '' ? false : <label>{ this.props.label }</label>}
 				<FormGroup >
 					<InputGroup>
 						{ this.props.children }
@@ -37,7 +35,8 @@ export class Form extends React.Component {
   }
 }
 Form.defaultProps = {
-  label: String.fromCharCode(160) // non-breaking space char
+  label: '',
+  // label: String.fromCharCode(160) // non-breaking space char
 }
 
 export class FormInput extends React.Component {
@@ -138,9 +137,7 @@ export class BtnGroup extends React.Component {
   render(){
     return(
       <Row style={rowStyle}>
-				<label>
-					{ this.props.label }
-				</label>
+				{this.props.label === '' ? false : <label>{ this.props.label }</label>}
         <ButtonGroup justified>
           { this.props.children }
         </ButtonGroup>
@@ -149,7 +146,8 @@ export class BtnGroup extends React.Component {
   }
 }
 BtnGroup.defaultProps = {
-  label: String.fromCharCode(160) // non-breaking space char
+  label: '',
+  // label: String.fromCharCode(160) // non-breaking space char
 }
 
 export class BtnGroupBtn extends React.Component {
@@ -281,7 +279,7 @@ export class Size extends React.Component {
 		const margin = svgSize.margin;
 		return (
 			<Wrapper>
-				<Form label='Width x height'>
+				<Form label='Width and Height'>
 					<FormInput
 						text='Width'
 						value={width}
@@ -322,7 +320,7 @@ export class LabelAxis extends React.Component {
           {axisSettings.visible ? <FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>}
         </FormBtn>
         <FormInput
-          placeholder='if left empty, nothing will display'
+          placeholder='Display nothing'
           value={axisSettings.value}
           onChange={value => {axisSettings.value = value; onChange(axisSettings)}}
         />
@@ -342,7 +340,7 @@ export class LabelChart extends React.Component {
 
     return(
       <Wrapper>
-        <Form label='Graph label'>
+        <Form label='Graph Label'>
           <FormBtn
             active={chartLabel.isBold}
             onChange={() => {chartLabel.isBold = !chartLabel.isBold; onChange(chartLabel)}}
@@ -351,7 +349,7 @@ export class LabelChart extends React.Component {
             <FontAwesome name='bold'/>
           </FormBtn>
           <FormInput
-						placeholder='Graph label'
+						placeholder='Display nothing'
 						value={chartLabel.value}
 						onChange={value => {chartLabel.value = value; onChange(chartLabel)}}
 					/>
@@ -361,15 +359,19 @@ export class LabelChart extends React.Component {
           />
         </Form>
 
-        <BtnGroup>
-          <BtnGroupDropdownFontFamily
-            active={settings.fontFamily}
-            onChange={value => {onChange({fontFamily:value})}}
-          />
-          <BtnGroupDropdownFontSize
-            active={settings.fontSize}
-            onChange={value => {onChange({fontSize:value})}}
-          />
+        <BtnGroup label='Font Settings'>
+          <ButtonGroup justified style={{paddingRight:'5px'}}>
+            <BtnGroupDropdownFontFamily
+              active={settings.fontFamily}
+              onChange={value => {onChange({fontFamily:value})}}
+            />
+          </ButtonGroup>
+          <ButtonGroup justified style={{paddingLeft:'5px'}}>
+            <BtnGroupDropdownFontSize
+              active={settings.fontSize}
+              onChange={value => {onChange({fontSize:value})}}
+            />
+          </ButtonGroup>
         </BtnGroup>
       </Wrapper>
     )
@@ -414,3 +416,37 @@ Slider.PropTypes = {
 	displayedValue : React.PropTypes.number.isRequired,
 	onChange : React.PropTypes.func.isRequired,
 };
+
+export class MinMaxDomain extends React.Component {
+  render() {
+    const {label, automaticDomain, domain, onChange, onAuto} = this.props;
+
+    return (
+      <Wrapper>
+        <Form label={label}>
+          <FormBtn
+            active={automaticDomain}
+            onChange={() => {onAuto()}}
+            tooltip='Set domain automatically'>
+            <FontAwesome name='magic'/>
+          </FormBtn>
+
+          <FormAddon>X</FormAddon>
+          <FormInput
+            disabled={automaticDomain}
+            value={domain[0]}
+            onChange={value => {let newDomain = domain; newDomain[0] = value; onChange(newDomain)}}
+            placeholder='Min'
+          />
+          <FormAddon />
+          <FormInput
+            disabled={automaticDomain}
+            value={domain[1]}
+            onChange={value => {let newDomain = domain; newDomain[1] = value; onChange(newDomain)}}
+            placeholder='Max'
+          />
+        </Form>
+      </Wrapper>
+    )
+  }
+}
