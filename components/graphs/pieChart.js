@@ -15,11 +15,19 @@ export default class PieChart extends React.Component {
         <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
 
         <UI.Wrapper>
-          <UI.BtnGroup label="General">
+          <UI.BtnGroup  label="General">
+            <UI.BtnGroupDropdownColor
+              active={settings.color}
+              onChange={value => {this.setSettings({color:value})}}
+            />
+          </UI.BtnGroup>
+          <UI.BtnGroup>
             <ButtonGroup justified style={{paddingRight:'5px'}}>
-              <UI.BtnGroupDropdownColor
-                active={settings.color}
-                onChange={value => {this.setSettings({color:value})}}
+              <UI.BtnGroupBtn
+                icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
+                label='Legend'
+                active={settings.legend}
+                onChange={() => {this.setSettings({legend:!settings.legend})}}
               />
             </ButtonGroup>
             <ButtonGroup justified style={{paddingLeft:'5px'}}>
@@ -35,6 +43,7 @@ export default class PieChart extends React.Component {
             </ButtonGroup>
           </UI.BtnGroup>
 
+
           <UI.Slider
             label='Donutation'
             min={0}
@@ -44,15 +53,6 @@ export default class PieChart extends React.Component {
             displayedValue={d3.format('.0%')(settings.innerRadius)}
             onChange={value => {this.setSettings({innerRadius:value})}}
           />
-
-          {/*<CustButtonGroup
-            buttons={[
-            [{icon: (settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
-            label: 'Legend',
-            active:settings.legend,
-            onClick: () => {this.setSettings({legend:!settings.legend})} }],
-          ]}
-        />*/}
         </UI.Wrapper>
 
         <UI.LabelChart
@@ -100,7 +100,6 @@ export default class PieChart extends React.Component {
   }
   setSettings(newSettings){
 		PieChart.settings = {...PieChart.settings, ...newSettings};
-		console.log(PieChart.settings);
 		this.props.updateSVG();
 	}
 
@@ -112,13 +111,12 @@ export default class PieChart extends React.Component {
     const radius = Math.min(width, height) / 2;
 
     const hasValueDimension = this.variables[0].assignedDimensions.length != 0;
-    const hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
 
     if(hasValueDimension) {
       // GET VALUE DIMENSIONS
       const valueDimension = this.variables[0].assignedDimensions[0].dimension;
       // GET LABEL DIMENSION
-      const labelDimension = hasLabelDimension ? this.variables[1].assignedDimensions[0].dimension : this.variables[0].assignedDimensions[0].dimension;
+      const labelDimension = (this.variables[1].assignedDimensions.length != 0) ? this.variables[1].assignedDimensions[0].dimension : this.variables[0].assignedDimensions[0].dimension;
 
       // simplified dataset
       const pie = d3.pie()
@@ -143,12 +141,6 @@ export default class PieChart extends React.Component {
 
       slices.append('path')
         .attr('d', arc)
-        // .attr('transform', d => {
-        //   let vector = arc.centroid(d)
-        //   vector[0] *= settings.sliceMoved;
-        //   vector[1] *= settings.sliceMoved;
-        //   console.log(Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)));
-        //   return `translate(${vector})`})
         .style('fill', (d,i) => {return colorGenerator(i)});
 
       if(settings.labelPos !== 'none'){
@@ -173,6 +165,40 @@ export default class PieChart extends React.Component {
             .attr('fill','white')
             .text(d => {return d.data[labelDimension]});
         }
+      }
+
+      // LEGEND
+      if(settings.legend){
+        const legendGroup = canvas.append('g')
+          .classed('legend', true)
+          .attr('transform', `translate(${width},0)`);
+
+        const headerText = (valueDimension === labelDimension) ? valueDimension : `${labelDimension} – ${valueDimension}:`;
+        legendGroup.append('g')
+          .classed('header', true)
+          .append('text')
+          .attr('transform', 'translate(0,-6)')
+          .attr('font-family', settings.fontFamily)
+          .text(headerText);
+
+        const legend = legendGroup.selectAll('.row')
+          .data(pie)
+          .enter()
+          .append('g')
+          .classed('row', true)
+          .attr('transform', (d,i) => {return `translate(0,${(i)*20})`});
+
+        legend.append('rect')
+          .attr('width', 19)
+          .attr('height', 19)
+          .style('fill', (d, i) => {return colorGenerator(i)});
+
+        const legendText = legend.append('text')
+          .attr('x',24)
+          .attr('y', 9.5)
+          .attr('dy', '0.32em')
+    			.style('font-family', settings.fontFamily)
+          .text(d => {return (valueDimension === labelDimension) ? d.data[valueDimension] : `${d.data[labelDimension]} – ${d.data[valueDimension]}`});
       }
 		} // AFTER CAN DRAW
     // CHART LABEL

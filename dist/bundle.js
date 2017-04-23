@@ -3558,12 +3558,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var d3 = _extends({}, d3_core);
 
 
-var barPadding = {
+var padding = {
   none: 0,
   small: 0.1,
-  middle: 0.3,
-  big: 0.5,
-  extreme: 0.7
+  big: 0.3
 };
 
 var BarChart = function (_React$Component) {
@@ -3622,12 +3620,12 @@ var BarChart = function (_React$Component) {
               _reactBootstrap.ButtonGroup,
               { justified: true, style: { paddingRight: '5px' } },
               React.createElement(UI.BtnGroupDropdown, {
-                id: 'bar-padding',
-                title: 'Bar padding',
-                arrayOfValues: ['none', 'small', 'middle', 'big', 'extreme'],
-                active: settings.barPadding,
+                id: 'group-padding',
+                title: 'Group padding',
+                arrayOfValues: ['none', 'small', 'big'],
+                active: settings.groupPadding,
                 onChange: function onChange(name) {
-                  _this2.setSettings({ barPadding: name });
+                  _this2.setSettings({ groupPadding: name });
                 }
               })
             ),
@@ -3635,15 +3633,28 @@ var BarChart = function (_React$Component) {
               _reactBootstrap.ButtonGroup,
               { justified: true, style: { paddingLeft: '5px' } },
               React.createElement(UI.BtnGroupDropdown, {
-                id: 'bar-label-pos',
-                title: 'Bar label\'s position',
-                arrayOfValues: ['none', 'top', 'above', 'bellow', 'bottom'],
-                active: settings.barLabelPos,
-                onChange: function onChange(value) {
-                  _this2.setSettings({ barLabelPos: value });
+                id: 'bar-padding',
+                title: 'Bar padding',
+                arrayOfValues: ['none', 'small', 'big'],
+                active: settings.barPadding,
+                onChange: function onChange(name) {
+                  _this2.setSettings({ barPadding: name });
                 }
               })
             )
+          ),
+          React.createElement(
+            UI.BtnGroup,
+            null,
+            React.createElement(UI.BtnGroupDropdown, {
+              id: 'bar-label-pos',
+              title: 'Bar label\'s position',
+              arrayOfValues: ['none', 'top', 'above', 'bellow', 'bottom'],
+              active: settings.barLabelPos,
+              onChange: function onChange(value) {
+                _this2.setSettings({ barLabelPos: value });
+              }
+            })
           )
         ),
         React.createElement(UI.LabelChart, {
@@ -3816,9 +3827,9 @@ var BarChart = function (_React$Component) {
         }
 
         // X AXIS
-        var x0 = d3.scaleBand().range([0, width]).domain(d3.range(dataset.length)).padding(0);
+        var x0 = d3.scaleBand().range([0, width]).domain(d3.range(dataset.length)).padding(padding[settings.groupPadding]);
 
-        var x1 = d3.scaleBand().domain(d3.range(barDimensions.length)).range([0, x0.bandwidth()]).padding(barPadding[settings.barPadding]);
+        var x1 = d3.scaleBand().domain(d3.range(barDimensions.length)).range([0, x0.bandwidth()]).padding(padding[settings.barPadding]);
 
         var xAxis = d3.axisBottom(x0).tickSizeOuter(0);
 
@@ -3883,7 +3894,7 @@ var BarChart = function (_React$Component) {
               case 'bottom':
                 return height - 10;
             }
-          }).attr('text-anchor', 'middle').attr('dominant-baseline', function () {
+          }).attr('text-anchor', 'middle').attr('font-family', settings.fontFamily).attr('font-size', settings.fontSize).attr('dominant-baseline', function () {
             switch (settings.barLabelPos) {
               case 'top':
                 return 'text-before-edge';
@@ -3894,14 +3905,14 @@ var BarChart = function (_React$Component) {
               case 'buttom':
                 return 'text-after-edge';
             }
-          }).style('fill', function () {
-            switch (settings.barLabelPos) {
-              case 'bellow':
-                return 'white';
-              case 'bottom':
-                return 'white';
-            }
-          }).text(function (d) {
+          })
+          // .style('fill', () => {
+          //   switch(settings.barLabelPos) {
+          //   case 'bellow': return 'white';
+          //   case 'bottom':  return 'white';
+          // }
+          // })
+          .text(function (d) {
             return d;
           });
         }
@@ -3998,6 +4009,7 @@ BarChart.settings = {
   color: d3.schemeCategory10,
   barLabelPos: 'above',
   barPadding: 'small',
+  groupPadding: 'small',
   legend: false,
 
   xAxis: {
@@ -4399,7 +4411,6 @@ var LineChart = function (_React$Component) {
           }).style('fill', 'none').style('stroke-width', '1.5px');
         }
 
-        console.log(yAxisDimensions);
         // LEGEND
         if (settings.legend) _ChartModel2.default.drawLegend(canvas, settings, width, yAxisDimensions, colorGenerator);
       } // AFTER CAN DRAW
@@ -4415,6 +4426,10 @@ var LineChart = function (_React$Component) {
       // create axis
       if (settings.xAxis.visible) {
         xAxisGroup.append('g').attr('class', 'x axis').call(d3.axisBottom(x));
+
+        canvas.select('g.x.axis.group').select('g.x.axis').selectAll('g.tick').selectAll('text').each(function () {
+          d3.select(this).attr('font-family', settings.fontFamily);
+        });
       }
 
       // create label
@@ -4439,6 +4454,10 @@ var LineChart = function (_React$Component) {
       if (settings.yAxis.visible) {
         var yAxis = settings.yAxis.position === 'left' ? d3.axisLeft(y) : d3.axisRight(y);
         yAxisGroup.append('g').attr('class', 'y axis').call(yAxis);
+
+        canvas.select('g.y.axis.group').select('g.y.axis').selectAll('g.tick').selectAll('text').each(function () {
+          d3.select(this).attr('font-family', settings.fontFamily);
+        });
       }
 
       // create label
@@ -4577,13 +4596,25 @@ var PieChart = function (_React$Component) {
           React.createElement(
             UI.BtnGroup,
             { label: 'General' },
+            React.createElement(UI.BtnGroupDropdownColor, {
+              active: settings.color,
+              onChange: function onChange(value) {
+                _this2.setSettings({ color: value });
+              }
+            })
+          ),
+          React.createElement(
+            UI.BtnGroup,
+            null,
             React.createElement(
               _reactBootstrap.ButtonGroup,
               { justified: true, style: { paddingRight: '5px' } },
-              React.createElement(UI.BtnGroupDropdownColor, {
-                active: settings.color,
-                onChange: function onChange(value) {
-                  _this2.setSettings({ color: value });
+              React.createElement(UI.BtnGroupBtn, {
+                icon: settings.legend ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
+                label: 'Legend',
+                active: settings.legend,
+                onChange: function onChange() {
+                  _this2.setSettings({ legend: !settings.legend });
                 }
               })
             ),
@@ -4625,7 +4656,6 @@ var PieChart = function (_React$Component) {
     key: 'setSettings',
     value: function setSettings(newSettings) {
       PieChart.settings = _extends({}, PieChart.settings, newSettings);
-      console.log(PieChart.settings);
       this.props.updateSVG();
     }
   }], [{
@@ -4638,13 +4668,12 @@ var PieChart = function (_React$Component) {
       var radius = Math.min(width, height) / 2;
 
       var hasValueDimension = this.variables[0].assignedDimensions.length != 0;
-      var hasLabelDimension = this.variables[1].assignedDimensions.length != 0;
 
       if (hasValueDimension) {
         // GET VALUE DIMENSIONS
         var valueDimension = this.variables[0].assignedDimensions[0].dimension;
         // GET LABEL DIMENSION
-        var labelDimension = hasLabelDimension ? this.variables[1].assignedDimensions[0].dimension : this.variables[0].assignedDimensions[0].dimension;
+        var labelDimension = this.variables[1].assignedDimensions.length != 0 ? this.variables[1].assignedDimensions[0].dimension : this.variables[0].assignedDimensions[0].dimension;
 
         // simplified dataset
         var pie = d3.pie().value(function (d) {
@@ -4660,14 +4689,7 @@ var PieChart = function (_React$Component) {
 
         var slices = pieGroup.selectAll('arc').data(pie).enter().append('g').attr('class', 'arc');
 
-        slices.append('path').attr('d', arc)
-        // .attr('transform', d => {
-        //   let vector = arc.centroid(d)
-        //   vector[0] *= settings.sliceMoved;
-        //   vector[1] *= settings.sliceMoved;
-        //   console.log(Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)));
-        //   return `translate(${vector})`})
-        .style('fill', function (d, i) {
+        slices.append('path').attr('d', arc).style('fill', function (d, i) {
           return colorGenerator(i);
         });
 
@@ -4693,6 +4715,26 @@ var PieChart = function (_React$Component) {
               return d.data[labelDimension];
             });
           }
+        }
+
+        // LEGEND
+        if (settings.legend) {
+          var legendGroup = canvas.append('g').classed('legend', true).attr('transform', 'translate(' + width + ',0)');
+
+          var headerText = valueDimension === labelDimension ? valueDimension : labelDimension + ' \u2013 ' + valueDimension + ':';
+          legendGroup.append('g').classed('header', true).append('text').attr('transform', 'translate(0,-6)').attr('font-family', settings.fontFamily).text(headerText);
+
+          var legend = legendGroup.selectAll('.row').data(pie).enter().append('g').classed('row', true).attr('transform', function (d, i) {
+            return 'translate(0,' + i * 20 + ')';
+          });
+
+          legend.append('rect').attr('width', 19).attr('height', 19).style('fill', function (d, i) {
+            return colorGenerator(i);
+          });
+
+          var legendText = legend.append('text').attr('x', 24).attr('y', 9.5).attr('dy', '0.32em').style('font-family', settings.fontFamily).text(function (d) {
+            return valueDimension === labelDimension ? d.data[valueDimension] : d.data[labelDimension] + ' \u2013 ' + d.data[valueDimension];
+          });
         }
       } // AFTER CAN DRAW
       // CHART LABEL
@@ -5077,7 +5119,7 @@ var ScatterPlot = function (_React$Component) {
           });
 
           // append path
-          var symbolLegend = d3.symbol().size(250).type(function (d) {
+          var symbolLegend = d3.symbol().size(150).type(function (d) {
             return symbolGenerator(d);
           });
 
@@ -5122,6 +5164,10 @@ var ScatterPlot = function (_React$Component) {
       // create axis
       if (settings.xAxis.visible) {
         xAxisGroup.append('g').attr('class', 'x axis').call(d3.axisBottom(x));
+
+        canvas.select('g.x.axis.group').select('g.x.axis').selectAll('g.tick').selectAll('text').each(function () {
+          d3.select(this).attr('font-family', settings.fontFamily);
+        });
       }
 
       // create label
@@ -5146,6 +5192,10 @@ var ScatterPlot = function (_React$Component) {
       if (settings.yAxis.visible) {
         var yAxis = settings.yAxis.position === 'left' ? d3.axisLeft(y) : d3.axisRight(y);
         yAxisGroup.append('g').attr('class', 'y axis').call(yAxis);
+
+        canvas.select('g.y.axis.group').select('g.y.axis').selectAll('g.tick').selectAll('text').each(function () {
+          d3.select(this).attr('font-family', settings.fontFamily);
+        });
       }
 
       // create label

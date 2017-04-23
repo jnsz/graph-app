@@ -274,7 +274,6 @@ export default class LineChart extends React.Component{
           .style('stroke-width', '1.5px');
       }
 
-console.log(yAxisDimensions);
       // LEGEND
       if(settings.legend) ChartModel.drawLegend(canvas, settings, width, yAxisDimensions, colorGenerator);
 
@@ -296,6 +295,10 @@ console.log(yAxisDimensions);
       xAxisGroup.append('g')
         .attr('class', 'x axis')
         .call(d3.axisBottom(x));
+
+      canvas.select('g.x.axis.group').select('g.x.axis').selectAll('g.tick').selectAll('text').each(function() {
+        d3.select(this).attr('font-family', settings.fontFamily)
+      });
     }
 
     // create label
@@ -328,6 +331,10 @@ console.log(yAxisDimensions);
       yAxisGroup.append('g')
         .attr('class', 'y axis')
         .call(yAxis);
+
+      canvas.select('g.y.axis.group').select('g.y.axis').selectAll('g.tick').selectAll('text').each(function() {
+        d3.select(this).attr('font-family', settings.fontFamily)
+      });
     }
 
     // create label

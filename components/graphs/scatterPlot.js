@@ -344,7 +344,7 @@ export default class ScatterPlot extends React.Component{
 
         // append path
         const symbolLegend = d3.symbol()
-                         .size(250)
+                         .size(150)
                          .type(d => {return symbolGenerator(d)});
 
         legendSymbols.append('path')
@@ -405,6 +405,10 @@ export default class ScatterPlot extends React.Component{
       xAxisGroup.append('g')
         .attr('class', 'x axis')
         .call(d3.axisBottom(x));
+
+      canvas.select('g.x.axis.group').select('g.x.axis').selectAll('g.tick').selectAll('text').each(function() {
+        d3.select(this).attr('font-family', settings.fontFamily)
+      });
     }
 
     // create label
@@ -436,6 +440,10 @@ export default class ScatterPlot extends React.Component{
       yAxisGroup.append('g')
         .attr('class','y axis')
         .call(yAxis);
+
+      canvas.select('g.y.axis.group').select('g.y.axis').selectAll('g.tick').selectAll('text').each(function() {
+        d3.select(this).attr('font-family', settings.fontFamily)
+      });
     }
 
     // create label

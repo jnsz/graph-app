@@ -7,12 +7,10 @@ import ChartModel from './ChartModel';
 
 import * as UI from '../graph/graph-customization/CustomizerUI';
 
-const barPadding = {
+const padding = {
   none: 0,
   small: 0.1,
-  middle: 0.3,
-  big: 0.5,
-  extreme: 0.7
+  big: 0.3,
 }
 
 export default class BarChart extends React.Component {
@@ -64,9 +62,21 @@ export default class BarChart extends React.Component {
 
             <ButtonGroup justified style={{paddingRight:'5px'}}>
               <UI.BtnGroupDropdown
+                id='group-padding'
+                title='Group padding'
+                arrayOfValues={['none','small','big']}
+                active={settings.groupPadding}
+                onChange={name => {
+                  this.setSettings({groupPadding:name})}
+                }
+              />
+            </ButtonGroup>
+
+            <ButtonGroup justified style={{paddingLeft:'5px'}}>
+              <UI.BtnGroupDropdown
                 id='bar-padding'
                 title='Bar padding'
-                arrayOfValues={['none','small','middle','big','extreme',]}
+                arrayOfValues={['none','small','big']}
                 active={settings.barPadding}
                 onChange={name => {
                   this.setSettings({barPadding:name})}
@@ -74,16 +84,15 @@ export default class BarChart extends React.Component {
               />
             </ButtonGroup>
 
-            <ButtonGroup justified style={{paddingLeft:'5px'}}>
-              <UI.BtnGroupDropdown
-                id='bar-label-pos'
-                title="Bar label's position"
-                arrayOfValues={['none','top','above','bellow','bottom',]}
-                active={settings.barLabelPos}
-                onChange={value => {this.setSettings({barLabelPos:value})}}
-              />
-            </ButtonGroup>
-
+          </UI.BtnGroup>
+          <UI.BtnGroup>
+            <UI.BtnGroupDropdown
+              id='bar-label-pos'
+              title="Bar label's position"
+              arrayOfValues={['none','top','above','bellow','bottom',]}
+              active={settings.barLabelPos}
+              onChange={value => {this.setSettings({barLabelPos:value})}}
+            />
           </UI.BtnGroup>
         </UI.Wrapper>
         <UI.LabelChart
@@ -197,6 +206,7 @@ export default class BarChart extends React.Component {
 		color: d3.schemeCategory10,
 		barLabelPos:'above',
 		barPadding:'small',
+    groupPadding:'small',
 		legend:false,
 
     xAxis:{
@@ -280,12 +290,12 @@ export default class BarChart extends React.Component {
   		const x0 = d3.scaleBand()
   								.range([0,width])
   								.domain(d3.range(dataset.length))
-  								.padding(0);
+  								.padding(padding[settings.groupPadding]);
 
   		const x1 = d3.scaleBand()
   							.domain(d3.range(barDimensions.length))
   							.range([0, x0.bandwidth()])
-  							.padding(barPadding[settings.barPadding]);
+  							.padding(padding[settings.barPadding]);
 
   		const xAxis = d3.axisBottom(x0)
   										.tickSizeOuter(0);
@@ -357,6 +367,8 @@ export default class BarChart extends React.Component {
             case 'bottom':  return height - 10;
           }})
           .attr('text-anchor','middle')
+          .attr('font-family', settings.fontFamily)
+          .attr('font-size', settings.fontSize)
           .attr('dominant-baseline',() => {
             switch(settings.barLabelPos) {
             case 'top': return 'text-before-edge';
@@ -364,12 +376,12 @@ export default class BarChart extends React.Component {
             case 'bellow':  return 'text-before-edge';
             case 'buttom': return 'text-after-edge';
           }})
-          .style('fill', () => {
-            switch(settings.barLabelPos) {
-            case 'bellow': return 'white';
-            case 'bottom':  return 'white';
-          }
-          })
+          // .style('fill', () => {
+          //   switch(settings.barLabelPos) {
+          //   case 'bellow': return 'white';
+          //   case 'bottom':  return 'white';
+          // }
+          // })
           .text(d => {return d});
       }
 
