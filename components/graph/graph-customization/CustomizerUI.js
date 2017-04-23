@@ -419,34 +419,37 @@ Slider.PropTypes = {
 
 export class MinMaxDomain extends React.Component {
   render() {
-    const {label, automaticDomain, domain, onChange, onAuto} = this.props;
+    const { label,  domain, onChange, } = this.props;
+    const { automaticDomain, onAuto } = this.props;
 
     return (
-      <Wrapper>
-        <Form label={label}>
-          <FormBtn
-            active={automaticDomain}
-            onChange={() => {onAuto()}}
-            tooltip='Set domain automatically'>
-            <FontAwesome name='magic'/>
-          </FormBtn>
+      <Form label={label}>
+        {(onAuto === false) ? false: <FormBtn
+          active={automaticDomain}
+          onChange={() => {onAuto()}}
+          tooltip='Set domain automatically'>
+          <FontAwesome name='magic'/>
+        </FormBtn>}
 
-          <FormAddon>X</FormAddon>
-          <FormInput
-            disabled={automaticDomain}
-            value={domain[0]}
-            onChange={value => {let newDomain = domain; newDomain[0] = value; onChange(newDomain)}}
-            placeholder='Min'
-          />
-          <FormAddon />
-          <FormInput
-            disabled={automaticDomain}
-            value={domain[1]}
-            onChange={value => {let newDomain = domain; newDomain[1] = value; onChange(newDomain)}}
-            placeholder='Max'
-          />
-        </Form>
-      </Wrapper>
+        <FormAddon>X</FormAddon>
+        <FormInput
+          disabled={automaticDomain}
+          value={domain[0]}
+          onChange={value => {let newDomain = domain; newDomain[0] = value; onChange(newDomain)}}
+          placeholder='Min'
+        />
+        <FormAddon />
+        <FormInput
+          disabled={automaticDomain}
+          value={domain[1]}
+          onChange={value => {let newDomain = domain; newDomain[1] = value; onChange(newDomain)}}
+          placeholder='Max'
+        />
+      </Form>
     )
   }
+}
+MinMaxDomain.defaultProps = {
+  automaticDomain: false,
+  onAuto: false,
 }

@@ -146,23 +146,20 @@ export default class BarChart extends React.Component {
               />
             </ButtonGroup>
           </UI.BtnGroup>
-        </UI.Wrapper>
-
-        <UI.Wrapper>
-          <UI.Form label="Y Axis Domain">
+          <UI.Form label="Domain">
             <UI.FormBtn
               active={settings.automaticDomain}
               onChange={() => {this.setSettings({automaticDomain:!settings.automaticDomain})}}
               tooltip='Set domain automatically'
-            >
-              <FontAwesome name='magic'/>
-            </UI.FormBtn>
-            <UI.FormInput
-              disabled={settings.automaticDomain}
-              value={settings.domainHeight}
-              onChange={value => {console.log(typeof value);this.setSettings({domainHeight:value})}}
-            />
-          </UI.Form>
+              >
+                <FontAwesome name='magic'/>
+              </UI.FormBtn>
+              <UI.FormInput
+                disabled={settings.automaticDomain}
+                value={settings.domainHeight}
+                onChange={value => {console.log(typeof value);this.setSettings({domainHeight:value})}}
+              />
+            </UI.Form>
         </UI.Wrapper>
 
       </div>
@@ -187,10 +184,8 @@ export default class BarChart extends React.Component {
     },
   ];
   static settings = {
-		// block 1
     isVertical:true,
 
-		// block 2
     chartLabel:{
       value: 'Title of the graph',
       align: 'middle',
@@ -199,13 +194,11 @@ export default class BarChart extends React.Component {
 		fontFamily:'Helvetica',
 		fontSize:'14px',
 
-		// block 3
 		color: d3.schemeCategory10,
 		barLabelPos:'above',
 		barPadding:'small',
 		legend:false,
 
-		// block 4
     xAxis:{
       visible:true,
 			value: 'Label on X Axis',
@@ -213,7 +206,6 @@ export default class BarChart extends React.Component {
 	    rotation:0,
 		},
 
-		// block 5
 		yAxis:{
       visible:true,
 			value:'Label on Y Axis',
@@ -222,7 +214,6 @@ export default class BarChart extends React.Component {
 			position:'left',
 		},
 
-    // block 6
     automaticDomain: true,
     domainHeight: 10,
   }

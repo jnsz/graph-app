@@ -15,14 +15,14 @@ export default class ChartModel {
     }()
 
 		canvas.append('text')
-					.attr('x', x)
-					.attr('y', -10)
-					.attr('text-anchor', settings.chartLabel.align)
-					.attr('dominant-baseline', 'text-after-edge')
-					.attr('font-family', settings.fontFamily)
-					.attr('font-size', settings.fontSize)
-					.attr('font-weight', settings.chartLabel.isBold ? 'bold':'normal')
-					.text(settings.chartLabel.value);
+			.attr('x', x)
+			.attr('y', -10)
+			.attr('text-anchor', settings.chartLabel.align)
+			.attr('dominant-baseline', 'text-after-edge')
+			.attr('font-family', settings.fontFamily)
+			.attr('font-size', settings.fontSize)
+			.attr('font-weight', settings.chartLabel.isBold ? 'bold':'normal')
+			.text(settings.chartLabel.value);
 	}
 
   static drawLegend(canvas, settings, width, dimensions, colorGenerator){

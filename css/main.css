@@ -16,17 +16,6 @@ table {
   box-shadow: -5px 5px #c9c9c9;
 }
 
-
-
-/*.no-radius{
-  border: none;
-  border-radius: 0;
-}*/
-
-/*.no-radius:focus{
-  box-shadow: none;
-}*/
-
 .nav-pills>li>a {
   border-radius: 0px;
 }
@@ -47,19 +36,13 @@ textarea.form-control{
   margin-bottom: 0;
 }
 
-
 div.cust {
   background-color: white;
 	padding: 5px 15px;
   margin: 0px 0px 10px 0px;
-  /*height: 145px;*/
   box-shadow: -5px 5px #c9c9c9;
   border: none;
   border-radius: 0;
-}
-
-row {
-  margin: 20px 0px;
 }
 
 ul {
@@ -81,19 +64,12 @@ ul.about {
   left: 1%;
   right: 1%;
 }
-
 #svg {
   float:right;
   position: -webkit-sticky;
   position: sticky;
   top: 15px;
 }
-/*#sidebar {
-  width: 25%;
-  float: left;
-}*/
-
-
 
 @media only screen and (max-width: 991px) {
     #svg-parent {

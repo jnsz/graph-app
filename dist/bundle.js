@@ -2421,57 +2421,59 @@ var MinMaxDomain = exports.MinMaxDomain = function (_React$Component17) {
     value: function render() {
       var _props11 = this.props,
           label = _props11.label,
-          automaticDomain = _props11.automaticDomain,
           domain = _props11.domain,
-          _onChange3 = _props11.onChange,
-          onAuto = _props11.onAuto;
+          _onChange3 = _props11.onChange;
+      var _props12 = this.props,
+          automaticDomain = _props12.automaticDomain,
+          onAuto = _props12.onAuto;
 
 
       return React.createElement(
-        Wrapper,
-        null,
+        Form,
+        { label: label },
+        onAuto === false ? false : React.createElement(
+          FormBtn,
+          {
+            active: automaticDomain,
+            onChange: function onChange() {
+              onAuto();
+            },
+            tooltip: 'Set domain automatically' },
+          React.createElement(_reactFontawesome2.default, { name: 'magic' })
+        ),
         React.createElement(
-          Form,
-          { label: label },
-          React.createElement(
-            FormBtn,
-            {
-              active: automaticDomain,
-              onChange: function onChange() {
-                onAuto();
-              },
-              tooltip: 'Set domain automatically' },
-            React.createElement(_reactFontawesome2.default, { name: 'magic' })
-          ),
-          React.createElement(
-            FormAddon,
-            null,
-            'X'
-          ),
-          React.createElement(FormInput, {
-            disabled: automaticDomain,
-            value: domain[0],
-            onChange: function onChange(value) {
-              var newDomain = domain;newDomain[0] = value;_onChange3(newDomain);
-            },
-            placeholder: 'Min'
-          }),
-          React.createElement(FormAddon, null),
-          React.createElement(FormInput, {
-            disabled: automaticDomain,
-            value: domain[1],
-            onChange: function onChange(value) {
-              var newDomain = domain;newDomain[1] = value;_onChange3(newDomain);
-            },
-            placeholder: 'Max'
-          })
-        )
+          FormAddon,
+          null,
+          'X'
+        ),
+        React.createElement(FormInput, {
+          disabled: automaticDomain,
+          value: domain[0],
+          onChange: function onChange(value) {
+            var newDomain = domain;newDomain[0] = value;_onChange3(newDomain);
+          },
+          placeholder: 'Min'
+        }),
+        React.createElement(FormAddon, null),
+        React.createElement(FormInput, {
+          disabled: automaticDomain,
+          value: domain[1],
+          onChange: function onChange(value) {
+            var newDomain = domain;newDomain[1] = value;_onChange3(newDomain);
+          },
+          placeholder: 'Max'
+        })
       );
     }
   }]);
 
   return MinMaxDomain;
 }(React.Component);
+
+MinMaxDomain.defaultProps = {
+  automaticDomain: false,
+  onAuto: false
+};
 
 },{"../../Overlay":5,"./Enums":16,"d3":139,"react-bootstrap":435,"react-fontawesome":616}],16:[function(require,module,exports){
 'use strict';
@@ -3727,14 +3729,10 @@ var BarChart = function (_React$Component) {
                 }
               })
             )
-          )
-        ),
-        React.createElement(
-          UI.Wrapper,
-          null,
+          ),
           React.createElement(
             UI.Form,
-            { label: 'Y Axis Domain' },
+            { label: 'Domain' },
             React.createElement(
               UI.FormBtn,
               {
@@ -3987,10 +3985,8 @@ BarChart.variables = [{
   assignedDimensions: []
 }];
 BarChart.settings = {
-  // block 1
   isVertical: true,
 
-  // block 2
   chartLabel: {
     value: 'Title of the graph',
     align: 'middle',
@@ -3999,13 +3995,11 @@ BarChart.settings = {
   fontFamily: 'Helvetica',
   fontSize: '14px',
 
-  // block 3
   color: d3.schemeCategory10,
   barLabelPos: 'above',
   barPadding: 'small',
   legend: false,
 
-  // block 4
   xAxis: {
     visible: true,
     value: 'Label on X Axis',
@@ -4013,7 +4007,6 @@ BarChart.settings = {
     rotation: 0
   },
 
-  // block 5
   yAxis: {
     visible: true,
     value: 'Label on Y Axis',
@@ -4022,7 +4015,6 @@ BarChart.settings = {
     position: 'left'
   },
 
-  // block 6
   automaticDomain: true,
   domainHeight: 10
 };
@@ -4164,47 +4156,47 @@ var LineChart = function (_React$Component) {
           null,
           React.createElement(
             UI.BtnGroup,
-            { label: 'Graph Type' },
-            React.createElement(UI.BtnGroupBtn, {
-              label: 'Straight',
-              active: !settings.isCurved,
-              onChange: function onChange() {
-                _this2.setSettings({ isCurved: false });
-              }
-            }),
-            React.createElement(UI.BtnGroupBtn, {
-              label: 'Curved',
-              active: settings.isCurved,
-              onChange: function onChange() {
-                _this2.setSettings({ isCurved: true });
-              }
-            })
+            { label: 'General' },
+            React.createElement(
+              _reactBootstrap.ButtonGroup,
+              { justified: true, style: { paddingRight: '5px' } },
+              React.createElement(UI.BtnGroupBtn, {
+                label: 'Straight',
+                active: !settings.isCurved,
+                onChange: function onChange() {
+                  _this2.setSettings({ isCurved: false });
+                }
+              }),
+              React.createElement(UI.BtnGroupBtn, {
+                label: 'Curved',
+                active: settings.isCurved,
+                onChange: function onChange() {
+                  _this2.setSettings({ isCurved: true });
+                }
+              })
+            ),
+            React.createElement(
+              _reactBootstrap.ButtonGroup,
+              { justified: true, style: { paddingLeft: '5px' } },
+              React.createElement(UI.BtnGroupBtn, {
+                label: 'Line',
+                active: !settings.isArea,
+                onChange: function onChange() {
+                  _this2.setSettings({ isArea: false });
+                }
+              }),
+              React.createElement(UI.BtnGroupBtn, {
+                label: 'Area',
+                active: settings.isArea,
+                onChange: function onChange() {
+                  _this2.setSettings({ isArea: true });
+                }
+              })
+            )
           ),
           React.createElement(
             UI.BtnGroup,
             null,
-            React.createElement(UI.BtnGroupBtn, {
-              label: 'Line',
-              active: !settings.isArea,
-              onChange: function onChange() {
-                _this2.setSettings({ isArea: false });
-              }
-            }),
-            React.createElement(UI.BtnGroupBtn, {
-              label: 'Area',
-              active: settings.isArea,
-              onChange: function onChange() {
-                _this2.setSettings({ isArea: true });
-              }
-            })
-          )
-        ),
-        React.createElement(
-          UI.Wrapper,
-          null,
-          React.createElement(
-            UI.BtnGroup,
-            { label: 'General' },
             React.createElement(UI.BtnGroupDropdownColor, {
               active: settings.color,
               onChange: function onChange(value) {
@@ -4240,6 +4232,17 @@ var LineChart = function (_React$Component) {
             onChange: function onChange(newSettings) {
               _this2.setSettings(newSettings);
             }
+          }),
+          React.createElement(UI.MinMaxDomain, {
+            label: 'Domain',
+            automaticDomain: settings.automaticDomainX,
+            domain: settings.domainX,
+            onChange: function onChange(newDomain) {
+              _this2.setSettings({ domainX: newDomain });
+            },
+            onAuto: function onAuto() {
+              _this2.setSettings({ automaticDomainX: !settings.automaticDomainX });
+            }
           })
         ),
         React.createElement(
@@ -4269,30 +4272,19 @@ var LineChart = function (_React$Component) {
                 _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { position: 'right' }) });
               }
             })
-          )
-        ),
-        React.createElement(UI.MinMaxDomain, {
-          label: 'X Axis Domain',
-          automaticDomain: settings.automaticDomainX,
-          domain: settings.domainX,
-          onChange: function onChange(newDomain) {
-            _this2.setSettings({ domainX: newDomain });
-          },
-          onAuto: function onAuto() {
-            _this2.setSettings({ automaticDomainX: !settings.automaticDomainX });
-          }
-        }),
-        React.createElement(UI.MinMaxDomain, {
-          label: 'Y Axis Domain',
-          automaticDomain: settings.automaticDomainY,
-          domain: settings.domainY,
-          onChange: function onChange(newDomain) {
-            _this2.setSettings({ domainY: newDomain });
-          },
-          onAuto: function onAuto() {
-            _this2.setSettings({ automaticDomainY: !settings.automaticDomainY });
-          }
-        })
+          ),
+          React.createElement(UI.MinMaxDomain, {
+            label: 'Domain',
+            automaticDomain: settings.automaticDomainY,
+            domain: settings.domainY,
+            onChange: function onChange(newDomain) {
+              _this2.setSettings({ domainY: newDomain });
+            },
+            onAuto: function onAuto() {
+              _this2.setSettings({ automaticDomainY: !settings.automaticDomainY });
+            }
+          })
+        )
       );
     }
   }, {
@@ -4407,6 +4399,7 @@ var LineChart = function (_React$Component) {
           }).style('fill', 'none').style('stroke-width', '1.5px');
         }
 
+        console.log(yAxisDimensions);
         // LEGEND
         if (settings.legend) _ChartModel2.default.drawLegend(canvas, settings, width, yAxisDimensions, colorGenerator);
       } // AFTER CAN DRAW
@@ -4498,7 +4491,6 @@ LineChart.settings = {
   color: d3.schemeCategory10,
   legend: false,
 
-  // block 4
   xAxis: {
     visible: true,
     value: 'Label on X Axis',
@@ -4506,7 +4498,6 @@ LineChart.settings = {
     rotation: 0
   },
 
-  // block 5
   yAxis: {
     visible: true,
     value: 'Label on Y Axis',
@@ -4583,27 +4574,6 @@ var PieChart = function (_React$Component) {
         React.createElement(
           UI.Wrapper,
           null,
-          React.createElement(UI.Slider, {
-            label: 'Donutation',
-            min: 0,
-            max: 1,
-            step: 0.01,
-            value: settings.innerRadius,
-            displayedValue: d3.format('.0%')(settings.innerRadius),
-            onChange: function onChange(value) {
-              _this2.setSettings({ innerRadius: value });
-            }
-          })
-        ),
-        React.createElement(UI.LabelChart, {
-          settings: settings,
-          onChange: function onChange(newSettings) {
-            _this2.setSettings(newSettings);
-          }
-        }),
-        React.createElement(
-          UI.Wrapper,
-          null,
           React.createElement(
             UI.BtnGroup,
             { label: 'General' },
@@ -4630,8 +4600,25 @@ var PieChart = function (_React$Component) {
                 }
               })
             )
-          )
-        )
+          ),
+          React.createElement(UI.Slider, {
+            label: 'Donutation',
+            min: 0,
+            max: 1,
+            step: 0.01,
+            value: settings.innerRadius,
+            displayedValue: d3.format('.0%')(settings.innerRadius),
+            onChange: function onChange(value) {
+              _this2.setSettings({ innerRadius: value });
+            }
+          })
+        ),
+        React.createElement(UI.LabelChart, {
+          settings: settings,
+          onChange: function onChange(newSettings) {
+            _this2.setSettings(newSettings);
+          }
+        })
       );
     }
   }, {
@@ -4813,12 +4800,6 @@ var ScatterPlot = function (_React$Component) {
         'div',
         null,
         React.createElement(UI.Size, { svgSize: this.props.svgSize, onSvgSizeChange: this.props.onSvgSizeChange }),
-        React.createElement(UI.LabelChart, {
-          settings: settings,
-          onChange: function onChange(newSettings) {
-            _this2.setSettings(newSettings);
-          }
-        }),
         React.createElement(
           UI.Wrapper,
           null,
@@ -4861,6 +4842,12 @@ var ScatterPlot = function (_React$Component) {
             )
           )
         ),
+        React.createElement(UI.LabelChart, {
+          settings: settings,
+          onChange: function onChange(newSettings) {
+            _this2.setSettings(newSettings);
+          }
+        }),
         React.createElement(
           UI.Wrapper,
           null,
@@ -4869,6 +4856,17 @@ var ScatterPlot = function (_React$Component) {
             axisSettings: settings.xAxis,
             onChange: function onChange(newSettings) {
               _this2.setSettings(newSettings);
+            }
+          }),
+          React.createElement(UI.MinMaxDomain, {
+            label: 'Domain',
+            automaticDomain: settings.automaticDomainX,
+            domain: settings.domainX,
+            onChange: function onChange(newDomain) {
+              _this2.setSettings({ domainX: newDomain });
+            },
+            onAuto: function onAuto() {
+              _this2.setSettings({ automaticDomainX: !settings.automaticDomainX });
             }
           })
         ),
@@ -4899,37 +4897,36 @@ var ScatterPlot = function (_React$Component) {
                 _this2.setSettings({ yAxis: _extends({}, settings.yAxis, { position: 'right' }) });
               }
             })
-          )
+          ),
+          React.createElement(UI.MinMaxDomain, {
+            label: 'Domain',
+            automaticDomain: settings.automaticDomainY,
+            domain: settings.domainY,
+            onChange: function onChange(newDomain) {
+              _this2.setSettings({ domainY: newDomain });
+            },
+            onAuto: function onAuto() {
+              _this2.setSettings({ automaticDomainY: !settings.automaticDomainY });
+            }
+          })
         ),
-        React.createElement(UI.MinMaxDomain, {
-          label: 'X Axis Domain',
-          automaticDomain: settings.automaticDomainX,
-          domain: settings.domainX,
-          onChange: function onChange(newDomain) {
-            _this2.setSettings({ domainX: newDomain });
-          },
-          onAuto: function onAuto() {
-            _this2.setSettings({ automaticDomainX: !settings.automaticDomainX });
-          }
-        }),
-        React.createElement(UI.MinMaxDomain, {
-          label: 'Y Axis Domain',
-          automaticDomain: settings.automaticDomainY,
-          domain: settings.domainY,
-          onChange: function onChange(newDomain) {
-            _this2.setSettings({ domainY: newDomain });
-          },
-          onAuto: function onAuto() {
-            _this2.setSettings({ automaticDomainY: !settings.automaticDomainY });
-          }
-        })
+        React.createElement(
+          UI.Wrapper,
+          null,
+          React.createElement(UI.MinMaxDomain, {
+            label: 'Size domain',
+            domain: settings.domainSize,
+            onChange: function onChange(newDomain) {
+              _this2.setSettings({ domainSize: newDomain });
+            }
+          })
+        )
       );
     }
   }, {
     key: 'setSettings',
     value: function setSettings(newSettings) {
       ScatterPlot.settings = _extends({}, ScatterPlot.settings, newSettings);
-      // console.log(ScatterPlot.settings);
       this.props.updateSVG();
     }
   }], [{
@@ -4953,9 +4950,9 @@ var ScatterPlot = function (_React$Component) {
         // GET DIMENSIONS
         var xAxisDimension = this.variables[0].assignedDimensions[0].dimension;
         var yAxisDimension = this.variables[1].assignedDimensions[0].dimension;
-        var sizeDimension = this.variables[2].assignedDimensions.length != 0 ? this.variables[2].assignedDimensions[0].dimension : null;
-        var colorDimension = this.variables[3].assignedDimensions.length != 0 ? this.variables[3].assignedDimensions[0].dimension : null;
-        var symbolDimension = this.variables[4].assignedDimensions.length != 0 ? this.variables[4].assignedDimensions[0].dimension : null;
+        var colorDimension = this.variables[2].assignedDimensions.length != 0 ? this.variables[2].assignedDimensions[0].dimension : null;
+        var symbolDimension = this.variables[3].assignedDimensions.length != 0 ? this.variables[3].assignedDimensions[0].dimension : null;
+        var sizeDimension = this.variables[4].assignedDimensions.length != 0 ? this.variables[4].assignedDimensions[0].dimension : null;
         var labelDimension = this.variables[5].assignedDimensions.length != 0 ? this.variables[5].assignedDimensions[0].dimension : null;
 
         // CREATE REDUCED DATASET
@@ -4989,13 +4986,37 @@ var ScatterPlot = function (_React$Component) {
           settings.domainY = y.domain();
         }
 
-        var sizeGenerator = d3.scaleLinear().range([30, 500]).domain(d3.extent(dataset, function (d) {
+        var colorValues = new Set();
+        var symbolValues = new Set();
+        var sizeValues = new Set();
+
+        dataset.map(function (row) {
+          colorValues.add(row[colorDimension]);
+          symbolValues.add(row[symbolDimension]);
+          sizeValues.add(row[sizeDimension]);
+        });
+
+        colorValues.delete(undefined);
+        symbolValues.delete(undefined);
+        sizeValues.delete(undefined);
+
+        colorValues = Array.from(colorValues).sort(function (x, y) {
+          return x - y;
+        });
+        symbolValues = Array.from(symbolValues).sort(function (x, y) {
+          return x - y;
+        });
+        sizeValues = Array.from(sizeValues).sort(function (x, y) {
+          return x - y;
+        });
+
+        var sizeGenerator = d3.scaleLinear().domain(d3.extent(dataset, function (d) {
           return d[sizeDimension];
-        }));
+        })).range([+settings.domainSize[0], +settings.domainSize[1]]);
 
-        var colorGenerator = d3.scaleOrdinal().range(settings.color);
+        var colorGenerator = d3.scaleOrdinal().domain(colorValues).range(settings.color);
 
-        var symbolGenerator = d3.scaleOrdinal().range([d3.symbolCircle, d3.symbolSquare, d3.symbolTriangle, d3.symbolCross, d3.symbolDiamondSquare, d3.symbolTriangleDown, d3.symbolX, d3.symbolWye]);
+        var symbolGenerator = d3.scaleOrdinal().domain(symbolValues).range([d3.symbolCircle, d3.symbolSquare, d3.symbolTriangle, d3.symbolCross, d3.symbolDiamondSquare, d3.symbolTriangleDown, d3.symbolX, d3.symbolWye]);
 
         var symbol = d3.symbol().size(sizeDimension === null ? 100 : function (d) {
           return sizeGenerator(d[sizeDimension]);
@@ -5015,13 +5036,78 @@ var ScatterPlot = function (_React$Component) {
           return colorGenerator(d[colorDimension]);
         });
 
-        if (labelDimension !== null) {
-          dots.append('text').attr('dx', 10)
-          //.attr('font-family', 'Helvetica')
-          //.attr('font-size', '14px')
-          //.attr('fill','black')
-          .attr('alignment-baseline', 'middle').text(function (d) {
+        if (settings.labels) {
+          var dotLabel = dots.append('text').attr('x', function (d) {
+            return d3.max([10, 6 + Math.sqrt(sizeGenerator(d[sizeDimension]) / Math.PI)]);
+          }).attr('font-family', settings.fontFamily).attr('font-size', settings.fontSize).attr('alignment-baseline', 'middle');
+
+          if (labelDimension !== null) dotLabel.text(function (d) {
             return d[labelDimension];
+          });else dotLabel.text(function (d) {
+            return '[' + d[xAxisDimension] + ',' + d[yAxisDimension] + ']';
+          });
+        }
+
+        // LEGEND
+        if (settings.legend) {
+          var legendGroup = canvas.append('g').classed('legend group', true).attr('transform', 'translate(' + width + ',0)');
+
+          // COLOR
+          var legendColor = legendGroup.append('g').classed('color', true)
+          // append rows
+          .selectAll('.row').data(colorValues).enter().append('g').classed('row', true).attr('transform', function (d, i) {
+            return 'translate(0,' + i * 20 + ')';
+          });
+
+          // append rect
+          legendColor.append('rect').attr('width', 19).attr('height', 19).style('fill', function (d) {
+            return colorGenerator(d);
+          });
+
+          // append text
+          legendColor.append('text').attr('x', 24).attr('y', 9.5).attr('dy', '0.32em').style('font-family', settings.fontFamily).text(function (d) {
+            return d;
+          });
+
+          // SYMBOLS
+          var legendSymbols = legendGroup.append('g').classed('symbol', true).attr('transform', 'translate(0,' + (colorValues.length * 20 + 20) + ')')
+          // append rows
+          .selectAll('.row').data(symbolValues).enter().append('g').classed('row', true).attr('transform', function (d, i) {
+            return 'translate(0,' + i * 20 + ')';
+          });
+
+          // append path
+          var symbolLegend = d3.symbol().size(250).type(function (d) {
+            return symbolGenerator(d);
+          });
+
+          legendSymbols.append('path').attr('d', function (d) {
+            return symbolLegend(d);
+          }).attr('transform', 'translate(' + 19 / 2 + ',0)').style('stroke-width', '0').style('fill', 'black');
+
+          // append text
+          legendSymbols.append('text').attr('x', 24).attr('dy', '0.32em').style('font-family', settings.fontFamily).text(function (d) {
+            return d;
+          });
+
+          // SIZE
+          var legendSizeRowHeight = Math.sqrt(sizeGenerator.range()[1] / Math.PI) * 2 + 2;
+          var legendSize = legendGroup.append('g').classed('size', true).attr('transform', 'translate(0,' + ((symbolValues.length + colorValues.length) * 20 + 30) + ')')
+          // append rows
+          .selectAll('.row').data(sizeValues).enter().append('g').classed('row', true).attr('transform', function (d, i) {
+            return 'translate(0,' + i * legendSizeRowHeight + ')';
+          });
+
+          // append circle
+          legendSize.append('circle').attr('r', function (d) {
+            return Math.sqrt(sizeGenerator(d) / Math.PI);
+          }).attr('transform', 'translate(' + 19 / 2 + ',0)').style('stroke', 'white').style('stroke-width', '1').style('fill', 'black');
+
+          // append text
+          legendSize.append('text').attr('x', function (d) {
+            return d3.max([24, 12 + Math.sqrt(sizeGenerator(d) / Math.PI)]);
+          }).attr('dy', '0.32em').style('font-family', settings.fontFamily).text(function (d) {
+            return d;
           });
         }
       } // AFTER CAN DRAW
@@ -5097,12 +5183,6 @@ ScatterPlot.variables = [{
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
-  label: 'Size',
-  desc: "Maps dimesnion on symbol's volume",
-  mustBeNumeric: true,
-  takesSingleDimension: true,
-  assignedDimensions: []
-}, {
   label: 'Color',
   desc: "Maps dimesnion on symbol's color",
   takesSingleDimension: true,
@@ -5110,6 +5190,12 @@ ScatterPlot.variables = [{
 }, {
   label: 'Shape',
   desc: "Maps dimesnion on symbol's color (max. 8 uniques).",
+  takesSingleDimension: true,
+  assignedDimensions: []
+}, {
+  label: 'Size',
+  desc: "Maps dimesnion on symbol's volume",
+  mustBeNumeric: true,
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
@@ -5127,7 +5213,6 @@ ScatterPlot.settings = {
   fontFamily: 'Helvetica',
   fontSize: '14px',
 
-  // block 4
   xAxis: {
     visible: true,
     value: 'Label on X Axis',
@@ -5135,7 +5220,6 @@ ScatterPlot.settings = {
     rotation: 0
   },
 
-  // block 5
   yAxis: {
     visible: true,
     value: 'Label on Y Axis',
@@ -5144,7 +5228,6 @@ ScatterPlot.settings = {
     position: 'left'
   },
 
-  // General
   color: d3.schemeCategory10,
   labels: true,
   legend: false,
@@ -5152,7 +5235,8 @@ ScatterPlot.settings = {
   automaticDomainX: true,
   domainX: [0, 10],
   automaticDomainY: true,
-  domainY: [0, 10]
+  domainY: [0, 10],
+  domainSize: [30, 500]
 };
 exports.default = ScatterPlot;
 

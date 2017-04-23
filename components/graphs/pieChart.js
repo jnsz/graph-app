@@ -15,15 +15,44 @@ export default class PieChart extends React.Component {
         <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
 
         <UI.Wrapper>
+          <UI.BtnGroup label="General">
+            <ButtonGroup justified style={{paddingRight:'5px'}}>
+              <UI.BtnGroupDropdownColor
+                active={settings.color}
+                onChange={value => {this.setSettings({color:value})}}
+              />
+            </ButtonGroup>
+            <ButtonGroup justified style={{paddingLeft:'5px'}}>
+              <UI.BtnGroupDropdown
+                id='label-position'
+                title='Label'
+                arrayOfValues={['none','inside','around']}
+                active={settings.labelPos}
+                onChange={name => {
+                  this.setSettings({labelPos:name})}
+                }
+              />
+            </ButtonGroup>
+          </UI.BtnGroup>
+
           <UI.Slider
-  					label='Donutation'
-  					min={0}
-  					max={1}
-  					step={0.01}
-  					value={settings.innerRadius}
-  					displayedValue={d3.format('.0%')(settings.innerRadius)}
-  					onChange={value => {this.setSettings({innerRadius:value})}}
-  				/>
+            label='Donutation'
+            min={0}
+            max={1}
+            step={0.01}
+            value={settings.innerRadius}
+            displayedValue={d3.format('.0%')(settings.innerRadius)}
+            onChange={value => {this.setSettings({innerRadius:value})}}
+          />
+
+          {/*<CustButtonGroup
+            buttons={[
+            [{icon: (settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
+            label: 'Legend',
+            active:settings.legend,
+            onClick: () => {this.setSettings({legend:!settings.legend})} }],
+          ]}
+        />*/}
         </UI.Wrapper>
 
         <UI.LabelChart
@@ -31,36 +60,6 @@ export default class PieChart extends React.Component {
           onChange={newSettings => {this.setSettings(newSettings)}}
         />
 
-        <UI.Wrapper>
-          <UI.BtnGroup label="General">
-            <ButtonGroup justified style={{paddingRight:'5px'}}>
-              <UI.BtnGroupDropdownColor
-                active={settings.color}
-                onChange={value => {this.setSettings({color:value})}}
-              />
-          </ButtonGroup>
-          <ButtonGroup justified style={{paddingLeft:'5px'}}>
-            <UI.BtnGroupDropdown
-              id='label-position'
-              title='Label'
-              arrayOfValues={['none','inside','around']}
-              active={settings.labelPos}
-              onChange={name => {
-                this.setSettings({labelPos:name})}
-              }
-            />
-          </ButtonGroup>
-
-          </UI.BtnGroup>
-          {/*<CustButtonGroup
-            buttons={[
-							[{icon: (settings.legend?<FontAwesome name='eye'/>:<FontAwesome name='eye-slash'/>),
-							label: 'Legend',
-							active:settings.legend,
-							onClick: () => {this.setSettings({legend:!settings.legend})} }],
-            ]}
-          />*/}
-        </UI.Wrapper>
 
       </div>
     )
@@ -98,7 +97,7 @@ export default class PieChart extends React.Component {
 
     color: d3.schemeCategory10,
     legend:false,
-  };
+  }
   setSettings(newSettings){
 		PieChart.settings = {...PieChart.settings, ...newSettings};
 		console.log(PieChart.settings);

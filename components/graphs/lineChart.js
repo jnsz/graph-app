@@ -14,49 +14,51 @@ export default class LineChart extends React.Component{
       <div>
         <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
         <UI.Wrapper>
-          <UI.BtnGroup label="Graph Type">
-            <UI.BtnGroupBtn
-              label='Straight'
-              active={!settings.isCurved}
-              onChange={() => {this.setSettings({isCurved:false})}}
-            />
-            <UI.BtnGroupBtn
-              label='Curved'
-              active={settings.isCurved}
-              onChange={() => {this.setSettings({isCurved:true})}}
-            />
-          </UI.BtnGroup>
+            <UI.BtnGroup label="General">
+              <ButtonGroup justified style={{paddingRight:'5px'}}>
+                <UI.BtnGroupBtn
+                  label='Straight'
+                  active={!settings.isCurved}
+                  onChange={() => {this.setSettings({isCurved:false})}}
+                />
+                <UI.BtnGroupBtn
+                  label='Curved'
+                  active={settings.isCurved}
+                  onChange={() => {this.setSettings({isCurved:true})}}
+                />
+              </ButtonGroup>
 
-          <UI.BtnGroup>
-            <UI.BtnGroupBtn
-              label='Line'
-              active={!settings.isArea}
-              onChange={() => {this.setSettings({isArea:false})}}
-            />
-            <UI.BtnGroupBtn
-              label='Area'
-              active={settings.isArea}
-              onChange={() => {this.setSettings({isArea:true})}}
-            />
-          </UI.BtnGroup>
-        </UI.Wrapper>
-        <UI.Wrapper>
-          <UI.BtnGroup label="General">
-            <UI.BtnGroupDropdownColor
-              active={settings.color}
-              onChange={value => {this.setSettings({color:value})}}
-            />
-          </UI.BtnGroup>
+              <ButtonGroup justified style={{paddingLeft:'5px'}}>
+                <UI.BtnGroupBtn
+                  label='Line'
+                  active={!settings.isArea}
+                  onChange={() => {this.setSettings({isArea:false})}}
+                />
+                <UI.BtnGroupBtn
+                  label='Area'
+                  active={settings.isArea}
+                  onChange={() => {this.setSettings({isArea:true})}}
+                />
+              </ButtonGroup>
+            </UI.BtnGroup>
 
-          <UI.BtnGroup>
-            <UI.BtnGroupBtn
-              icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
-              label='Legend'
-              active={settings.legend}
-              onChange={() => {this.setSettings({legend:!settings.legend})}}
-            />
-          </UI.BtnGroup>
+            <UI.BtnGroup>
+              <UI.BtnGroupDropdownColor
+                active={settings.color}
+                onChange={value => {this.setSettings({color:value})}}
+              />
+            </UI.BtnGroup>
+
+            <UI.BtnGroup>
+              <UI.BtnGroupBtn
+                icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
+                label='Legend'
+                active={settings.legend}
+                onChange={() => {this.setSettings({legend:!settings.legend})}}
+              />
+            </UI.BtnGroup>
         </UI.Wrapper>
+
 
         <UI.LabelChart
           settings={settings}
@@ -68,6 +70,14 @@ export default class LineChart extends React.Component{
             label='X Axis'
             axisSettings={settings.xAxis}
             onChange={newSettings => {this.setSettings(newSettings)}}
+          />
+
+          <UI.MinMaxDomain
+            label='Domain'
+            automaticDomain={settings.automaticDomainX}
+            domain={settings.domainX}
+            onChange={newDomain => {this.setSettings({domainX:newDomain})}}
+            onAuto={() => {this.setSettings({automaticDomainX:!settings.automaticDomainX})}}
           />
         </UI.Wrapper>
         <UI.Wrapper>
@@ -88,24 +98,16 @@ export default class LineChart extends React.Component{
               onChange={() => {this.setSettings({yAxis:{...settings.yAxis, position:'right'}})}}
             />
           </UI.BtnGroup>
+          <UI.MinMaxDomain
+            label='Domain'
+            automaticDomain={settings.automaticDomainY}
+            domain={settings.domainY}
+            onChange={newDomain => {this.setSettings({domainY:newDomain})}}
+            onAuto={() => {this.setSettings({automaticDomainY:!settings.automaticDomainY})}}
+          />
         </UI.Wrapper>
 
 
-        <UI.MinMaxDomain
-          label='X Axis Domain'
-          automaticDomain={settings.automaticDomainX}
-          domain={settings.domainX}
-          onChange={newDomain => {this.setSettings({domainX:newDomain})}}
-          onAuto={() => {this.setSettings({automaticDomainX:!settings.automaticDomainX})}}
-        />
-
-        <UI.MinMaxDomain
-          label='Y Axis Domain'
-          automaticDomain={settings.automaticDomainY}
-          domain={settings.domainY}
-          onChange={newDomain => {this.setSettings({domainY:newDomain})}}
-          onAuto={() => {this.setSettings({automaticDomainY:!settings.automaticDomainY})}}
-        />
       </div>
 
     )
@@ -129,42 +131,40 @@ export default class LineChart extends React.Component{
     }
   ];
   static settings = {
-		isCurved:false,
-    isArea:false,
+  		isCurved:false,
+      isArea:false,
 
-    chartLabel:{
-      value: 'Title of the graph',
-      align: 'middle',
-      isBold: true,
-    },
-		fontFamily:'Helvetica',
-		fontSize:'14px',
+      chartLabel:{
+        value: 'Title of the graph',
+        align: 'middle',
+        isBold: true,
+      },
+  		fontFamily:'Helvetica',
+  		fontSize:'14px',
 
-    color: d3.schemeCategory10,
-    legend: false,
+      color: d3.schemeCategory10,
+      legend: false,
 
-    // block 4
-    xAxis:{
-      visible:true,
-			value: 'Label on X Axis',
-			align:'middle',
-	    rotation:0,
-		},
+      xAxis:{
+        visible:true,
+  			value: 'Label on X Axis',
+  			align:'middle',
+  	    rotation:0,
+  		},
 
-		// block 5
-		yAxis:{
-      visible:true,
-			value:'Label on Y Axis',
-			align:'middle',
-			guidelines:false,
-			position:'left',
-		},
+  		yAxis:{
+        visible:true,
+  			value:'Label on Y Axis',
+  			align:'middle',
+  			guidelines:false,
+  			position:'left',
+  		},
 
-    automaticDomainX: true,
-    domainX: [0,10],
-    automaticDomainY: true,
-    domainY: [0,10],
-  }
+      automaticDomainX: true,
+      domainX: [0,10],
+      automaticDomainY: true,
+      domainY: [0,10],
+    }
 	setSettings(newSettings){
 		LineChart.settings = {...LineChart.settings, ...newSettings};
 		// console.log(LineChart.settings);
@@ -274,7 +274,7 @@ export default class LineChart extends React.Component{
           .style('stroke-width', '1.5px');
       }
 
-
+console.log(yAxisDimensions);
       // LEGEND
       if(settings.legend) ChartModel.drawLegend(canvas, settings, width, yAxisDimensions, colorGenerator);
 
