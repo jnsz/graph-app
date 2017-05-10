@@ -100,7 +100,7 @@ export default class App extends React.Component {
           </Tab>
           <Tab
             eventKey={'ScatterPlot'}
-            title={<span><FontAwesome name='braille'/> Scatter plot</span>}
+            title={<span><span className="icon-scatter"/> Scatter plot</span>}
             disabled={this.state.dataset.columns == null}
           >
             {this.state.selectedGraph === 'ScatterPlot' ? graphNode : false}
@@ -108,7 +108,7 @@ export default class App extends React.Component {
 
           <Tab
             eventKey={5}
-            title={<span><FontAwesome name='info'/> About</span>}
+            title={<span><FontAwesome name='question'/> Help</span>}
             tabClassName='pull-right'
           >
             <About />

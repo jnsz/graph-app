@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
-import { Button, Row } from 'react-bootstrap';
+import { Button, Row, DropdownButton, MenuItem } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import exampleData from '../exampleData/exampleData.js';
+import exampleData from './exampleData.js';
 import TutorialPopover from '../TutorialPopover';
 
 export default class DataInput extends React.Component{
@@ -16,12 +16,31 @@ export default class DataInput extends React.Component{
         App <strong>cannot</strong> parse date values.
       </span>)
 
+    const dropdownHandle =(
+      <span><FontAwesome name='clipboard'/>  Sample datasets</span>
+    )
+
     return (
       <div>
         <Row>
           <h1>
             Data input <small><TutorialPopover tooltipText={tutorialTxt} /></small>
-            <span><Button bsStyle='link pull-right' onClick={e => this.handleChange(exampleData.cars)}><FontAwesome name='clipboard'/> Paste example data</Button></span>
+            <span>
+              <DropdownButton bsStyle='link pull-right' title={dropdownHandle} id={'sample-datasets-dropdown'} noCaret pullRight
+                onSelect={e => this.handleChange(exampleData[e])}
+              >
+                <MenuItem eventKey="bar">Bars visited (Bar chart)</MenuItem>
+                <MenuItem eventKey="pie">Pies eaten (Pie chart)</MenuItem>
+                <MenuItem eventKey="line">Track elevation (Line chart)</MenuItem>
+                <MenuItem eventKey="scatter">Cars (Scatter plot)</MenuItem>
+                <MenuItem divider />
+                <li>
+                  <span style={{color:'#777', padding:'3px 20px', display:'block'}}>
+                    These datasets are made up to showcase different graphs' capabalities.
+                  </span>
+                </li>
+              </DropdownButton>
+            </span>
           </h1>
 
           <div>

@@ -303,7 +303,7 @@ var App = function (_React$Component) {
               title: React.createElement(
                 'span',
                 null,
-                React.createElement(_reactFontawesome2.default, { name: 'braille' }),
+                React.createElement('span', { className: 'icon-scatter' }),
                 ' Scatter plot'
               ),
               disabled: this.state.dataset.columns == null
@@ -317,8 +317,8 @@ var App = function (_React$Component) {
               title: React.createElement(
                 'span',
                 null,
-                React.createElement(_reactFontawesome2.default, { name: 'info' }),
-                ' About'
+                React.createElement(_reactFontawesome2.default, { name: 'question' }),
+                ' Help'
               ),
               tabClassName: 'pull-right'
             },
@@ -869,7 +869,7 @@ var _reactFontawesome = require('react-fontawesome');
 
 var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
 
-var _exampleData = require('../exampleData/exampleData.js');
+var _exampleData = require('./exampleData.js');
 
 var _exampleData2 = _interopRequireDefault(_exampleData);
 
@@ -925,6 +925,13 @@ var DataInput = function (_React$Component) {
         ' parse date values.'
       );
 
+      var dropdownHandle = React.createElement(
+        'span',
+        null,
+        React.createElement(_reactFontawesome2.default, { name: 'clipboard' }),
+        '  Sample datasets'
+      );
+
       return React.createElement(
         'div',
         null,
@@ -944,12 +951,42 @@ var DataInput = function (_React$Component) {
               'span',
               null,
               React.createElement(
-                _reactBootstrap.Button,
-                { bsStyle: 'link pull-right', onClick: function onClick(e) {
-                    return _this2.handleChange(_exampleData2.default.cars);
-                  } },
-                React.createElement(_reactFontawesome2.default, { name: 'clipboard' }),
-                ' Paste example data'
+                _reactBootstrap.DropdownButton,
+                { bsStyle: 'link pull-right', title: dropdownHandle, id: 'sample-datasets-dropdown', noCaret: true, pullRight: true,
+                  onSelect: function onSelect(e) {
+                    return _this2.handleChange(_exampleData2.default[e]);
+                  }
+                },
+                React.createElement(
+                  _reactBootstrap.MenuItem,
+                  { eventKey: 'bar' },
+                  'Bars visited (Bar chart)'
+                ),
+                React.createElement(
+                  _reactBootstrap.MenuItem,
+                  { eventKey: 'pie' },
+                  'Pies eaten (Pie chart)'
+                ),
+                React.createElement(
+                  _reactBootstrap.MenuItem,
+                  { eventKey: 'line' },
+                  'Track elevation (Line chart)'
+                ),
+                React.createElement(
+                  _reactBootstrap.MenuItem,
+                  { eventKey: 'scatter' },
+                  'Cars (Scatter plot)'
+                ),
+                React.createElement(_reactBootstrap.MenuItem, { divider: true }),
+                React.createElement(
+                  'li',
+                  null,
+                  React.createElement(
+                    'span',
+                    { style: { color: '#777', padding: '3px 20px', display: 'block' } },
+                    'These datasets are made up to showcase different graphs\' capabalities.'
+                  )
+                )
               )
             )
           ),
@@ -1077,7 +1114,7 @@ var DataInput = function (_React$Component) {
 
 exports.default = DataInput;
 
-},{"../TutorialPopover":7,"../exampleData/exampleData.js":11,"d3":139,"react-bootstrap":435,"react-fontawesome":616}],10:[function(require,module,exports){
+},{"../TutorialPopover":7,"./exampleData.js":11,"d3":139,"react-bootstrap":435,"react-fontawesome":616}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1197,7 +1234,7 @@ var DataInput = function (_React$Component) {
               React.createElement(
                 'strong',
                 null,
-                i
+                i + 1
               )
             ),
             data.columns.map(function (column, i) {
@@ -1225,7 +1262,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var exampleData = {
-  'cars': 'name,economy (mpg),cylinders,displacement (cc),power (hp),weight (lb),0-60 mph (s),year\nAMC Ambassador Brougham,13,8,360,175,3821,11,73\nAMC Ambassador DPL,15,8,390,190,3850,8.5,70\nAMC Ambassador SST,17,8,304,150,3672,11.5,72\nAMC Concord DL 6,20.2,6,232,90,3265,18.2,79\nAMC Concord DL,18.1,6,258,120,3410,15.1,78\nAMC Concord DL,23,4,151,,3035,20.5,82\nAMC Concord,19.4,6,232,90,3210,17.2,78\nAMC Concord,24.3,4,151,90,3003,20.1,80\nAMC Gremlin,18,6,232,100,2789,15,73\nAMC Gremlin,19,6,232,100,2634,13,71\nAMC Gremlin,20,6,232,100,2914,16,75\nAMC Gremlin,21,6,199,90,2648,15,70\nAMC Hornet Sportabout (Wagon),18,6,258,110,2962,13.5,71\nAMC Hornet,18,6,199,97,2774,15.5,70'
+  'bar': 'Bar (ticks on x axis),Leden (bar height),\xDAnor (bar height),B\u0159ezen (bar height),Duben (bar height),Kv\u011Bten (bar height),\u010Cerven (bar height)\nBar kter\xFD neexistuje,7,0,1,21,5,6\nSuper Panda Circus,4,8,6,2,12,7\nBar Naproti,7,19,11,8,16,12\nLow Cost BAR,20,14,15,29,7,17\nLivingstone Club,4,5,6,7,8,9',
+
+  'pie': 'Pie type (labels), Amount eaten (values)\nApple,6\nPumpkin,2\nPlum,5\nPoppy,25\nTvarohov\xFD,4',
+
+  'line': 'km walked (x axis), Elevation 1 [m] (y axis), Elevation 2 [m] (y axis)\n1,712,609\n2,741,620\n3,790,611\n5,763,648\n6,804,692\n7,729,734\n11,847,754\n12,812,797\n13,785,811\n14,711,809\n15,677,807\n16,654,812\n17,637,799\n18,644,743\n19,709,731\n20,784,727\n21,835,711\n22,849,698\n26,615,813\n27,572,821\n28,547,789\n29,540,770\n30,569,741',
+
+  'scatter': 'name (labels),economy [l/100km],displacement [cm3],horse power,weight [kg],0-100 km/h [s], type (shape)\nAudi,21.7,360,175,1733,11,sedan\nBentley,15.7,390,190,1612,8.5,coupe\nCitro\xEBn,13.8,304,150,1598,11.5,hatchback\nDacia,11.5,232,90,1431,18.2,minivan\nFord,13,258,120,1525,15.1,truck\nHonda,10.2,151,95,1308,20.5,sedan\nInfinity,12.4,232,90,1442,17.2,SUV\nJaguar,24.3,151,90,1269,20.1,coupe\nKaipan,9.7,232,100,1179,15,hatchback\nLada,15.7,232,100,1211,13,sedan\nMitsubishi,11.8,232,100,1457,16,SUV\nNissan,11.2,199,90,1251,15,hatchback\nOpel,13,258,110,1621,13.5,sedan\nPeugeot,13.1,199,97,1381,15.5,minivan\nRenault,16,211,120,1620,14,hatchback\n\u0160koda,14.7,190,100,1450,13.2,sedan\nTesla,15.8,305,150,1123,9.5,supercar\nVolksvagen,10,240,110,1411,13,sedan'
 };
 
 exports.default = exampleData;
@@ -3104,7 +3147,7 @@ var DropArea = function (_React$Component) {
           { style: isActive ? dropAreaActiveStyle : dropAreaStyle },
           React.createElement(_reactFontawesome2.default, { name: 'plus-circle' }),
           ' ',
-          variableNumericType ? 'number' : 'any type'
+          variableNumericType ? 'drop numbers' : 'drop any type'
         ) : React.createElement(
           'li',
           { style: dropAreaWrongStyle },

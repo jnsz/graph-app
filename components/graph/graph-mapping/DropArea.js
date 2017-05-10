@@ -48,7 +48,7 @@ class DropArea extends React.Component {
       <div>
       {canDropStyle ?
         <li style={isActive ? dropAreaActiveStyle : dropAreaStyle}>
-          <FontAwesome name='plus-circle' /> {variableNumericType?'number':'any type'}
+          <FontAwesome name='plus-circle' /> {variableNumericType?'drop numbers':'drop any type'}
         </li>
         :
         <li style={dropAreaWrongStyle}>

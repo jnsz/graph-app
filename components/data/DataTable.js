@@ -50,7 +50,7 @@ export default class DataInput extends React.Component{
         {data.map((row, i) => {
           return (
             <tr key={i+'tr'}>
-              <td><strong>{i}</strong></td>
+              <td><strong>{i+1}</strong></td>
               {data.columns.map((column, i) => {
                 return <td key={i+'td'}>{row[column]}</td>
               })}
