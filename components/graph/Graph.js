@@ -29,7 +29,7 @@ export default class Graph extends React.Component{
     return(
       <Row>
         <h1>
-          Maping <small><TutorialPopover tooltipText={tutorialTxt} /></small>
+          Mapping <small><TutorialPopover tooltipText={tutorialTxt} /></small>
         </h1>
 
         <Mapping

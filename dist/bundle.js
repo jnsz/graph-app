@@ -1268,7 +1268,7 @@ var exampleData = {
 
   'line': 'km walked (x axis), Elevation 1 [m] (y axis), Elevation 2 [m] (y axis)\n1,712,609\n2,741,620\n3,790,611\n5,763,648\n6,804,692\n7,729,734\n11,847,754\n12,812,797\n13,785,811\n14,711,809\n15,677,807\n16,654,812\n17,637,799\n18,644,743\n19,709,731\n20,784,727\n21,835,711\n22,849,698\n26,615,813\n27,572,821\n28,547,789\n29,540,770\n30,569,741',
 
-  'scatter': 'name (labels),economy [l/100km],displacement [cm3],horse power,weight [kg],0-100 km/h [s], type (shape)\nAudi,21.7,360,175,1733,11,sedan\nBentley,15.7,390,190,1612,8.5,coupe\nCitro\xEBn,13.8,304,150,1598,11.5,hatchback\nDacia,11.5,232,90,1431,18.2,minivan\nFord,13,258,120,1525,15.1,truck\nHonda,10.2,151,95,1308,20.5,sedan\nInfinity,12.4,232,90,1442,17.2,SUV\nJaguar,24.3,151,90,1269,20.1,coupe\nKaipan,9.7,232,100,1179,15,hatchback\nLada,15.7,232,100,1211,13,sedan\nMitsubishi,11.8,232,100,1457,16,SUV\nNissan,11.2,199,90,1251,15,hatchback\nOpel,13,258,110,1621,13.5,sedan\nPeugeot,13.1,199,97,1381,15.5,minivan\nRenault,16,211,120,1620,14,hatchback\n\u0160koda,14.7,190,100,1450,13.2,sedan\nTesla,15.8,305,150,1123,9.5,supercar\nVolksvagen,10,240,110,1411,13,sedan'
+  'scatter': 'name (labels),economy [l/100km],displacement [cm3],horse power,weight [kg],0-100 km/h [s], type (shape)\nAudi,21.7,360,175,1733,11,sedan\nBentley,15.7,390,190,1612,8.5,coupe\nCitro\xEBn,13.8,304,150,1598,11.5,hatchback\nDacia,11.5,232,90,1431,18.2,minivan\nFord,13,258,120,1525,15.1,truck\nHonda,10.2,151,95,1308,20.5,sedan\nInfinity,12.4,232,90,1442,17.2,SUV\nJaguar,24.3,151,90,1269,20.1,coupe\nKaipan,9.7,232,100,1179,15,hatchback\nLada,15.7,232,100,1211,13,sedan\nMitsubishi,11.8,232,100,1457,16,SUV\nNissan,11.2,199,90,1251,15,convertible\nOpel,13,258,110,1621,13.5,sedan\nPeugeot,13.1,199,97,1381,15.5,minivan\nRenault,16,211,120,1620,14,hatchback\n\u0160koda,14.7,190,100,1450,13.2,sedan\nTesla,15.8,305,150,1123,9.5,supercar\nVolksvagen,10,240,110,1411,13,sedan'
 };
 
 exports.default = exampleData;
@@ -1366,7 +1366,7 @@ var Graph = function (_React$Component) {
         React.createElement(
           'h1',
           null,
-          'Maping ',
+          'Mapping ',
           React.createElement(
             'small',
             null,
@@ -1677,6 +1677,10 @@ var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
 var _Overlay = require('../../Overlay');
 
 var _Overlay2 = _interopRequireDefault(_Overlay);
+
+var _TutorialPopover = require('../../TutorialPopover');
+
+var _TutorialPopover2 = _interopRequireDefault(_TutorialPopover);
 
 var _Enums = require('./Enums');
 
@@ -2214,12 +2218,23 @@ var Size = exports.Size = function (_React$Component13) {
       var width = svgSize.width;
       var height = svgSize.height;
       var margin = svgSize.margin;
+
+      var sizeLabel = React.createElement(
+        'span',
+        null,
+        'Width and Height ',
+        React.createElement(
+          'small',
+          null,
+          React.createElement(_TutorialPopover2.default, { tooltipText: 'Size of the canvas is the same for all graphs.' })
+        )
+      );
       return React.createElement(
         Wrapper,
         null,
         React.createElement(
           Form,
-          { label: 'Width and Height' },
+          { label: sizeLabel },
           React.createElement(FormInput, {
             text: 'Width',
             value: width,
@@ -2518,7 +2533,7 @@ MinMaxDomain.defaultProps = {
   onAuto: false
 };
 
-},{"../../Overlay":5,"./Enums":16,"d3":139,"react-bootstrap":435,"react-fontawesome":616}],16:[function(require,module,exports){
+},{"../../Overlay":5,"../../TutorialPopover":7,"./Enums":16,"d3":139,"react-bootstrap":435,"react-fontawesome":616}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3633,28 +3648,12 @@ var BarChart = function (_React$Component) {
           React.createElement(
             UI.BtnGroup,
             { label: 'General' },
-            React.createElement(
-              _reactBootstrap.ButtonGroup,
-              { justified: true, style: { paddingRight: '5px' } },
-              React.createElement(UI.BtnGroupDropdownColor, {
-                active: settings.color,
-                onChange: function onChange(value) {
-                  _this2.setSettings({ color: value });
-                }
-              })
-            ),
-            React.createElement(
-              _reactBootstrap.ButtonGroup,
-              { justified: true, style: { paddingLeft: '5px' } },
-              React.createElement(UI.BtnGroupBtn, {
-                icon: settings.legend ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
-                label: 'Legend',
-                active: settings.legend,
-                onChange: function onChange() {
-                  _this2.setSettings({ legend: !settings.legend });
-                }
-              })
-            )
+            React.createElement(UI.BtnGroupDropdownColor, {
+              active: settings.color,
+              onChange: function onChange(value) {
+                _this2.setSettings({ color: value });
+              }
+            })
           ),
           React.createElement(
             UI.BtnGroup,
@@ -3689,15 +3688,31 @@ var BarChart = function (_React$Component) {
           React.createElement(
             UI.BtnGroup,
             null,
-            React.createElement(UI.BtnGroupDropdown, {
-              id: 'bar-label-pos',
-              title: 'Bar label\'s position',
-              arrayOfValues: ['none', 'top', 'above', 'bellow', 'bottom'],
-              active: settings.barLabelPos,
-              onChange: function onChange(value) {
-                _this2.setSettings({ barLabelPos: value });
-              }
-            })
+            React.createElement(
+              _reactBootstrap.ButtonGroup,
+              { justified: true, style: { paddingRight: '5px' } },
+              React.createElement(UI.BtnGroupBtn, {
+                icon: settings.legend ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
+                label: 'Legend',
+                active: settings.legend,
+                onChange: function onChange() {
+                  _this2.setSettings({ legend: !settings.legend });
+                }
+              })
+            ),
+            React.createElement(
+              _reactBootstrap.ButtonGroup,
+              { justified: true, style: { paddingLeft: '5px' } },
+              React.createElement(UI.BtnGroupDropdown, {
+                id: 'bar-label-pos',
+                title: 'Bar labels',
+                arrayOfValues: ['none', 'top', 'above', 'bellow', 'bottom'],
+                active: settings.barLabelPos,
+                onChange: function onChange(value) {
+                  _this2.setSettings({ barLabelPos: value });
+                }
+              })
+            )
           )
         ),
         React.createElement(UI.LabelChart, {
@@ -4123,7 +4138,7 @@ var ChartModel = function () {
         }
       }();
 
-      canvas.append('text').attr('x', x).attr('y', -10).attr('text-anchor', settings.chartLabel.align).attr('dominant-baseline', 'text-after-edge').attr('font-family', settings.fontFamily).attr('font-size', settings.fontSize).attr('font-weight', settings.chartLabel.isBold ? 'bold' : 'normal').text(settings.chartLabel.value);
+      canvas.append('text').attr('x', x).attr('y', -20).attr('text-anchor', settings.chartLabel.align).attr('dominant-baseline', 'text-after-edge').attr('font-family', settings.fontFamily).attr('font-size', settings.fontSize).attr('font-weight', settings.chartLabel.isBold ? 'bold' : 'normal').text(settings.chartLabel.value);
     }
   }, {
     key: 'drawLegend',
@@ -4262,14 +4277,30 @@ var LineChart = function (_React$Component) {
           React.createElement(
             UI.BtnGroup,
             null,
-            React.createElement(UI.BtnGroupBtn, {
-              icon: settings.legend ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
-              label: 'Legend',
-              active: settings.legend,
-              onChange: function onChange() {
-                _this2.setSettings({ legend: !settings.legend });
-              }
-            })
+            React.createElement(
+              _reactBootstrap.ButtonGroup,
+              { justified: true, style: { paddingRight: '5px' } },
+              React.createElement(UI.BtnGroupBtn, {
+                icon: settings.legend ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
+                label: 'Legend',
+                active: settings.legend,
+                onChange: function onChange() {
+                  _this2.setSettings({ legend: !settings.legend });
+                }
+              })
+            ),
+            React.createElement(
+              _reactBootstrap.ButtonGroup,
+              { justified: true, style: { paddingLeft: '5px' } },
+              React.createElement(UI.BtnGroupBtn, {
+                icon: settings.labels ? React.createElement(_reactFontawesome2.default, { name: 'eye' }) : React.createElement(_reactFontawesome2.default, { name: 'eye-slash' }),
+                label: 'Labels',
+                active: settings.labels,
+                onChange: function onChange() {
+                  _this2.setSettings({ labels: !settings.labels });
+                }
+              })
+            )
           )
         ),
         React.createElement(UI.LabelChart, {
@@ -4352,6 +4383,8 @@ var LineChart = function (_React$Component) {
   }], [{
     key: 'drawEmptyAndCheck',
     value: function drawEmptyAndCheck(canvas, svgSize, wholeDataset) {
+      var _this3 = this;
+
       var settings = LineChart.settings;
       var width = svgSize.width - svgSize.width * svgSize.margin;
       var height = svgSize.height - svgSize.height * svgSize.margin;
@@ -4364,98 +4397,137 @@ var LineChart = function (_React$Component) {
       var hasYDimension = this.variables[1].assignedDimensions.length != 0;
 
       if (hasXDimension && hasYDimension) {
-        // GET LABEL DIMENSION
-        var xAxisDimension = this.variables[0].assignedDimensions[0].dimension;
+        (function () {
+          // GET LABEL DIMENSION
+          var xAxisDimension = _this3.variables[0].assignedDimensions[0].dimension;
 
-        // GET BARS DIMENSIONS
-        var yAxisDimensions = [];
-        this.variables[1].assignedDimensions.map(function (dimension) {
-          yAxisDimensions.push(dimension.dimension);
-        });
-
-        //sort dataset
-        var sortedDataset = wholeDataset.map(function (row) {
-          var newRow = {};
-          newRow[xAxisDimension] = row[xAxisDimension];
-          yAxisDimensions.forEach(function (yAxisDimension) {
-            newRow[yAxisDimension] = row[yAxisDimension];
+          // GET BARS DIMENSIONS
+          var yAxisDimensions = [];
+          _this3.variables[1].assignedDimensions.map(function (dimension) {
+            yAxisDimensions.push(dimension.dimension);
           });
-          return newRow;
-        });
 
-        sortedDataset.sort(function (a, b) {
-          return d3.ascending(a[xAxisDimension], b[xAxisDimension]);
-        });
-
-        var lineData = yAxisDimensions.map(function (dimension) {
-          var array = [];
-          sortedDataset.map(function (row) {
-            array.push(row[dimension]);
+          //sort dataset
+          var sortedDataset = wholeDataset.map(function (row) {
+            var newRow = {};
+            newRow[xAxisDimension] = row[xAxisDimension];
+            yAxisDimensions.forEach(function (yAxisDimension) {
+              newRow[yAxisDimension] = row[yAxisDimension];
+            });
+            return newRow;
           });
-          return array;
-        });
 
-        // X AXIS DOMAIN
-        if (settings.automaticDomainX) {
-          var domainX = d3.extent(sortedDataset, function (d) {
-            return d[xAxisDimension];
+          sortedDataset.sort(function (a, b) {
+            return d3.ascending(a[xAxisDimension], b[xAxisDimension]);
           });
-          x.domain(domainX).nice();
-          settings.domainX = x.domain();
-        }
 
-        // Y AXIS DOMAIN
-        if (settings.automaticDomainY) {
-          var domainY = [d3.min(lineData, function (column) {
-            return d3.min(column, function (d, i) {
-              return column[i];
+          var lineData = yAxisDimensions.map(function (dimension) {
+            var array = [];
+            sortedDataset.map(function (row) {
+              array.push(row[dimension]);
             });
-          }), d3.max(lineData, function (column) {
-            return d3.max(column, function (d, i) {
-              return column[i];
-            });
-          })];
-          y.domain(domainY).nice();
-          settings.domainY = y.domain();
-        }
+            return array;
+          });
 
-        // COLOR
-        var colorGenerator = d3.scaleOrdinal().range(settings.color);
-
-        var lineGenerator = function () {
-          if (settings.isArea) {
-            return d3.area().x(function (d, i) {
-              return x(sortedDataset[i][xAxisDimension]);
-            }).y0(height).y1(function (d) {
-              return y(d);
+          // X AXIS DOMAIN
+          if (settings.automaticDomainX) {
+            var domainX = d3.extent(sortedDataset, function (d) {
+              return d[xAxisDimension];
             });
-          } else {
-            return d3.line().x(function (d, i) {
-              return x(sortedDataset[i][xAxisDimension]);
-            }).y(function (d) {
-              return y(d);
-            });
+            x.domain(domainX).nice();
+            settings.domainX = x.domain();
           }
-        }();
 
-        lineGenerator.curve(settings.isCurved ? d3.curveMonotoneX : d3.curveLinear);
+          // Y AXIS DOMAIN
+          if (settings.automaticDomainY) {
+            var domainY = [d3.min(lineData, function (column) {
+              return d3.min(column, function (d, i) {
+                return column[i];
+              });
+            }), d3.max(lineData, function (column) {
+              return d3.max(column, function (d, i) {
+                return column[i];
+              });
+            })];
+            y.domain(domainY).nice();
+            settings.domainY = y.domain();
+          }
 
-        var line = canvas.selectAll('.line').data(lineData, function (d) {
-          return d;
-        }).enter().append('g').attr('class', 'line').append('path').attr('d', lineGenerator);
+          // COLOR
+          var colorGenerator = d3.scaleOrdinal().range(settings.color);
 
-        if (settings.isArea) {
-          line.style('fill', function (d, i) {
-            return colorGenerator(i);
-          }).style('stroke-width', '0');
-        } else {
-          line.style('stroke', function (d, i) {
-            return colorGenerator(i);
-          }).style('fill', 'none').style('stroke-width', '1.5px');
-        }
+          var lineGenerator = function () {
+            if (settings.isArea) {
+              return d3.area().x(function (d, i) {
+                return x(sortedDataset[i][xAxisDimension]);
+              }).y0(height).y1(function (d) {
+                return y(d);
+              });
+            } else {
+              return d3.line().x(function (d, i) {
+                return x(sortedDataset[i][xAxisDimension]);
+              }).y(function (d) {
+                return y(d);
+              });
+            }
+          }();
 
-        // LEGEND
-        if (settings.legend) _ChartModel2.default.drawLegend(canvas, settings, width, yAxisDimensions, colorGenerator);
+          lineGenerator.curve(settings.isCurved ? d3.curveMonotoneX : d3.curveLinear);
+
+          var line = canvas.selectAll('.line').data(lineData, function (d) {
+            return d;
+          }).enter().append('g').attr('class', 'line').append('path').attr('d', lineGenerator);
+
+          if (settings.isArea) {
+            line.style('fill', function (d, i) {
+              return colorGenerator(i);
+            }).style('stroke-width', '0');
+          } else {
+            line.style('stroke', function (d, i) {
+              return colorGenerator(i);
+            }).style('fill', 'none').style('stroke-width', '1.5px');
+          }
+
+          if (settings.labels) {
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+              var _loop = function _loop() {
+                var yAxisDimension = _step.value;
+
+                canvas.append('g').classed('labels', true).selectAll('text').data(sortedDataset).enter().append('text').attr('x', function (d) {
+                  return x(d[xAxisDimension]);
+                }).attr('y', function (d) {
+                  return y(d[yAxisDimension]);
+                }).attr('transform', 'translate(0,-5)').attr('text-anchor', 'middle').attr('font-family', settings.fontFamily).attr('font-size', settings.fontSize).text(function (d) {
+                  return d[yAxisDimension];
+                });
+              };
+
+              for (var _iterator = yAxisDimensions[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                _loop();
+              }
+            } catch (err) {
+              _didIteratorError = true;
+              _iteratorError = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                  _iterator.return();
+                }
+              } finally {
+                if (_didIteratorError) {
+                  throw _iteratorError;
+                }
+              }
+            }
+          }
+
+          // LEGEND
+          if (settings.legend) _ChartModel2.default.drawLegend(canvas, settings, width, yAxisDimensions, colorGenerator);
+        })();
       } // AFTER CAN DRAW
 
 
@@ -4551,6 +4623,7 @@ LineChart.settings = {
   fontSize: '14px',
 
   color: d3.schemeCategory10,
+  labels: false,
   legend: false,
 
   xAxis: {
@@ -4666,7 +4739,7 @@ var PieChart = function (_React$Component) {
               { justified: true, style: { paddingLeft: '5px' } },
               React.createElement(UI.BtnGroupDropdown, {
                 id: 'label-position',
-                title: 'Label',
+                title: 'Labels',
                 arrayOfValues: ['none', 'inside', 'around'],
                 active: settings.labelPos,
                 onChange: function onChange(name) {

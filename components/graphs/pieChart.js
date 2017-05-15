@@ -33,7 +33,7 @@ export default class PieChart extends React.Component {
             <ButtonGroup justified style={{paddingLeft:'5px'}}>
               <UI.BtnGroupDropdown
                 id='label-position'
-                title='Label'
+                title='Labels'
                 arrayOfValues={['none','inside','around']}
                 active={settings.labelPos}
                 onChange={name => {

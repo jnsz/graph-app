@@ -3,6 +3,7 @@ import { Col, Row, Button, FormControl, FormGroup, InputGroup, ButtonGroup, Drop
 import FontAwesome from 'react-fontawesome';
 
 import Overlay from '../../Overlay';
+import TutorialPopover from '../../TutorialPopover';
 import {FontFamily, FontSize, ColorSchemeNames, ColorSchemes} from './Enums';
 
 const rowStyle = {padding: '0px 15px', marginBottom:'15px'}
@@ -277,9 +278,11 @@ export class Size extends React.Component {
     const width = svgSize.width;
 		const height = svgSize.height;
 		const margin = svgSize.margin;
+
+    const sizeLabel =<span>Width and Height <small><TutorialPopover tooltipText='Size of the canvas is the same for all graphs.' /></small></span>
 		return (
 			<Wrapper>
-				<Form label='Width and Height'>
+				<Form label={sizeLabel}>
 					<FormInput
 						text='Width'
 						value={width}

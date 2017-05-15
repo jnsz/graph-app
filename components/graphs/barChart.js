@@ -41,21 +41,12 @@ export default class BarChart extends React.Component {
         <UI.Wrapper>
           <UI.BtnGroup label="General">
 
-            <ButtonGroup justified style={{paddingRight:'5px'}}>
+
               <UI.BtnGroupDropdownColor
                 active={settings.color}
                 onChange={value => {this.setSettings({color:value})}}
               />
-            </ButtonGroup>
 
-            <ButtonGroup justified style={{paddingLeft:'5px'}}>
-              <UI.BtnGroupBtn
-                icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
-                label='Legend'
-                active={settings.legend}
-                onChange={() => {this.setSettings({legend:!settings.legend})}}
-              />
-            </ButtonGroup>
 
           </UI.BtnGroup>
           <UI.BtnGroup>
@@ -84,15 +75,37 @@ export default class BarChart extends React.Component {
               />
             </ButtonGroup>
 
+
+
           </UI.BtnGroup>
+
+
+
+
+
           <UI.BtnGroup>
-            <UI.BtnGroupDropdown
-              id='bar-label-pos'
-              title="Bar label's position"
-              arrayOfValues={['none','top','above','bellow','bottom',]}
-              active={settings.barLabelPos}
-              onChange={value => {this.setSettings({barLabelPos:value})}}
-            />
+
+            <ButtonGroup justified style={{paddingRight:'5px'}}>
+              <UI.BtnGroupBtn
+                icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
+                label='Legend'
+                active={settings.legend}
+                onChange={() => {this.setSettings({legend:!settings.legend})}}
+              />
+            </ButtonGroup>
+
+            <ButtonGroup justified style={{paddingLeft:'5px'}}>
+              <UI.BtnGroupDropdown
+                id='bar-label-pos'
+                title="Bar labels"
+                arrayOfValues={['none','top','above','bellow','bottom',]}
+                active={settings.barLabelPos}
+                onChange={value => {this.setSettings({barLabelPos:value})}}
+              />
+            </ButtonGroup>
+
+
+
           </UI.BtnGroup>
         </UI.Wrapper>
         <UI.LabelChart

@@ -50,12 +50,23 @@ export default class LineChart extends React.Component{
             </UI.BtnGroup>
 
             <UI.BtnGroup>
-              <UI.BtnGroupBtn
-                icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
-                label='Legend'
-                active={settings.legend}
-                onChange={() => {this.setSettings({legend:!settings.legend})}}
-              />
+              <ButtonGroup justified style={{paddingRight:'5px'}}>
+                <UI.BtnGroupBtn
+                  icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
+                  label='Legend'
+                  active={settings.legend}
+                  onChange={() => {this.setSettings({legend:!settings.legend})}}
+                />
+              </ButtonGroup>
+
+              <ButtonGroup justified style={{paddingLeft:'5px'}}>
+                <UI.BtnGroupBtn
+                  icon={settings.labels? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
+                  label='Labels'
+                  active={settings.labels}
+                  onChange={() => {this.setSettings({labels:!settings.labels})}}
+                />
+              </ButtonGroup>
             </UI.BtnGroup>
         </UI.Wrapper>
 
@@ -143,6 +154,7 @@ export default class LineChart extends React.Component{
   		fontSize:'14px',
 
       color: d3.schemeCategory10,
+      labels: false,
       legend: false,
 
       xAxis:{
@@ -273,6 +285,29 @@ export default class LineChart extends React.Component{
           .style('fill', 'none')
           .style('stroke-width', '1.5px');
       }
+
+      if(settings.labels){
+        for(let yAxisDimension of yAxisDimensions)
+        {
+          canvas.append('g')
+            .classed('labels', true)
+            .selectAll('text')
+            .data(sortedDataset)
+            .enter()
+            .append('text')
+            .attr('x', d => {return x(d[xAxisDimension])})
+            .attr('y', d => {return y(d[yAxisDimension])})
+            .attr('transform', 'translate(0,-5)')
+            .attr('text-anchor', 'middle')
+            .attr('font-family', settings.fontFamily)
+            .attr('font-size', settings.fontSize)
+            .text(d => {return d[yAxisDimension]});
+      }}
+
+
+
+
+
 
       // LEGEND
       if(settings.legend) ChartModel.drawLegend(canvas, settings, width, yAxisDimensions, colorGenerator);

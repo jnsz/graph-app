@@ -16,7 +16,7 @@ export default class ChartModel {
 
 		canvas.append('text')
 			.attr('x', x)
-			.attr('y', -10)
+			.attr('y', -20)
 			.attr('text-anchor', settings.chartLabel.align)
 			.attr('dominant-baseline', 'text-after-edge')
 			.attr('font-family', settings.fontFamily)

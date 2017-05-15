@@ -42,17 +42,11 @@ export default class GraphSVG extends React.Component{
         <Row id='svg-parent'>
 
           <Col md={8} id='svg'>
-            {/* <h1>
-              Graph <small><TutorialPopover tooltipText={tutorialTxtGraph} /></small>
-            </h1> */}
             <div style={{margin:'0px 0px 30px 0px'}}>
               {this.generateSVG()}
             </div>
           </Col>
           <Col md={4} id='sidebar'>
-            {/* <h1>
-              Customization <small><TutorialPopover tooltipText={tutorialTxtCust} /></small>
-            </h1> */}
             <GraphCustomization
               selectedGraph={this.props.selectedGraph}
               svgSize={this.props.svgSize}

@@ -54,7 +54,7 @@ Jaguar,24.3,151,90,1269,20.1,coupe
 Kaipan,9.7,232,100,1179,15,hatchback
 Lada,15.7,232,100,1211,13,sedan
 Mitsubishi,11.8,232,100,1457,16,SUV
-Nissan,11.2,199,90,1251,15,hatchback
+Nissan,11.2,199,90,1251,15,convertible
 Opel,13,258,110,1621,13.5,sedan
 Peugeot,13.1,199,97,1381,15.5,minivan
 Renault,16,211,120,1620,14,hatchback
