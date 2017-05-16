@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { Tabs, Tab, Row } from 'react-bootstrap';
+import { Tabs, Tab, Row, Button, Modal } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import Data from './data/Data';
@@ -30,6 +30,8 @@ export default class App extends React.Component {
       // when graph is selected these are set
       selectedGraph: 'BarChart',
       graphVariables: BarChart.variables,
+      activeTab: 0,
+      showAbout: false,
     };
 
     this.setRawDataset = this.setRawDataset.bind(this);
@@ -68,7 +70,7 @@ export default class App extends React.Component {
 
     return (
       <div className='container'>
-        <Tabs defaultActiveKey={0} onSelect={key => {this.handleTabChange(key)}} bsStyle='pills' id='main-nav' animation={false}>
+        <Tabs activeKey={this.state.activeTab} onSelect={key => {this.handleTabChange(key)}} bsStyle='pills' id='main-nav' animation={false}>
           <Tab
             eventKey={0}
             title={<span><FontAwesome name='table'/> Data parsing</span>}
@@ -110,10 +112,13 @@ export default class App extends React.Component {
             eventKey={5}
             title={<span><FontAwesome name='question'/> Help</span>}
             tabClassName='pull-right'
-          >
-            <About />
-          </Tab>
+          />
         </Tabs>
+
+        <Modal show={this.state.showAbout} onHide={() => {this.setState({showAbout:false})}}>
+          <About/>
+        </Modal>
+
       </div>
     );
   }
@@ -121,6 +126,12 @@ export default class App extends React.Component {
   handleTabChange(key){
     if(isNaN(key)){
       this.setGraphType(key);
+    }
+    if(key == 5){
+      this.setState({showAbout:true});
+    }
+    else {
+      this.setState({activeTab:key});
     }
   }
 
