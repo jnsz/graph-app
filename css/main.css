@@ -74,13 +74,14 @@ table {
 
 div.modal-content {
   border-radius: 0px;
-  box-shadow: -10px 10px rgba(165, 165, 165, 0.5);
+  /*box-shadow: -10px 10px rgba(165, 165, 165, 0.5);*/
+  box-shadow: none;
   border-color: white;
 
 }
 
 div.modal-backdrop {
-  background-color: rgba(0, 0, 0, 0);
+  /*background-color: rgba(0, 0, 0, 0);*/
 }
 
 div.modal-dialog {
