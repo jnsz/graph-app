@@ -43,97 +43,132 @@
 
 
 body {
-  background-color: #ededed;
+  background-color: rgb(235, 235, 235);
 }
 
 table {
   background-color: white;
 }
 
+textarea.form-control{
+  border: none;
+}
+
 .box{
-  box-shadow: -10px 10px #c9c9c9;
+  box-shadow: -10px 10px rgb(215, 215, 215);
   border: none;
   border-radius: 0;
 }
 
 .box.small{
-  box-shadow: -5px 5px #c9c9c9;
+  box-shadow: -5px 5px rgb(215, 215, 215);
 }
 
 .nav-pills>li>a {
   border-radius: 0px;
+  outline: none !important;
 }
 
-.btn{
-  border-radius: 0px;
-}
-
-.form-control{
-  border-radius: 0px;
-}
-
-div.modal-content {
-  border-radius: 0px;
-  /*box-shadow: -10px 10px rgba(165, 165, 165, 0.5);*/
-  box-shadow: none;
-  border-color: white;
-
-}
-
-div.modal-backdrop {
-  /*background-color: rgba(0, 0, 0, 0);*/
-}
-
-div.modal-dialog {
-  float: right;
-  right: 30px;
-
-}
-
-@media only screen and (max-width: 767px) {
-  div.modal-dialog {
-    right: 0px;
-  }
-}
-
-textarea.form-control{
-  border: none;
-}
-
-.form-group{
-  margin-bottom: 0;
+.nav-pills>li>a:hover {
+  background-color: rgb(235, 235, 235);
 }
 
 div.cust {
   background-color: white;
 	padding: 5px 15px;
   margin: 0px 0px 10px 0px;
-  box-shadow: -5px 5px #c9c9c9;
+  box-shadow: -5px 5px rgb(215, 215, 215);
   border: none;
   border-radius: 0;
 }
 
-ul {
-    list-style:none;
-    padding-left:0;
+.form-group{
+  margin-bottom: 0;
+}
+
+.form-control{
+  border-radius: 0px;
+  box-shadow: none;
+  border-color: rgb(215, 215, 215);
+}
+
+.form-control:focus{
+  box-shadow: none;
+}
+
+.btn{
+  border-radius: 0px;
+  outline: none !important;
+}
+
+.btn-success, .btn-success:active, .btn-success.active, .btn-success:hover, .btn-success:focus {
+  border: none;
+  box-shadow: none;
+  outline: none !important;
+
+}
+
+.btn-default{
+  border-color: rgb(215, 215, 215);
+}
+
+.btn-default:hover, .btn-default.active:hover {
+  box-shadow: none;
+  outline: none;
+
+  border-color: rgb(215, 215, 215);
+  background-color: rgb(235, 235, 235);
+
+}
+
+.btn-default.active, .btn-default:active {
+  box-shadow: none;
+  outline: none !important;
+
+  border-color: rgb(215, 215, 215);
+  background-color: rgb(215, 215, 215);
+}
+
+.btn-default:focus, .btn-default.active:focus {
+  box-shadow: none;
+  outline: none;
+  border-color: rgb(215, 215, 215);
 }
 
 
-div.about > ul {
-    line-height: 2.5;
-    list-style:disc;
-    padding-left:40px;
+.btn-group.open .dropdown-toggle{
+  box-shadow: none;
+  border-color: rgb(215, 215, 215);
+  background-color: rgb(235, 235, 235);
+}
 
+.btn-group.open:hover .dropdown-toggle:hover{
+  box-shadow: none;
+  border-color: rgb(215, 215, 215);
+  background-color: rgb(215, 215, 215);
+}
+
+.btn-group.open:focus .dropdown-toggle:focus, .btn-group.open:active .dropdown-toggle:active{
+  border-color: rgb(215, 215, 215);
+}
+
+.dropdown-menu>li>a {
+  outline: none !important;
 }
 
 ul.dropdown-menu {
   border-radius: 0;
   box-shadow: -5px 5px rgba(165, 165, 165, 0.5);
-  border-color: white;
+  border-color: rgba(165, 165, 165, 0.5);
 }
 
 .popover {
   max-width: none;
+}
+
+ul {
+    list-style:none;
+    padding-left:0;
 }
 
 #svg-parent {
@@ -159,4 +194,24 @@ ul.dropdown-menu {
     #sidebar {
       width: 100%;
     }
+}
+
+/*BOOSTRAP MODAL*/
+div.modal-content {
+  border-radius: 0px;
+  box-shadow: none;
+  border-color: white;
+
+}
+
+div.modal-dialog {
+  float: right;
+  right: 30px;
+
+}
+
+@media only screen and (max-width: 767px) {
+  div.modal-dialog {
+    right: 0px;
+  }
 }

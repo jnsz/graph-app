@@ -349,7 +349,7 @@ export class LabelChart extends React.Component {
             onChange={() => {chartLabel.isBold = !chartLabel.isBold; onChange(chartLabel)}}
             tooltip='Bold'
           >
-            <FontAwesome name='bold'/>
+            {chartLabel.isBold ? <span style={{fontWeight:'bold', fontFamily:'Georgia'}}>B</span>:<span style={{paddingRight:'2px', fontFamily:'Georgia'}}>B</span>}
           </FormBtn>
           <FormInput
 						placeholder='Display nothing'

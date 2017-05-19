@@ -8,7 +8,7 @@ export default class App extends React.Component {
       <div style={{padding: '0px 30px 30px 30px'}}>
       <div className='about'>
         <h2>About</h2>
-        <p>
+        <p> 
           This simple graph maker is an app that allows you to generate 4 basic static graphs from <code>CSV</code> data.
           It allows you to customize your graph a bit and export it in <code>SVG</code> format.
         </p>
