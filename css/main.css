@@ -156,6 +156,11 @@ div.cust {
   outline: none !important;
 }
 
+.input-group-addon {
+  background: rgb(215, 215, 215);
+  border-color: rgb(215, 215, 215); 
+}
+
 ul.dropdown-menu {
   border-radius: 0;
   box-shadow: -5px 5px rgba(165, 165, 165, 0.5);
