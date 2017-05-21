@@ -31,7 +31,7 @@ export default class App extends React.Component {
           <p>Graph will automatically genereate itself if all <FontAwesome name='asterisk' style={{color: '#666', margin: '0px 2px'}}/>(required) variables have at least one dimension in them.</p>
           <p>Variables accept either max <FontAwesome name='tag' style={{color: '#666', margin: '0px 2px'}}/> (one) or <FontAwesome name='tags' style={{color: '#666', margin: '0px 2px'}}/> (any number) of dimensions</p>
           <p>Variables accept either number or any type of dimesnion. If you pick up string dimensions, <span style={{border: '1px dashed', padding:'4px 12px'}}>drop areas</span> of numeric dimensions will turn red.</p>
-          <p>Drag <span style={{padding: '4px 12px',color: 'white',backgroundColor: '#39D831'}}>varibales</span> around to reorder them. This list's order will determine order in which elements will be drawn.</p>
+          <p>Drag <span style={{padding: '4px 12px',color: 'white',backgroundColor: '#39D831'}}>variables</span> around to reorder them. This list's order will determine order in which elements will be drawn.</p>
 
           <h3>Graph settings</h3>
           <p>In graph section next to the canvas where graph is displayed (or underneath if page is too narrow) are graph settings.</p>

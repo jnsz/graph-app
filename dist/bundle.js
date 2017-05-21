@@ -199,7 +199,7 @@ var App = function (_React$Component) {
                                                             React.createElement(
                                                                       'span',
                                                                       { style: { padding: '4px 12px', color: 'white', backgroundColor: '#39D831' } },
-                                                                      'varibales'
+                                                                      'variables'
                                                             ),
                                                             ' around to reorder them. This list\'s order will determine order in which elements will be drawn.'
                                                   ),
@@ -1512,7 +1512,7 @@ var Graph = function (_React$Component) {
         React.createElement(
           'span',
           { style: { padding: '6px 12px', color: 'white', backgroundColor: '#39D831' } },
-          'varibales'
+          'variables'
         ),
         ' around to reorder them.'
       );

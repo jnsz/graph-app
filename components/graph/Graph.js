@@ -22,7 +22,7 @@ export default class Graph extends React.Component{
     const tutorialTxt =(
       <span style={{lineHeight:'2.5'}}>
         Drag <span style={{color: 'white',backgroundColor: '#337ab7',padding: '6px 12px',}}>dimensions</span> onto <span style={{border: '1px dashed', padding:'6px 12px'}}>drop areas.</span> <br/>
-        Drag <span style={{padding: '6px 12px',color: 'white',backgroundColor: '#39D831'}}>varibales</span> around to reorder them.
+        Drag <span style={{padding: '6px 12px',color: 'white',backgroundColor: '#39D831'}}>variables</span> around to reorder them.
       </span>
     )
 
