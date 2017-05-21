@@ -67,7 +67,7 @@ var App = function (_React$Component) {
                                                             'You can also download and use this app locally on your desktop via ',
                                                             React.createElement(
                                                                       'a',
-                                                                      { href: 'https://github.com/nanookilla/graph-app' },
+                                                                      { href: 'https://github.com/jnsz/graph-app' },
                                                                       React.createElement(_reactFontawesome2.default, { name: 'github' }),
                                                                       ' GitHub'
                                                             ),
