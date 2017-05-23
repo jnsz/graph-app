@@ -2,17 +2,22 @@ import { Button } from 'react-bootstrap';
 import { select } from 'd3';
 import FileSaver from 'file-saver';
 import FontAwesome from 'react-fontawesome';
+import TutorialPopover from './TutorialPopover';
 
 import { Wrapper } from './graph/graph-customization/CustomizerUI';
 
 export default class GraphExport extends React.Component{
 
   render() {
+    const tooltip = (
+      <span>
+        Exported <code>SVG</code> will contain whole graph even if it's clippend on the preview canvas.
+      </span>)
 
     return (
       <Wrapper>
         <h1>
-          Export
+          Export <small><TutorialPopover tooltipText={tooltip} /></small>
           <Button
             bsStyle='success pull-right'
             onClick={e => this.saveSVG()}

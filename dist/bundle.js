@@ -53,7 +53,7 @@ var App = function (_React$Component) {
                                                                       null,
                                                                       'CSV'
                                                             ),
-                                                            ' data. It allows you to customize your graph a bit and export it in ',
+                                                            ' data. It allows you to apply some customizations of your graph and exporting of your graph in ',
                                                             React.createElement(
                                                                       'code',
                                                                       null,
@@ -93,13 +93,13 @@ var App = function (_React$Component) {
                                                                       React.createElement(_reactFontawesome2.default, { name: 'table' }),
                                                                       ' Data parsing'
                                                             ),
-                                                            ' tab you can see text area. ',
+                                                            ' tab you can see text area. Insert your ',
                                                             React.createElement(
                                                                       'code',
                                                                       null,
                                                                       'CSV'
                                                             ),
-                                                            ' data goes there.'
+                                                            ' data there, app will process them automatically.'
                                                   ),
                                                   React.createElement(
                                                             'p',
@@ -109,7 +109,7 @@ var App = function (_React$Component) {
                                                                       null,
                                                                       'CSV'
                                                             ),
-                                                            ' must be formatted in a way where first line is header that contains unique names of your dimensions (columns).'
+                                                            ' must be formatted in a way where first line is header that contains unique names of your dimensions (columns). App also can only parse either string or number datums. It canno parse dates yet.'
                                                   ),
                                                   React.createElement(
                                                             'p',
@@ -121,12 +121,12 @@ var App = function (_React$Component) {
                                                                       React.createElement(_reactFontawesome2.default, { name: 'clipboard' }),
                                                                       ' Sample datasets'
                                                             ),
-                                                            ' button in the top right corner and test things out.'
+                                                            ' button in the top right corner, choose a sample and test things out.'
                                                   ),
                                                   React.createElement(
                                                             'p',
                                                             null,
-                                                            'When data is inserted, app will automatically interpret them and display them under the text area in form of table. There you can check how app interpreted your data.'
+                                                            'Pasrsed data are displayed bellow the Data input area in Data table area in form of a table. There you can check how app interpreted your data.'
                                                   ),
                                                   React.createElement(
                                                             'h3',
@@ -168,18 +168,18 @@ var App = function (_React$Component) {
                                                   React.createElement(
                                                             'p',
                                                             null,
-                                                            'Graph will automatically genereate itself if all ',
+                                                            'Graph will automatically genereate itself if all required (',
                                                             React.createElement(_reactFontawesome2.default, { name: 'asterisk', style: { color: '#666', margin: '0px 2px' } }),
-                                                            '(required) variables have at least one dimension in them.'
+                                                            ') variables have at least one dimension in them.'
                                                   ),
                                                   React.createElement(
                                                             'p',
                                                             null,
-                                                            'Variables accept either max ',
+                                                            'Variables accept either one (',
                                                             React.createElement(_reactFontawesome2.default, { name: 'tag', style: { color: '#666', margin: '0px 2px' } }),
-                                                            ' (one) or ',
+                                                            ') or any number (',
                                                             React.createElement(_reactFontawesome2.default, { name: 'tags', style: { color: '#666', margin: '0px 2px' } }),
-                                                            ' (any number) of dimensions'
+                                                            ') of dimensions'
                                                   ),
                                                   React.createElement(
                                                             'p',
@@ -211,7 +211,7 @@ var App = function (_React$Component) {
                                                   React.createElement(
                                                             'p',
                                                             null,
-                                                            'In graph section next to the canvas where graph is displayed (or underneath if page is too narrow) are graph settings.'
+                                                            'In Graph section next to the canvas where graph is displayed (or underneath if page is too narrow) are graph settings.'
                                                   ),
                                                   React.createElement(
                                                             'p',
@@ -609,6 +609,10 @@ var _reactFontawesome = require('react-fontawesome');
 
 var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
 
+var _TutorialPopover = require('./TutorialPopover');
+
+var _TutorialPopover2 = _interopRequireDefault(_TutorialPopover);
+
 var _CustomizerUI = require('./graph/graph-customization/CustomizerUI');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -633,13 +637,30 @@ var GraphExport = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
+      var tooltip = React.createElement(
+        'span',
+        null,
+        'Exported ',
+        React.createElement(
+          'code',
+          null,
+          'SVG'
+        ),
+        ' will contain whole graph even if it\'s clippend on the preview canvas.'
+      );
+
       return React.createElement(
         _CustomizerUI.Wrapper,
         null,
         React.createElement(
           'h1',
           null,
-          'Export',
+          'Export ',
+          React.createElement(
+            'small',
+            null,
+            React.createElement(_TutorialPopover2.default, { tooltipText: tooltip })
+          ),
           React.createElement(
             _reactBootstrap.Button,
             {
@@ -671,7 +692,7 @@ var GraphExport = function (_React$Component) {
 
 exports.default = GraphExport;
 
-},{"./graph/graph-customization/CustomizerUI":15,"d3":139,"file-saver":215,"react-bootstrap":435,"react-fontawesome":616}],4:[function(require,module,exports){
+},{"./TutorialPopover":7,"./graph/graph-customization/CustomizerUI":15,"d3":139,"file-saver":215,"react-bootstrap":435,"react-fontawesome":616}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
