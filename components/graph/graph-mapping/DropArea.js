@@ -9,16 +9,24 @@ const dropAreaStyle = {
   fontSize: '100%',
   fontStyle: 'italic'
 }
+
+const dropAreaCanDropStyle = {
+  ...dropAreaStyle,
+  border: '1px solid #39D831',
+  color: '#39D831'
+}
+
 const dropAreaActiveStyle = {
   ...dropAreaStyle,
   color: 'white',
   backgroundColor: '#39D831',
-  border: '1px hidden',
+  border: '1px solid #39D831',
 }
+
 const dropAreaWrongStyle = {
   ...dropAreaStyle,
   backgroundColor: '#cc6969',
-  border: '1px hidden',
+  border: '1px solid #cc6969',
 }
 
 const dimensionTarget = {
@@ -41,20 +49,34 @@ function collect(connect, monitor) {
 class DropArea extends React.Component {
   render() {
     const { item, itemType, canDrop, isOver, connectDropTarget, dimensionNumericType, variableNumericType} = this.props;
-    const isActive = canDrop && isOver;
-    const canDropStyle = (dimensionNumericType || !variableNumericType) || !(itemType === 'dimension');
+    const isCompatible = (dimensionNumericType || !variableNumericType) || !(itemType === 'dimension');
+
+    let dropArea = function(){
+      if (isCompatible && canDrop && !isOver) {
+        return (<li style={dropAreaCanDropStyle}>
+            <FontAwesome name='plus-circle' /> release over here
+          </li>);
+      }
+      else if (isCompatible && canDrop && isOver) {
+        return (<li style={dropAreaActiveStyle}>
+            <FontAwesome name='plus-circle' /> release here
+          </li>);
+      }
+      else if (!isCompatible) {
+        return (<li style={dropAreaWrongStyle}>
+            <FontAwesome name='times-circle' /> must be number
+          </li>);
+      }
+      else {
+        return (<li style={dropAreaStyle}>
+            <FontAwesome name='plus-circle' /> {variableNumericType?'drop numbers':'drop any type'}
+          </li>);
+      }
+    }()
 
     return connectDropTarget(
       <div>
-      {canDropStyle ?
-        <li style={isActive ? dropAreaActiveStyle : dropAreaStyle}>
-          <FontAwesome name='plus-circle' /> {variableNumericType?'drop numbers':'drop any type'}
-        </li>
-        :
-        <li style={dropAreaWrongStyle}>
-          <FontAwesome name='times-circle' /> must be number
-        </li>
-      }
+        {dropArea}
       </div>
     );
   }

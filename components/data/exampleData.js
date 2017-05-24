@@ -13,7 +13,7 @@ Apple,6
 Pumpkin,2
 Plum,5
 Poppy,25
-Tvarohový,4`,
+Cheesecake,4`,
 
 'line':
 `km walked (x axis), Elevation 1 [m] (y axis), Elevation 2 [m] (y axis)

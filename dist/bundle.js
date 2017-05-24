@@ -1442,7 +1442,7 @@ Object.defineProperty(exports, "__esModule", {
 var exampleData = {
   'bar': 'Bar (ticks on x axis),Leden (bar height),\xDAnor (bar height),B\u0159ezen (bar height),Duben (bar height),Kv\u011Bten (bar height),\u010Cerven (bar height)\nBar kter\xFD neexistuje,7,0,1,21,5,6\nSuper Panda Circus,4,8,6,2,12,7\nBar Naproti,7,19,11,8,16,12\nLow Cost BAR,20,14,15,29,7,17\nLivingstone Club,4,5,6,7,8,9',
 
-  'pie': 'Pie type (labels), Amount eaten (values)\nApple,6\nPumpkin,2\nPlum,5\nPoppy,25\nTvarohov\xFD,4',
+  'pie': 'Pie type (labels), Amount eaten (values)\nApple,6\nPumpkin,2\nPlum,5\nPoppy,25\nCheesecake,4',
 
   'line': 'km walked (x axis), Elevation 1 [m] (y axis), Elevation 2 [m] (y axis)\n1,712,609\n2,741,620\n3,790,611\n5,763,648\n6,804,692\n7,729,734\n11,847,754\n12,812,797\n13,785,811\n14,711,809\n15,677,807\n16,654,812\n17,637,799\n18,644,743\n19,709,731\n20,784,727\n21,835,711\n22,849,698\n26,615,813\n27,572,821\n28,547,789\n29,540,770\n30,569,741',
 
@@ -3289,14 +3289,21 @@ var dropAreaStyle = {
   fontSize: '100%',
   fontStyle: 'italic'
 };
+
+var dropAreaCanDropStyle = _extends({}, dropAreaStyle, {
+  border: '1px solid #39D831',
+  color: '#39D831'
+});
+
 var dropAreaActiveStyle = _extends({}, dropAreaStyle, {
   color: 'white',
   backgroundColor: '#39D831',
-  border: '1px hidden'
+  border: '1px solid #39D831'
 });
+
 var dropAreaWrongStyle = _extends({}, dropAreaStyle, {
   backgroundColor: '#cc6969',
-  border: '1px hidden'
+  border: '1px solid #cc6969'
 });
 
 var dimensionTarget = {
@@ -3337,24 +3344,45 @@ var DropArea = function (_React$Component) {
           dimensionNumericType = _props.dimensionNumericType,
           variableNumericType = _props.variableNumericType;
 
-      var isActive = canDrop && isOver;
-      var canDropStyle = dimensionNumericType || !variableNumericType || !(itemType === 'dimension');
+      var isCompatible = dimensionNumericType || !variableNumericType || !(itemType === 'dimension');
+
+      var dropArea = function () {
+        if (isCompatible && canDrop && !isOver) {
+          return React.createElement(
+            'li',
+            { style: dropAreaCanDropStyle },
+            React.createElement(_reactFontawesome2.default, { name: 'plus-circle' }),
+            ' release over here'
+          );
+        } else if (isCompatible && canDrop && isOver) {
+          return React.createElement(
+            'li',
+            { style: dropAreaActiveStyle },
+            React.createElement(_reactFontawesome2.default, { name: 'plus-circle' }),
+            ' release here'
+          );
+        } else if (!isCompatible) {
+          return React.createElement(
+            'li',
+            { style: dropAreaWrongStyle },
+            React.createElement(_reactFontawesome2.default, { name: 'times-circle' }),
+            ' must be number'
+          );
+        } else {
+          return React.createElement(
+            'li',
+            { style: dropAreaStyle },
+            React.createElement(_reactFontawesome2.default, { name: 'plus-circle' }),
+            ' ',
+            variableNumericType ? 'drop numbers' : 'drop any type'
+          );
+        }
+      }();
 
       return connectDropTarget(React.createElement(
         'div',
         null,
-        canDropStyle ? React.createElement(
-          'li',
-          { style: isActive ? dropAreaActiveStyle : dropAreaStyle },
-          React.createElement(_reactFontawesome2.default, { name: 'plus-circle' }),
-          ' ',
-          variableNumericType ? 'drop numbers' : 'drop any type'
-        ) : React.createElement(
-          'li',
-          { style: dropAreaWrongStyle },
-          React.createElement(_reactFontawesome2.default, { name: 'times-circle' }),
-          ' must be number'
-        )
+        dropArea
       ));
     }
   }]);
