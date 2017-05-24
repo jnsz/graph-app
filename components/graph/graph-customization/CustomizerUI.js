@@ -42,8 +42,10 @@ Form.defaultProps = {
 
 export class FormInput extends React.Component {
   render(){
+
     return(
       <FormControl
+        style={this.props.style}
         disabled={this.props.disabled}
         type='text'
         placeholder={ this.props.placeholder }
@@ -56,6 +58,7 @@ export class FormInput extends React.Component {
 FormInput.defaultProps = {
   placeholder: '',
   disabled:false,
+  style:{},
 }
 
 export class FormAddon extends React.Component {
@@ -427,20 +430,21 @@ export class MinMaxDomain extends React.Component {
 
     return (
       <Form label={label}>
-        {(onAuto === false) ? false: <FormBtn
+        {(onAuto === false) ? <InputGroup.Addon style={{backgroundColor:'white',borderRightColor:'white',borderRadius:'0'}}/> : <FormBtn
           active={automaticDomain}
           onChange={() => {onAuto()}}
           tooltip='Set domain automatically'>
           <FontAwesome name='magic'/>
         </FormBtn>}
 
-        <FormAddon>X</FormAddon>
         <FormInput
+          style={{borderLeft:'none'}}
           disabled={automaticDomain}
           value={domain[0]}
           onChange={value => {let newDomain = domain; newDomain[0] = value; onChange(newDomain)}}
           placeholder='Min'
         />
+
         <FormAddon />
         <FormInput
           disabled={automaticDomain}

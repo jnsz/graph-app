@@ -122,7 +122,7 @@ export default class ScatterPlot extends React.Component{
       assignedDimensions:[]
     },{
       label: 'Color',
-      desc: "Maps dimesnion on symbol's color",
+      desc: "Maps dimesnion on symbol's color (dimension is ordinal and it's is based on Color scheme setting)",
       takesSingleDimension: true,
       assignedDimensions:[]
     },{

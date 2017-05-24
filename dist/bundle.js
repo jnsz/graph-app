@@ -1959,6 +1959,7 @@ var FormInput = exports.FormInput = function (_React$Component3) {
       var _this4 = this;
 
       return React.createElement(_reactBootstrap.FormControl, {
+        style: this.props.style,
         disabled: this.props.disabled,
         type: 'text',
         placeholder: this.props.placeholder,
@@ -1975,7 +1976,8 @@ var FormInput = exports.FormInput = function (_React$Component3) {
 
 FormInput.defaultProps = {
   placeholder: '',
-  disabled: false
+  disabled: false,
+  style: {}
 };
 
 var FormAddon = exports.FormAddon = function (_React$Component4) {
@@ -2675,7 +2677,7 @@ var MinMaxDomain = exports.MinMaxDomain = function (_React$Component17) {
       return React.createElement(
         Form,
         { label: label },
-        onAuto === false ? false : React.createElement(
+        onAuto === false ? React.createElement(_reactBootstrap.InputGroup.Addon, { style: { backgroundColor: 'white', borderRightColor: 'white', borderRadius: '0' } }) : React.createElement(
           FormBtn,
           {
             active: automaticDomain,
@@ -2685,12 +2687,8 @@ var MinMaxDomain = exports.MinMaxDomain = function (_React$Component17) {
             tooltip: 'Set domain automatically' },
           React.createElement(_reactFontawesome2.default, { name: 'magic' })
         ),
-        React.createElement(
-          FormAddon,
-          null,
-          'X'
-        ),
         React.createElement(FormInput, {
+          style: { borderLeft: 'none' },
           disabled: automaticDomain,
           value: domain[0],
           onChange: function onChange(value) {
@@ -5564,7 +5562,7 @@ ScatterPlot.variables = [{
   assignedDimensions: []
 }, {
   label: 'Color',
-  desc: "Maps dimesnion on symbol's color",
+  desc: "Maps dimesnion on symbol's color (dimension is ordinal and it's is based on Color scheme setting)",
   takesSingleDimension: true,
   assignedDimensions: []
 }, {
