@@ -1,7 +1,8 @@
-import * as d3 from 'd3';
-import ReactFauxDOM from 'react-faux-dom';
-import FontAwesome from 'react-fontawesome';
+import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
+import FontAwesome from 'react-fontawesome';
+import ReactFauxDOM from 'react-faux-dom';
+import * as d3 from 'd3';
 
 import TutorialPopover from '../TutorialPopover';
 import BarChart from '../graphs/BarChart';
@@ -10,7 +11,7 @@ import LineChart from '../graphs/LineChart';
 import ScatterPlot from '../graphs/ScatterPlot';
 import GraphCustomization from './graph-customization/GraphCustomization';
 
-export default class GraphSVG extends React.Component{
+export default class GraphSVG extends Component {
 
   constructor(){
     super();
@@ -32,15 +33,12 @@ export default class GraphSVG extends React.Component{
       </span>
     )
 
-
-
     return (
       <div>
         <h1>
           Graph <small><TutorialPopover tooltipText={tutorialTxtGraph} /></small>
         </h1>
         <Row id='svg-parent'>
-
           <Col md={8} id='svg'>
             <div style={{margin:'0px 0px 30px 0px'}}>
               {this.generateSVG()}
@@ -96,7 +94,6 @@ export default class GraphSVG extends React.Component{
         ScatterPlot.drawEmptyAndCheck(canvas, svgSize, dataset);
         break;
     }
-
 
     return node.toReact();
   }

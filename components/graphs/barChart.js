@@ -1,10 +1,9 @@
-import * as d3_core from 'd3';
-const d3 = {...d3_core};
+import React, { Component } from 'react';
 import { Col, Row, ButtonGroup } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
+import * as d3 from 'd3';
 
 import ChartModel from './ChartModel';
-
 import * as UI from '../graph/graph-customization/CustomizerUI';
 
 const padding = {
@@ -13,9 +12,11 @@ const padding = {
   big: 0.3,
 }
 
-export default class BarChart extends React.Component {
+export default class BarChart extends Component {
 
-
+  /**
+   * Renders customizations of a graph
+   */
   render(){
 		const settings = BarChart.settings;
 
@@ -23,34 +24,14 @@ export default class BarChart extends React.Component {
       <div>
         <UI.Size svgSize={this.props.svgSize} onSvgSizeChange={this.props.onSvgSizeChange}/>
 
-        {/* <UI.Wrapper>
-          <UI.BtnGroup label="Graph type">
-            <UI.BtnGroupBtn
-              label='Vertical'
-              active={settings.isVertical}
-              onChange={() => {this.setSettings({isVertical:true})}}
-            />
-            <UI.BtnGroupBtn
-              label='Horizontal'
-              active={!settings.isVertical}
-              onChange={() => {this.setSettings({isVertical:false})}}
-            />
-          </UI.BtnGroup>
-        </UI.Wrapper> */}
-
         <UI.Wrapper>
           <UI.BtnGroup label="General">
-
-
-              <UI.BtnGroupDropdownColor
-                active={settings.color}
-                onChange={value => {this.setSettings({color:value})}}
-              />
-
-
+            <UI.BtnGroupDropdownColor
+              active={settings.color}
+              onChange={value => {this.setSettings({color:value})}}
+            />
           </UI.BtnGroup>
           <UI.BtnGroup>
-
             <ButtonGroup justified style={{paddingRight:'5px'}}>
               <UI.BtnGroupDropdown
                 id='group-padding'
@@ -62,7 +43,6 @@ export default class BarChart extends React.Component {
                 }
               />
             </ButtonGroup>
-
             <ButtonGroup justified style={{paddingLeft:'5px'}}>
               <UI.BtnGroupDropdown
                 id='bar-padding'
@@ -74,17 +54,9 @@ export default class BarChart extends React.Component {
                 }
               />
             </ButtonGroup>
-
-
-
           </UI.BtnGroup>
 
-
-
-
-
           <UI.BtnGroup>
-
             <ButtonGroup justified style={{paddingRight:'5px'}}>
               <UI.BtnGroupBtn
                 icon={settings.legend? <FontAwesome name='eye'/> : <FontAwesome name='eye-slash'/> }
@@ -103,16 +75,12 @@ export default class BarChart extends React.Component {
                 onChange={value => {this.setSettings({barLabelPos:value})}}
               />
             </ButtonGroup>
-
-
-
           </UI.BtnGroup>
         </UI.Wrapper>
         <UI.LabelChart
           settings={settings}
           onChange={newSettings => {this.setSettings(newSettings)}}
         />
-
 
         <UI.Wrapper>
           <UI.LabelAxis
@@ -121,7 +89,6 @@ export default class BarChart extends React.Component {
             axisSettings={settings.xAxis}
             onChange={newSettings => {this.setSettings(newSettings)}}
           />
-
           <UI.BtnGroup label="Tick Labels' Rotation">
             <UI.BtnGroupBtn
               label='0°'
@@ -179,16 +146,19 @@ export default class BarChart extends React.Component {
               <UI.FormInput
                 disabled={settings.automaticDomain}
                 value={settings.domainHeight}
-                onChange={value => {console.log(typeof value);this.setSettings({domainHeight:value})}}
+                onChange={value => {this.setSettings({domainHeight:value})}}
               />
             </UI.Form>
         </UI.Wrapper>
-
       </div>
 
     )
   }
   static graphName = 'BarChart';
+
+  /**
+   * Settings for graph variables
+   */
   static variables = [
     {
         label: 'Bar height',
@@ -205,6 +175,10 @@ export default class BarChart extends React.Component {
         assignedDimensions:[]
     },
   ];
+
+  /**
+   * Graph settings
+   */
   static settings = {
     isVertical:true,
 
@@ -242,11 +216,8 @@ export default class BarChart extends React.Component {
   }
 	setSettings(newSettings){
 		BarChart.settings = {...BarChart.settings, ...newSettings};
-		// console.log(BarChart.settings);
 		this.props.updateSVG();
 	}
-
-
 
   static drawEmptyAndCheck(canvas, svgSize, wholeDataset) {
     const settings = BarChart.settings;
@@ -267,14 +238,6 @@ export default class BarChart extends React.Component {
 		const isVertical = BarChart.settings.isVertical;
 
     if(hasBarDimension) {
-      /*if(isVertical && isGrouped) this.drawChartVertGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
-      else this.drawChartVertGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
-      // else if(!isVertical && isGrouped) this.drawChartHorizonGroup(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
-      // else if(isVertical && !isGrouped) this.drawChartVertStacked(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);
-      // else this.drawChartHorizonStacked(canvas, svgSize, wholeDataset, hasLabelDimension, hasBarDimension);*/
-
-
-
       // GET BARS DIMENSIONS
       const barDimensions = [];
       this.variables[0].assignedDimensions.map(dimension => {
@@ -389,12 +352,6 @@ export default class BarChart extends React.Component {
             case 'bellow':  return 'text-before-edge';
             case 'buttom': return 'text-after-edge';
           }})
-          // .style('fill', () => {
-          //   switch(settings.barLabelPos) {
-          //   case 'bellow': return 'white';
-          //   case 'bottom':  return 'white';
-          // }
-          // })
           .text(d => {return d});
       }
 

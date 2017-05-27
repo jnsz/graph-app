@@ -1,6 +1,7 @@
-import * as d3 from 'd3';
+import React, { Component, PropTypes } from 'react';
 import { Col, Row, Button, FormControl, FormGroup, InputGroup, ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
+import * as d3 from 'd3';
 
 import Overlay from '../../Overlay';
 import TutorialPopover from '../../TutorialPopover';
@@ -8,7 +9,7 @@ import {FontFamily, FontSize, ColorSchemeNames, ColorSchemes} from './Enums';
 
 const rowStyle = {padding: '0px 15px', marginBottom:'15px'}
 
-export class Wrapper extends React.Component {
+export class Wrapper extends Component {
   render() {
     return(
       <Col md={12}>
@@ -20,8 +21,10 @@ export class Wrapper extends React.Component {
 	}
 }
 
-///// FORM GROUP //////////////////////////
-export class Form extends React.Component {
+/**
+ * Forn Group
+ */
+export class Form extends Component {
   render(){
     return(
       <Row style={rowStyle}>
@@ -37,10 +40,9 @@ export class Form extends React.Component {
 }
 Form.defaultProps = {
   label: '',
-  // label: String.fromCharCode(160) // non-breaking space char
 }
 
-export class FormInput extends React.Component {
+export class FormInput extends Component {
   render(){
 
     return(
@@ -56,12 +58,12 @@ export class FormInput extends React.Component {
   }
 }
 FormInput.defaultProps = {
-  placeholder: '',
+  placeholder:'',
   disabled:false,
   style:{},
 }
 
-export class FormAddon extends React.Component {
+export class FormAddon extends Component {
   render(){
     if (this.props.children == null) return <InputGroup.Addon style={{padding:'0', border:'0', width:'0'}}/>
     else {
@@ -74,7 +76,7 @@ export class FormAddon extends React.Component {
   }
 }
 
-export class FormBtn extends React.Component {
+export class FormBtn extends Component {
   render(){
     const {active, onChange, children, tooltip} = this.props;
 
@@ -96,13 +98,12 @@ FormBtn.defaultProps = {
   tooltip:''
 }
 
-export class FormAlign extends React.Component {
+export class FormAlign extends Component {
   render(){
     const { value, onChange } = this.props;
 
     return (
       <InputGroup.Button>
-
         <Overlay tooltipText='Align left' placement='top'>
           <Button
             active={value === 'start'}
@@ -129,15 +130,15 @@ export class FormAlign extends React.Component {
             <FontAwesome name='align-right'/>
           </Button>
         </Overlay>
-
       </InputGroup.Button>
     )
   }
 }
-///////////////////////////////////////////
 
-///// BTN GROUP ///////////////////////////
-export class BtnGroup extends React.Component {
+/**
+ * BtnGroup
+ */
+export class BtnGroup extends Component {
   render(){
     return(
       <Row style={rowStyle}>
@@ -151,10 +152,9 @@ export class BtnGroup extends React.Component {
 }
 BtnGroup.defaultProps = {
   label: '',
-  // label: String.fromCharCode(160) // non-breaking space char
 }
 
-export class BtnGroupBtn extends React.Component {
+export class BtnGroupBtn extends Component {
   render(){
     const { active, onChange, icon, label } = this.props;
 
@@ -174,7 +174,7 @@ BtnGroupBtn.defaultProps = {
   icon: '',
 }
 
-export class BtnGroupDropdown extends React.Component {
+export class BtnGroupDropdown extends Component {
   render(){
     const { title, id, arrayOfValues, onChange, active,  } = this.props;
 
@@ -199,7 +199,7 @@ export class BtnGroupDropdown extends React.Component {
   }
 }
 
-export class BtnGroupDropdownFontFamily extends React.Component {
+export class BtnGroupDropdownFontFamily extends Component {
   render(){
     const { active, onChange } = this.props;
 
@@ -225,7 +225,7 @@ export class BtnGroupDropdownFontFamily extends React.Component {
   }
 }
 
-export class BtnGroupDropdownFontSize extends React.Component {
+export class BtnGroupDropdownFontSize extends Component {
   render(){
     const { active, onChange } = this.props;
 
@@ -251,7 +251,7 @@ export class BtnGroupDropdownFontSize extends React.Component {
   }
 }
 
-export class BtnGroupDropdownColor extends React.Component {
+export class BtnGroupDropdownColor extends Component {
   render(){
     const { active, onChange } = this.props;
 
@@ -273,9 +273,11 @@ export class BtnGroupDropdownColor extends React.Component {
     )
   }
 }
-///////////////////////////////////////////
 
-export class Size extends React.Component {
+/**
+ * Canvas size settings component that is on top every settings
+ */
+export class Size extends Component {
   render() {
     const { svgSize, onSvgSizeChange } = this.props;
     const width = svgSize.width;
@@ -312,7 +314,10 @@ export class Size extends React.Component {
 	}
 }
 
-export class LabelAxis extends React.Component {
+/**
+ * Settings for axis
+ */
+export class LabelAxis extends Component {
   render() {
     const { label, axisSettings, onChange } = this.props;
 
@@ -339,7 +344,10 @@ export class LabelAxis extends React.Component {
 	}
 }
 
-export class LabelChart extends React.Component {
+/**
+ * Settings for chart label and font family and size
+ */
+export class LabelChart extends Component {
   render() {
     const { settings, onChange } = this.props;
     const chartLabel = settings.chartLabel;
@@ -384,11 +392,11 @@ export class LabelChart extends React.Component {
 	}
 }
 
-export class Slider extends React.Component {
-
+/**
+ * Slider component
+ */
+export class Slider extends Component {
 	render() {
-
-
 		return (
 			<Row style={rowStyle}>
   			<div>
@@ -407,23 +415,25 @@ export class Slider extends React.Component {
             className='slider'
   				/>
   				<span style={{float: 'right'}}>{this.props.displayedValue}</span>
-
   			</div>
 			</Row>
 		)
 	}
 }
 Slider.PropTypes = {
-	label : React.PropTypes.string.isRequired,
-	min : React.PropTypes.number.isRequired,
-	max : React.PropTypes.number.isRequired,
-	step : React.PropTypes.number.isRequired,
-	value : React.PropTypes.number.isRequired,
-	displayedValue : React.PropTypes.number.isRequired,
-	onChange : React.PropTypes.func.isRequired,
+	label : PropTypes.string.isRequired,
+	min : PropTypes.number.isRequired,
+	max : PropTypes.number.isRequired,
+	step : PropTypes.number.isRequired,
+	value : PropTypes.number.isRequired,
+	displayedValue : PropTypes.number.isRequired,
+	onChange : PropTypes.func.isRequired,
 };
 
-export class MinMaxDomain extends React.Component {
+/**
+ * Domain settings
+ */
+export class MinMaxDomain extends Component {
   render() {
     const { label,  domain, onChange, } = this.props;
     const { automaticDomain, onAuto } = this.props;

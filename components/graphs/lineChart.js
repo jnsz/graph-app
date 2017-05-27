@@ -1,11 +1,12 @@
-import * as d3 from 'd3';
+import React, { Component } from 'react';
 import { Col, Row, ButtonGroup } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
+import * as d3 from 'd3';
 
 import ChartModel from './ChartModel';
 import * as UI from '../graph/graph-customization/CustomizerUI';
 
-export default class LineChart extends React.Component{
+export default class LineChart extends Component{
 
   render(){
 		const settings = LineChart.settings;
@@ -179,7 +180,6 @@ export default class LineChart extends React.Component{
     }
 	setSettings(newSettings){
 		LineChart.settings = {...LineChart.settings, ...newSettings};
-		// console.log(LineChart.settings);
 		this.props.updateSVG();
 	}
 

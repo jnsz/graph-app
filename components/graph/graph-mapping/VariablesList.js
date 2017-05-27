@@ -1,7 +1,9 @@
+import React, { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
+
 import Variable from './Variable';
 
-export default class VariablesList extends React.Component{
+export default class VariablesList extends Component{
 
   render() {
     const { variables, onAssignedDimensionsOfVariableChange} = this.props;
@@ -10,21 +12,6 @@ export default class VariablesList extends React.Component{
     } else {
       return this.renderTwoRows(variables, onAssignedDimensionsOfVariableChange);
     }
-
-    // return (
-    //   <Col md={9}>
-    //     {variables.map((variable, i) => {
-    //       return (
-    //         <Variable
-    //           key={i+'var'}
-    //           variable={variable}
-    //           onAssignedDimensionsOfVariableChange={onAssignedDimensionsOfVariableChange}
-    //           index={i}
-    //         />
-    //       )
-    //     })}
-    //   </Col>
-    // )
   }
 
   renderSingleRow(variables, onAssignedDimensionsOfVariableChange){

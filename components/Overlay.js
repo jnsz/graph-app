@@ -1,6 +1,7 @@
+import React, { Component } from 'react';
 import { Tooltip, Popover, OverlayTrigger } from 'react-bootstrap';
 
-export default class Overlay extends React.Component{
+export default class Overlay extends Component {
   render(){
     const { type, tooltipText, title, placement} = this.props;
 

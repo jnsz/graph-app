@@ -1,12 +1,13 @@
+import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import FontAwesome from 'react-fontawesome';
 import { select } from 'd3';
 import FileSaver from 'file-saver';
-import FontAwesome from 'react-fontawesome';
-import TutorialPopover from './TutorialPopover';
 
+import TutorialPopover from './TutorialPopover';
 import { Wrapper } from './graph/graph-customization/CustomizerUI';
 
-export default class GraphExport extends React.Component{
+export default class GraphExport extends Component{
 
   render() {
     const tooltip = (

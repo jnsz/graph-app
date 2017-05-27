@@ -1,7 +1,9 @@
+import React, { Component } from 'react';
 import { Row } from 'react-bootstrap';
+
 import TutorialPopover from '../TutorialPopover';
 
-export default class DataInput extends React.Component{
+export default class DataInput extends Component{
 
   render() {
     const tutorialTxt =(
@@ -60,6 +62,4 @@ export default class DataInput extends React.Component{
       </tbody>
     )
   }
-
-
 }

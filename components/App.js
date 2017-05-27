@@ -1,39 +1,36 @@
-import * as d3 from 'd3';
+import React, { Component } from 'react';
 import { Tabs, Tab, Row, Button, Modal } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
+import * as d3 from 'd3';
 
 import Data from './data/Data';
 import Graph from './graph/Graph';
 import About from './About';
-
 import BarChart from './graphs/BarChart';
 import PieChart from './graphs/PieChart';
 import LineChart from './graphs/LineChart';
 import ScatterPlot from './graphs/ScatterPlot';
 
-export default class App extends React.Component {
+/**
+ * Main component. Renders navbar tabs.
+ */
+export default class App extends Component {
 
   constructor() {
     super();
     this.state = {
-      // when textarea is filled this is set
       rawDataset: '',
       dataset: d3.csvParse(''),
-
-      // svg size
       svgSize:{
           width:  d3.min([Math.round(window.innerWidth * 0.8), 900]),
           height: d3.min([Math.round(window.innerWidth * 0.5), 700]),
           margin: 0.2,
       },
-
-      // when graph is selected these are set
       selectedGraph: 'BarChart',
       graphVariables: BarChart.variables,
       activeTab: 0,
       showAbout: false,
     };
-
     this.setRawDataset = this.setRawDataset.bind(this);
     this.setDataset = this.setDataset.bind(this);
     this.setGraphType = this.setGraphType.bind(this);
@@ -43,7 +40,6 @@ export default class App extends React.Component {
   }
 
   render() {
-
     const dataNode =(
       <Data
         onRawDatasetChanged={this.setRawDataset}
@@ -67,62 +63,67 @@ export default class App extends React.Component {
       </div>
     )
 
-
     return (
-      <div className='container'>
-        <Tabs activeKey={this.state.activeTab} onSelect={key => {this.handleTabChange(key)}} bsStyle='pills' id='main-nav' animation={false}>
-          <Tab
-            eventKey={0}
-            title={<span><FontAwesome name='table'/> Data parsing</span>}
-          >
-            {dataNode}
+      <div>
+        <div style={{marginBottom:'30px'}} />
+        <div className='container'>
+          <Tabs activeKey={this.state.activeTab} onSelect={key => {this.handleTabChange(key)}} bsStyle='pills' id='main-nav' animation={false}>
+            <Tab
+              eventKey={0}
+              title={<span><FontAwesome name='table'/> Data parsing</span>}
+            >
+              {dataNode}
 
-          </Tab>
-          <Tab title={(this.state.dataset.columns == null) ? 'No data:' : 'Select graph:'} disabled />
-          <Tab
-            eventKey={'BarChart'}
-            title={<span><FontAwesome name='bar-chart'/> Bar chart</span>}
-            disabled={this.state.dataset.columns == null}
-          >
-            {this.state.selectedGraph === 'BarChart' ? graphNode : false}
-          </Tab>
-          <Tab
-            eventKey={'PieChart'}
-            title={<span><FontAwesome name='pie-chart'/> Pie chart</span>}
-            disabled={this.state.dataset.columns == null}
-          >
-            {this.state.selectedGraph === 'PieChart' ? graphNode : false}
-          </Tab>
-          <Tab
-            eventKey={'LineChart'}
-            title={<span><FontAwesome name='line-chart'/> Line chart</span>}
-            disabled={this.state.dataset.columns == null}
-          >
-            {this.state.selectedGraph === 'LineChart' ? graphNode : false}
-          </Tab>
-          <Tab
-            eventKey={'ScatterPlot'}
-            title={<span><span className="icon-scatter"/> Scatter plot</span>}
-            disabled={this.state.dataset.columns == null}
-          >
-            {this.state.selectedGraph === 'ScatterPlot' ? graphNode : false}
-          </Tab>
+            </Tab>
+            <Tab title={(this.state.dataset.columns == null) ? 'No data:' : 'Select graph:'} disabled />
+            <Tab
+              eventKey={'BarChart'}
+              title={<span><FontAwesome name='bar-chart'/> Bar chart</span>}
+              disabled={this.state.dataset.columns == null}
+            >
+              {this.state.selectedGraph === 'BarChart' ? graphNode : false}
+            </Tab>
+            <Tab
+              eventKey={'PieChart'}
+              title={<span><FontAwesome name='pie-chart'/> Pie chart</span>}
+              disabled={this.state.dataset.columns == null}
+            >
+              {this.state.selectedGraph === 'PieChart' ? graphNode : false}
+            </Tab>
+            <Tab
+              eventKey={'LineChart'}
+              title={<span><FontAwesome name='line-chart'/> Line chart</span>}
+              disabled={this.state.dataset.columns == null}
+            >
+              {this.state.selectedGraph === 'LineChart' ? graphNode : false}
+            </Tab>
+            <Tab
+              eventKey={'ScatterPlot'}
+              title={<span><span className="icon-scatter"/> Scatter plot</span>}
+              disabled={this.state.dataset.columns == null}
+            >
+              {this.state.selectedGraph === 'ScatterPlot' ? graphNode : false}
+            </Tab>
 
-          <Tab
-            eventKey={5}
-            title={<span><FontAwesome name='question'/> Help</span>}
-            tabClassName='pull-right'
-          />
-        </Tabs>
+            <Tab
+              eventKey={5}
+              title={<span><FontAwesome name='question'/> Help</span>}
+              tabClassName='pull-right'
+            />
+          </Tabs>
 
-        <Modal show={this.state.showAbout} onHide={() => {this.setState({showAbout:false})}}>
-          <About/>
-        </Modal>
+          <Modal show={this.state.showAbout} onHide={() => {this.setState({showAbout:false})}}>
+            <About/>
+          </Modal>
 
+        </div>
       </div>
     );
   }
 
+  /**
+   * Changes tab
+   */
   handleTabChange(key){
     if(isNaN(key)){
       this.setGraphType(key);
@@ -135,12 +136,20 @@ export default class App extends React.Component {
     }
   }
 
+  /**
+   * Sets new raw dataset which is just a string from text field
+   * @param {String} newRawDataset
+   */
   setRawDataset(newRawDataset) {
     this.setState({
       rawDataset: newRawDataset
     })
   }
 
+  /**
+   * Sets new parsed dataset
+   * @param {object} newParsedDataset
+   */
   setDataset(newParsedDataset) {
     const graphList = [BarChart, PieChart, LineChart, ScatterPlot];
     graphList.map(graph => {
@@ -152,7 +161,10 @@ export default class App extends React.Component {
     })
   }
 
-  // nastavi grapf type a nastavi variables (vizualni promenne), customizations (upravení) a default settings (hodnoty pro vykresleni grafu)
+  /**
+   * Set graph type and sets variables, customizations and default settings.
+   * @param {String} newGraphTypeName name of the graph
+   */
   setGraphType(newGraphTypeName) {
     if(this.state.selectedGraph !== newGraphTypeName){
       this.setState({
@@ -188,7 +200,11 @@ export default class App extends React.Component {
     }
   }
 
-
+  /**
+   * Add new assigned dimension
+   * @param {int} index index of variable
+   * @param {String} newAssignedDimensions name of the new dimension
+   */
   setAssignedDimensions(index, newAssignedDimensions){
     const newGraphVariables = this.state.graphVariables
     newGraphVariables[index].assignedDimensions = newAssignedDimensions;
@@ -198,14 +214,20 @@ export default class App extends React.Component {
     })
   }
 
-  // nastavi velikost svg a margin
+  /**
+   * Sets new svg height, width and margin
+   * @param {object} newSize object containing size parameteres
+   */
   setSvgSize(newSize){
     this.setState({
       svgSize: {...this.state.svgSize, ...newSize}
     })
   }
 
-  // zmeni nastaveni
+  /**
+   * Sets new graph settings
+   * @param {object} newSettings object containing settings parameteres
+   */
   setGraphSettings(newSettings) {
     this.setState({
       graphSettings: {...this.state.graphSettings, ...newSettings}

@@ -1,7 +1,8 @@
+import React, { Component } from 'react';
 import { Row, Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-export default class App extends React.Component {
+export default class App extends Component {
 
   render() {
     return (

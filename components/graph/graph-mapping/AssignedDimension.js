@@ -1,7 +1,8 @@
+import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
-import flow from 'lodash/flow';
 import FontAwesome from 'react-fontawesome';
+import flow from 'lodash/flow';
 
 const liStyle = {
   color: 'white',
@@ -75,7 +76,7 @@ function dropCollect(connect) {
   }
 }
 
-class AssignedDimension extends React.Component {
+class AssignedDimension extends Component {
   render () {
     const { dimension, index, isDragging, connectDragSource, connectDropTarget } = this.props;
     const opacity= isDragging ? '0':'1';

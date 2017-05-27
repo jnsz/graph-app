@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
 import FontAwesome from 'react-fontawesome';
 
@@ -46,7 +47,7 @@ function collect(connect, monitor) {
   }
 }
 
-class DropArea extends React.Component {
+class DropArea extends Component {
   render() {
     const { item, itemType, canDrop, isOver, connectDropTarget, dimensionNumericType, variableNumericType} = this.props;
     const isCompatible = (dimensionNumericType || !variableNumericType) || !(itemType === 'dimension');

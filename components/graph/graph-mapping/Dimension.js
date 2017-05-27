@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import { DragSource } from 'react-dnd';
 import FontAwesome from 'react-fontawesome';
 
@@ -48,7 +49,7 @@ function collect(connect, monitor) {
   }
 }
 
-class Dimension extends React.Component {
+class Dimension extends Component {
   render() {
     const { connectDragSource } = this.props;
 

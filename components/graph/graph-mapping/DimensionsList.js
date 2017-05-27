@@ -1,7 +1,9 @@
+import React, { Component } from 'react';
 import { Col } from 'react-bootstrap';
+
 import Dimension from './Dimension';
 
-export default class DimensionsList extends React.Component{
+export default class DimensionsList extends Component{
 
   render() {
 

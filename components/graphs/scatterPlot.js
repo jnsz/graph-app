@@ -1,14 +1,14 @@
+import React, { Component } from 'react';
+import { Col, Row, ButtonGroup } from 'react-bootstrap';
+import FontAwesome from 'react-fontawesome';
 import * as d3_core from 'd3';
 import * as d3_symbol from 'd3-symbol-extra';
 const d3 = {...d3_core, ...d3_symbol};
-import { Col, Row, ButtonGroup } from 'react-bootstrap';
-import FontAwesome from 'react-fontawesome';
 
 import ChartModel from './ChartModel';
-
 import * as UI from '../graph/graph-customization/CustomizerUI';
 
-export default class ScatterPlot extends React.Component{
+export default class ScatterPlot extends Component{
 
   render(){
 		const settings = ScatterPlot.settings;

@@ -1,12 +1,12 @@
-import * as d3 from 'd3';
+import React, { Component } from 'react';
 import { Col, Row, ButtonGroup } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
+import * as d3 from 'd3';
 
 import ChartModel from './ChartModel';
-
 import * as UI from '../graph/graph-customization/CustomizerUI';
 
-export default class PieChart extends React.Component {
+export default class PieChart extends Component {
   render(){
     const settings = PieChart.settings;
     return(

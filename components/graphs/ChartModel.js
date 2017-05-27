@@ -1,7 +1,7 @@
-import * as d3_core from 'd3';
-const d3 = {...d3_core};
+import React, { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
+import * as d3 from 'd3';
 
 export default class ChartModel {
 

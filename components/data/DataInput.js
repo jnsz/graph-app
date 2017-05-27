@@ -1,11 +1,12 @@
-import * as d3 from 'd3';
+import React, { Component } from 'react';
 import { Button, Row, DropdownButton, MenuItem } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
+import * as d3 from 'd3';
 
 import exampleData from './exampleData.js';
 import TutorialPopover from '../TutorialPopover';
 
-export default class DataInput extends React.Component{
+export default class DataInput extends Component{
 
   render() {
     const tutorialTxt =(

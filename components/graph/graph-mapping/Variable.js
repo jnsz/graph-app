@@ -1,10 +1,11 @@
+import React, { Component } from 'react';
 import update from 'react/lib/update';
 import FontAwesome from 'react-fontawesome';
 import { Col, Label, OverlayTrigger } from 'react-bootstrap';
 
 import DropArea from './DropArea';
 import AssignedDimension from './AssignedDimension';
-import Overlay from '../Overlay';
+import Overlay from '../../Overlay';
 
 const variableStyle = {
   backgroundColor: 'white',
@@ -17,7 +18,7 @@ const iconStyle = {
   margin: '0px 2px'
 }
 
-export default class Variable extends React.Component{
+export default class Variable extends Component{
 
   constructor() {
     super();

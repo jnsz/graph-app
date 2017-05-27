@@ -1,7 +1,12 @@
+import React, { Component } from 'react';
+
 import DataInput from './DataInput';
 import DataTable from './DataTable';
 
-export default class Data extends React.Component{
+/**
+ * Renders data input area and data table area (if dataset is not empty)
+ */
+export default class Data extends Component{
   render() {
     return (
       <div>

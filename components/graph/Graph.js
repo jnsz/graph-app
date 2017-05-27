@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import { Row } from 'react-bootstrap';
 
 import Mapping from './graph-mapping/Mapping';
@@ -5,7 +6,10 @@ import GraphSVG from './GraphSVG';
 import GraphCustomization from './graph-customization/GraphCustomization';
 import TutorialPopover from '../TutorialPopover';
 
-export default class Graph extends React.Component{
+/**
+ * Reders mapping, graph and graph customization
+ */
+export default class Graph extends Component{
 
   render() {
     return (
@@ -55,5 +59,4 @@ export default class Graph extends React.Component{
       </div>
     )
   }
-
 }
